@@ -1,0 +1,51 @@
+{% extends "species/base.html.twig" %}
+
+{% block title %}{{ parent() }}:index{% endblock %}
+
+{% block species_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('genus_add') }}">
+            <span class="glyphicon glyphicon-plus"></span> Add a genus
+        </a>
+
+        <a class="btn btn-default" href="{{ path('species_add') }}">
+            <span class="glyphicon glyphicon-plus"></span> Add a species
+        </a>
+    </div>
+
+    <h2 class="sub-header">Species List</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Genus</th>
+                <th>Species</th>
+                <th>Synonyms</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+                {% if speciesList is not empty %}
+                    {% for species in speciesList %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ species.genus.genus }}</td>
+                            <td>{{ species.species }}</td>
+                            <td>{{ species.synonyms|join(', ') }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a class="btn btn-danger" href="{{ path('species_delete', { 'id': species.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td class="text-center" colspan="5">There is no species.</td>
+                {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

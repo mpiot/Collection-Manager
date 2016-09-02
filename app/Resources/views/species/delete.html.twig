@@ -1,0 +1,28 @@
+{% extends "species/base.html.twig" %}
+
+{% block title %}{{ parent() }}:delete{% endblock %}
+
+{% block species_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('species_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span> Species List
+        </a>
+    </div>
+
+    <h2 class="sub-header">Delete a species</h2>
+
+    <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a species !</div>
+
+    <p>Do you confirm the deletion of the species: <b>{{ species.genus }} {{ species.species }}</b> ?</p>
+
+    <form action="{{ path('species_delete', { 'id': species.id}) }}" method="POST">
+        {{ form_rest(form) }}
+
+        <a class="btn btn-success" href="{{ path('species_index') }}">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            <b>Cancel !</b> Comeback in a safe area :)
+        </a>
+        <input type="submit" class="btn btn-danger" value="Supprimer"/>
+    </form>
+
+{% endblock %}

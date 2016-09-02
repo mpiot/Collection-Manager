@@ -1,0 +1,48 @@
+{% extends "project/base.html.twig" %}
+
+{% block title %}{{ parent() }}:index{% endblock %}
+
+{% block project_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('project_add') }}">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a project
+        </a>
+    </div>
+
+    <h2 class="sub-header">Projects list</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Prefix</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% if projects is not empty %}
+                    {% for project in projects %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ project.name }}</td>
+                            <td>{{ project.prefix }}</td>
+                            <td>{{ project.description|truncate(100, true) }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a class="btn btn-danger" href="{{ path('project_delete', { 'id': project.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">There are no projects.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+{% endblock %}

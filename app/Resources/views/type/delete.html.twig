@@ -1,0 +1,28 @@
+{% extends "type/base.html.twig" %}
+
+{% block title %}{{ parent() }}:edit{% endblock %}
+
+{% block type_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('type_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span> Types List
+        </a>
+    </div>
+
+    <h2 class="sub-header">Delete a type</h2>
+
+    <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a type !</div>
+
+    <p>Do you confirm the deletion of the type: <b>{{ type.name }}</b> ?</p>
+
+    <form action="{{ path('type_delete', { 'id': type.id}) }}" method="POST">
+        {{ form_rest(form) }}
+
+        <a class="btn btn-success" href="{{ path('type_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <b>Cancel !</b> Comeback in a safe area :)
+        </a>
+        <input type="submit" class="btn btn-danger" value="Delete"/>
+    </form>
+
+{% endblock %}

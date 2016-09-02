@@ -1,0 +1,18 @@
+{% extends "box/base.html.twig" %}
+
+{% block title %}{{ parent() }}:edit{% endblock %}
+
+{% block box_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('box_index') }}">
+            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Boxes list
+        </a>
+    </div>
+
+    <h2 class="sub-header">Edit a box</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" value="Edit" class="btn btn-default pull-right"/>
+    {{ form_end(form) }}
+{% endblock %}

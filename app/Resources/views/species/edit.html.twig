@@ -1,0 +1,25 @@
+{% extends "species/base.html.twig" %}
+
+{% block title %}{{ parent() }}:edit{% endblock %}
+
+{% block species_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('species_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span> Species List
+        </a>
+    </div>
+
+    <h2 class="sub-header">Edit a species</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" class="btn btn-default pull-right" value="Edit"/>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/species-collection.js') }}"></script>
+{% endblock %}

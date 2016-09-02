@@ -1,0 +1,58 @@
+{% extends "box/base.html.twig" %}
+
+{% block title %}{{ parent() }}:index{% endblock %}
+
+{% block box_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('box_add') }}">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a box
+        </a>
+    </div>
+
+    <h2 class="sub-header">Boxes list</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Auto Name</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Project</th>
+                    <th>Type</th>
+                    <th>Free space</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% if boxes is not empty %}
+                    {% for box in boxes %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ box.project.prefix }}_Box{{ box.boxLetter }}</td>
+                            <td>{{ box.name }}</td>
+                            <td>{{ box.description|truncate(50, true) }}</td>
+                            <td>{{ box.project.name }}</td>
+                            <td>{{ box.type.name }}</td>
+                            <td>{{ box.freeSpace }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-info" href="{{ path('box_view', { 'id': box.id}) }}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View</a>
+                                    <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">There are no boxes.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "box/base.html.twig" %}
+
+{% block title %}{{ parent() }}:view{% endblock %}
+
+{% block box_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('box_index') }}">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Liste des boîtes
+        </a>
+    </div>
+
+    <h2 class="sub-header">Boîte: {{ box.project.prefix }}_Box{{ box.boxLetter }} ({{ box.name }})</h2>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Informations</div>
+        <div class="panel-body">
+            <p>{{ box.description }}</p>
+        </div>
+
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item">Projet: {{ box.project.name }}</li>
+            <li class="list-group-item">Congélateur: {{ box.freezer }}</li>
+            <li class="list-group-item">Emplacement dans le congélateur: {{ box.location }}</li>
+            <li class="list-group-item">Type de boîte: {{ box.type.name }}</li>
+        </ul>
+    </div>
+
+    {% set letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'] %}
+    {% set cellWidth, cellHeight = 50, 50 %}
+    {% set width = cellWidth * (box.colNumber + 1) %}
+
+    <table class="table table-bordered table-boxes-mapping" width="{{ width }}">
+        {% set cellCounter = 1 %}
+        {% for r in 0..box.rowNumber %}
+            <tr>
+                {% for c in 0..box.colNumber %}
+                    {% if r != 0 %}
+                        {% if c != 0 %}
+                            {% if tubes[cellCounter] is defined %}
+                                <td
+                                    style="background-color: orangered;"
+                                    data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
+                                    title="{{ tubes[cellCounter].strain.systematicName }}"
+                                    data-content="{{ tubes[cellCounter].strain.usualName }}"
+                                >
+                                    {{ cellCounter }}
+                                </td>
+                            {% else %}
+                                <td>
+                                    {{ cellCounter }}
+                                </td>
+                            {% endif %}
+
+                            {% set cellCounter = cellCounter + 1 %}
+                        {% else %}
+                            {% if r != 0 %}
+                                <th class="text-center" height="{{ cellHeight }}" width="{{ cellWidth }}">{{ letters[r-1] }}</th>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if c != 0 %}
+                            <th class="text-center" height="{{ cellHeight }}" width="{{ cellWidth }}">{{ c }}</th>
+                        {% else %}
+                            <th></th>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+{% endblock %}

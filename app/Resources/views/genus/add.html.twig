@@ -1,0 +1,19 @@
+{% extends "genus/base.html.twig" %}
+
+{% block title %}{{ parent() }}:add{% endblock %}
+
+{% block genus_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('genus_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span> Genus list
+        </a>
+    </div>
+
+    <h2 class="sub-header">Add a genus</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" class="btn btn-default pull-right" value="Add"/>
+    {{ form_end(form) }}
+{% endblock %}

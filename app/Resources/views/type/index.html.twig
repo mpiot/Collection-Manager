@@ -1,0 +1,45 @@
+{% extends "type/base.html.twig" %}
+
+{% block title %}{{ parent() }}:index{% endblock %}
+
+{% block type_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('type_add') }}">
+            <span class="glyphicon glyphicon-plus"></span> Add a type
+        </a>
+    </div>
+
+    <h2 class="sub-header">Types list</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Letter</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+                {% if typesList is not empty %}
+                    {% for type in typesList %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ type.name }}</td>
+                            <td>{{ type.letter }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td class="text-center" colspan="5">There is no types.</td>
+                {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

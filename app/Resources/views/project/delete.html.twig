@@ -1,0 +1,31 @@
+{% extends "project/base.html.twig" %}
+
+{% block title %}{{ parent() }}:add{% endblock %}
+
+{% block project_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('project_index') }}">
+            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Projects list
+        </a>
+    </div>
+
+    <h2 class="sub-header">Delete a project</h2>
+
+    <div class="alert alert-danger" role="alert"><b>ATTENTION !</b> You delete a project !</div>
+
+    <p>Do you confirm the deletion of the project: <b>{{ project.name }}</b> ?</p>
+
+    <form action="{{ path('project_delete', {'id': project.id}) }}" method="post">
+        {# Ceci va générer le champ CSRF #}
+        {{ form_rest(form) }}
+
+        <a class="btn btn-success" href="{{ path('project_index') }}">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            <b>Cancel !</b> Comeback in a safe area :)
+        </a>
+
+        {# Ici j'ai écrit le bouton de soumission à la main #}
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+
+{% endblock %}
