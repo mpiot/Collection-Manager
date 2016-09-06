@@ -3,6 +3,8 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Genus;
+use AppBundle\Entity\Species;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -11,10 +13,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StrainType extends AbstractType
 {
+    private $em;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -22,17 +30,6 @@ class StrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('genus', EntityType::class, array(
-                'class'    => 'AppBundle\Entity\Genus',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('g')
-                        ->orderBy('g.genus', 'ASC');
-                },
-                'choice_label' => 'genus',
-                'placeholder' => '-- select a genus --',
-                'mapped' => false,
-                'required' => false,
-            ))
             ->add('type', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Type',
                 'query_builder' => function(EntityRepository $er) {
@@ -52,67 +49,60 @@ class StrainType extends AbstractType
                 'allow_delete' => true,
                 // Use add and remove properties in the entity
                 'by_reference' => false,
-            ))
-        ;
-
-        // Modifiers
-
-        $genusModifier = function (FormInterface $form, $genus) {
-            $form->add('genus', EntityType::class, array(
-                'class'    => 'AppBundle\Entity\Genus',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('g')
-                        ->orderBy('g.genus', 'ASC');
-                },
-                'choice_label' => 'genus',
-                'placeholder' => '-- select a genus --',
-                'mapped' => false,
-                'required' => false,
-                'data' => $genus,
             ));
-        };
 
-        $speciesModifier = function (FormInterface $form, $genus) {
-            $form->add('species', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Species',
-                'query_builder' => function (EntityRepository $er) use ($genus) {
-                    return $er->createQueryBuilder('s')
-                        ->where('s.genus = :genus')
-                        ->setParameter('genus', $genus)
-                        ->orderBy('s.species', 'ASC');
-                },
-                'placeholder' => '-- select a species --',
-                'choice_label' => 'species',
-            ));
-        };
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
+    }
 
-        // Listeners
+    protected function addSpeciesElements(FormInterface $form, Genus $genus = null)
+    {
+        $form->add('genus', EntityType::class, array(
+            'class'    => 'AppBundle\Entity\Genus',
+            'query_builder' => function(EntityRepository $er) {
+                return $er->createQueryBuilder('g')
+                    ->orderBy('g.genus', 'ASC');
+            },
+            'choice_label' => 'genus',
+            'placeholder' => '-- select a genus --',
+            'mapped' => false,
+            'required' => false,
+            'data' => $genus,
+        ));
 
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($speciesModifier, $genusModifier) {
-                $form = $event->getForm();
-                $data = $event->getData();
+        $form->add('species', EntityType::class, array(
+            'class' => 'AppBundle\Entity\Species',
+            'query_builder' => function (EntityRepository $er) use ($genus) {
+                return $er->createQueryBuilder('s')
+                    ->where('s.genus = :genus')
+                    ->setParameter('genus', $genus)
+                    ->orderBy('s.species', 'ASC');
+            },
+            'placeholder' => '-- select a species --',
+            'choice_label' => 'species',
+        ));
+    }
 
-                dump($form->getErrors(true, false));
-                dump($data);
+    public function onPreSetData(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $strain = $event->getData();
 
-                if (null !== $species = $data->getSpecies()) {
-                    //$genusModifier($form, $species->getGenus());
-                    $speciesModifier($form, $species->getGenus());
-                } else {
-                    $speciesModifier($form, null);
-                }
-            }
-        );
+        // For the species field
+        $genus = $strain->getSpecies() ? $strain->getSpecies()->getGenus() : null;
+        $this->addSpeciesElements($form, $genus);
+    }
 
-        $builder->get('genus')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function(FormEvent $event) use ($speciesModifier) {
-                $genus = $event->getData();
+    public function onPreSubmit(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $data = $event->getData();
+        dump($data);
 
-                $speciesModifier($event->getForm()->getParent(), $genus);
-            }
-        );
+        // If the user want select a species
+        if (isset($data['genus'])) {
+            $genus = $this->em->getRepository('AppBundle:Genus')->findOneById($data['genus']);
+            $this->addSpeciesElements($form, $genus);
+        }
     }
 }
