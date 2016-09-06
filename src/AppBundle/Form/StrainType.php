@@ -25,14 +25,13 @@ class StrainType extends AbstractType
             ->add('genus', EntityType::class, array(
                 'class'    => 'AppBundle\Entity\Genus',
                 'query_builder' => function(EntityRepository $er) {
-                  return $er->createQueryBuilder('g')
-                      ->orderBy('g.genus', 'ASC');
+                    return $er->createQueryBuilder('g')
+                        ->orderBy('g.genus', 'ASC');
                 },
                 'choice_label' => 'genus',
                 'placeholder' => '-- select a genus --',
                 'mapped' => false,
-                'required' => true,
-                'data' => null,
+                'required' => false,
             ))
             ->add('type', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Type',
@@ -56,6 +55,23 @@ class StrainType extends AbstractType
             ))
         ;
 
+        // Modifiers
+
+        $genusModifier = function (FormInterface $form, $genus) {
+            $form->add('genus', EntityType::class, array(
+                'class'    => 'AppBundle\Entity\Genus',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('g')
+                        ->orderBy('g.genus', 'ASC');
+                },
+                'choice_label' => 'genus',
+                'placeholder' => '-- select a genus --',
+                'mapped' => false,
+                'required' => false,
+                'data' => $genus,
+            ));
+        };
+
         $speciesModifier = function (FormInterface $form, $genus) {
             $form->add('species', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Species',
@@ -70,15 +86,22 @@ class StrainType extends AbstractType
             ));
         };
 
+        // Listeners
+
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($speciesModifier) {
+            function (FormEvent $event) use ($speciesModifier, $genusModifier) {
+                $form = $event->getForm();
                 $data = $event->getData();
 
-                if (null !== $data->getSpecies()) {
-                    $speciesModifier($event->getForm(), $data->getSpecies()->getGenus());
+                dump($form->getErrors(true, false));
+                dump($data);
+
+                if (null !== $species = $data->getSpecies()) {
+                    //$genusModifier($form, $species->getGenus());
+                    $speciesModifier($form, $species->getGenus());
                 } else {
-                    $speciesModifier($event->getForm(), null);
+                    $speciesModifier($form, null);
                 }
             }
         );
@@ -86,7 +109,7 @@ class StrainType extends AbstractType
         $builder->get('genus')->addEventListener(
             FormEvents::POST_SUBMIT,
             function(FormEvent $event) use ($speciesModifier) {
-                $genus = $event->getForm()->getData();
+                $genus = $event->getData();
 
                 $speciesModifier($event->getForm()->getParent(), $genus);
             }

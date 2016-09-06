@@ -15,7 +15,6 @@
         {{ form_row(form.genus) }}
         {{ form_row(form.species) }}
         {{ form_widget(form) }}
-
         <input type="submit" class="btn btn-default pull-right" value="Edit">
     {{ form_end(form) }}
 {% endblock %}
@@ -23,33 +22,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('js/tubes-collection.js') }}"></script>
-
-
-    <script>
-        $(function() {
-            var $genus = $('[name$="[genus]"]');
-            // When genus gets selected ...
-            $genus.change(function () {
-                // ... retrieve the corresponding form.
-                var $form = $(this).closest('form');
-                // Simulate form data, but only include the selected genus value.
-                var data = {};
-                data[$genus.attr('name')] = $genus.val();
-                // Submit data via AJAX to the form's action path.
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: $form.attr('method'),
-                    data: data,
-                    success: function (html) {
-                        // Replace current position field ...
-                        $('[name$="[species]"]').replaceWith(
-                                // ... with the returned one from the AJAX response.
-                                $(html).find('[name$="[species]"]')
-                        );
-                        // Position field now displays the appropriate positions.
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="{{ asset('js/species-dynamic.js') }}"></script>
 {% endblock %}
