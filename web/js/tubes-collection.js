@@ -23,9 +23,11 @@ $(document).ready(function() {
     if (index == 0) {
         addTube($container);
     } else {
-        // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+        // Pour chaque catégorie déjà existante, on ajoute un lien de suppression et les actions onChange
         $container.children('div').each(function() {
             addDeleteLink($(this));
+            onProjectChange($(this));
+            onBoxChange($(this));
         });
     }
 
@@ -70,7 +72,12 @@ $(document).ready(function() {
 
     // When project change
     function onProjectChange(container) {
+        // Transmit Type and Species, because it correct a bug. The FormType bug if Type isn't send.
+        var $type = $('[name$="[type]"]');
+        var $species = $('[name$="[species]"]');
+
         var $project = $(container).find('[name$="[project]"]');
+        var $box = $(container).find('[name$="[box]"]');
 
         // When project gets selected ...
         $project.change(function () {
@@ -78,7 +85,10 @@ $(document).ready(function() {
             var $form = $(this).closest('form');
             // Simulate form data, but only include the selected project value.
             var data = {};
+            data[$type.attr('name')] = $type.val();
+            data[$species.attr('name')] = $species.val();
             data[$project.attr('name')] = $project.val();
+            data[$box.attr('name')] = $box.val();
             // Submit data via AJAX to the form's action path.
             $.ajax({
                 url: $form.attr('action'),
@@ -103,6 +113,10 @@ $(document).ready(function() {
 
     // When box change
     function onBoxChange(container) {
+        // Transmit Type and Species, because it correct a bug. The FormType bug if Type isn't send.
+        var $type = $('[name$="[type]"]');
+        var $species = $('[name$="[species]"]');
+
         //var $box = $(container);
         var $box = $(container).find('[name$="[box]"]');
 
@@ -112,6 +126,8 @@ $(document).ready(function() {
             var $form = $(this).closest('form');
             // Simulate form data, but only include the selected box value.
             var data = {};
+            data[$type.attr('name')] = $type.val();
+            data[$species.attr('name')] = $species.val();
             data[$box.attr('name')] = $box.val();
             data[$(container).find('[name$="[project]"]').attr('name')] = $(container).find('[name$="[project]"]').val();
 
@@ -121,7 +137,6 @@ $(document).ready(function() {
                 type: $form.attr('method'),
                 data: data,
                 success: function (html) {
-                    console.log(html);
                     // Replace current position field ...
                     $(container).find('[name$="[cell]"]').replaceWith(
                         // ... with the returned one from the AJAX response.
