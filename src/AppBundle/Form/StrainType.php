@@ -97,7 +97,6 @@ class StrainType extends AbstractType
     {
         $form = $event->getForm();
         $data = $event->getData();
-        dump($data);
 
         // If the user want select a species
         if (isset($data['genus'])) {

@@ -89,6 +89,7 @@ $(document).ready(function() {
             data[$species.attr('name')] = $species.val();
             data[$project.attr('name')] = $project.val();
             data[$box.attr('name')] = $box.val();
+
             // Submit data via AJAX to the form's action path.
             $.ajax({
                 url: $form.attr('action'),
@@ -96,11 +97,14 @@ $(document).ready(function() {
                 data: data,
                 success: function (html) {
                     // Replace current position field ...
-                    $newField = $(html).find('[name$="[box]"]');
-
                     $(container).find('[name$="[box]"]').replaceWith(
                         // ... with the returned one from the AJAX response.
-                        $newField
+                        $(html).find('[name$="[box]"]')
+                    );
+
+                    $(container).find('[name$="[cell]"]').replaceWith(
+                        // ... with the returned one from the AJAX response.
+                        $(html).find('[name$="[cell]"]')
                     );
                     // Position field now displays the appropriate positions.
 
@@ -117,7 +121,6 @@ $(document).ready(function() {
         var $type = $('[name$="[type]"]');
         var $species = $('[name$="[species]"]');
 
-        //var $box = $(container);
         var $box = $(container).find('[name$="[box]"]');
 
         // When box gets selected ...
@@ -129,7 +132,6 @@ $(document).ready(function() {
             data[$type.attr('name')] = $type.val();
             data[$species.attr('name')] = $species.val();
             data[$box.attr('name')] = $box.val();
-            data[$(container).find('[name$="[project]"]').attr('name')] = $(container).find('[name$="[project]"]').val();
 
             // Submit data via AJAX to the form's action path.
             $.ajax({
