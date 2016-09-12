@@ -32,7 +32,7 @@
                 {% for strain in gmoStrains %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ strain.systematicName }}</td>
+                        <td><a href="{{ path('strain_gmo_view', { 'id': strain.id }) }}">{{ strain.systematicName }}</a></td>
                         <td>{{ strain.usualName }}</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
@@ -67,12 +67,12 @@
                 {% for strain in wildStrains %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ strain.systematicName }}</td>
+                        <td><a href="{{ path('strain_wild_view', { 'id': strain.id }) }}">{{ strain.systematicName }}</a></td>
                         <td>{{ strain.usualName }}</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                <a class="btn btn-warning" href="{{ path('strain_wild_edit', { 'id': 1 }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                <a class="btn btn-danger" href="{{ path('strain_delete', { 'id': 1 }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                <a class="btn btn-warning" href="{{ path('strain_wild_edit', { 'id': strain.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                <a class="btn btn-danger" href="{{ path('strain_delete', { 'id': strain.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
                             </div>
                         </td>
                     </tr>

@@ -35,12 +35,22 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/view/{id}", name="strain_view")
+     * @Route("/view/gmo/{id}", name="strain_gmo_view")
      */
-    public function viewAction($id)
+    public function viewGmoAction(GmoStrain $strain)
     {
         return $this->render('strain/view.html.twig', array(
-            // ...
+            'strain' => $strain,
+        ));
+    }
+
+    /**
+     * @Route("/view/wild/{id}", name="strain_wild_view")
+     */
+    public function viewWildAction(WildStrain $strain)
+    {
+        return $this->render('strain/view.html.twig', array(
+            'strain' => $strain,
         ));
     }
 
