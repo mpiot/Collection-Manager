@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class WildStrainRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllUsualName()
+    {
+        $query = $this->createQueryBuilder('gmo')
+            ->select('gmo.usualName')
+            ->orderBy('gmo.usualName', 'ASC')
+            ->distinct()
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
 }

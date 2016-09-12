@@ -21,4 +21,15 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    public function findAllUsualName()
+    {
+        $query = $this->createQueryBuilder('gmo')
+            ->select('gmo.usualName')
+            ->orderBy('gmo.usualName', 'ASC')
+            ->distinct()
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
 }

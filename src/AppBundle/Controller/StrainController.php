@@ -59,14 +59,17 @@ class StrainController extends Controller
      */
     public function addGmoAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $strain = new GmoStrain();
+        $strainUsualNames = $em->getRepository('AppBundle:GmoStrain')->findAllUsualName();
+
         $form = $this->createForm(GmoStrainType::class, $strain);
         
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            
+
             // Manually persist the tube, because with cascade, doctrine want persist the strain before
             // but we need persist tube before, to generate the name of each tube
             // because the strain name is the name of the first tube
@@ -84,6 +87,7 @@ class StrainController extends Controller
 
         return $this->render('strain/add.html.twig', array(
             'form' => $form->createView(),
+            'strainUsualNames' => $strainUsualNames,
         ));
     }
 
@@ -92,14 +96,16 @@ class StrainController extends Controller
      */
     public function addWildAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $strain = new WildStrain();
+        $strainUsualNames = $em->getRepository('AppBundle:WildStrain')->findAllUsualName();
+
         $form = $this->createForm(WildStrainType::class, $strain);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
             // Manually persist the tube, because with cascade, doctrine want persist the strain before
             // but we need persist tube before, to generate the name of each tube
             // because the strain name is the name of the first tube
@@ -117,6 +123,7 @@ class StrainController extends Controller
         
         return $this->render('strain/add.html.twig', array(
             'form' => $form->createView(),
+            'strainUsualNames' => $strainUsualNames,
         ));
     }
 
@@ -125,6 +132,10 @@ class StrainController extends Controller
      */
     public function editGmoAction(GmoStrain $strain, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $strainUsualNames = $em->getRepository('AppBundle:GmoStrain')->findAllUsualName();
+
         $form = $this->createForm(GmoStrainType::class, $strain);
 
         $form->handleRequest($request);
@@ -140,6 +151,7 @@ class StrainController extends Controller
         
         return $this->render('strain/edit.html.twig', array(
             'form' => $form->createView(),
+            'strainUsualNames' => $strainUsualNames,
         ));
     }
 
@@ -148,6 +160,10 @@ class StrainController extends Controller
      */
     public function editWildAction(WildStrain $strain, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $strainUsualNames = $em->getRepository('AppBundle:WildStrain')->findAllUsualName();
+
         $form = $this->createForm(WildStrainType::class, $strain);
 
         $form->handleRequest($request);
@@ -163,6 +179,7 @@ class StrainController extends Controller
         
         return $this->render('strain/edit.html.twig', array(
             'form' => $form->createView(),
+            'strainUsualNames' => $strainUsualNames,
         ));
     }
 
