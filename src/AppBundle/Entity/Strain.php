@@ -23,7 +23,7 @@ class Strain
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="deletionDate", type="datetime")
+     * @ORM\Column(name="deletionDate", type="datetime", nullable=true)
      */
     private $deletionDate;
 
@@ -81,7 +81,6 @@ class Strain
     public function __construct()
     {
         $this->creationDate = new \DateTime();
-        $this->deletionDate = new \DateTime();
     }
 
     /**
