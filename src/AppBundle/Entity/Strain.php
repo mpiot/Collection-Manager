@@ -140,6 +140,12 @@ class Strain
      */
     public function setDeleted($deleted)
     {
+        if ($deleted) {
+            $this->deletionDate = new \DateTime();
+        } else {
+            $this->deletionDate = null;
+        }
+
         $this->deleted = $deleted;
 
         return $this;

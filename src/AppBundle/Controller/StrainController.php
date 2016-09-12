@@ -135,7 +135,7 @@ class StrainController extends Controller
 
             $this->addFlash('success', 'The strain has been edited successfully.');
 
-            return $this->redirectToRoute('strain_view', ['id' => $strain->getId()]);
+            return $this->redirectToRoute('strain_gmo_view', ['id' => $strain->getId()]);
         }
         
         return $this->render('strain/edit.html.twig', array(
@@ -156,9 +156,9 @@ class StrainController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash('success', 'The strain has been edited successfully..');
+            $this->addFlash('success', 'The strain has been edited successfully.');
 
-            return $this->redirectToRoute('strain_view', ['id' => $strain->getId()]);
+            return $this->redirectToRoute('strain_wild_view', ['id' => $strain->getId()]);
         }
         
         return $this->render('strain/edit.html.twig', array(
@@ -167,13 +167,61 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="strain_delete")
+     * @Route("/delete/gmo/{id}", name="strain_gmo_delete")
      */
-    public function deleteAction($id)
+    public function deleteGmoAction(GmoStrain $strain, Request $request)
     {
+        if ($strain->getDeleted()) {
+            $this->addFlash('warning', 'The strain is already deleted.');
+
+            return $this->redirect($this->generateUrl('strain_index'));
+        }
+
+        $form = $this->createFormBuilder()->getForm();
+
+        if ($form->handleRequest($request)->isValid()) {
+            $strain->setDeleted(true);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('success', 'The strain has been deleted successfully.');
+
+            return $this->redirect($this->generateUrl('strain_index'));
+        }
+
         return $this->render('strain/delete.html.twig', array(
-            // ...
+            'strain' => $strain,
+            'form' => $form->createView()
         ));
     }
 
+    /**
+     * @Route("/delete/wild/{id}", name="strain_wild_delete")
+     */
+    public function deleteWildAction(WildStrain $strain, Request $request)
+    {
+        if ($strain->getDeleted()) {
+            $this->addFlash('warning', 'The strain is already deleted.');
+
+            return $this->redirect($this->generateUrl('strain_index'));
+        }
+        $form = $this->createFormBuilder()->getForm();
+
+        if ($form->handleRequest($request)->isValid()) {
+            $strain->setDeleted(true);
+
+            $em = $this->getDoctrine()->getManager();;
+            $em->flush();
+
+            $this->addFlash('success', 'The strain has been deleted successfully.');
+
+            return $this->redirect($this->generateUrl('strain_index'));
+        }
+
+        return $this->render('strain/delete.html.twig', array(
+            'strain' => $strain,
+            'form' => $form->createView()
+        ));
+    }
 }
