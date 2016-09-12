@@ -21,6 +21,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/tubes-collection.js') }}"></script>
-    <script src="{{ asset('js/species-dynamic.js') }}"></script>
+    <script async defer src="{{ asset('js/tubes-collection.js') }}"></script>
+    <script async defer src="{{ asset('js/species-dynamic.js') }}"></script>
 {% endblock %}

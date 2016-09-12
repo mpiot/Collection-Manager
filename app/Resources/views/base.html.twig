@@ -100,15 +100,15 @@
 
         {% block javascripts %}
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-            <script async defer src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
             <!-- Latest compiled and minified JavaScript -->
-            <script async defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
             {% javascripts
                 'js/ie10-viewport-bug-workaround.js'
                 output='js/compiled/app.js'
             %}
-            <script src="{{ asset_url }}"></script>
+            <script async defer src="{{ asset_url }}"></script>
             {% endjavascripts %}
 
         {% endblock %}
