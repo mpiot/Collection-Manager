@@ -10,9 +10,16 @@
     </div>
 
     <h2 class="sub-header">{{ strain.systematicName }} - {{ strain.usualName }}
-        <button type="button" class="btn btn-warning btn-xs pull-right" title="Edit the strain">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        </button>
+        {% if strain.latitude is not defined%}
+            <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ url("strain_gmo_edit", {'id': strain.id }) }}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        {% else %}
+            <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ url("strain_wild_edit", {'id': strain.id }) }}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        {% endif %}
+
     </h2>
 
     <div class="row">
