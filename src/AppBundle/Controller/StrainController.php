@@ -88,6 +88,7 @@ class StrainController extends Controller
         return $this->render('strain/add.html.twig', array(
             'form' => $form->createView(),
             'strainUsualNames' => $strainUsualNames,
+            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -124,6 +125,7 @@ class StrainController extends Controller
         return $this->render('strain/add.html.twig', array(
             'form' => $form->createView(),
             'strainUsualNames' => $strainUsualNames,
+            'typeOfStrain' => 'wild',
         ));
     }
 
@@ -152,6 +154,7 @@ class StrainController extends Controller
         return $this->render('strain/edit.html.twig', array(
             'form' => $form->createView(),
             'strainUsualNames' => $strainUsualNames,
+            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -180,6 +183,7 @@ class StrainController extends Controller
         return $this->render('strain/edit.html.twig', array(
             'form' => $form->createView(),
             'strainUsualNames' => $strainUsualNames,
+            'typeOfStrain' => 'wild',
         ));
     }
 

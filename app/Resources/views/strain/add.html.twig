@@ -17,26 +17,28 @@
     <h2 class="sub-header">Add a strain</h2>
 
     <div class="row">
-        <div class="col-md-12">
-            {{ form_start(form) }}
+        {{ form_start(form) }}
             {{ form_row(form.genus) }}
             {{ form_row(form.species) }}
             {{ form_widget(form) }}
-            <div class="btn-group pull-right" role="group" aria-label="...">
-                <input type="button" id="reverseGeocode" class="btn btn-default" value="Reverse Geocode">
-                <input type="submit" class="btn btn-default" value="Add">
-            </div>
-            {{ form_end(form) }}
-        </div>
+
+            {% if 'wild' == typeOfStrain %}
+                <div class="btn-group pull-right" role="group" aria-label="...">
+                    <input type="button" id="reverseGeocode" class="btn btn-default" value="Reverse Geocode">
+                    <input type="submit" class="btn btn-default" value="Add">
+                </div>
+            {% else %}
+                <input type="submit" class="btn btn-default pull-right" value="Add">
+            {% endif %}
+        {{ form_end(form) }}
     </div>
 
-    <hr>
-
-    <div class="row">
-        <div class="col-md-12">
+    {% if 'wild' == typeOfStrain %}
+        <div class="row">
+            <hr>
             <div id="map" style="height:400px;"></div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
@@ -60,49 +62,51 @@
         } );
     </script>
 
-    <script>
-        $( function() {
-            $('#map').hide();
-        });
-
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 0,
-                center: {lat: 0, lng: 0}
+    {% if 'wild' == typeOfStrain %}
+        <script>
+            $( function() {
+                $('#map').hide();
             });
-            var geocoder = new google.maps.Geocoder;
-            var infowindow = new google.maps.InfoWindow;
 
-            $('#reverseGeocode').click(function() {
-                geocodeLatLng(geocoder, map, infowindow);
-                $('#map').show();
-                google.maps.event.trigger(map, "resize");
-            });
-        }
+            function initMap() {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 0,
+                    center: {lat: 0, lng: 0}
+                });
+                var geocoder = new google.maps.Geocoder;
+                var infowindow = new google.maps.InfoWindow;
 
-        function geocodeLatLng(geocoder, map, infowindow) {
-            var lat = parseFloat($('[name$="[latitude]"]').val());
-            var lng = parseFloat($('[name$="[longitude]"]').val());
-            var latlng = {lat: lat, lng: lng};
+                $('#reverseGeocode').click(function() {
+                    geocodeLatLng(geocoder, map, infowindow);
+                    $('#map').show();
+                    google.maps.event.trigger(map, "resize");
+                });
+            }
 
-            geocoder.geocode({'location': latlng}, function(results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    if (results[1]) {
-                        map.setZoom(11);
-                        map.setCenter(latlng);
-                        var marker = new google.maps.Marker({
-                            position: latlng,
-                            map: map
-                        });
-                        infowindow.setContent(results[1].formatted_address);
-                        infowindow.open(map, marker);
+            function geocodeLatLng(geocoder, map, infowindow) {
+                var lat = parseFloat($('[name$="[latitude]"]').val());
+                var lng = parseFloat($('[name$="[longitude]"]').val());
+                var latlng = {lat: lat, lng: lng};
+
+                geocoder.geocode({'location': latlng}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            map.setZoom(11);
+                            map.setCenter(latlng);
+                            var marker = new google.maps.Marker({
+                                position: latlng,
+                                map: map
+                            });
+                            infowindow.setContent(results[1].formatted_address);
+                            infowindow.open(map, marker);
+                        } else {
+                            window.alert('No results found');
+                        }
                     } else {
-                        window.alert('No results found');
+                        window.alert('Geocoder failed due to: ' + status);
                     }
-                } else {
-                    window.alert('Geocoder failed due to: ' + status);
-                }
-            });
-        }
-    </script>
+                });
+            }
+        </script>
+    {% endif %}
 {% endblock %}
