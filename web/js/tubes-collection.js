@@ -23,9 +23,8 @@ $(document).ready(function() {
     if (index == 0) {
         addTube($container);
     } else {
-        // Pour chaque catégorie déjà existante, on ajoute un lien de suppression et les actions onChange
+        // Pour chaque catégorie déjà existante, on ajoute les actions onChange
         $container.children('div').each(function() {
-            addDeleteLink($(this));
             onProjectChange($(this));
             onBoxChange($(this));
         });

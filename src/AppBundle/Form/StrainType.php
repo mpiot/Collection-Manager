@@ -51,7 +51,7 @@ class StrainType extends AbstractType
             ->add('tubes', CollectionType::class, array(
                 'entry_type' => TubeType::class,
                 'allow_add' => true,
-                'allow_delete' => true,
+                'allow_delete' => false,
                 // Use add and remove properties in the entity
                 'by_reference' => false,
             ));
