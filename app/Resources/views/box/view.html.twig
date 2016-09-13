@@ -32,7 +32,7 @@
     {% set width = cellWidth * (box.colNumber + 1) %}
 
     <table class="table table-bordered table-boxes-mapping" width="{{ width }}">
-        {% set cellCounter = 1 %}
+        {% set cellCounter = 0 %}
         {% for r in 0..box.rowNumber %}
             <tr>
                 {% for c in 0..box.colNumber %}
@@ -45,11 +45,11 @@
                                     title="{{ tubes[cellCounter].strain.systematicName }}"
                                     data-content="{{ tubes[cellCounter].strain.usualName }}"
                                 >
-                                    {{ cellCounter }}
+                                    {{ cellCounter + 1 }}
                                 </td>
                             {% else %}
                                 <td>
-                                    {{ cellCounter }}
+                                    {{ cellCounter + 1 }}
                                 </td>
                             {% endif %}
 

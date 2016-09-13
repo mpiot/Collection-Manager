@@ -381,7 +381,7 @@ class Box
         }
 
         $cellValues = [];
-        for ($i = 1; $i <= $nbCells; $i++) {
+        for ($i = 0; $i < $nbCells; $i++) {
             $cellValues[] = $i;
         }
 

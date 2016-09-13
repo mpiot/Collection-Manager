@@ -204,8 +204,6 @@ class Tube
             }
         }
 
-        dump($cellsName);
-
         return $cellsName[$this->cell];
     }
 
