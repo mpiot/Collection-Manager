@@ -50,7 +50,34 @@ class Tube
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="deletionDate", type="datetime", nullable=true)
+     */
+    private $deletionDate;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="deleted", type="boolean")
+     */
+    private $deleted;
     
+
+    public function __construct()
+    {
+        $this->deleted = false;
+        $this->creationDate = new \DateTime();
+    }
 
     /**
      * Get id
@@ -131,6 +158,41 @@ class Tube
         return $this->name;
     }
 
+    public function setCreationDate(\DateTime $date)
+    {
+        $this->creationDate = $date;
+    }
+
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    public function setDeletionDate(\DateTime $date)
+    {
+        $this->deletionDate = $date;
+    }
+
+    public function getDeletionDate()
+    {
+        return $this->deletionDate;
+    }
+
+    public function setDeleted(bool $deleted)
+    {
+        if(true === $deleted && false === $this->deleted) {
+            $this->deletionDate = new \DateTime();
+        } elseif (false === $deleted && true === $this->deleted) {
+            $this->deletionDate = null;
+        }
+
+        $this->deleted = $deleted;
+    }
+
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
 
     /**
      * Before persist.

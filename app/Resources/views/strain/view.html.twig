@@ -44,12 +44,20 @@
                         <th>Project</th>
                         <th>Box</th>
                         <th>Cell</th>
+                        <th>Status</th>
                     </tr>
                     {% for tube in strain.tubes %}
                         <tr>
                             <td>{{ tube.box.project.name }}</td>
                             <td>{{ tube.box.name }}</td>
                             <td>{{ tube.cell }}</td>
+                            <td>
+                                {% if tube.deleted %}
+                                <span style="color: red;">Deleted</span> on {{ tube.deletionDate|date('Y/m/d') }}
+                                {% else %}
+                                    <span style="color: green;">Present</span>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </table>

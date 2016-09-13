@@ -146,6 +146,13 @@ class Strain
             $this->deletionDate = null;
         }
 
+        // If user delete a strain, wee need to delete all tubes
+        if(true === $deleted) {
+            foreach ($this->getTubes() as $tube) {
+                $tube->setDeleted(true);
+            }
+        }
+
         $this->deleted = $deleted;
 
         return $this;

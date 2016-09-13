@@ -40,7 +40,7 @@
                         {% if c != 0 %}
                             {% if tubes[cellCounter] is defined %}
                                 <td
-                                    style="background-color: orangered;"
+                                    style="background-color: {{ tubes[cellCounter].deleted ? 'darkgrey' : 'greenyellow' }};"
                                     data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
                                     title="{{ tubes[cellCounter].strain.systematicName }}"
                                     data-content="{{ tubes[cellCounter].strain.usualName }}"

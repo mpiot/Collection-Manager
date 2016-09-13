@@ -4,7 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\WildStrain;
+use AppBundle\Form\GmoStrainEditType;
 use AppBundle\Form\GmoStrainType;
+use AppBundle\Form\WildStrainEditType;
 use AppBundle\Form\WildStrainType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -140,7 +142,7 @@ class StrainController extends Controller
 
         $strainUsualNames = $em->getRepository('AppBundle:GmoStrain')->findAllUsualName();
 
-        $form = $this->createForm(GmoStrainType::class, $strain);
+        $form = $this->createForm(GmoStrainEditType::class, $strain);
 
         $form->handleRequest($request);
 
@@ -169,7 +171,7 @@ class StrainController extends Controller
 
         $strainUsualNames = $em->getRepository('AppBundle:WildStrain')->findAllUsualName();
 
-        $form = $this->createForm(WildStrainType::class, $strain);
+        $form = $this->createForm(WildStrainEditType::class, $strain);
 
         $form->handleRequest($request);
 
