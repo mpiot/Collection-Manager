@@ -138,11 +138,11 @@ class Strain
      *
      * @return Strain
      */
-    public function setDeleted($deleted)
+    public function setDeleted(bool $deleted)
     {
-        if ($deleted) {
+        if(true === $deleted && false === $this->deleted) {
             $this->deletionDate = new \DateTime();
-        } else {
+        } elseif (false === $deleted && true === $this->deleted) {
             $this->deletionDate = null;
         }
 
