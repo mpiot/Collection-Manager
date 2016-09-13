@@ -71,7 +71,6 @@ class Tube
      * @ORM\Column(name="deleted", type="boolean")
      */
     private $deleted;
-    
 
     public function __construct()
     {
@@ -194,6 +193,23 @@ class Tube
         return $this->deleted;
     }
 
+    public function getCellName()
+    {
+        $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+        $cellsName = [];
+        for ($i = 0; $i < $this->box->getRowNumber(); $i++) {
+            for ($j = 0; $j < $this->box->getColNumber(); $j++) {
+                $cellsName[] = $availableLetters[$i].($j+1);
+            }
+        }
+
+        dump($cellsName);
+
+        return $cellsName[$this->cell];
+    }
+
+
     /**
      * Before persist.
      *
@@ -219,7 +235,7 @@ class Tube
         } else {
             $boxCell = '0'.$this->cell;
         }
-        
+
         // Type Letter
         if (null !== $this->getGmoStrain()) {
             $lastLetter = $this->getGmoStrain()->getType()->getLetter();
@@ -229,8 +245,7 @@ class Tube
 
         // Generate the tube name
         $this->name = $projectPrefix.'_'.$boxLetter.$boxCell.$lastLetter;
-        
-        
+
         // When add a tube, inform the box to remove a cell in the freeSpace
         $this->box->tubeAllocation();
     }
