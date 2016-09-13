@@ -41,6 +41,7 @@ class StrainController extends Controller
     {
         return $this->render('strain/view.html.twig', array(
             'strain' => $strain,
+            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -51,6 +52,7 @@ class StrainController extends Controller
     {
         return $this->render('strain/view.html.twig', array(
             'strain' => $strain,
+            'typeOfStrain' => 'wild',
         ));
     }
 
@@ -213,7 +215,8 @@ class StrainController extends Controller
 
         return $this->render('strain/delete.html.twig', array(
             'strain' => $strain,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -242,7 +245,8 @@ class StrainController extends Controller
 
         return $this->render('strain/delete.html.twig', array(
             'strain' => $strain,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'typeOfStrain' => 'wild',
         ));
     }
 }

@@ -65,18 +65,18 @@
                     <li class="list-group-item">Type: {{ strain.type.name }}</li>
                     <li class="list-group-item">Species: {{ strain.species.genus.genus }} {{ strain.species.species }}</li>
                     <li class="list-group-item">Sequenced: {{ strain.sequenced ? 'yes' : 'no' }}</li>
-                    {% if strain.biologicalOrigin is defined %}
+                    {% if 'wild' == typeOfStrain %}
                         <li class="list-group-item">Biological origin: {{ strain.biologicalOrigin }}</li>
                     {% endif %}
                 </ul>
-                {% if strain.genotype is defined %}
+                {% if 'gmo' == typeOfStrain %}
                     <div class="panel-body">
                         <p><u>Genotype:</u></p>
                         <p>{{ strain.genotype }}</p>
                     </div>
                 {% endif %}
 
-                {% if strain.genotype is defined %}
+                {% if 'gmo' == typeOfStrain %}
                     <div class="panel-body">
                         <p><u>Description:</u></p>
                         <p>{{ strain.description }}</p>
