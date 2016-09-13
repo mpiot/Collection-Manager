@@ -16,12 +16,27 @@
 
     <h2 class="sub-header">Add a strain</h2>
 
-    {{ form_start(form) }}
-        {{ form_row(form.genus) }}
-        {{ form_row(form.species) }}
-        {{ form_widget(form) }}
-        <input type="submit" class="btn btn-default pull-right" value="Add">
-    {{ form_end(form) }}
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_start(form) }}
+            {{ form_row(form.genus) }}
+            {{ form_row(form.species) }}
+            {{ form_widget(form) }}
+            <div class="btn-group pull-right" role="group" aria-label="...">
+                <input type="button" id="reverseGeocode" class="btn btn-default" value="Reverse Geocode">
+                <input type="submit" class="btn btn-default" value="Add">
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map" style="height:400px;"></div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -30,6 +45,7 @@
     <script async defer src="{{ asset('js/species-dynamic.js') }}"></script>
 
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&signed_in=true&callback=initMap"></script>
 
     <script>
         $( function() {
@@ -42,5 +58,51 @@
                 source: availableTags
             });
         } );
+    </script>
+
+    <script>
+        $( function() {
+            $('#map').hide();
+        });
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 0,
+                center: {lat: 0, lng: 0}
+            });
+            var geocoder = new google.maps.Geocoder;
+            var infowindow = new google.maps.InfoWindow;
+
+            $('#reverseGeocode').click(function() {
+                geocodeLatLng(geocoder, map, infowindow);
+                $('#map').show();
+                google.maps.event.trigger(map, "resize");
+            });
+        }
+
+        function geocodeLatLng(geocoder, map, infowindow) {
+            var lat = parseFloat($('[name$="[latitude]"]').val());
+            var lng = parseFloat($('[name$="[longitude]"]').val());
+            var latlng = {lat: lat, lng: lng};
+
+            geocoder.geocode({'location': latlng}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                        map.setZoom(11);
+                        map.setCenter(latlng);
+                        var marker = new google.maps.Marker({
+                            position: latlng,
+                            map: map
+                        });
+                        infowindow.setContent(results[1].formatted_address);
+                        infowindow.open(map, marker);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
     </script>
 {% endblock %}
