@@ -43,6 +43,7 @@ class StrainType extends AbstractType
             ->add('usualName', TextType::class, array(
                 'attr' => array(
                     'autocomplete' => 'off',
+                    'placeholder' => 'A name you want to use',
                 )
             ))
             ->add('comment')

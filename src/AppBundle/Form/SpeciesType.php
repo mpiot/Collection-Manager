@@ -27,7 +27,11 @@ class SpeciesType extends AbstractType
                 },
                 'choice_label' => 'genus',
             ))
-            ->add('species')
+            ->add('species', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'lipolytica',
+                )
+            ))
             ->add('synonyms', CollectionType::class, array(
                 'entry_type' => TextType::class,
                 'allow_add' => true,

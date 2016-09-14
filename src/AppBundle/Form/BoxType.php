@@ -5,6 +5,9 @@ namespace AppBundle\Form;
 use AppBundle\Repository\ProjectRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,17 +28,44 @@ class BoxType extends AbstractType
                 },
                 'choice_label' => 'name',
             ))
-            ->add('name')
-            ->add('description')
+            ->add('name', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Name of the box',
+                )
+            ))
+            ->add('description', TextareaType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Description about the box',
+                )
+            ))
             ->add('type', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Type',
                 'choice_label' => 'name',
                 'placeholder' => '-- select a type --',
             ))
-            ->add('freezer')
-            ->add('location')
-            ->add('colNumber')
-            ->add('rowNumber')
+            ->add('freezer', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'In which freezer is the box: Emile',
+                )
+            ))
+            ->add('location', TextType::class, array(
+                'label' => 'Location in the freezer',
+                'attr' => array(
+                    'placeholder' => '1st shelf on the top, 3rd rack on the left',
+                )
+            ))
+            ->add('colNumber', NumberType::class, array(
+                'label' => 'Number of columns',
+                'attr' => array(
+                    'placeholder' => '10',
+                )
+            ))
+            ->add('rowNumber', NumberType::class, array(
+                'label' => 'Number of rows',
+                'attr' => array(
+                    'placeholder' => '10',
+                )
+            ))
         ;
     }
     

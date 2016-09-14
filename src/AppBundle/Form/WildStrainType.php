@@ -2,10 +2,9 @@
 
 namespace AppBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,11 +17,33 @@ class WildStrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('geographicOrigin')
-            ->add('biologicalOrigin')
-            ->add('source')
-            ->add('latitude')
-            ->add('longitude')
+            ->add('biologicalOrigin', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Soil, Gut, ...',
+                )
+            ))
+            ->add('source', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'CBS, ...',
+                )
+            ))
+            ->add('geographicOrigin', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Paris',
+                )
+            ))
+            ->add('latitude', NumberType::class, array(
+                'scale' => 6,
+                'attr' => array(
+                    'placeholder' => 48.866667,
+                )
+            ))
+            ->add('longitude', NumberType::class, array(
+                'scale' => 6,
+                'attr' => array(
+                    'placeholder' => 2.333333,
+                )
+            ))
         ;
     }
     
