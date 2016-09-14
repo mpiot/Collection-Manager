@@ -157,6 +157,7 @@ class StrainController extends Controller
         
         return $this->render('strain/edit.html.twig', array(
             'form' => $form->createView(),
+            'strain' => $strain,
             'strainUsualNames' => $strainUsualNames,
             'typeOfStrain' => 'gmo',
         ));
@@ -186,6 +187,7 @@ class StrainController extends Controller
         
         return $this->render('strain/edit.html.twig', array(
             'form' => $form->createView(),
+            'strain' => $strain,
             'strainUsualNames' => $strainUsualNames,
             'typeOfStrain' => 'wild',
         ));

@@ -1,6 +1,6 @@
 {% extends "species/base.html.twig" %}
 
-{% block title %}{{ parent() }}:delete{% endblock %}
+{% block title %}Delete the species: {{ species.genus.genus }} {{ species.species }}{% endblock %}
 
 {% block species_body %}
     <div>
@@ -13,7 +13,7 @@
 
     <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a species !</div>
 
-    <p>Do you confirm the deletion of the species: <b>{{ species.genus }} {{ species.species }}</b> ?</p>
+    <p>Do you confirm the deletion of the species: <b>{{ species.genus.genus }} {{ species.species }}</b> ?</p>
 
     <form action="{{ path('species_delete', { 'id': species.id}) }}" method="POST">
         {{ form_rest(form) }}
