@@ -47,7 +47,6 @@
     <script async defer src="{{ asset('js/species-dynamic.js') }}"></script>
 
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&signed_in=true&callback=initMap"></script>
 
     <script>
         $( function() {
@@ -63,6 +62,7 @@
     </script>
 
     {% if 'wild' == typeOfStrain %}
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&signed_in=true&callback=initMap"></script>
         <script>
             $( function() {
                 $('#map').hide();
