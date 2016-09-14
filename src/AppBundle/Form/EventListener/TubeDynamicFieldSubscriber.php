@@ -73,7 +73,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
         // If it's a new tube, no box and no cell exists
         $box = null !== $tube && null !== $tube->getBox() ? $tube->getBox() : null;
         $project = null !== $box ? $box->getProject() : null;
-        $cell = null !== $tube && $tube->getCell() ? $tube->getCell() : null;
+        $cell = null !== $tube && null !== $tube->getCell() ? $tube->getCell() : null;
 
         // Keep default value
         $this->box = $box;
