@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $("div[id$='_strain_tubes']");
+    var $container = $("div[id$='_strain_tubes'], div[id$='_strain_edit_tubes']");
 
     // On supprime les labels
     $('label[for^="strain_tubes_"]').text('');
@@ -17,7 +17,7 @@ $(document).ready(function() {
     });
 
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-    var index = $container.find(':input').length;
+    var index = $container.find("div[id*='_strain_tubes_'], div[id*='_strain_edit_tubes_']").length;
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
     if (index == 0) {
@@ -36,7 +36,7 @@ $(document).ready(function() {
         // - le texte "__name__label__" qu'il contient par le label du champ
         // - le texte "__name__" qu'il contient par le numéro du champ
         var $prototype = $(container.attr('data-prototype')
-            .replace(/__name__label__/g, '')
+            .replace(/__name__label__/g, index)
             .replace(/__name__/g, index));
 
         // On ajoute au prototype un lien pour pouvoir supprimer la catégorie

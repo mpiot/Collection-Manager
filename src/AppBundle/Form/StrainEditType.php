@@ -15,7 +15,7 @@ class StrainEditType extends AbstractType
             ->add('tubes', CollectionType::class, array(
                 'entry_type' => TubeEditType::class,
                 'allow_add' => true,
-                'allow_delete' => false,
+                'allow_delete' => true,
                 // Use add and remove properties in the entity
                 'by_reference' => false,
             ));
