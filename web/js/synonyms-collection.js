@@ -6,7 +6,7 @@ $(document).ready(function() {
     $('label[for^="species_synonyms_"]').text('');
 
     // On ajoute un lien pour ajouter une nouvelle catégorie
-    var $addLink = $('<a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Ajouter un synonyme</a>');
+    var $addLink = $('<a href="#" id="add_synonym" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a synonym</a>');
     $container.append($addLink);
 
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
