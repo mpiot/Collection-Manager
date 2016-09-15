@@ -38,7 +38,7 @@ class GmoStrain extends Strain
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="gmoStrain", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="gmoStrain", cascade={"persist", "remove"})
      */
     private $tubes;
 
@@ -60,35 +60,11 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Set parentalStrain
-     *
-     * @param \stdClass $parentalStrain
-     *
-     * @return GMO
-     */
-    public function setParentalStrain(Strain $parentalStrain)
-    {
-        $this->parentalStrain = $parentalStrain;
-
-        return $this;
-    }
-
-    /**
-     * Get parentalStrain
-     *
-     * @return \stdClass
-     */
-    public function getParentalStrain()
-    {
-        return $this->parentalStrain;
-    }
-
-    /**
      * Set genotype
      *
      * @param string $genotype
      *
-     * @return GMO
+     * @return GmoStrain
      */
     public function setGenotype($genotype)
     {
@@ -112,7 +88,7 @@ class GmoStrain extends Strain
      *
      * @param string $description
      *
-     * @return GMO
+     * @return GmoStrain
      */
     public function setDescription($description)
     {

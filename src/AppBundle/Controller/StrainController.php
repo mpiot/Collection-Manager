@@ -82,6 +82,8 @@ class StrainController extends Controller
             }
 
             $em->persist($strain);
+            dump($strain->getTubes()->first()->getName());
+
             $em->flush();
 
             $this->addFlash('success', 'The strain has been added successfully: '.$strain->getSystematicName());
@@ -114,10 +116,10 @@ class StrainController extends Controller
             // Manually persist the tube, because with cascade, doctrine want persist the strain before
             // but we need persist tube before, to generate the name of each tube
             // because the strain name is the name of the first tube
-            foreach($strain->getTubes() as $tube) {
-                $em->persist($tube);
-            }
-            
+            //foreach($strain->getTubes() as $tube) {
+            //    $em->persist($tube);
+            //}
+
             $em->persist($strain);
             $em->flush();
 

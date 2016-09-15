@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Strain
  *
  * @ORM\MappedSuperclass()
- * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  */
 class Strain
 {
@@ -312,7 +312,7 @@ class Strain
      *
      * @ORM\PrePersist()
      */
-    public function prePersist()
+    public function postPersist()
     {
         // The automatic name of the strain is the name of the first tube
         // when the strain is registred the first time

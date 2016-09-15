@@ -236,13 +236,16 @@ class Tube
         // BoxLetter (idem, the first tube)
         $boxLetter = $this->getBox()->getBoxLetter();
 
-        // Adapt the boxCell like: 1 => 001, 10 => 010, 100 => 100
-        if ($this->cell < 10) {
-            $boxCell = '00'.$this->cell;
-        } elseif ($this->cell > 99) {
-            $boxCell = $this->cell;
+        // In array the first cell is 0, in real box, it's 1
+        $cell = $this->cell + 1;
+
+        // Adapt the boxCell like: 1 => 001, 10 => 010, 100 => 100, never more than 999
+        if ($cell < 10) {
+            $boxCell = '00'.$cell;
+        } elseif ($cell > 99) {
+            $boxCell = $cell;
         } else {
-            $boxCell = '0'.$this->cell;
+            $boxCell = '0'.$cell;
         }
 
         // Type Letter

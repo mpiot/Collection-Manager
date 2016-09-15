@@ -58,7 +58,7 @@ class WildStrain extends Strain
     private $longitude;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="wildStrain", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="wildStrain", cascade={"persist", "remove"})
      */
     private $tubes;
 
@@ -84,7 +84,7 @@ class WildStrain extends Strain
      *
      * @param string $geographicOrigin
      *
-     * @return Wild
+     * @return WildStrain
      */
     public function setGeographicOrigin($geographicOrigin)
     {
@@ -108,7 +108,7 @@ class WildStrain extends Strain
      *
      * @param string $biologicalOrigin
      *
-     * @return Wild
+     * @return WildStrain
      */
     public function setBiologicalOrigin($biologicalOrigin)
     {
@@ -132,7 +132,7 @@ class WildStrain extends Strain
      *
      * @param string $source
      *
-     * @return Wild
+     * @return WildStrain
      */
     public function setSource($source)
     {
