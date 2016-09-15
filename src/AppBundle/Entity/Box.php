@@ -367,6 +367,11 @@ class Box
     {
         return $this->tubes;
     }
+
+    public function getCellNumber()
+    {
+        return $this->colNumber * $this->rowNumber;
+    }
     
     public function getEmptyCells($keepCell = null)
     {
