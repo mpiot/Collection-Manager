@@ -44,6 +44,7 @@ fos_elastica:
                 gmoStrain:
                     mappings:
                         systematicName:
+                            boost: 3
                             index_analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         usualName:
@@ -59,6 +60,7 @@ fos_elastica:
                 wildStrain:
                     mappings:
                         systematicName:
+                            boost: 3
                             index_analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         usualName:

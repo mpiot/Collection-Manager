@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\AdvancedSearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Search engine controller.
@@ -32,6 +34,45 @@ class SearchController extends Controller
         return $this->render('search\quickSearchResults.html.twig', array(
             'search' => $search,
             'results' => $results,
+        ));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @Route("/advanced-search", name="advanced-search")
+     */
+    public function advancedSearch(Request $request)
+    {
+        $form = $this->createForm(AdvancedSearchType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            dump($data);
+            $repositoryManager = $this->container->get('fos_elastica.manager.orm');
+
+            // Search for GmoStrain
+            if (in_array('gmo', $data['strainCategory'])) {
+                $gmoRepository = $repositoryManager->getRepository('AppBundle:GmoStrain');
+                $results['gmo'] = $gmoRepository->findByNames($data['search']);
+            }
+
+            // Search fot WildStrain
+            if (in_array('wild', $data['strainCategory'])) {
+                $wildRepository = $repositoryManager->getRepository('AppBundle:WildStrain');
+                $results['wild'] = $wildRepository->findByNames($data['search']);
+            }
+
+            return $this->render('search/advancedSearch.html.twig', array(
+                'form' => $form->createView(),
+                'results' => $results,
+            ));
+        }
+
+        return $this->render('search/advancedSearch.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 }

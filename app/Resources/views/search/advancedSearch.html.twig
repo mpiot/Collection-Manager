@@ -1,0 +1,80 @@
+{# app/Ressources/views/search/quickSearchResults.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{%block title %}
+    Advanced search - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-default pull-right">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+        </button>
+    {{ form_end(form) }}
+
+    {% if results is defined %}
+        <div>
+            <h3>Gmo Strains</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Auto Name</th>
+                    <th>Name</th>
+                </tr>
+                {% if results['gmo'] is defined and results['gmo'] is not empty %}
+                    {% for result in results['gmo'] %}
+                        <tr data-href="{{ url('strain_gmo_view', { id: result.id}) }}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ result.systematicName }}</td>
+                            <td>{{ result.usualName }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+
+        <div>
+            <h3>Wild Strains</h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Auto Name</th>
+                    <th>Name</th>
+                </tr>
+                {% if results['wild'] is defined and results['wild'] is not empty %}
+                    {% for result in results['wild'] %}
+                        <tr data-href="{{ url('strain_wild_view', { id: result.id}) }}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ result.systematicName }}</td>
+                            <td>{{ result.usualName }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $('table tr').click(function(){
+                window.location = $(this).data('href');
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
