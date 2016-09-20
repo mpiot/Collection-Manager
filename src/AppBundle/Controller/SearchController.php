@@ -26,10 +26,10 @@ class SearchController extends Controller
     {
         $repositoryManager = $this->container->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-        $results['gmo'] = $repository->quickSearch($search);
+        $results['gmo'] = $repository->findByNames($search);
 
         $repository2 = $repositoryManager->getRepository('AppBundle:WildStrain');
-        $results['wild'] = $repository2->quickSearch($search);
+        $results['wild'] = $repository2->findByNames($search);
 
         return $this->render('search\quickSearchResults.html.twig', array(
             'search' => $search,
