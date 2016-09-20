@@ -118,3 +118,10 @@ body {
     content: " *";
     color: red;
 }
+
+/*
+ * Table row as hypertext link
+ */
+table tr[data-href] {
+    cursor: pointer;
+}
