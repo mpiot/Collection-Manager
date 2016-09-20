@@ -2,7 +2,7 @@ front:
     restart: unless-stopped
     image: nginx:1.9
     ports:
-        - "8085:80"
+        - "8081:80"
     links:
         - "engine:engine"
     volumes:
@@ -24,12 +24,17 @@ engine:
 db:
     restart: unless-stopped
     image: mariadb:10.1
+    ports:
+        - "3307:3306"
     environment:
-        - "MYSQL_ROOT_PASSWORD=sc"
-        - "MYSQL_USER=sc"
-        - "MYSQL_PASSWORD=sc"
-        - "MYSQL_DATABASE=sc"
+        - "MYSQL_ROOT_PASSWORD=collectionManager"
+        - "MYSQL_USER=collectionManager"
+        - "MYSQL_PASSWORD=collectionManager"
+        - "MYSQL_DATABASE=collectionManager"
 
 search:
     restart: unless-stopped
-    image: elasticsearch:1.7
+    build: ./docker/search/
+    ports:
+        - "9200:9200"
+        - "9300:9300"
