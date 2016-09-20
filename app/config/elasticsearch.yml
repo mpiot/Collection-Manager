@@ -45,10 +45,10 @@ fos_elastica:
                     mappings:
                         systematicName:
                             boost: 3
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         usualName:
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                     persistence:
                       driver: orm
@@ -61,10 +61,10 @@ fos_elastica:
                     mappings:
                         systematicName:
                             boost: 3
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         usualName:
-                            index_analyzer : custom_index_analyzer
+                            analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                     persistence:
                       driver: orm
