@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,7 @@ class WildStrainType extends AbstractType
         $builder
             ->add('biologicalOrigin', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Soil, Gut, ...',
+                    'placeholder' => 'Galeria melonella, Insect',
                 )
             ))
             ->add('source', TextType::class, array(
@@ -27,10 +28,13 @@ class WildStrainType extends AbstractType
                     'placeholder' => 'CBS, ...',
                 )
             ))
-            ->add('geographicOrigin', TextType::class, array(
+            ->add('address', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Paris',
+                    'placeholder' => 'Pyramides, 75001',
                 )
+            ))
+            ->add('country', CountryType::class, array(
+                'placeholder' => '-- Choose a country --',
             ))
             ->add('latitude', NumberType::class, array(
                 'scale' => 6,

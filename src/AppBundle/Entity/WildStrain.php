@@ -25,9 +25,16 @@ class WildStrain extends Strain
     /**
      * @var string
      *
-     * @ORM\Column(name="geographicOrigin", type="string", length=255)
+     * @ORM\Column(name="address", type="string", length=255)
      */
-    private $geographicOrigin;
+    private $address;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=255)
+     */
+    private $country;
 
     /**
      * @var string
@@ -80,27 +87,27 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set geographicOrigin
+     * Set address
      *
-     * @param string $geographicOrigin
+     * @param string $address
      *
      * @return WildStrain
      */
-    public function setGeographicOrigin($geographicOrigin)
+    public function setAddress($address)
     {
-        $this->geographicOrigin = $geographicOrigin;
+        $this->address = $address;
 
         return $this;
     }
 
     /**
-     * Get geographicOrigin
+     * Get address
      *
      * @return string
      */
-    public function getGeographicOrigin()
+    public function getAddress()
     {
-        return $this->geographicOrigin;
+        return $this->address;
     }
 
     /**
@@ -113,6 +120,30 @@ class WildStrain extends Strain
     public function setBiologicalOrigin($biologicalOrigin)
     {
         $this->biologicalOrigin = $biologicalOrigin;
+
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return WildStrain
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
 
         return $this;
     }
