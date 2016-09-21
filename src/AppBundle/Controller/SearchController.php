@@ -50,7 +50,7 @@ class SearchController extends Controller
 
         if ($form->isValid()) {
             $data = $form->getData();
-            dump($data);
+
             $repositoryManager = $this->container->get('fos_elastica.manager.orm');
 
             // Search for GmoStrain
@@ -59,10 +59,17 @@ class SearchController extends Controller
                 $results['gmo'] = $gmoRepository->findByNames($data['search']);
             }
 
-            // Search fot WildStrain
+            // Search for WildStrain
             if (in_array('wild', $data['strainCategory'])) {
+                // Define the repository
                 $wildRepository = $repositoryManager->getRepository('AppBundle:WildStrain');
-                $results['wild'] = $wildRepository->findByNames($data['search']);
+
+                // Is a country defined ?
+                if (null !== $data['country']) { // Yes, search only with the country
+                    $results['wild'] = $wildRepository->findByNamesWithCountry($data['search'], $data['country']);
+                } else { // Else just search with name
+                    $results['wild'] = $wildRepository->findByNames($data['search']);
+                }
             }
 
             return $this->render('search/advancedSearch.html.twig', array(

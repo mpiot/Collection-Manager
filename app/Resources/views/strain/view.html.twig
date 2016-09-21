@@ -102,7 +102,8 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Map</div>
                         <div class="panel-body">
-                            Geographic origin: {{ strain.geographicOrigin }}<br>
+                            Address: {{ strain.address }}<br>
+                            Country: {{ strain.country|country(app.request.locale) }}<br>
                             Source: {{ strain.source }}
                         </div>
                         <div id ="map" class="panel-body" style="height:400px;">

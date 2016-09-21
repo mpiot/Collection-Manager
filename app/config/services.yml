@@ -13,6 +13,11 @@ services:
         tags:
             - { name: twig.extension }
 
+    app.twig.country_extension:
+        class: AppBundle\Twig\CountryExtension
+        tags:
+            - { name: twig.extension }
+
     app.form_type.tube:
         class: AppBundle\Form\TubeType
         arguments: ["@doctrine.orm.entity_manager"]
