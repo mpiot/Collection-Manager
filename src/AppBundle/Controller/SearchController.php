@@ -31,7 +31,7 @@ class SearchController extends Controller
         $repository2 = $repositoryManager->getRepository('AppBundle:WildStrain');
         $results['wild'] = $repository2->findByNames($search);
 
-        return $this->render('search\quickSearchResults.html.twig', array(
+        return $this->render('search\quickSearch.html.twig', array(
             'search' => $search,
             'results' => $results,
         ));

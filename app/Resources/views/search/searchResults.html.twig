@@ -1,0 +1,54 @@
+{% if results is defined %}
+    <div class="showhide-1">
+        <h3>Gmo Strains</h3>
+        <div>
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Auto Name</th>
+                    <th>Name</th>
+                </tr>
+                {% if results['gmo'] is defined and results['gmo'] is not empty %}
+                    {% for result in results['gmo'] %}
+                        <tr data-href="{{ url('strain_gmo_view', { id: result.id}) }}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ result.systematicName }}</td>
+                            <td>{{ result.usualName }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+    <div class="showhide-2">
+        <h3>Wild Strains</h3>
+        <div>
+            <table class="table table-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Auto Name</th>
+                    <th>Name</th>
+                </tr>
+                {% if results['wild'] is defined and results['wild'] is not empty %}
+                    {% for result in results['wild'] %}
+                        <tr data-href="{{ url('strain_wild_view', { id: result.id}) }}">
+                            <td>{{ loop.index }}</td>
+                            <td>{{ result.systematicName }}</td>
+                            <td>{{ result.usualName }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endif %}
+
