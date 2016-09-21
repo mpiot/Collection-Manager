@@ -7,15 +7,19 @@
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
+    <div class="row">
+        {{ form_start(form) }}
         {{ form_widget(form) }}
 
         <button type="submit" class="btn btn-default pull-right">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
         </button>
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+    </div>
 
-    {% include ":search:searchResults.html.twig" %}
+    <div class="row">
+        {% include ":search:searchResults.html.twig" %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
