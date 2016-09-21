@@ -16,52 +16,56 @@
     {{ form_end(form) }}
 
     {% if results is defined %}
-        <div>
+        <div class="showhide-1">
             <h3>Gmo Strains</h3>
-            <table class="table table-striped">
-                <tr>
-                    <th>#</th>
-                    <th>Auto Name</th>
-                    <th>Name</th>
-                </tr>
-                {% if results['gmo'] is defined and results['gmo'] is not empty %}
-                    {% for result in results['gmo'] %}
-                        <tr data-href="{{ url('strain_gmo_view', { id: result.id}) }}">
-                            <td>{{ loop.index }}</td>
-                            <td>{{ result.systematicName }}</td>
-                            <td>{{ result.usualName }}</td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
+            <div>
+                <table class="table table-striped">
                     <tr>
-                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                        <th>#</th>
+                        <th>Auto Name</th>
+                        <th>Name</th>
                     </tr>
-                {% endif %}
-            </table>
+                    {% if results['gmo'] is defined and results['gmo'] is not empty %}
+                        {% for result in results['gmo'] %}
+                            <tr data-href="{{ url('strain_gmo_view', { id: result.id}) }}">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ result.systematicName }}</td>
+                                <td>{{ result.usualName }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" style="text-align:center;">There is no result.</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
         </div>
 
-        <div>
+        <div class="showhide-2">
             <h3>Wild Strains</h3>
-            <table class="table table-striped">
-                <tr>
-                    <th>#</th>
-                    <th>Auto Name</th>
-                    <th>Name</th>
-                </tr>
-                {% if results['wild'] is defined and results['wild'] is not empty %}
-                    {% for result in results['wild'] %}
-                        <tr data-href="{{ url('strain_wild_view', { id: result.id}) }}">
-                            <td>{{ loop.index }}</td>
-                            <td>{{ result.systematicName }}</td>
-                            <td>{{ result.usualName }}</td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
+            <div>
+                <table class="table table-striped">
                     <tr>
-                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                        <th>#</th>
+                        <th>Auto Name</th>
+                        <th>Name</th>
                     </tr>
-                {% endif %}
-            </table>
+                    {% if results['wild'] is defined and results['wild'] is not empty %}
+                        {% for result in results['wild'] %}
+                            <tr data-href="{{ url('strain_wild_view', { id: result.id}) }}">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ result.systematicName }}</td>
+                                <td>{{ result.usualName }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" style="text-align:center;">There is no result.</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
         </div>
     {% endif %}
 
@@ -69,6 +73,14 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            showHide($('.showhide-1 > h3'), $('.showhide-1 > div'));
+            showHide($('.showhide-2 > h3'), $('.showhide-2 > div'));
+        });
+    </script>
+
     <script>
         $(document).ready(function(){
             $('table tr').click(function(){

@@ -115,9 +115,10 @@
             {% javascripts
                 'js/ie10-viewport-bug-workaround.js'
                 'js/quick-search.js'
+                'js/showHide.js'
                 output='js/compiled/app.js'
             %}
-            <script async defer src="{{ asset_url }}"></script>
+            <script src="{{ asset_url }}"></script>
             {% endjavascripts %}
 
         {% endblock %}
