@@ -41,9 +41,8 @@ class StrainController extends Controller
      */
     public function viewGmoAction(GmoStrain $strain)
     {
-        return $this->render('strain/view.html.twig', array(
+        return $this->render('strain/gmo/view.html.twig', array(
             'strain' => $strain,
-            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -52,9 +51,8 @@ class StrainController extends Controller
      */
     public function viewWildAction(WildStrain $strain)
     {
-        return $this->render('strain/view.html.twig', array(
+        return $this->render('strain/wild/view.html.twig', array(
             'strain' => $strain,
-            'typeOfStrain' => 'wild',
         ));
     }
 
@@ -91,10 +89,9 @@ class StrainController extends Controller
             return $this->redirectToRoute('strain_index');
         }
 
-        return $this->render('strain/add.html.twig', array(
+        return $this->render('strain/gmo/add.html.twig', array(
             'form' => $form->createView(),
             'strainUsualNames' => $strainUsualNames,
-            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -128,10 +125,9 @@ class StrainController extends Controller
             return $this->redirectToRoute('strain_index');
         }
         
-        return $this->render('strain/add.html.twig', array(
+        return $this->render('strain/wild/add.html.twig', array(
             'form' => $form->createView(),
             'strainUsualNames' => $strainUsualNames,
-            'typeOfStrain' => 'wild',
         ));
     }
 
@@ -157,11 +153,10 @@ class StrainController extends Controller
             return $this->redirectToRoute('strain_gmo_view', ['id' => $strain->getId()]);
         }
         
-        return $this->render('strain/edit.html.twig', array(
+        return $this->render('strain/gmo/edit.html.twig', array(
             'form' => $form->createView(),
             'strain' => $strain,
             'strainUsualNames' => $strainUsualNames,
-            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -187,11 +182,10 @@ class StrainController extends Controller
             return $this->redirectToRoute('strain_wild_view', ['id' => $strain->getId()]);
         }
         
-        return $this->render('strain/edit.html.twig', array(
+        return $this->render('strain/wild/edit.html.twig', array(
             'form' => $form->createView(),
             'strain' => $strain,
             'strainUsualNames' => $strainUsualNames,
-            'typeOfStrain' => 'wild',
         ));
     }
 
@@ -219,10 +213,9 @@ class StrainController extends Controller
             return $this->redirect($this->generateUrl('strain_index'));
         }
 
-        return $this->render('strain/delete.html.twig', array(
+        return $this->render('strain/gmo/delete.html.twig', array(
             'strain' => $strain,
             'form' => $form->createView(),
-            'typeOfStrain' => 'gmo',
         ));
     }
 
@@ -249,7 +242,7 @@ class StrainController extends Controller
             return $this->redirect($this->generateUrl('strain_index'));
         }
 
-        return $this->render('strain/delete.html.twig', array(
+        return $this->render('strain/wild/delete.html.twig', array(
             'strain' => $strain,
             'form' => $form->createView(),
             'typeOfStrain' => 'wild',

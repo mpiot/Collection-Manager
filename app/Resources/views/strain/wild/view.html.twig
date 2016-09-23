@@ -1,0 +1,63 @@
+{% extends "strain/base.html.twig" %}
+
+{% block title %}Strain {{ strain.systematicName }} - {{ strain.usualName }}{% endblock %}
+
+{% block strain_body %}
+    {% embed 'strain/skeleton/view.html.twig' %}
+        {% block strainEditButton %}
+            <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("strain_wild_edit", {'id': strain.id }) }}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        {% endblock %}
+
+        {% block biologicalOrigin %}
+            <li class="list-group-item">Biological origin: {{ strain.biologicalOrigin }}</li>
+        {% endblock %}
+
+        {% block map %}
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Map</div>
+                    <div class="panel-body">
+                        Address: {{ strain.address }}<br>
+                        Country: {{ strain.country|country(app.request.locale) }}<br>
+                        Source: {{ strain.source }}
+                    </div>
+                    <div id ="map" class="panel-body" style="height:400px;">
+                    </div>
+                    <div class="panel-footer">
+                        Latitude: {{ strain.latitude }}  -  Longitude: {{ strain.longitude }}
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if strain.latitude is defined and strain.longitude is defined %}
+        <script type="text/javascript">
+
+            var map;
+            function initMap() {
+                var myLatLng = {lat: {{ strain.latitude }}, lng: {{ strain.longitude}}};
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 5
+                });
+
+                var marker = new google.maps.Marker({
+                   position: myLatLng,
+                    map: map,
+                    title: '{{ strain.systematicName }}'
+                });
+            }
+
+        </script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&callback=initMap">
+        </script>
+    {% endif %}
+{% endblock %}

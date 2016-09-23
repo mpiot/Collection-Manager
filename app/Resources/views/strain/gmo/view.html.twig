@@ -1,0 +1,25 @@
+{% extends "strain/base.html.twig" %}
+
+{% block title %}Strain {{ strain.systematicName }} - {{ strain.usualName }}{% endblock %}
+
+{% block strain_body %}
+    {% embed 'strain/skeleton/view.html.twig' %}
+        {% block strainEditButton %}
+            <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("strain_gmo_edit", {'id': strain.id }) }}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        {% endblock %}
+
+        {% block biologicalInformations %}
+            <div class="panel-body">
+                <p><u>Genotype:</u></p>
+                <p>{{ strain.genotype }}</p>
+            </div>
+
+            <div class="panel-body">
+                <p><u>Description:</u></p>
+                <p>{{ strain.description }}</p>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "strain/base.html.twig" %}
+
+{% block title %}Delete the strain {{ strain.systematicName }} - {{ strain.usualName }}{% endblock %}
+
+{% block strain_body %}
+    {% embed 'strain/skeleton/delete.html.twig' %}
+        {% block formAction %}
+<form action="{{ path('strain_wild_delete', {'id': strain.id}) }}" method="post">
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

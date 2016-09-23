@@ -1,0 +1,36 @@
+{% extends 'strain/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+{% endblock %}
+
+{% block strain_body %}
+    {% block h1 %}
+    {% endblock %}
+
+    {% block form %}
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script async defer src="{{ asset('js/tubes-collection.js') }}"></script>
+    <script async defer src="{{ asset('js/species-dynamic.js') }}"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+    <script>
+        $( function() {
+            var availableTags = [
+                {% for usualName in strainUsualNames %}
+                "{{ usualName.usualName }}",
+                {% endfor %}
+            ];
+            $( '[name$="[usualName]"]' ).autocomplete({
+                source: availableTags
+            });
+        } );
+    </script>
+{% endblock %}

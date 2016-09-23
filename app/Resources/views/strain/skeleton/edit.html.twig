@@ -1,0 +1,31 @@
+<div>
+    <a class="btn btn-default" href="{{ path('strain_index') }}">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Strains list
+    </a>
+</div>
+
+<h2 class="sub-header">Edit a strain</h2>
+
+<div class="row">
+    {{ form_start(form) }}
+        {{ form_row(form.genus) }}
+        {{ form_row(form.species) }}
+        {{ form_widget(form) }}
+
+        {% if 'wild' == typeOfStrain %}
+            <div class="btn-group pull-right" role="group" aria-label="...">
+                <input type="button" id="reverseGeocode" class="btn btn-default" value="Reverse Geocode">
+                <input type="submit" class="btn btn-default" value="Edit">
+            </div>
+        {% else %}
+            <input type="submit" class="btn btn-default pull-right" value="Add">
+        {% endif %}
+    {{ form_end(form) }}
+</div>
+
+{% if 'wild' == typeOfStrain %}
+    <div class="row">
+        <hr>
+        <div id="map" style="height:400px;"></div>
+    </div>
+{% endif %}
