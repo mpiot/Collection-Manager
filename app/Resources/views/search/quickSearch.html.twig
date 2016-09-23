@@ -8,7 +8,7 @@
 
 {% block body %}
     <h2>Results for "<i>{{ search }}</i>"</h2>
-    <p><a href="{{ url('advanced-search') }}">Advanced Search</a></p>
+    <p><a href="{{ path('advanced-search') }}">Advanced Search</a></p>
 
     {% include ":search:searchResults.html.twig" %}
 
