@@ -6,7 +6,13 @@
 {% endblock %}
 
 {% block strain_body %}
-    {% block h1 %}
+    <div>
+        <a type="button" class="btn btn-default" href="{{ path('strain_index') }}">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Strains list
+        </a>
+    </div>
+
+    {% block h2 %}
     {% endblock %}
 
     {% block form %}
