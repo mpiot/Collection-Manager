@@ -4,9 +4,9 @@
         <div>
             <table class="table table-striped">
                 <tr>
-                    <th>#</th>
-                    <th>Auto Name</th>
-                    <th>Name</th>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-6">Auto Name</th>
+                    <th class="col-md-6">Name</th>
                 </tr>
                 {% if results['gmo'] is defined and results['gmo'] is not empty %}
                     {% for result in results['gmo'] %}
@@ -30,9 +30,9 @@
         <div>
             <table class="table table-striped">
                 <tr>
-                    <th>#</th>
-                    <th>Auto Name</th>
-                    <th>Name</th>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-6">Auto Name</th>
+                    <th class="col-md-6">Name</th>
                 </tr>
                 {% if results['wild'] is defined and results['wild'] is not empty %}
                     {% for result in results['wild'] %}
