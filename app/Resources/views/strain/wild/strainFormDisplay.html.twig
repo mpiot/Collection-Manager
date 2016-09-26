@@ -41,8 +41,16 @@
                             position: latlng,
                             map: map
                         });
-                        infowindow.setContent(results[1].formatted_address);
+                        infowindow.setContent(results[0].formatted_address);
                         infowindow.open(map, marker);
+
+                        var adressField = $('input[name$="[address]"]');
+                        var countryField = $('[name$="[country]"]');
+                        var adressValue = results[0]['formatted_address'];
+                        var countryCode = results[results.length - 1]['address_components'][0]['short_name'];
+
+                        adressField.val(adressValue);
+                        countryField.val(countryCode);
                     } else {
                         window.alert('No results found');
                     }

@@ -9,18 +9,16 @@
 
         <fieldset>
             <legend>Geographic origin</legend>
-            {{ form_row(form.address) }}
-            {{ form_row(form.country) }}
             {{ form_row(form.latitude) }}
             {{ form_row(form.longitude) }}
+            <input type="button" id="reverseGeocode" class="btn btn-default" value="Reverse Geocode">
+            <hr>
+            {{ form_row(form.address) }}
+            {{ form_row(form.country) }}
         </fieldset>
     {% endblock %}
 
     {% block submitButton %}
-        <div class="btn-group pull-right" role="group" aria-label="...">
-            <input type="button" id="reverseGeocode" class="btn btn-default" value="Reverse Geocode">
-            <input type="submit" class="btn btn-default" value="Add">
-        </div>
     {% endblock %}
 
     {% block map %}
