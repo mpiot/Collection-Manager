@@ -34,7 +34,7 @@ class BoxController extends Controller
     /**
      * @Route("/view/{id}", name="box_view")
      * @ParamConverter("box", class="AppBundle:Box", options={
-     *     "repository_method" = "findByBoxWithTubesAndStrains"
+     *     "repository_method" = "findOneWithProjectTypeTubesStrains"
      * })
      */
     public function viewAction(Box $box)
@@ -79,6 +79,9 @@ class BoxController extends Controller
 
     /**
      * @Route("/edit/{id}", name="box_edit")
+     * @ParamConverter("box", class="AppBundle:Box", options={
+            "repository_method" = "findOneWithType"
+     * })
      */
     public function editAction(Box $box, Request $request)
     {

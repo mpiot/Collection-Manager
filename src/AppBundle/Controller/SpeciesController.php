@@ -7,6 +7,7 @@ use AppBundle\Entity\Species;
 use AppBundle\Form\SpeciesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,7 +25,7 @@ class SpeciesController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->getAllWithGenus();
+        $species = $em->getRepository('AppBundle:Species')->findAllWithGenus();
 
         return $this->render('species/index.html.twig', array(
             'speciesList' => $species,
@@ -58,6 +59,9 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/edit/{id}", name="species_edit")
+     * @ParamConverter("species", class="AppBundle:Species", options={
+     *     "repository_method" = "findOneWithGenus"
+     * })
      */
     public function editAction(Species $species, Request $request)
     {
@@ -82,6 +86,9 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/delete/{id}", name="species_delete")
+     * @ParamConverter("species", class="AppBundle:Species", options={
+     *     "repository_method" = "findOneWithGenus"
+     * })
      */
     public function deleteAction(Species $species, Request $request)
     {
@@ -102,22 +109,5 @@ class SpeciesController extends Controller
             'species' => $species,
             'form' => $form->createView(),
         ));
-    }
-
-    /**
-     * @Route("/ajax/speciesForGenus-{id}")
-     */
-    public function AjaxSpeciesForAGenus(Genus $genus)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $species = $em->getRepository('AppBundle:Species')->findBy(['genus' => $genus], ['species' => 'ASC']);
-
-        dump($species);
-
-        $response = new Response();
-        $data = json_encode(['species' => $species]);
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent($data);
-        return $response;
     }
 }

@@ -10,18 +10,6 @@ namespace AppBundle\Repository;
  */
 class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findWithSpecies()
-    {
-        $query = $this->createQueryBuilder('gmo')
-            ->leftJoin('gmo.species', 's')
-                ->addSelect('s')
-            ->leftJoin('s.genus', 'g')
-                ->addSelect('g')
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
     public function findAllUsualName()
     {
         $query = $this->createQueryBuilder('gmo')
@@ -31,5 +19,27 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $query->getArrayResult();
+    }
+
+    public function findOneWithAll($strain)
+    {
+        $query = $this->createQueryBuilder('gmo')
+            ->leftJoin('gmo.species', 'species')
+                ->addSelect('species')
+            ->leftJoin('species.genus', 'genus')
+                ->addSelect('genus')
+            ->leftJoin('gmo.tubes', 'tubes')
+                ->addSelect('tubes')
+            ->leftJoin('tubes.box', 'boxes')
+                ->addSelect('boxes')
+            ->leftJoin('boxes.project', 'projects')
+                ->addSelect('projects')
+            ->leftJoin('boxes.type', 'types')
+                ->addSelect('types')
+            ->where('gmo = :strain')
+                ->setParameter('strain', $strain)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
     }
 }

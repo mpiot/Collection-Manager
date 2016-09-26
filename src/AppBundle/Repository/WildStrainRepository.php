@@ -20,4 +20,28 @@ class WildStrainRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getArrayResult();
     }
+
+    public function findOneWithAll($strain)
+    {
+        $query = $this->createQueryBuilder('wild')
+            ->leftJoin('wild.species', 'species')
+                ->addSelect('species')
+            ->leftJoin('species.genus', 'genus')
+                ->addSelect('genus')
+            ->leftJoin('wild.biologicalOriginCategory', 'category')
+                ->addSelect('category')
+            ->leftJoin('wild.tubes', 'tubes')
+                ->addSelect('tubes')
+            ->leftJoin('tubes.box', 'boxes')
+                ->addSelect('boxes')
+            ->leftJoin('boxes.project', 'projects')
+                ->addSelect('projects')
+            ->leftJoin('boxes.type', 'types')
+                ->addSelect('types')
+            ->where('wild = :strain')
+                ->setParameter('strain', $strain)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

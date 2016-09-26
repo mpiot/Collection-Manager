@@ -38,6 +38,9 @@ class StrainController extends Controller
 
     /**
      * @Route("/view/gmo/{id}", name="strain_gmo_view")
+     * @ParamConverter("GmoStrain", class="AppBundle:GmoStrain", options={
+     *      "repository_method" = "findOneWithAll"
+     * })
      */
     public function viewGmoAction(GmoStrain $strain)
     {
@@ -48,6 +51,9 @@ class StrainController extends Controller
 
     /**
      * @Route("/view/wild/{id}", name="strain_wild_view")
+     * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
+     *      "repository_method" = "findOneWithAll"
+     * })
      */
     public function viewWildAction(WildStrain $strain)
     {
@@ -133,6 +139,9 @@ class StrainController extends Controller
 
     /**
      * @Route("/gmo/edit/{id}", name="strain_gmo_edit")
+     * @ParamConverter("gmoStrain", class="AppBundle:GmoStrain", options={
+     *      "repository_method" = "findOneWithAll"
+     * })
      */
     public function editGmoAction(GmoStrain $strain, Request $request)
     {
@@ -162,6 +171,9 @@ class StrainController extends Controller
 
     /**
      * @Route("/wild/edit/{id}", name="strain_wild_edit")
+     * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
+     *      "repository_method" = "findOneWithAll"
+     * })
      */
     public function editWildAction(WildStrain $strain, Request $request)
     {

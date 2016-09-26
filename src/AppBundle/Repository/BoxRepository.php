@@ -25,17 +25,33 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function findByBoxWithTubesAndStrains($id)
+    public function findOneWithProjectTypeTubesStrains($box)
     {
-        $query = $this->createQueryBuilder('b')
-            ->leftJoin('b.tubes', 't')
-                ->addSelect('t')
-            ->leftJoin('t.gmoStrain', 'g')
+        $query = $this->createQueryBuilder('box')
+            ->leftJoin('box.project', 'project')
+                ->addSelect('project')
+            ->leftJoin('box.type', 'type')
+                ->addSelect('type')
+            ->leftJoin('box.tubes', 'tubes')
+                ->addSelect('tubes')
+            ->leftJoin('tubes.gmoStrain', 'g')
                 ->addSelect('g')
-            ->leftJoin('t.wildStrain', 'w')
+            ->leftJoin('tubes.wildStrain', 'w')
                 ->addSelect('w')
-            ->where('b.id = :id' )
-            ->setParameter('id', $id)
+            ->where('box = :box')
+            ->setParameter('box', $box)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    public function findOneWithType($box)
+    {
+        $query = $this->createQueryBuilder('box')
+            ->leftJoin('box.type', 'type')
+                ->addSelect('type')
+            ->where('box = :box')
+                ->setParameter('box', $box)
             ->getQuery();
 
         return $query->getOneOrNullResult();

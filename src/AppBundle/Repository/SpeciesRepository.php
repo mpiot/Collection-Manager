@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getAllWithGenus()
+    public function findAllWithGenus()
     {
         $query = $this->createQueryBuilder('s')
             ->leftJoin('s.genus', 'g')
@@ -21,5 +21,17 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         ;
 
         return $query->getResult();
+    }
+
+    public function findOneWithGenus($species)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->leftJoin('s.genus', 'g')
+                ->addSelect('g')
+            ->where('s = :species')
+            ->setParameter('species', $species)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
     }
 }
