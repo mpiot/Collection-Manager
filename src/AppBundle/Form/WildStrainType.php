@@ -37,7 +37,7 @@ class WildStrainType extends AbstractType
             ))
             ->add('address', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Pyramides, 75001',
+                    'placeholder' => 'Pyramides, 75001 Paris, France',
                 )
             ))
             ->add('country', CountryType::class, array(
