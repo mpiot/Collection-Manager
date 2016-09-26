@@ -7,3 +7,11 @@
 {% block h2 %}
     <h2>Edit a GMO strain</h2>
 {% endblock %}
+
+{% block form %}
+    {{ parent() }}
+
+    {% block submitButton %}
+        <input type="submit" class="btn btn-default pull-right" value="Edit">
+    {% endblock %}
+{% endblock %}
