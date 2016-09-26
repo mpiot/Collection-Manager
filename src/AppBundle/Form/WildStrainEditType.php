@@ -22,6 +22,12 @@ class WildStrainEditType extends AbstractType
             ->add('address')
             ->add('country', CountryType::class)
             ->add('biologicalOrigin')
+            ->add('biologicalOriginCategory', EntityType::class, array(
+                'class' => 'AppBundle\Entity\BiologicalOriginCategory',
+                'choice_label' => 'name',
+                'placeholder' => '-- Choose a category --',
+                'label' => 'Category',
+            ))
             ->add('source')
             ->add('latitude')
             ->add('longitude')

@@ -37,6 +37,13 @@ class WildStrain extends Strain
     private $country;
 
     /**
+     * @var BiologicalOriginCategory
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BiologicalOriginCategory")
+     */
+    private $biologicalOriginCategory;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="biologicalOrigin", type="string", length=255)
@@ -108,6 +115,29 @@ class WildStrain extends Strain
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Set Biological origin category
+     *
+     * @param $category
+     * @return $this
+     */
+    public function setBiologicalOriginCategory($category)
+    {
+        $this->biologicalOriginCategory = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get biological origin category
+     *
+     * @return BiologicalOriginCategory
+     */
+    public function getBiologicalOriginCategory()
+    {
+        return $this->biologicalOriginCategory;
     }
 
     /**

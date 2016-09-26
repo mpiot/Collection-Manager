@@ -1,0 +1,19 @@
+{% extends "biological_origin_category/base.html.twig" %}
+
+{% block title %}Edit the category: {{ category.name }}{% endblock %}
+
+{% block type_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('category_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span> Types List
+        </a>
+    </div>
+
+    <h2 class="sub-header">Edit a category</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit" class="btn btn-default pull-right" value="Edit"/>
+    {{ form_end(form) }}
+{% endblock %}

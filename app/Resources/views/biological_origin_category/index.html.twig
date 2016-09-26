@@ -1,0 +1,43 @@
+{% extends "biological_origin_category/base.html.twig" %}
+
+{% block title %}Categories list{% endblock %}
+
+{% block type_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('category_add') }}">
+            <span class="glyphicon glyphicon-plus"></span> Add a category
+        </a>
+    </div>
+
+    <h2 class="sub-header">Categories list</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-10">Category name</th>
+                <th class="col-md-1">Actions</th>
+            </tr>
+            </thead>
+                {% if categories is not empty %}
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ category.name }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('category_edit', { 'id': category.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a class="btn btn-danger" href="{{ path('category_delete', { 'id': category.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td class="text-center" colspan="5">There is no categories.</td>
+                {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

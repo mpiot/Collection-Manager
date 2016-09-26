@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -18,6 +19,12 @@ class WildStrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('biologicalOriginCategory', EntityType::class, array(
+                'class' => 'AppBundle\Entity\BiologicalOriginCategory',
+                'choice_label' => 'name',
+                'placeholder' => '-- Choose a category --',
+                'label' => 'Category',
+            ))
             ->add('biologicalOrigin', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Galeria melonella, Insect',
@@ -50,7 +57,7 @@ class WildStrainType extends AbstractType
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

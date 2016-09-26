@@ -2,6 +2,7 @@
     {% block specialFields %}
         <fieldset>
             <legend>Biological origin</legend>
+            {{ form_row(form.biologicalOriginCategory) }}
             {{ form_row(form.biologicalOrigin) }}
             {{ form_row(form.source) }}
         </fieldset>
