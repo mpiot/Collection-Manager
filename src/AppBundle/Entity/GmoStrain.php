@@ -42,11 +42,16 @@ class GmoStrain extends Strain
      */
     private $tubes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="gmoStrain", cascade={"persist", "remove"})
+     */
+    private $strainPlasmids;
 
     public function __construct()
     {
         parent::__construct();
         $this->tubes = new ArrayCollection();
+        $this->strainPlasmids = new ArrayCollection();
     }
 
     /**
@@ -109,21 +114,37 @@ class GmoStrain extends Strain
 
     public function addTube(Tube $tube)
     {
-        if (!$this->tubes->contains($tube)) {
-            $tube->setGmoStrain($this);
-            $this->tubes->add($tube);
-        }
+        $tube->setGmoStrain($this);
+        $this->tubes->add($tube);
     }
 
     public function removeTube(Tube $tube)
     {
-        if ($this->tubes->contains($tube)) {
-            $this->tubes->removeElement($tube);
-        }
+        $this->tubes->removeElement($tube);
     }
 
     public function getTubes()
     {
         return $this->tubes;
+    }
+
+    public function addStrainPlasmid(StrainPlasmid $strainPlasmid)
+    {
+        $strainPlasmid->setGmoStrain($this);
+        $this->strainPlasmids->add($strainPlasmid);
+
+        return $this;
+    }
+
+    public function removeStrainPlasmid(StrainPlasmid $strainPlasmid)
+    {
+            $this->strainPlasmids->removeElement($strainPlasmid);
+
+        return $this;
+    }
+
+    public function getStrainPlasmids()
+    {
+        return $this->strainPlasmids;
     }
 }

@@ -125,3 +125,11 @@ body {
 table tr[data-href] {
     cursor: pointer;
 }
+
+/*
+ * Fasta sequence
+ */
+.fasta {
+    font-family: "Courier New", Courier, monospace;
+    word-break: break-all;
+}

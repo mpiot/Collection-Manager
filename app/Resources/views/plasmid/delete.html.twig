@@ -1,0 +1,31 @@
+{% extends "plasmid/base.html.twig" %}
+
+{% block title %}Delete the plasmid: {{ plasmid.name }}{% endblock %}
+
+{% block plasmid_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('plasmid_index') }}">
+            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Plasmids list
+        </a>
+    </div>
+
+    <h2 class="sub-header">Delete a plasmid</h2>
+
+    <div class="alert alert-danger" role="alert"><b>ATTENTION !</b> You delete a plasmid !</div>
+
+    <p>Do you confirm the deletion of the plasmid: <b>{{ plasmid.autoName }} - {{ plasmid.name }}</b> ?</p>
+
+    <form action="{{ path('plasmid_delete', {'id': plasmid.id}) }}" method="post">
+        {# Ceci va générer le champ CSRF #}
+        {{ form_rest(form) }}
+
+        <a class="btn btn-success" href="{{ path('plasmid_index') }}">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            <b>Cancel !</b> Comeback in a safe area :)
+        </a>
+
+        {# Ici j'ai écrit le bouton de soumission à la main #}
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+
+{% endblock %}

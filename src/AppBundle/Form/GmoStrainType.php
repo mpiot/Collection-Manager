@@ -6,6 +6,7 @@ use AppBundle\Entity\Genus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -23,6 +24,13 @@ class GmoStrainType extends AbstractType
         $builder
             ->add('description')
             ->add('genotype')
+            ->add('strainPlasmids', CollectionType::class, array(
+                'entry_type' => StrainPlasmidType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'required' => false,
+            ))
         ;
     }
     

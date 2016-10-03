@@ -17,3 +17,7 @@
 /web/css/compiled/*
 /web/js/compiled/*
 docker-compose.yml
+/web/files/*
+!/web/files/genBankFiles
+/web/files/genBankFiles/*
+!/web/files/various

@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Plasmid
@@ -24,24 +26,37 @@ class Plasmid
     /**
      * @var string
      *
-     * @ORM\Column(name="systematicName", type="string", length=255, unique=true)
+     * @ORM\Column(name="autoName", type="string", length=255, unique=true)
      */
-    private $systematicName;
+    private $autoName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="usualName", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $usualName;
+    private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="sequence", type="text")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\GenBankFile", mappedBy="plasmid", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid
      */
-    private $sequence;
+    private $genBankFile;
 
+    private $addGenBankFile = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="plasmid")
+     */
+    private $strainPlasmids;
+
+    public function __construct()
+    {
+        $this->strainPlasmids = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -54,15 +69,15 @@ class Plasmid
     }
 
     /**
-     * Set systematicName
+     * Set autoName
      *
-     * @param string $systematicName
+     * @param string $autoName
      *
      * @return Plasmid
      */
-    public function setSystematicName($systematicName)
+    public function setAutoName($autoName)
     {
-        $this->systematicName = $systematicName;
+        $this->autoName = $autoName;
 
         return $this;
     }
@@ -72,57 +87,80 @@ class Plasmid
      *
      * @return string
      */
-    public function getSystematicName()
+    public function getAutoName()
     {
-        return $this->systematicName;
+        return $this->autoName;
     }
 
     /**
-     * Set usualName
+     * Set name
      *
-     * @param string $usualName
+     * @param string $name
      *
      * @return Plasmid
      */
-    public function setUsualName($usualName)
+    public function setName($name)
     {
-        $this->usualName = $usualName;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get usualName
+     * Get name
      *
      * @return string
      */
-    public function getUsualName()
+    public function getName()
     {
-        return $this->usualName;
+        return $this->name;
     }
 
     /**
-     * Set sequence
+     * Set genBank file.
      *
-     * @param string $sequence
+     * @param string $genBankFile
      *
      * @return Plasmid
      */
-    public function setSequence($sequence)
+    public function setGenBankFile($genBankFile)
     {
-        $this->sequence = $sequence;
+        $this->genBankFile = $genBankFile;
 
         return $this;
     }
 
     /**
-     * Get sequence
+     * Get genBank file.
      *
      * @return string
      */
-    public function getSequence()
+    public function getGenBankFile()
     {
-        return $this->sequence;
+        return $this->genBankFile;
+    }
+
+    /**
+     * @param $addManual
+     * @return $this
+     */
+    public function setAddGenBankFile($addGenBankFile)
+    {
+        $this->addGenBankFile = $addGenBankFile;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddGenBankFile()
+    {
+        return $this->addGenBankFile;
+    }
+
+    public function getStrainPlasmids()
+    {
+        return $this->strainPlasmids;
     }
 }
-

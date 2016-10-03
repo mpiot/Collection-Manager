@@ -1,0 +1,31 @@
+{% extends "plasmid/base.html.twig" %}
+
+{% block title %}Plasmid{% endblock %}
+
+{% block plasmid_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('plasmid_index') }}">
+            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Plasmids list
+        </a>
+    </div>
+
+    <h2 class="sub-header">Edit the plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}</h2>
+
+    {{ include('plasmid/form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            if($('input[name$="[addGenBankFile]"][value=0]').prop('checked'))
+            {
+                $("#genBank-file-field").hide();
+            }
+
+            $('input[name$="[addGenBankFile]"]').change(function(){
+                $("#genBank-file-field").toggle("slow");
+            });
+        });
+    </script>
+{% endblock %}

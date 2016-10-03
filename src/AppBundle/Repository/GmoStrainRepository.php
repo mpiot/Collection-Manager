@@ -24,6 +24,10 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
     public function findOneWithAll($strain)
     {
         $query = $this->createQueryBuilder('gmo')
+            ->leftJoin('gmo.strainPlasmids', 'strainPlasmids')
+                ->addSelect('strainPlasmids')
+            ->leftJoin('strainPlasmids.plasmid', 'plasmid')
+                ->addSelect('plasmid')
             ->leftJoin('gmo.species', 'species')
                 ->addSelect('species')
             ->leftJoin('species.genus', 'genus')

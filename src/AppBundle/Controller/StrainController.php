@@ -4,9 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\WildStrain;
-use AppBundle\Form\GmoStrainEditType;
 use AppBundle\Form\GmoStrainType;
-use AppBundle\Form\WildStrainEditType;
 use AppBundle\Form\WildStrainType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -70,12 +68,13 @@ class StrainController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $strain = new GmoStrain();
+
         $strainUsualNames = $em->getRepository('AppBundle:GmoStrain')->findAllUsualName();
 
         $form = $this->createForm(GmoStrainType::class, $strain);
         
         $form->handleRequest($request);
-        
+
         if ($form->isValid()) {
 
             // Manually persist the tube, because with cascade, doctrine want persist the strain before
@@ -86,8 +85,6 @@ class StrainController extends Controller
             }
 
             $em->persist($strain);
-            dump($strain->getTubes()->first()->getName());
-
             $em->flush();
 
             $this->addFlash('success', 'The strain has been added successfully: '.$strain->getSystematicName());
@@ -149,7 +146,7 @@ class StrainController extends Controller
 
         $strainUsualNames = $em->getRepository('AppBundle:GmoStrain')->findAllUsualName();
 
-        $form = $this->createForm(GmoStrainEditType::class, $strain);
+        $form = $this->createForm(GmoStrainType::class, $strain);
 
         $form->handleRequest($request);
 
@@ -181,7 +178,7 @@ class StrainController extends Controller
 
         $strainUsualNames = $em->getRepository('AppBundle:WildStrain')->findAllUsualName();
 
-        $form = $this->createForm(WildStrainEditType::class, $strain);
+        $form = $this->createForm(WildStrainType::class, $strain);
 
         $form->handleRequest($request);
 

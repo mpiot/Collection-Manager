@@ -2,15 +2,13 @@
 
 namespace AppBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WildStrainEditType extends AbstractType
+class StrainPlasmidType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,33 +17,27 @@ class WildStrainEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('address')
-            ->add('country', CountryType::class)
-            ->add('biologicalOrigin')
-            ->add('biologicalOriginCategory', EntityType::class, array(
-                'class' => 'AppBundle\Entity\BiologicalOriginCategory',
+            ->add('plasmid', EntityType::class, array(
+                'class' => 'AppBundle\Entity\Plasmid',
                 'choice_label' => 'name',
-                'placeholder' => '-- Choose a category --',
-                'label' => 'Category',
+                'placeholder' => '-- Choice a plasmid --',
             ))
-            ->add('source')
-            ->add('latitude')
-            ->add('longitude')
+            ->add('state', ChoiceType::class, array(
+                'choices' => array(
+                    'Replicative' => 'replicative',
+                    'Integrative' => 'integrative',
+                ),
+            ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\WildStrain'
+            'data_class' => 'AppBundle\Entity\StrainPlasmid'
         ));
-    }
-
-    public function getParent()
-    {
-        return StrainEditType::class;
     }
 }

@@ -1,0 +1,58 @@
+{% extends "plasmid/base.html.twig" %}
+
+{% block title %}Plasmid{% endblock %}
+
+{% block plasmid_body %}
+<div>
+    <a class="btn btn-default" href="{{ path('plasmid_add') }}">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a plasmid
+    </a>
+</div>
+
+<h2 class="sub-header">Plasmids list</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="col-md-1">#</th>
+            <th class="col-md-2">Auto name</th>
+            <th class="col-md-2">Name</th>
+            <th class="col-md-6">File</th>
+            <th class="col-md-1">Actions</th>
+        </tr>
+        </thead>
+            {% if plasmids is not empty %}
+                {% for plasmid in plasmids %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('plasmid_view', { 'id': plasmid.id }) }}">{{ plasmid.autoName }}</a></td>
+                        <td>{{ plasmid.name }}</td>
+                        <td>
+                            {% if plasmid.genBankFile is not null %}
+                                <a href="{{ asset(plasmid.genBankFile.webPath) }}">
+                                    <span class=" glyphicon glyphicon-download" aria-hidden="true"></span> GenBank file
+                                </a>
+                            {% else %}
+                                No GenBank file
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                <a class="btn btn-danger" href="{{ path('plasmid_delete', { 'id': plasmid.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5"  style="text-align:center;">There is no plasmids.</td>
+                </tr>
+            {% endif %}
+        <tbody>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
