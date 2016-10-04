@@ -1,5 +1,7 @@
 function showHide(linkContainer, container) {
 
+    console.log('call');
+
     var $lessLink=$('<a><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></a>');
     var $moreLink=$('<a><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a>');
 

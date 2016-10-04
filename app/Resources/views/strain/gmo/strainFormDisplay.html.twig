@@ -3,8 +3,3 @@
 {% block form %}
     {% include 'strain/gmo/strainForm.html.twig' %}
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script async defer src="{{ asset('js/strainPlasmids-collection.js') }}"></script>
-{% endblock %}
