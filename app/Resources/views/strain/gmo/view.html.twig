@@ -26,36 +26,24 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">Integrative plasmids</div>
-                    {% if strain.strainPlasmids is not empty %}
-                        <ul class="list-group">
-                            {% for strainPlasmid in strain.strainPlasmids if 'integrative' == strainPlasmid.state %}
-                                <li class="list-group-item">
-                                    <a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id}) }}">{{ strainPlasmid.plasmid.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div class="panel-body">
-                            There is no plasmids.
-                        </div>
-                    {% endif %}
+                    <ul class="list-group">
+                        {% for strainPlasmid in strain.strainPlasmids if 'integrative' == strainPlasmid.state %}
+                            <li class="list-group-item">
+                                <a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id}) }}">{{ strainPlasmid.plasmid.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
 
                 <div class="panel panel-default">
                     <div class="panel-heading">Replicative plasmids</div>
-                    {% if strain.strainPlasmids is not empty %}
-                        <ul class="list-group">
-                            {% for strainPlasmid in strain.strainPlasmids if 'replicative' == strainPlasmid.state %}
-                                <li class="list-group-item">
-                                    <a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id}) }}">{{ strainPlasmid.plasmid.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div class="panel-body">
-                            There is no plasmids.
-                        </div>
-                    {% endif %}
+                    <ul class="list-group">
+                        {% for strainPlasmid in strain.strainPlasmids if 'replicative' == strainPlasmid.state %}
+                            <li class="list-group-item">
+                                <a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id}) }}">{{ strainPlasmid.plasmid.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
         {% endblock %}
     {% endembed %}
