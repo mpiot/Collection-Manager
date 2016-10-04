@@ -25,7 +25,7 @@
             {% stylesheets
               'css/ie10-viewport-bug-workaround.css'
               'css/bootstrap-modifications.css'
-              filter='cssrewrite' output='css/compiled/app.css'
+            filter='?uglifycss' filter='cssrewrite' output='css/compiled/app.css'
              %}
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
@@ -129,7 +129,7 @@
                 'js/species-synonyms-collection.js'
                 'js/strain-tubes-collection.js'
                 'js/strain_plasmids-collection.js'
-                output='js/compiled/app.js'
+                filter='?uglifyjs2' output='js/compiled/app.js'
             %}
             <script src="{{ asset_url }}"></script>
             {% endjavascripts %}

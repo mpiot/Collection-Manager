@@ -37,8 +37,16 @@ framework:
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
+    # the path to the node executable
+    node: /usr/bin/nodejs
     filters:
         cssrewrite: ~
+        uglifycss:
+            # the path to the uglifycss executable
+            bin: /usr/local/bin/uglifycss
+        uglifyjs2:
+            # the path to the uglifyjs executable
+            bin: /usr/local/bin/uglifyjs
 
 # Twig Configuration
 twig:
