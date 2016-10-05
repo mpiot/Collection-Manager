@@ -20,13 +20,14 @@ class StrainPlasmidType extends AbstractType
             ->add('plasmid', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Plasmid',
                 'choice_label' => 'name',
-                'placeholder' => '-- Choice a plasmid --',
+                'placeholder' => '-- select a plasmid --',
             ))
             ->add('state', ChoiceType::class, array(
                 'choices' => array(
                     'Replicative' => 'replicative',
                     'Integrative' => 'integrative',
                 ),
+                'placeholder' => '-- select a state --',
             ))
         ;
     }
