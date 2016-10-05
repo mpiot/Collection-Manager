@@ -119,16 +119,7 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
             {% javascripts
-                'js/ie10-viewport-bug-workaround.js'
-                'js/show-hide.js'
-                'js/quick-search.js'
-                'js/advanced-search.js'
-                'js/search-results.js'
-                'js/plasmid-add-gbk-file.js'
-                'js/strain-species-dynamic.js'
-                'js/species-synonyms-collection.js'
-                'js/strain-tubes-collection.js'
-                'js/strain_plasmids-collection.js'
+                'js/*'
                 filter='?uglifyjs2' output='js/compiled/app.js'
             %}
             <script src="{{ asset_url }}"></script>
