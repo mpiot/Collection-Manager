@@ -2,15 +2,11 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Genus;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GmoStrainType extends AbstractType
@@ -29,6 +25,22 @@ class GmoStrainType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'required' => false,
+            ))
+            ->add('parents', CollectionType::class, array(
+                'entry_type' => EntityType::class,
+                'entry_options' => array(
+                    'class' => 'AppBundle\Entity\GmoStrain',
+                    'choice_label' => 'fullName',
+                    'placeholder' => '-- select a parent --',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('strain')
+                            ->orderBy('strain.systematicName', 'ASC');
+                    }
+                ),
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
                 'required' => false,
             ))
         ;

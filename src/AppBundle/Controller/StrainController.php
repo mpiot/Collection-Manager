@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class StrainController
@@ -256,5 +257,32 @@ class StrainController extends Controller
             'form' => $form->createView(),
             'typeOfStrain' => 'wild',
         ));
+    }
+
+    /**
+     * @Route("/parental/{id}", name="strain_parental")
+     */
+    public function parentalStrainsAction(GmoStrain $gmoStrain)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $strain = $em->getRepository('AppBundle:GmoStrain')->findParents($gmoStrain);
+
+        $array['name'] = $strain->getFullName();
+
+        $c = 0;
+        foreach ($strain->getChildren() as $child) {
+            $array['children'][$c]['name'] = $child->getFullName();
+
+            foreach($child->getChildren() as $child2) {
+                $array['children'][$c]['children'][]['name'] = $child2->getFullName();
+            }
+
+            $c++;
+        }
+
+        $response = new Response(json_encode($array));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }

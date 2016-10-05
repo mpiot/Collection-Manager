@@ -47,11 +47,24 @@ class GmoStrain extends Strain
      */
     private $strainPlasmids;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\GmoStrain", inversedBy="children")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $parents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="parents")
+     */
+    private $children;
+
     public function __construct()
     {
         parent::__construct();
         $this->tubes = new ArrayCollection();
         $this->strainPlasmids = new ArrayCollection();
+        $this->parents = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -138,7 +151,7 @@ class GmoStrain extends Strain
 
     public function removeStrainPlasmid(StrainPlasmid $strainPlasmid)
     {
-            $this->strainPlasmids->removeElement($strainPlasmid);
+        $this->strainPlasmids->removeElement($strainPlasmid);
 
         return $this;
     }
@@ -146,5 +159,25 @@ class GmoStrain extends Strain
     public function getStrainPlasmids()
     {
         return $this->strainPlasmids;
+    }
+
+    public function addParent(GmoStrain $strain)
+    {
+        $this->parents->add($strain);
+    }
+
+    public function removeParent(GmoStrain $strain)
+    {
+        $this->parents->removeElement($strain);
+    }
+
+    public function getParents()
+    {
+        return $this->parents;
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

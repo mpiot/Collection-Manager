@@ -46,4 +46,18 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    public function findParents($strain)
+    {
+        $query = $this->createQueryBuilder('gmo')
+            ->leftJoin('gmo.parents', 'parents')
+                ->addSelect('parents')
+            ->leftJoin('gmo.children', 'children')
+                ->addSelect('children')
+            ->where('gmo = :strain')
+            ->setParameter('strain', $strain)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

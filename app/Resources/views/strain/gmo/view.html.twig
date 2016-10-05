@@ -1,5 +1,26 @@
 {% extends "strain/base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        .node {
+            font: 10px sans-serif;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+    </style>
+{% endblock %}
+
 {% block title %}Strain {{ strain.systematicName }} - {{ strain.usualName }}{% endblock %}
 
 {% block strain_body %}
@@ -45,6 +66,83 @@
                         {% endfor %}
                     </ul>
                 </div>
+            </div>
         {% endblock %}
     {% endembed %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Tree</div>
+                <div class="panel-body">
+                    Parents:
+                    <ul>
+                        {% for parent in strain.parents %}
+                            <li><a href="{{ path('strain_gmo_view', { 'id': parent.id }) }}">{{ parent.fullName }}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                    Children:
+                    <ul>
+                        {% for child in strain.children %}
+                            <li><a href="{{ path('strain_gmo_view', { 'id': child.id }) }}">{{ child.fullName }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="panel-body" id="tree"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script>
+        var width = 800,
+            height = 400;
+
+        var tree = d3.layout.tree()
+            .size([height, width - 300]);
+
+        var diagonal = d3.svg.diagonal()
+            .projection(function(d) { return [d.y, d.x]; });
+
+        var svg = d3.select("#tree").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(150,0)");
+
+        d3.json("{{ path('strain_parental', {'id': strain.id}) }}", function(error, json) {
+          if (error) throw error;
+
+          var nodes = tree.nodes(json),
+              links = tree.links(nodes);
+
+          var link = svg.selectAll("path.link")
+              .data(links)
+            .enter().append("path")
+              .attr("class", "link")
+              .attr("d", diagonal);
+
+          var node = svg.selectAll("g.node")
+              .data(nodes)
+            .enter().append("g")
+              .attr("class", "node")
+              .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+          node.append("circle")
+              .attr("r", 4.5);
+
+          node.append("text")
+              .attr("dx", function(d) { return d.children ? -8 : 8; })
+              .attr("dy", 3)
+              .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
+              .text(function(d) { return d.name; });
+        });
+
+        d3.select(self.frameElement).style("height", height + "px");
+    </script>
 {% endblock %}
