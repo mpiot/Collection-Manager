@@ -307,6 +307,11 @@ class Strain
         return $this->species;
     }
 
+    public function getFullName()
+    {
+        return $this->systematicName.' - '.$this->usualName;
+    }
+
     /**
      * Before persist.
      *
