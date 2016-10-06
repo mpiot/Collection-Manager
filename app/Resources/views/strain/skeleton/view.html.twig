@@ -18,8 +18,14 @@
                 <li class="list-group-item">Usual name: {{ strain.usualName }}</li>
                 <li class="list-group-item">Systematic name: {{ strain.systematicName }}</li>
                 <li class="list-group-item">Created on: {{ strain.creationDate|date("Y/m/d") }}</li>
-                <li class="list-group-item">Deleted: {{ strain.deleted ? '<span style="color: red;">Yes</span>' : '<span style="color: green">No</span>' }}</li>
-                <li class="list-group-item">Deleted on: {{ strain.deletionDate ? strain.deletionDate|date("Y/m/d") : "--" }}</li>
+                <li class="list-group-item">
+                    Deleted:
+                    {% if strain.deleted %}
+                        <span style="color: red;">Yes</span> on {{ strain.deletionDate|date("Y/m/d") }}
+                    {% else %}
+                        <span style="color: green">No</span>
+                    {% endif %}
+                </li>
             </ul>
         </div>
     </div>
