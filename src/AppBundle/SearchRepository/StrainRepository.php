@@ -8,18 +8,23 @@ class StrainRepository extends Repository
 {
     public function search($search, $deleted = false, $country = null)
     {
+        // Create a Bool query
         $boolQuery = new \Elastica\Query\BoolQuery();
 
-        $systematicNameQuery = new \Elastica\Query\Match();
+        // Request need to match at least on one ShouldQuery
+        $boolQuery->setMinimumNumberShouldMatch(1);
+
+        $systematicNameQuery = new  \Elastica\Query\Match();
         $systematicNameQuery->setFieldQuery('systematicName', $search);
-        $systematicNameQuery->setFieldParam('systematicName', 'analyzer', 'custom_search_analyzer');
+        $systematicNameQuery->setFieldFuzziness('systematicName', 'AUTO');
         $boolQuery->addShould($systematicNameQuery);
 
-        $usualNameQuery = new \Elastica\Query\Match();
+        $usualNameQuery = new  \Elastica\Query\Match();
         $usualNameQuery->setFieldQuery('usualName', $search);
-        $usualNameQuery->setFieldParam('usualName', 'analyzer', 'custom_search_analyzer');
+        $usualNameQuery->setFieldFuzziness('usualName', 'AUTO');
         $boolQuery->addShould($usualNameQuery);
 
+        // Bool to string
         $deleted = $deleted ? 'true' : 'false';
 
         $deletedQuery = new \Elastica\Query\Terms();
