@@ -6,25 +6,7 @@ use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function findByNames($search)
-    {
-        $boolQuery = new \Elastica\Query\BoolQuery();
-
-        $fieldQuery = new \Elastica\Query\Match();
-        $fieldQuery->setFieldQuery('systematicName', $search);
-        $fieldQuery->setFieldParam('systematicName', 'analyzer', 'custom_search_analyzer');
-        $boolQuery->addShould($fieldQuery);
-
-        $fieldQuery2 = new \Elastica\Query\Match();
-        $fieldQuery2->setFieldQuery('usualName', $search);
-        $fieldQuery2->setFieldParam('usualName', 'analyzer', 'custom_search_analyzer');
-        $boolQuery->addShould($fieldQuery2);
-
-        // build $query with Elastica objects
-        return $this->find($boolQuery);
-    }
-
-    public function findByNamesWithCountry($search, $country)
+    public function search($search, $deleted = false, $country = null)
     {
         $boolQuery = new \Elastica\Query\BoolQuery();
 
@@ -38,11 +20,19 @@ class StrainRepository extends Repository
         $usualNameQuery->setFieldParam('usualName', 'analyzer', 'custom_search_analyzer');
         $boolQuery->addShould($usualNameQuery);
 
-        $countryQuery = new \Elastica\Query\Terms();
-        // Elastica index all in lowercase, but it try to mach uppercase on lowercase and never work
-        // To-do: create index and search analyzer
-        $countryQuery->setTerms('country', [strtolower($country)]);
-        $boolQuery->addMust($countryQuery);
+        $deleted = $deleted ? 'true' : 'false';
+
+        $deletedQuery = new \Elastica\Query\Terms();
+        $deletedQuery->setTerms('deleted', [$deleted]);
+        $boolQuery->addMust($deletedQuery);
+
+        if (null !== $country) {
+            $countryQuery = new \Elastica\Query\Terms();
+            // Elastica index all in lowercase, but it try to mach uppercase on lowercase and never work
+            // To-do: create index and search analyzer
+            $countryQuery->setTerms('country', [strtolower($country)]);
+            $boolQuery->addMust($countryQuery);
+        }
 
         // build $query with Elastica objects
         return $this->find($boolQuery);

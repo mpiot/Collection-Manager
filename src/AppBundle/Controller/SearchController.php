@@ -26,10 +26,10 @@ class SearchController extends Controller
     {
         $repositoryManager = $this->container->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-        $results['gmo'] = $repository->findByNames($search);
+        $results['gmo'] = $repository->search($search);
 
         $repository2 = $repositoryManager->getRepository('AppBundle:WildStrain');
-        $results['wild'] = $repository2->findByNames($search);
+        $results['wild'] = $repository2->search($search);
 
         return $this->render('search\quickSearch.html.twig', array(
             'search' => $search,
@@ -53,23 +53,20 @@ class SearchController extends Controller
 
             $repositoryManager = $this->container->get('fos_elastica.manager.orm');
 
+            $results = [];
+
             // Search for GmoStrain
             if (in_array('gmo', $data['strainCategory'])) {
                 $gmoRepository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-                $results['gmo'] = $gmoRepository->findByNames($data['search']);
+                //$results['gmo'] = $gmoRepository->findByNames($data['search']);
+                $results['gmo'] = $gmoRepository->search($data['search'], $data['deleted']);
             }
 
             // Search for WildStrain
             if (in_array('wild', $data['strainCategory'])) {
                 // Define the repository
                 $wildRepository = $repositoryManager->getRepository('AppBundle:WildStrain');
-
-                // Is a country defined ?
-                if (null !== $data['country']) { // Yes, search only with the country
-                    $results['wild'] = $wildRepository->findByNamesWithCountry($data['search'], $data['country']);
-                } else { // Else just search with name
-                    $results['wild'] = $wildRepository->findByNames($data['search']);
-                }
+                $results['wild'] = $wildRepository->search($data['search'], $data['deleted'], $data['country']);
             }
 
             return $this->render('search/advancedSearch.html.twig', array(

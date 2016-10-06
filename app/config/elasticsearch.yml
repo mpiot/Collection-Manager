@@ -50,6 +50,7 @@ fos_elastica:
                         usualName:
                             analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
+                        deleted:
                     persistence:
                       driver: orm
                       model: AppBundle\Entity\GmoStrain
@@ -67,6 +68,7 @@ fos_elastica:
                             analyzer : custom_index_analyzer
                             search_analyzer : custom_search_analyzer
                         country:
+                        deleted:
                     persistence:
                       driver: orm
                       model: AppBundle\Entity\WildStrain
