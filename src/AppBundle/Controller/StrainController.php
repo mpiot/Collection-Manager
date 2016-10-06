@@ -77,14 +77,6 @@ class StrainController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
-            // Manually persist the tube, because with cascade, doctrine want persist the strain before
-            // but we need persist tube before, to generate the name of each tube
-            // because the strain name is the name of the first tube
-            foreach($strain->getTubes() as $tube) {
-                $em->persist($tube);
-            }
-
             $em->persist($strain);
             $em->flush();
 
@@ -114,13 +106,6 @@ class StrainController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // Manually persist the tube, because with cascade, doctrine want persist the strain before
-            // but we need persist tube before, to generate the name of each tube
-            // because the strain name is the name of the first tube
-            foreach($strain->getTubes() as $tube) {
-                $em->persist($tube);
-            }
-
             $em->persist($strain);
             $em->flush();
 

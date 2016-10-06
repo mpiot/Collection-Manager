@@ -289,6 +289,8 @@ class Strain
     }
 
     /**
+     * Set species
+     *
      * @param Species $species
      * @return $this
      */
@@ -300,6 +302,8 @@ class Strain
     }
 
     /**
+     * Get species
+     *
      * @return Species
      */
     public function getSpecies()
@@ -307,17 +311,20 @@ class Strain
         return $this->species;
     }
 
+    /**
+     * Get full name
+     *
+     * @return string
+     */
     public function getFullName()
     {
         return $this->systematicName.' - '.$this->usualName;
     }
 
     /**
-     * Before persist.
-     *
-     * @ORM\PrePersist()
+     * Generate the auto name
      */
-    public function postPersist()
+    public function generateAutoName()
     {
         // The automatic name of the strain is the name of the first tube
         // when the strain is registred the first time

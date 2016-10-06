@@ -27,3 +27,8 @@ services:
         class: AppBundle\Form\StrainType
         arguments: ["@doctrine.orm.entity_manager"]
         tags: [{ name: form.type }]
+
+    app.event_listener.strain:
+        class: AppBundle\EventListener\StrainListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
