@@ -5,8 +5,9 @@
             <table class="table table-striped">
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-6">Auto Name</th>
-                    <th class="col-md-6">Name</th>
+                    <th class="col-md-5">Auto Name</th>
+                    <th class="col-md-5">Name</th>
+                    <th class="col-md-1">Actions</th>
                 </tr>
                 {% if results['gmo'] is defined and results['gmo'] is not empty %}
                     {% for result in results['gmo'] %}
@@ -14,6 +15,16 @@
                             <td>{{ loop.index }}</td>
                             <td><a href="{{ path('strain_gmo_view', { 'id': result.id }) }}">{{ result.systematicName }}</a></td>
                             <td>{{ result.usualName }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('strain_gmo_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    {% if result.deleted %}
+                                        <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    {% else %}
+                                        <a class="btn btn-danger" href="{{ path('strain_gmo_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    {% endif %}
+                                </div>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% else %}
@@ -31,8 +42,9 @@
             <table class="table table-striped">
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-6">Auto Name</th>
-                    <th class="col-md-6">Name</th>
+                    <th class="col-md-5">Auto Name</th>
+                    <th class="col-md-5">Name</th>
+                    <th class="col-md-1">Actions</th>
                 </tr>
                 {% if results['wild'] is defined and results['wild'] is not empty %}
                     {% for result in results['wild'] %}
@@ -40,6 +52,16 @@
                             <td>{{ loop.index }}</td>
                             <td><a href="{{ path('strain_wild_view', { 'id': result.id }) }}">{{ result.systematicName }}</a></td>
                             <td>{{ result.usualName }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('strain_wild_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    {% if result.deleted %}
+                                        <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    {% else %}
+                                        <a class="btn btn-danger" href="{{ path('strain_wild_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    {% endif %}
+                                </div>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% else %}
@@ -51,4 +73,3 @@
         </div>
     </div>
 {% endif %}
-
