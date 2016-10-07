@@ -7,8 +7,8 @@ use AppBundle\Form\PlasmidType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Utils\PlasmidGenBank;
 
 /**
  * Class plasmidController
@@ -37,101 +37,12 @@ class PlasmidController extends Controller
      */
     public function viewAction(Plasmid $plasmid)
     {
-        // Get the plasmid file
-        if (null !== $plasmid->getGenBankFile()) {
-            $finder = new Finder();
-            $finder->in('files/genBankFiles')->files()->name($plasmid->getGenBankFile()->getPath());
-
-
-            foreach ($finder as $file) {
-                $gbkFile = $file->getContents();
-            }
-
-            function Gbk2Array($file) {
-                $lines = explode("\n", $file);
-                $array = [];
-                //$previousCat = null;
-                //$arraySwitched = false;
-
-                $previousFeature = null;
-                $i = 0;
-
-                foreach ($lines as $line) {
-                    // First we want Features data, they starts by 21 spaces
-                    if (preg_match('/^ {5}([\w]+) +(?:(complement)\()?(\d+)..(\d+)\)?/', $line, $matches)) {
-                        $previousFeature = $i++;
-
-                        // The feature type: source, misc_feature, promoter, ...
-                        $array['features'][]['type'] = $matches[1];
-
-                        // The position: an array like [sens/reverse, start, end]
-                        $array['features'][$i-1]['position'] = [
-                            'sens' => ('complement' === $matches[2]) ? 'reverse' : 'sens',
-                            'start' => $matches[3],
-                            'end' => $matches[4],
-                        ];
-
-                        if ('complement' === $matches[2]) {
-                            $array['features'][$i-1]['position'] = [
-                                'start' => $matches[4],
-                                'end' => $matches[3],
-                            ];
-                        } else {
-                            $array['features'][$i-1]['position'] = [
-                                'start' => $matches[3],
-                                'end' => $matches[4],
-                            ];
-                        }
-                    }
-
-                    // In second, we want other informations on features (organism, mol_type, label, gene, translation)
-                    // all of this depend of the feature type
-                    // If it's all but no a translation
-                    elseif (preg_match('/^ {21}\/([a-zA-Z_]+)=(?:"([\w\d _.\-\(\)]+)"|(?:(\d)))/', $line, $matches)) {
-                        if('codon_start' === $matches[1]) {
-                            $array['features'][$i-1]['codon_start'] = $matches[3];
-                        } elseif ('note' === $matches[1]) {
-                            $array['features'][$i-1]['note'][] = $matches[2];
-                        }
-                        else {
-                            $array['features'][$i-1][$matches[1]] = $matches[2];
-                        }
-                    }
-
-                    // If it's a translation
-                    elseif (preg_match('/ {21}(?:\/translation=")?([A-Z]+)/', $line, $matches)) {
-                        if (array_key_exists('translation', $array['features'][$i-1])) {
-                            $array['features'][$i-1]['translation'] .= $matches[1];
-                        } else {
-                            $array['features'][$i-1]['translation'] = $matches[1];
-                        }
-                    }
-
-                    // Finally, if it the sequence
-                    elseif (preg_match('/^ +\d+ ([\w ]+)/', $line, $matches)) {
-                        $fasta = preg_replace('/ |\d|\n/', '', $matches[1]);
-
-                        if (array_key_exists('fasta', $array)) {
-                            $array['fasta'] .= $fasta;
-                        } else {
-                            $array['fasta'] = $fasta;
-                        }
-                    }
-                }
-
-                return $array;
-            }
-
-            $gbkArray = Gbk2Array($gbkFile);
-        } else {
-            $gbkFile = null;
-            $gbkArray = null;
-        }
+        $gbk = new PlasmidGenBank($plasmid);
 
         return $this->render('plasmid/view.html.twig', array(
             'plasmid' => $plasmid,
-            'gbkFile' => $gbkFile,
-            'gbk' => $gbkArray,
+            'gbkFile' => $gbk->getFile(),
+            'gbk' => $gbk->getArray(),
         ));
     }
 

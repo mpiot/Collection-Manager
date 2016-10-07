@@ -31,56 +31,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="map">
-                        {% set height, width, paddingV, paddingH = 250, 800, 20, 50 %}
-                        {% set gap = width / gbk.fasta|length %}
-
-                        <svg height="{{ height + paddingV }}" width="{{ width + paddingH }}">
-                            <line x1="{{ paddingH/2 }}" y1="{{ height/2 }}" x2="{{ width + paddingH/2 }}" y2="{{ height/2 }}" style="stroke: black;stroke-width:1" />
-                            {% for feature in gbk.features %}
-                                {% if feature is iterable %}
-
-                                    {% set x1 = feature.position.start * gap + paddingH/2 %}
-                                    {% set x2 = feature.position.end * gap + paddingH/2 %}
-
-                                    {% if 'CDS' == feature.type %}
-                                        <defs>
-                                            <marker id="arrowhead{{ loop.index }}" markerWidth="4" markerHeight="5"
-                                                    refX="0" refY="1.5" orient="auto" style="fill: red;">
-                                                <polygon points="0 0, 4 1.5, 0 3" />
-                                            </marker>
-                                        </defs>
-                                        <line x1="{{ x1 }}" y1="{{ height/2 }}" x2="{{ x2 }}" y2="{{ height/2 }}" style="stroke: red;stroke-width:5" marker-end="url(#arrowhead{{ loop.index }})"/>
-                                        <text x="{{ (x1+x2) / 2 }}" y="{{ height/2 + 12 + 5 }}" style="text-anchor: middle;">
-                                            {% if feature.note is defined %}
-                                                {{ feature.note|first }}
-                                            {% else %}
-                                                No note
-                                            {% endif %}
-                                        </text>
-                                    {% elseif 'misc_feature' == feature.type %}
-                                        <line x1="{{ x1 }}" y1="{{ height/2 - 20 }}" x2="{{ x2 }}" y2="{{ height/2 -20 }}" style="stroke: blue;stroke-width:2"/>
-                                        <text x="{{ x1 + 10 }}" y="{{ height/2 -20 - 5 }}" style="text-anchor: end; writing-mode: sideways-lr;">
-                                            {% if feature.note is defined %}
-                                                {{ feature.note|first }}
-                                            {% else %}
-                                                No note
-                                            {% endif %}
-                                        </text>
-                                    {% elseif 'rep_origin' == feature.type %}
-                                        <circle cx="{{ (x1+x2)/2 }}" cy="{{ height/2 }}" r="4" stroke="red" fill="orange" />
-                                        <text x="{{ (x1+x2)/2 + 5 }}" y="{{ height/2 -20 - 5 }}" style="text-anchor: end; writing-mode: sideways-lr;">
-                                            ORI
-                                        </text>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                            <text x="{{ width/2 }}" y="{{ height - 10}}" style="text-anchor: middle;">
-                                {{ plasmid.name }}
-                            </text>
-                            <text x="{{ width/2 }}" y="{{ height + 10 }}" style="text-anchor: middle;">
-                                {{ gbk.fasta|length }} bp
-                            </text>
-                        </svg>
+                        {{ gbk|linearPlasmid }}
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="genbank">

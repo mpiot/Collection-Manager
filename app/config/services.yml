@@ -18,15 +18,22 @@ services:
         tags:
             - { name: twig.extension }
 
+    app.twig.plasmid_extension:
+        class: AppBundle\Twig\PlasmidExtension
+        tags:
+            - { name: twig.extension }
+
     app.form_type.tube:
         class: AppBundle\Form\TubeType
         arguments: ["@doctrine.orm.entity_manager"]
-        tags: [{ name: form.type }]
+        tags:
+            - { name: form.type }
 
     app.form_type.strain:
         class: AppBundle\Form\StrainType
         arguments: ["@doctrine.orm.entity_manager"]
-        tags: [{ name: form.type }]
+        tags:
+            - { name: form.type }
 
     app.event_listener.strain:
         class: AppBundle\EventListener\StrainListener
