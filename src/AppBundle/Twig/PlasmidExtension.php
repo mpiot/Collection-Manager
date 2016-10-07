@@ -107,8 +107,8 @@ class PlasmidExtension extends \Twig_Extension {
     {
         // Parametres graphiques
         $param = Array(
-            "canvas_width" => 800,
-            "canvas_height" => 800,
+            "canvas_width" => 500,
+            "canvas_height" => 500,
             "radius_factor" => 0.7,
             "origine" => 90,
             "feature_width" => 10,
