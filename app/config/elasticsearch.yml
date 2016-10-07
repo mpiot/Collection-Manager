@@ -11,7 +11,7 @@ fos_elastica:
                     analysis:
                         analyzer:
                             strain_name_analyzer:
-                                type: standard
+                                type: simple
             types:
                 gmoStrain:
                     mappings:

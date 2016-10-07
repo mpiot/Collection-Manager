@@ -17,24 +17,24 @@ class StrainRepository extends Repository
         $systematicNameQuery = new  \Elastica\Query\Match();
         $systematicNameQuery->setFieldQuery('systematicName', $search);
         $systematicNameQuery->setFieldFuzziness('systematicName', 'AUTO');
+        $systematicNameQuery->setFieldPrefixLength('systematicName', 0);
         $boolQuery->addShould($systematicNameQuery);
 
         $usualNameQuery = new  \Elastica\Query\Match();
         $usualNameQuery->setFieldQuery('usualName', $search);
         $usualNameQuery->setFieldFuzziness('usualName', 'AUTO');
+        $usualNameQuery->setFieldPrefixLength('usualName', 0);
         $boolQuery->addShould($usualNameQuery);
 
         // Bool to string
         $deleted = $deleted ? 'true' : 'false';
-
         $deletedQuery = new \Elastica\Query\Terms();
         $deletedQuery->setTerms('deleted', [$deleted]);
         $boolQuery->addMust($deletedQuery);
 
         if (null !== $country) {
             $countryQuery = new \Elastica\Query\Terms();
-            // Elastica index all in lowercase, but it try to mach uppercase on lowercase and never work
-            // To-do: create index and search analyzer
+            // We can't use an analyzer on a term, then we need to lower it here.
             $countryQuery->setTerms('country', [strtolower($country)]);
             $boolQuery->addMust($countryQuery);
         }
