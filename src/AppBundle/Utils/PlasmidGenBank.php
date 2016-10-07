@@ -34,8 +34,8 @@ class PlasmidGenBank
     public function getArray()
     {
         $lines = explode("\n", $this->getFile());
-        $array = [];
 
+        $array = [];
         $array['name'] = $this->plasmid->getAutoName().' - '.$this->plasmid->getName();
 
         $previousFeature = null;
@@ -51,22 +51,10 @@ class PlasmidGenBank
 
                 // The position: an array like [sens/reverse, start, end]
                 $array['features'][$i-1]['position'] = [
-                    'sens' => ('complement' === $matches[2]) ? 'reverse' : 'sens',
+                    'strand' => ('complement' === $matches[2]) ? -1 : 1,
                     'start' => $matches[3],
-                    'end' => $matches[4],
+                    'stop' => $matches[4],
                 ];
-
-                if ('complement' === $matches[2]) {
-                    $array['features'][$i-1]['position'] = [
-                        'start' => $matches[4],
-                        'stop' => $matches[3],
-                    ];
-                } else {
-                    $array['features'][$i-1]['position'] = [
-                        'start' => $matches[3],
-                        'stop' => $matches[4],
-                    ];
-                }
             }
 
             // In second, we want other informations on features (organism, mol_type, label, gene, translation)
@@ -103,6 +91,10 @@ class PlasmidGenBank
                 }
             }
         }
+
+        $array['length'] = strlen($array['fasta']);
+
+        dump($array);
 
         return $array;
     }

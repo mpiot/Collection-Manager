@@ -31,19 +31,34 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="map">
-                        {{ gbk|linearPlasmid }}
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#circular" aria-controls="circular" role="tab" data-toggle="tab">Circular</a></li>
+                            <li role="presentation"><a href="#linear" aria-controls="linear" role="tab" data-toggle="tab">Linear</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="circular">
+                                {{ gbk|circularPlasmid }}
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="linear">
+                                {{ gbk|linearPlasmid }}
+                            </div>
+                        </div>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="genbank">
-                    <pre>
-    {# On the left because pre display all spaces #}
-                        {{ gbkFile }}
-                    </pre>
+                        <pre>
+                            {# On the left because pre display all spaces #}
+                            {{ gbkFile }}
+                        </pre>
                     </div>
 
                     <div role="tabpanel" class="tab-pane fasta" id="fasta">
                         >>{{ plasmid.name }}<br>
-                        {{ gbk.fasta }}
+                        {{ gbk.fasta|upper }}
                     </div>
                 </div>
             </div>
