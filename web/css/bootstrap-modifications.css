@@ -24,6 +24,10 @@ body {
     border: 0;
 }
 
+.navbar .sign-up-button {
+    margin-right: 10px;
+}
+
 /*
  * Sidebar
  */
