@@ -79,6 +79,7 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
+    delivery_address: 'mathieu.piot@inra.fr' # Redirect mail to this address for tests
     transport: "%mailer_transport%"
     host:      "%mailer_host%"
     username:  "%mailer_user%"
@@ -91,3 +92,17 @@ fos_user:
     firewall_name: main
     user_class: AppBundle\Entity\User
     use_username_form_type: false
+    from_email:
+        address:        noreply@collection-manager.dev
+        sender_name:    CollectionManager
+    registration:
+        confirmation:
+            enabled: true
+            from_email:
+                address:        noreply@collection-manager.dev
+                sender_name:    CollectionManager Registration
+    resetting:
+        email:
+            from_email:
+                address:        noreply@collection-manager.dev
+                sender_name:    CollectionManager Resetting
