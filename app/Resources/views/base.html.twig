@@ -13,14 +13,14 @@
         </title>
 
         {% block stylesheets %}
+            <!-- Fonts -->
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
             <!-- Bootstrap -->
             <!-- Latest compiled and minified CSS -->
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
             <!-- Optional theme -->
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-            <!-- Google font -->
-            <link href='https://fonts.googleapis.com/css?family=Product+Sans' rel='stylesheet' type='text/css'>
 
             {% stylesheets
               'css/ie10-viewport-bug-workaround.css'
@@ -50,7 +50,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <img alt="Brand" src="{{ asset('icon.png') }}">
+                    {#<img alt="Brand" src="{{ asset('icon.png') }}">#}
                     <a class="navbar-brand" href="{{ path('homepage') }}">Collection Manager</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
