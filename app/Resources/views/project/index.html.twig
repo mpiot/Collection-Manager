@@ -3,11 +3,13 @@
 {% block title %}Projects list{% endblock %}
 
 {% block project_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('project_add') }}">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a project
-        </a>
-    </div>
+    {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
+        <div>
+            <a class="btn btn-default" href="{{ path('project_add') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a project
+            </a>
+        </div>
+    {% endif %}
 
     <h2 class="sub-header">Projects list</h2>
 

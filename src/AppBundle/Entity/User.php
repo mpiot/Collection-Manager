@@ -87,4 +87,19 @@ class User extends BaseUser
     {
         return $this->teams;
     }
+
+    public function isTeamAdministrator()
+    {
+        return !$this->administeredTeams->isEmpty();
+    }
+
+    public function isTeamModerator()
+    {
+        return !$this->moderatedTeams->isEmpty();
+    }
+
+    public function isTeamAministratorOrModerator()
+    {
+        return $this->isTeamAdministrator() || $this->isTeamModerator();
+    }
 }
