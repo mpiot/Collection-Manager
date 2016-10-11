@@ -24,7 +24,12 @@ class ProjectController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $projects = $em->getRepository('AppBundle:Project')->findBy([], ['name' => 'ASC']);
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $projects = $em->getRepository('AppBundle:Project')->findBy([], ['name' => 'ASC']);
+        } else {
+            $projects = $em->getRepository('AppBundle:Project')->findAllAuthorizedForCurrentUser($this->getUser());
+        }
 
         return $this->render('project/index.html.twig', array(
             'projects' => $projects,
@@ -58,6 +63,7 @@ class ProjectController extends Controller
 
     /**
      * @Route("/edit/{id}", name="project_edit")
+     * @Security("is_granted('edit', project)")
      */
     public function editAction(Project $project, Request $request)
     {
@@ -82,6 +88,7 @@ class ProjectController extends Controller
 
     /**
      * @Route("/delete/{id}", name="project_delete")
+     * @Security("is_granted('delete', project)")
      */
     public function deleteAction(Project $project, Request $request)
     {

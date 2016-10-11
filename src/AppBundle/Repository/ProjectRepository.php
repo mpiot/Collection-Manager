@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * ProjectRepository
@@ -10,4 +11,15 @@ namespace AppBundle\Repository;
  */
 class ProjectRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllAuthorizedForCurrentUser(User $user)
+    {
+        $query = $this->createQueryBuilder('project')
+            ->leftJoin('project.teams', 'teams')
+            ->leftJoin('teams.members', 'members')
+            ->where('members = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

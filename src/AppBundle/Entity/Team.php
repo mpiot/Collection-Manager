@@ -31,21 +31,21 @@ class Team
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="administeredTeams", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="administeredTeams")
      * @ORM\JoinTable(name="team_administrators")
      * @ORM\JoinColumn(nullable=false)
      */
     private $administrators;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="moderatedTeams", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="moderatedTeams")
      * @ORM\JoinTable(name="team_moderators")
      * @ORM\JoinColumn(nullable=true)
      */
     private $moderators;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="teams", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="teams")
      * @ORM\JoinTable(name="team_members")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -62,6 +62,11 @@ class Team
         $this->administrators = new ArrayCollection();
         $this->moderators = new ArrayCollection();
         $this->projects = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     /**
@@ -249,7 +254,7 @@ class Team
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function prePersist()
+    public function preAction()
     {
         // Check if administrator is a member, if not add it
         foreach ($this->administrators as $administrator) {

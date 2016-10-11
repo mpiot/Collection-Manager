@@ -15,11 +15,18 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-2">Name</th>
-                    <th class="col-md-2">Prefix</th>
-                    <th class="col-md-5">Description</th>
-                    <th class="col-md-2">Actions</th>
+                    {% if app.user.administeredTeams is not empty or app.user.moderatedTeams is not empty %}
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-2">Name</th>
+                        <th class="col-md-2">Prefix</th>
+                        <th class="col-md-5">Description</th>
+                        <th class="col-md-2">Actions</th>
+                    {% else %}
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-2">Name</th>
+                        <th class="col-md-2">Prefix</th>
+                        <th class="col-md-7">Description</th>
+                    {% endif %}
                 </tr>
             </thead>
 
@@ -31,12 +38,19 @@
                             <td>{{ project.name }}</td>
                             <td>{{ project.prefix }}</td>
                             <td>{{ project.description|truncate(100, true) }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('project_delete', { 'id': project.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
-                            </td>
+                            {% if app.user.administeredTeams is not empty or app.user.moderatedTeams is not empty %}
+                                <td>
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        {% if is_granted('edit', project) %}
+                                            <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                        {% endif %}
+
+                                        {% if is_granted('delete', project) %}
+                                            <a class="btn btn-danger" href="{{ path('project_delete', { 'id': project.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% else %}
@@ -45,4 +59,6 @@
                     </tr>
                 {% endif %}
             </tbody>
+        </table>
+    </div>
 {% endblock %}
