@@ -6,6 +6,7 @@ use AppBundle\Entity\Plasmid;
 use AppBundle\Form\PlasmidType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Utils\PlasmidGenBank;
@@ -15,6 +16,7 @@ use AppBundle\Utils\PlasmidGenBank;
  * @package AppBundle\Controller
  * 
  * @Route("/plasmid")
+ * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class PlasmidController extends Controller
 {

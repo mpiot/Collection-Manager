@@ -6,6 +6,7 @@ use AppBundle\Entity\Team;
 use AppBundle\Form\TeamType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @package AppBundle\Controller
  *
  * @Route("team")
+ * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class TeamController extends Controller
 {

@@ -6,6 +6,7 @@ use AppBundle\Entity\BiologicalOriginCategory;
 use AppBundle\Form\BiologicalOriginCategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @package AppBundle\Controller
  * 
  * @Route("/categories")
+ * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class BiologicalOriginCategoryController extends Controller
 {

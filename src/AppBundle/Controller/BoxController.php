@@ -7,6 +7,7 @@ use AppBundle\Form\BoxEditType;
 use AppBundle\Form\BoxType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @package AppBundle\Controller
  *
  * @Route("/box")
+ * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class BoxController extends Controller
 {
