@@ -96,6 +96,8 @@ fos_user:
         address:        noreply@collection-manager.dev
         sender_name:    CollectionManager
     registration:
+        form:
+            type: AppBundle\Form\RegistrationType
         confirmation:
             enabled: true
             from_email:
@@ -106,3 +108,9 @@ fos_user:
             from_email:
                 address:        noreply@collection-manager.dev
                 sender_name:    CollectionManager Resetting
+
+# ReCaptcha
+ewz_recaptcha:
+    public_key:  "%recaptcha_public_key%"
+    private_key: "%recaptcha_private_key%"
+    locale_key:  "%kernel.default_locale%"
