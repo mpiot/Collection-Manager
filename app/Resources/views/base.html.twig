@@ -64,8 +64,7 @@
                                         Signed in as <strong>{{ app.user.username }}</strong>
                                     </div>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="{{ path('team_index') }}">Manage teams</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
                                     <li><a href="{{ path('fos_user_security_logout') }}">Sign out</a></li>
