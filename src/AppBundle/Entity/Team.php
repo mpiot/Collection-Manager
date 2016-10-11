@@ -45,19 +45,23 @@ class Team
     private $moderators;
 
     /**
-     * @var string
-     *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="teams", orphanRemoval=true)
      * @ORM\JoinTable(name="team_members")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $members;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="teams")
+     */
+    private $projects;
 
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->administrators = new ArrayCollection();
         $this->moderators = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     /**
@@ -203,6 +207,40 @@ class Team
     public function getMembers()
     {
         return $this->members;
+    }
+
+    /**
+     * Add project
+     *
+     * @param Project $project
+     *
+     * @return Team
+     */
+    public function addProject(Project $project)
+    {
+        $this->projects->add($project);
+
+        return $this;
+    }
+
+    /**
+     * Remove project
+     *
+     * @param Project $project
+     */
+    public function removeProject(Project $project)
+    {
+        $this->projects->removeElement($project);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 
     /**

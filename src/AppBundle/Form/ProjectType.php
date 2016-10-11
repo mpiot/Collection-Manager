@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,6 +32,12 @@ class ProjectType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'A description about the project',
                 )
+            ))
+            ->add('teams', EntityType::class, array(
+                'class' => 'AppBundle\Entity\Team',
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => false,
             ))
         ;
     }

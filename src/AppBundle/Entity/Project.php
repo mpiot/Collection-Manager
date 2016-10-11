@@ -44,13 +44,21 @@ class Project
     private $description;
 
     /**
-     * @var Boxes
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Box", mappedBy="project", cascade={"remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $boxes;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", inversedBy="projects")
+     * @ORM\JoinTable(name="projects_teams")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $teams;
 
     /**
      * Project constructor.
@@ -58,6 +66,7 @@ class Project
     public function __construct()
     {
         $this->boxes = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     /**
@@ -175,6 +184,41 @@ class Project
     public function getBoxes()
     {
         return $this->boxes;
+    }
+
+    /**
+     * Add team
+     *
+     * @param Team $team
+     *
+     * @return Project
+     */
+    public function addTeam(Team $team)
+    {
+        $team->addProject($this);
+        $this->teams->add($team);
+
+        return $this;
+    }
+
+    /**
+     * Remove team
+     *
+     * @param Team $team
+     */
+    public function removeTeam(Team $team)
+    {
+        $this->teams->removeElement($team);
+    }
+
+    /**
+     * Get team
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTeams()
+    {
+        return $this->teams;
     }
 }
 
