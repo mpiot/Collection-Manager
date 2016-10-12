@@ -28,8 +28,8 @@ class StrainController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $gmoStrains = $em->getRepository('AppBundle:GmoStrain')->findBy([], ['id' => 'DESC'], 10);
-        $wildStrains = $em->getRepository('AppBundle:WildStrain')->findBy([], ['id' => 'DESC'], 10);
+        $gmoStrains = $em->getRepository('AppBundle:GmoStrain')->findAllForUser($this->getUser());
+        $wildStrains = $em->getRepository('AppBundle:WildStrain')->findAllForUser($this->getUser());
         
         return $this->render('strain/index.html.twig', array(
             'gmoStrains' => $gmoStrains,
@@ -42,6 +42,7 @@ class StrainController extends Controller
      * @ParamConverter("GmoStrain", class="AppBundle:GmoStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
+     * @Security("is_granted('STRAIN_VIEW', strain)")
      */
     public function viewGmoAction(GmoStrain $strain)
     {
@@ -55,6 +56,7 @@ class StrainController extends Controller
      * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
+     * @Security("is_granted('STRAIN_VIEW', strain)")
      */
     public function viewWildAction(WildStrain $strain)
     {
@@ -65,6 +67,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/gmo/add", name="strain_gmo_add")
+     * @Security("false != user.isInTeam() or is_granted('ROLE_ADMIN')")
      */
     public function addGmoAction(Request $request)
     {
@@ -95,6 +98,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/wild/add", name="strain_wild_add")
+     * @Security("false != user.isInTeam() or is_granted('ROLE_ADMIN')")
      */
     public function addWildAction(Request $request)
     {
@@ -127,6 +131,7 @@ class StrainController extends Controller
      * @ParamConverter("gmoStrain", class="AppBundle:GmoStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
+     * @Security("is_granted('STRAIN_EDIT', strain)")
      */
     public function editGmoAction(GmoStrain $strain, Request $request)
     {
@@ -159,6 +164,7 @@ class StrainController extends Controller
      * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
+     * @Security("is_granted('STRAIN_EDIT', strain)")
      */
     public function editWildAction(WildStrain $strain, Request $request)
     {
@@ -188,6 +194,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/delete/gmo/{id}", name="strain_gmo_delete")
+     * @Security("is_granted('STRAIN_DELETE', strain)")
      */
     public function deleteGmoAction(GmoStrain $strain, Request $request)
     {
@@ -218,6 +225,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/delete/wild/{id}", name="strain_wild_delete")
+     * @Security("is_granted('STRAIN_DELETE', strain)")
      */
     public function deleteWildAction(WildStrain $strain, Request $request)
     {
@@ -248,6 +256,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/parental/{id}", name="strain_parental")
+     * @Security("is_granted('STRAIN_VIEW', strain)")
      */
     public function parentalStrainsAction(GmoStrain $gmoStrain)
     {

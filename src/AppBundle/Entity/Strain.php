@@ -330,4 +330,25 @@ class Strain
         // when the strain is registred the first time
         $this->systematicName = $this->getTubes()->first()->getName();
     }
+
+    /**
+     * Get the authorized teams
+     *
+     * @return array
+     */
+    public function getAuthorizedTeams()
+    {
+        $teams = [];
+
+        foreach($this->getTubes() as $tube)
+        {
+            foreach($tube->getBox()->getProject()->getTeams() as $team) {
+                if (!in_array($team, $teams)) {
+                    $teams[] = $team;
+                }
+            }
+        }
+
+        return $teams;
+    }
 }

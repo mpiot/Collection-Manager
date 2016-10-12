@@ -128,4 +128,9 @@ class User extends BaseUser
     {
         return $this->isAdministratorOf($team) || $this->isModeratorOf($team);
     }
+
+    public function isInTeam()
+    {
+        return !$this->teams->isEmpty();
+    }
 }

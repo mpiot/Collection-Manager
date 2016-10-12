@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * GMORepository
@@ -16,6 +17,23 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
             ->select('gmo.usualName')
             ->orderBy('gmo.usualName', 'ASC')
             ->distinct()
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
+
+    public function findAllForUser(User $user, $limit = 10)
+    {
+        $query = $this->createQueryBuilder('strain')
+            ->leftJoin('strain.tubes', 'tubes')
+            ->leftJoin('tubes.box', 'boxes')
+            ->leftJoin('boxes.project', 'projects')
+            ->leftJoin('projects.teams', 'teams')
+            ->leftJoin('teams.members', 'members')
+            ->where('members = :user')
+                ->setParameter('user', $user)
+            ->orderBy('strain.id', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery();
 
         return $query->getArrayResult();
