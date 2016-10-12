@@ -48,6 +48,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
+    app.event_listener.search.strain_authorized_team:
+        class: AppBundle\EventListener\StrainAuthorizedTeamListener
+        tags:
+            - { name: kernel.event_subscriber }
+
 # Voters
     app.voter.project:
         class: AppBundle\Security\ProjectVoter

@@ -6,7 +6,7 @@ use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function search($search, $deleted = false, $country = null)
+    public function search($search, $userTeams, $deleted = false, $country = null)
     {
         // Create a Bool query
         $boolQuery = new \Elastica\Query\BoolQuery();
@@ -28,15 +28,19 @@ class StrainRepository extends Repository
 
         // Bool to string
         $deleted = $deleted ? 'true' : 'false';
-        $deletedQuery = new \Elastica\Query\Terms();
-        $deletedQuery->setTerms('deleted', [$deleted]);
-        $boolQuery->addMust($deletedQuery);
+        $deletedQuery = new \Elastica\Query\Term();
+        $deletedQuery->setTerm('deleted', $deleted);
+        $boolQuery->addFilter($deletedQuery);
+
+        $teamQuery = new \Elastica\Query\Terms();
+        $teamQuery->setTerms('authorizedTeams', $userTeams);
+        $boolQuery->addFilter($teamQuery);
 
         if (null !== $country) {
-            $countryQuery = new \Elastica\Query\Terms();
+            $countryQuery = new \Elastica\Query\Term();
             // We can't use an analyzer on a term, then we need to lower it here.
-            $countryQuery->setTerms('country', [strtolower($country)]);
-            $boolQuery->addMust($countryQuery);
+            $countryQuery->setTerm('country', strtolower($country));
+            $boolQuery->addFilter($countryQuery);
         }
 
         // build $query with Elastica objects

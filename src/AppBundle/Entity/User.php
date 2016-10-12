@@ -88,6 +88,17 @@ class User extends BaseUser
         return $this->teams;
     }
 
+    public function getTeamsId()
+    {
+        $teamsId = [];
+
+        foreach ($this->teams as $team) {
+            $teamsId[] = $team->getId();
+        }
+
+        return $teamsId;
+    }
+
     public function isTeamAdministrator()
     {
         return !$this->administeredTeams->isEmpty();
