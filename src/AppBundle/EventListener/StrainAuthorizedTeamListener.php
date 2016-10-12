@@ -13,18 +13,14 @@ class StrainAuthorizedTeamListener implements EventSubscriberInterface
 
         $strain = $event->getObject();
 
-        $teams = [];
+        $teams = $strain->getAuthorizedTeams();
+        $teamsIds = [];
 
-        foreach($strain->getTubes() as $tube)
-        {
-            foreach($tube->getBox()->getProject()->getTeams() as $team) {
-                if (!in_array($team->getId(), $teams)) {
-                    $teams[] = $team->getId();
-                }
-            }
+        foreach ($teams as $team) {
+            $teamsIds[] = $team->getId();
         }
 
-        $document->set('authorizedTeams', $teams);
+        $document->set('authorizedTeams', $teamsIds);
     }
 
     public static function getSubscribedEvents()
