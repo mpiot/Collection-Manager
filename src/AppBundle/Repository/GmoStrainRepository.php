@@ -32,6 +32,7 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('teams.members', 'members')
             ->where('members = :user')
                 ->setParameter('user', $user)
+            ->distinct(true)
             ->orderBy('strain.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery();
