@@ -17,7 +17,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    {% if app.user.administeredTeams is not empty or app.user.moderatedTeams is not empty %}
+                    {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
                         <th class="col-md-1">#</th>
                         <th class="col-md-2">Name</th>
                         <th class="col-md-2">Prefix</th>
@@ -40,7 +40,7 @@
                             <td>{{ project.name }}</td>
                             <td>{{ project.prefix }}</td>
                             <td>{{ project.description|truncate(100, true) }}</td>
-                            {% if app.user.administeredTeams is not empty or app.user.moderatedTeams is not empty %}
+                            {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                         {% if is_granted('edit', project) %}
