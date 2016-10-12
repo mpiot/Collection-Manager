@@ -9,9 +9,11 @@
             Teams list
         </a>
 
-        <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("team_edit", {'id': team.id }) }}">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        </a>
+        {% if app.user.isAdministratorOf(team) or is_granted('ROLE_ADMIN') %}
+            <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("team_edit", {'id': team.id }) }}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        {% endif %}
     </div>
 
     <h2>{{ team.name }}</h2>
