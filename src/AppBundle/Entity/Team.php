@@ -247,27 +247,4 @@ class Team
     {
         return $this->projects;
     }
-
-    /**
-     * Before persist or update.
-     *
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preAction()
-    {
-        // Check if administrator is a member, if not add it
-        foreach ($this->administrators as $administrator) {
-            if (!$this->members->contains($administrator)) {
-                $this->addMember($administrator);
-            }
-        }
-
-        // Check the same for moderator
-        foreach($this->moderators as $moderator) {
-            if (!$this->members->contains($moderator)) {
-                $this->addMember($moderator);
-            }
-        }
-    }
 }
