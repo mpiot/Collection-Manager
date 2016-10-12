@@ -21,6 +21,7 @@ class TeamController extends Controller
 {
     /**
      * @Route("/", name="team_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
@@ -47,6 +48,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/add", name="team_add")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -75,6 +77,7 @@ class TeamController extends Controller
      * @ParamConverter("team", class="AppBundle:Team", options={
      *      "repository_method" = "findOneWithMembers"
      * })
+     * @Security("user.isAdministratorOf(team) or is_granted('ROLE_ADMIN')")
      */
     public function editAction(Team $team, Request $request)
     {
@@ -98,6 +101,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/delete/{id}", name="team_delete")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Team $team, Request $request)
     {

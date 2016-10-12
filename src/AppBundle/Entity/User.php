@@ -102,4 +102,19 @@ class User extends BaseUser
     {
         return $this->isTeamAdministrator() || $this->isTeamModerator();
     }
+
+    public function isAdministratorOf(Team $team)
+    {
+        return $this->administeredTeams->contains($team);
+    }
+
+    public function isModeratorOf(Team $team)
+    {
+        return $this->moderatedTeams->contains($team);
+    }
+
+    public function isAministratorOrModeratorOf(Team $team)
+    {
+        return $this->isAdministratorOf($team) || $this->isModeratorOf($team);
+    }
 }
