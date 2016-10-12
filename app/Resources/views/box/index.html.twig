@@ -15,14 +15,24 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-2">Auto Name</th>
-                    <th class="col-md-1">Name</th>
-                    <th class="col-md-2">Description</th>
-                    <th class="col-md-1">Project</th>
-                    <th class="col-md-1">Type</th>
-                    <th class="col-md-1">Free space</th>
-                    <th class="col-md-3">Actions</th>
+                    {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-2">Auto Name</th>
+                        <th class="col-md-1">Name</th>
+                        <th class="col-md-2">Description</th>
+                        <th class="col-md-1">Project</th>
+                        <th class="col-md-1">Type</th>
+                        <th class="col-md-1">Free space</th>
+                        <th class="col-md-3">Actions</th>
+                    {% else %}
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-2">Auto Name</th>
+                        <th class="col-md-1">Name</th>
+                        <th class="col-md-5">Description</th>
+                        <th class="col-md-1">Project</th>
+                        <th class="col-md-1">Type</th>
+                        <th class="col-md-1">Free space</th>
+                    {% endif %}
                 </tr>
             </thead>
 
@@ -31,19 +41,25 @@
                     {% for box in boxes %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ box.project.prefix }}_Box{{ box.boxLetter }}</td>
+                            <td><a href="{{ path('box_view', { 'id': box.id }) }}">{{ box.project.prefix }}_Box{{ box.boxLetter }}</a></td>
                             <td>{{ box.name }}</td>
                             <td>{{ box.description|truncate(50, true) }}</td>
                             <td>{{ box.project.name }}</td>
                             <td>{{ box.type.name }}</td>
                             <td>{{ box.freeSpace }} / {{ box.cellNumber }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-info" href="{{ path('box_view', { 'id': box.id}) }}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View</a>
-                                    <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
-                            </td>
+                            {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
+                                <td>
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        {% if is_granted('PROJECT_EDIT', box.project) %}
+                                            <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                        {% endif %}
+
+                                        {% if is_granted('PROJECT_DELETE', box.project) %}
+                                            <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% else %}
@@ -54,5 +70,4 @@
             </tbody>
         </table>
     </div>
-
 {% endblock %}

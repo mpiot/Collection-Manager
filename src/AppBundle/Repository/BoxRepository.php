@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
-use AppBundle\Entity\Box;
+use AppBundle\Entity\User;
 
 /**
  * BoxRepository
@@ -18,6 +18,25 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('t')
             ->leftJoin('b.project', 'p')
                 ->addSelect('p')
+            ->orderBy('b.project', 'ASC')
+            ->addOrderBy('b.boxLetter', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function findAllAuthorizedForCurrentUserWithType(User $user)
+    {
+        $query = $this->createQueryBuilder('b')
+            ->leftJoin('b.type', 't')
+                ->addSelect('t')
+            ->leftJoin('b.project', 'p')
+                ->addSelect('p')
+            ->leftJoin('p.teams', 'teams')
+                ->addSelect('teams')
+            ->leftJoin('teams.members', 'members')
+            ->where('members = :user')
+                ->setParameter('user', $user)
             ->orderBy('b.project', 'ASC')
             ->addOrderBy('b.boxLetter', 'ASC')
             ->getQuery();

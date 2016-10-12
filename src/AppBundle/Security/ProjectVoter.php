@@ -10,8 +10,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ProjectVoter extends Voter
 {
-    const EDIT = 'edit';
-    const DELETE = 'delete';
+    const VIEW = 'PROJECT_VIEW';
+    const EDIT = 'PROJECT_EDIT';
+    const DELETE = 'PROJECT_DELETE';
 
     private $decisionManager;
 
@@ -23,7 +24,7 @@ class ProjectVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::EDIT, self::DELETE))) {
+        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::DELETE))) {
             return false;
         }
 
@@ -54,6 +55,8 @@ class ProjectVoter extends Voter
         $project = $subject;
 
         switch ($attribute) {
+            case self::VIEW:
+                return $this->canView($project, $user);
             case self::EDIT:
                 return $this->canEdit($project, $user);
             case self::DELETE:
@@ -61,6 +64,22 @@ class ProjectVoter extends Voter
         }
 
         throw new \LogicException('This code should not be reached!');
+    }
+
+    private function canView(Project $project, User $user)
+    {
+        if ($this->canEdit($project, $user)) {
+            return true;
+        }
+
+        $projectTeams = $project->getTeams()->toArray();
+        $userTeams = $user->getTeams()->toArray();
+
+        if (!empty(array_intersect($projectTeams, $userTeams))) {
+            return true;
+        }
+
+        return false;
     }
 
     private function canEdit(Project $project, User $user)

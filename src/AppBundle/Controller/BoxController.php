@@ -26,7 +26,12 @@ class BoxController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $boxes = $em->getRepository('AppBundle:Box')->findAllWithType();
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $boxes = $em->getRepository('AppBundle:Box')->findAllWithType();
+        } else {
+            $boxes = $em->getRepository('AppBundle:Box')->findAllAuthorizedForCurrentUserWithType($this->getUser());
+        }
 
         return $this->render('box/index.html.twig', array(
             'boxes' => $boxes,
@@ -38,6 +43,7 @@ class BoxController extends Controller
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findOneWithProjectTypeTubesStrains"
      * })
+     * @Security("is_granted('PROJECT_VIEW', box.getProject())")
      */
     public function viewAction(Box $box)
     {
@@ -56,6 +62,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/add", name="box_add")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function addAction(Request $request)
     {
@@ -84,6 +91,7 @@ class BoxController extends Controller
      * @ParamConverter("box", class="AppBundle:Box", options={
             "repository_method" = "findOneWithType"
      * })
+     * @Security("is_granted('PROJECT_EDIT', box.getProject())")
      */
     public function editAction(Box $box, Request $request)
     {
@@ -108,6 +116,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/delete/{id}", name="box_delete")
+     * @Security("is_granted('PROJECT_DELETE', box.getProject())")
      */
     public function deleteAction(Box $box, Request $request)
     {

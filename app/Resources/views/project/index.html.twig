@@ -43,11 +43,11 @@
                             {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        {% if is_granted('edit', project) %}
+                                        {% if is_granted('PROJECT_EDIT', project) %}
                                             <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
                                         {% endif %}
 
-                                        {% if is_granted('delete', project) %}
+                                        {% if is_granted('PROJECT_DELETE', project) %}
                                             <a class="btn btn-danger" href="{{ path('project_delete', { 'id': project.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
                                         {% endif %}
                                     </div>
