@@ -25,28 +25,14 @@ class TeamListener
 
         // When user edit an existant Team
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            dump($entity);
-
             if (!$entity instanceof Team) {
                 return;
             }
 
-            dump($entity->getAdministrators()->toArray());
-            dump($entity->getModerators()->toArray());
-            dump($entity->getMembers()->toArray());
-
             $team = $this->addAdministratorAndModeratorAsUser($entity);
-
-            dump($team->getAdministrators()->toArray());
-            dump($team->getModerators()->toArray());
-            dump($team->getMembers()->toArray());
 
             $metaData = $em->getClassMetadata('AppBundle\Entity\Team');
             $uow->computeChangeSet($metaData, $team);
-        }
-
-        foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            dump($entity);
         }
     }
 
