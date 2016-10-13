@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Team
+ * Team.
  *
  * @ORM\Table(name="team")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TeamRepository")
@@ -82,7 +82,7 @@ class Team
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -92,7 +92,7 @@ class Team
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -106,7 +106,7 @@ class Team
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -116,7 +116,7 @@ class Team
     }
 
     /**
-     * Add administrator
+     * Add administrator.
      *
      * @param User $user
      *
@@ -134,7 +134,7 @@ class Team
     }
 
     /**
-     * Remove administrator
+     * Remove administrator.
      *
      * @param User $user
      */
@@ -144,7 +144,7 @@ class Team
     }
 
     /**
-     * Get administrators
+     * Get administrators.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -154,7 +154,7 @@ class Team
     }
 
     /**
-     * Add moderator
+     * Add moderator.
      *
      * @param User $user
      *
@@ -172,7 +172,7 @@ class Team
     }
 
     /**
-     * Remove moderator
+     * Remove moderator.
      *
      * @param User $user
      */
@@ -182,7 +182,7 @@ class Team
     }
 
     /**
-     * Get moderators
+     * Get moderators.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -192,7 +192,7 @@ class Team
     }
 
     /**
-     * Add member
+     * Add member.
      *
      * @param User $user
      *
@@ -207,7 +207,7 @@ class Team
     }
 
     /**
-     * Remove member
+     * Remove member.
      *
      * @param User $user
      */
@@ -217,7 +217,7 @@ class Team
     }
 
     /**
-     * Get members
+     * Get members.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -227,7 +227,7 @@ class Team
     }
 
     /**
-     * Add project
+     * Add project.
      *
      * @param Project $project
      *
@@ -241,7 +241,7 @@ class Team
     }
 
     /**
-     * Remove project
+     * Remove project.
      *
      * @param Project $project
      */
@@ -251,7 +251,7 @@ class Team
     }
 
     /**
-     * Get projects
+     * Get projects.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -261,7 +261,7 @@ class Team
     }
 
     /**
-     * Get types
+     * Get types.
      *
      * @return \Doctrine\Common\Collections\Collection
      */

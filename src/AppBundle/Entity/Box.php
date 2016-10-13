@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Box
+ * Box.
  *
  * @ORM\Table(name="box")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BoxRepository")
@@ -95,12 +95,11 @@ class Box
     private $project;
 
     /**
-     * @var 
+     * @var ArrayCollection of Tube
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="box", cascade={"remove"})
      */
     private $tubes;
-
 
     /**
      * Box constructor.
@@ -111,7 +110,7 @@ class Box
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -121,7 +120,7 @@ class Box
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -135,7 +134,7 @@ class Box
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -145,7 +144,7 @@ class Box
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -159,7 +158,7 @@ class Box
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -169,7 +168,7 @@ class Box
     }
 
     /**
-     * Set freezer
+     * Set freezer.
      *
      * @param string $freezer
      *
@@ -183,7 +182,7 @@ class Box
     }
 
     /**
-     * Get freezer
+     * Get freezer.
      *
      * @return string
      */
@@ -193,7 +192,7 @@ class Box
     }
 
     /**
-     * Set location
+     * Set location.
      *
      * @param string $location
      *
@@ -207,7 +206,7 @@ class Box
     }
 
     /**
-     * Get location
+     * Get location.
      *
      * @return string
      */
@@ -217,7 +216,7 @@ class Box
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
      *
@@ -231,7 +230,7 @@ class Box
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -241,7 +240,7 @@ class Box
     }
 
     /**
-     * Set boxLetter
+     * Set boxLetter.
      *
      * @param string $boxLetter
      *
@@ -255,7 +254,7 @@ class Box
     }
 
     /**
-     * Get boxLetter
+     * Get boxLetter.
      *
      * @return string
      */
@@ -265,9 +264,9 @@ class Box
     }
 
     /**
-     * Set colNumber
+     * Set colNumber.
      *
-     * @param integer $colNumber
+     * @param int $colNumber
      *
      * @return Box
      */
@@ -279,7 +278,7 @@ class Box
     }
 
     /**
-     * Get colNumber
+     * Get colNumber.
      *
      * @return int
      */
@@ -289,9 +288,9 @@ class Box
     }
 
     /**
-     * Set rowNumber
+     * Set rowNumber.
      *
-     * @param integer $rowNumber
+     * @param int $rowNumber
      *
      * @return Box
      */
@@ -303,7 +302,7 @@ class Box
     }
 
     /**
-     * Get rowNumber
+     * Get rowNumber.
      *
      * @return int
      */
@@ -313,7 +312,7 @@ class Box
     }
 
     /**
-     * Set freeSpace
+     * Set freeSpace.
      *
      * @param int $freeSpace
      *
@@ -327,7 +326,7 @@ class Box
     }
 
     /**
-     * Get freeSpace
+     * Get freeSpace.
      *
      * @return int
      */
@@ -342,17 +341,22 @@ class Box
     }
 
     /**
+     * Set project.
+     *
      * @param $project
+     *
      * @return $this
      */
     public function setProject($project)
     {
         $this->project = $project;
-        
+
         return $this;
     }
 
     /**
+     * Get project.
+     *
      * @return Project
      */
     public function getProject()
@@ -361,6 +365,8 @@ class Box
     }
 
     /**
+     * Get tubes.
+     *
      * @return ArrayCollection
      */
     public function getTubes()
@@ -368,25 +374,37 @@ class Box
         return $this->tubes;
     }
 
+    /**
+     * Get cell number.
+     *
+     * @return int
+     */
     public function getCellNumber()
     {
         return $this->colNumber * $this->rowNumber;
     }
-    
+
+    /**
+     * Get empty cells.
+     *
+     * @param null $keepCell
+     *
+     * @return array
+     */
     public function getEmptyCells($keepCell = null)
     {
         $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         $nbCells = $this->colNumber * $this->rowNumber;
 
         $cellKeys = [];
-        for ($i = 0; $i < $this->rowNumber; $i++) {
-            for ($j = 0; $j < $this->colNumber; $j++) {
-                $cellKeys[] = $availableLetters[$i].($j+1);
+        for ($i = 0; $i < $this->rowNumber; ++$i) {
+            for ($j = 0; $j < $this->colNumber; ++$j) {
+                $cellKeys[] = $availableLetters[$i].($j + 1);
             }
         }
 
         $cellValues = [];
-        for ($i = 0; $i < $nbCells; $i++) {
+        for ($i = 0; $i < $nbCells; ++$i) {
             $cellValues[] = $i;
         }
 
@@ -403,6 +421,11 @@ class Box
         return $cells;
     }
 
+    /**
+     * Is it the last box in the project ?
+     *
+     * @return bool
+     */
     public function isLastBox()
     {
         // How many boxes in the project
@@ -429,7 +452,6 @@ class Box
         $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
         $this->boxLetter = $availableLetters[$projectBoxes->count()];
-
 
         // Determine the freeSpace
         $this->freeSpace = $this->colNumber * $this->rowNumber;

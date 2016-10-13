@@ -33,5 +33,4 @@ class TeamControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/view');
     }
-
 }

@@ -23,7 +23,7 @@ class WildStrainType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -45,17 +45,17 @@ class WildStrainType extends AbstractType
             ->add('biologicalOrigin', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Galeria melonella, Insect',
-                )
+                ),
             ))
             ->add('source', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'CBS, ...',
-                )
+                ),
             ))
             ->add('address', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Pyramides, 75001 Paris, France',
-                )
+                ),
             ))
             ->add('country', CountryType::class, array(
                 'placeholder' => '-- Choose a country --',
@@ -64,13 +64,13 @@ class WildStrainType extends AbstractType
                 'scale' => 6,
                 'attr' => array(
                     'placeholder' => 48.866667,
-                )
+                ),
             ))
             ->add('longitude', NumberType::class, array(
                 'scale' => 6,
                 'attr' => array(
                     'placeholder' => 2.333333,
-                )
+                ),
             ))
         ;
     }
@@ -81,7 +81,7 @@ class WildStrainType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\WildStrain'
+            'data_class' => 'AppBundle\Entity\WildStrain',
         ));
     }
 

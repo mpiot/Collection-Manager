@@ -10,9 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class GenusController
- * @package AppBundle\Controller
- * 
+ * Class GenusController.
+ *
  * @Route("/genus")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
@@ -30,7 +29,7 @@ class GenusController extends Controller
             'genusList' => $genus,
         ));
     }
-    
+
     /**
      * @Route("/add", name="genus_add")
      */
@@ -110,5 +109,4 @@ class GenusController extends Controller
             'form' => $form->createView(),
         ));
     }
-
 }

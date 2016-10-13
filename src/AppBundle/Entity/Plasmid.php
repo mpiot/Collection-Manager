@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Plasmid
+ * Plasmid.
  *
  * @ORM\Table(name="plasmid")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PlasmidRepository")
@@ -59,7 +59,7 @@ class Plasmid
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -69,7 +69,7 @@ class Plasmid
     }
 
     /**
-     * Set autoName
+     * Set autoName.
      *
      * @param string $autoName
      *
@@ -83,7 +83,7 @@ class Plasmid
     }
 
     /**
-     * Get systematicName
+     * Get systematicName.
      *
      * @return string
      */
@@ -93,7 +93,7 @@ class Plasmid
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -107,7 +107,7 @@ class Plasmid
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -142,6 +142,7 @@ class Plasmid
 
     /**
      * @param $addManual
+     *
      * @return $this
      */
     public function setAddGenBankFile($addGenBankFile)

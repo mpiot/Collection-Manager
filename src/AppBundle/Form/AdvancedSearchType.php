@@ -8,16 +8,14 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 class AdvancedSearchType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,7 +23,7 @@ class AdvancedSearchType extends AbstractType
             ->add('search', TextType::class, array(
                 'constraints' => array(
                     new NotBlank(),
-                )
+                ),
             ))
             ->add('strainCategory', ChoiceType::class, array(
                 'choices' => array(
@@ -36,15 +34,15 @@ class AdvancedSearchType extends AbstractType
                 'multiple' => true,
                 'data' => ['gmo', 'wild'],
                 'constraints' => array(
-                    new Count(array('min' => 1, 'minMessage' => 'Select at least one element.'))
-                )
+                    new Count(array('min' => 1, 'minMessage' => 'Select at least one element.')),
+                ),
             ))
             ->add('country', CountryType::class, array(
                 'placeholder' => '-- Choose a country --',
                 'required' => false,
             ))
             ->add('deleted', CheckboxType::class, array(
-                'label'    => 'Search deleted strains ?',
+                'label' => 'Search deleted strains ?',
                 'required' => false,
             ))
         ;

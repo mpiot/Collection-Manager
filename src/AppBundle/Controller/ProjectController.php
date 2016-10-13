@@ -10,8 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class ProjectController
- * @package AppBundle\Controller
+ * Class ProjectController.
  *
  * @Route("/projet")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
@@ -114,11 +113,10 @@ class ProjectController extends Controller
 
             return $this->redirectToRoute('project_index');
         }
-        
+
         return $this->render('project/delete.html.twig', array(
             'project' => $project,
             'form' => $form->createView(),
         ));
     }
-
 }

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Project
+ * Project.
  *
  * @ORM\Table(name="project")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProjectRepository")
@@ -70,7 +70,7 @@ class Project
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -80,7 +80,7 @@ class Project
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -94,7 +94,7 @@ class Project
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -104,7 +104,7 @@ class Project
     }
 
     /**
-     * Set prefix
+     * Set prefix.
      *
      * @param string $prefix
      *
@@ -118,7 +118,7 @@ class Project
     }
 
     /**
-     * Get prefix
+     * Get prefix.
      *
      * @return string
      */
@@ -128,7 +128,7 @@ class Project
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -142,7 +142,7 @@ class Project
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -153,6 +153,7 @@ class Project
 
     /**
      * @param Box $box
+     *
      * @return $this
      */
     public function addBox(Box $box)
@@ -167,6 +168,7 @@ class Project
 
     /**
      * @param $box
+     *
      * @return $this
      */
     public function removeBox($box)
@@ -179,7 +181,7 @@ class Project
     }
 
     /**
-     * @return Boxes|ArrayCollection
+     * @return Box|ArrayCollection
      */
     public function getBoxes()
     {
@@ -187,7 +189,7 @@ class Project
     }
 
     /**
-     * Add team
+     * Add team.
      *
      * @param Team $team
      *
@@ -202,7 +204,7 @@ class Project
     }
 
     /**
-     * Remove team
+     * Remove team.
      *
      * @param Team $team
      */
@@ -212,7 +214,7 @@ class Project
     }
 
     /**
-     * Get team
+     * Get team.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -221,4 +223,3 @@ class Project
         return $this->teams;
     }
 }
-

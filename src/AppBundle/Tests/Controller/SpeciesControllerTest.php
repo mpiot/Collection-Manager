@@ -33,5 +33,4 @@ class SpeciesControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/delete/{id}');
     }
-
 }

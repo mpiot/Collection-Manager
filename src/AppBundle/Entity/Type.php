@@ -4,10 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 /**
- * Type
+ * Type.
  *
  * @ORM\Table(name="type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TypeRepository")
@@ -33,7 +32,7 @@ class Type
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="letter", type="string", length=255, unique=true)
      */
     private $letter;
@@ -60,7 +59,7 @@ class Type
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -70,7 +69,7 @@ class Type
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -84,7 +83,7 @@ class Type
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -101,7 +100,7 @@ class Type
     public function setLetter($letter)
     {
         $this->letter = $letter;
-        
+
         return $this;
     }
 
@@ -135,4 +134,3 @@ class Type
         return $this->team;
     }
 }
-

@@ -7,7 +7,8 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 
 class TeamListener
 {
-    public function onFlush(OnFlushEventArgs $args) {
+    public function onFlush(OnFlushEventArgs $args)
+    {
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
 
@@ -38,15 +39,13 @@ class TeamListener
 
     private function addAdministratorAndModeratorAsUser(Team $team)
     {
-        foreach ($team->getAdministrators()->toArray() as $administrator)
-        {
+        foreach ($team->getAdministrators()->toArray() as $administrator) {
             if (!$team->getMembers()->contains($administrator)) {
                 $team->addMember($administrator);
             }
         }
 
-        foreach ($team->getModerators()->toArray() as $moderator)
-        {
+        foreach ($team->getModerators()->toArray() as $moderator) {
             if (!$team->getMembers()->contains($moderator)) {
                 $team->addMember($moderator);
             }

@@ -11,7 +11,7 @@ class GenBankFileType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,7 +28,7 @@ class GenBankFileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\GenBankFile'
+            'data_class' => 'AppBundle\Entity\GenBankFile',
         ));
     }
 }

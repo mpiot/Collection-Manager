@@ -13,7 +13,7 @@ class GmoStrainType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -33,10 +33,10 @@ class GmoStrainType extends AbstractType
                     'class' => 'AppBundle\Entity\GmoStrain',
                     'choice_label' => 'fullName',
                     'placeholder' => '-- select a parent --',
-                    'query_builder' => function(EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('strain')
                             ->orderBy('strain.systematicName', 'ASC');
-                    }
+                    },
                 ),
                 'by_reference' => false,
                 'allow_add' => true,
@@ -45,14 +45,14 @@ class GmoStrainType extends AbstractType
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\GmoStrain'
+            'data_class' => 'AppBundle\Entity\GmoStrain',
         ));
     }
 

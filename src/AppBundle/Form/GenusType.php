@@ -11,7 +11,7 @@ class GenusType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,18 +19,18 @@ class GenusType extends AbstractType
             ->add('genus', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Yarrowia',
-                )
+                ),
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Genus'
+            'data_class' => 'AppBundle\Entity\Genus',
         ));
     }
 }

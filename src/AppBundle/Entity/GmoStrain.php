@@ -6,8 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * GMO
- * 
+ * GMO.
+ *
  * @ORM\Table(name="gmo_strain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GmoStrainRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -37,7 +37,7 @@ class GmoStrain extends Strain
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Type", inversedBy="gmoStrains")
      */
     private $type;
-    
+
     /**
      * @var string
      *
@@ -83,7 +83,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -93,9 +93,10 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Set species
+     * Set species.
      *
      * @param Species $species
+     *
      * @return $this
      */
     public function setSpecies(Species $species)
@@ -106,7 +107,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Get species
+     * Get species.
      *
      * @return Species
      */
@@ -116,7 +117,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param Type $type
      *
@@ -130,7 +131,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -140,7 +141,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Set genotype
+     * Set genotype.
      *
      * @param string $genotype
      *
@@ -154,7 +155,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Get genotype
+     * Get genotype.
      *
      * @return string
      */
@@ -164,7 +165,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -178,7 +179,7 @@ class GmoStrain extends Strain
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */

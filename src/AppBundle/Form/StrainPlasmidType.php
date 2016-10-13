@@ -12,7 +12,7 @@ class StrainPlasmidType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -38,7 +38,7 @@ class StrainPlasmidType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\StrainPlasmid'
+            'data_class' => 'AppBundle\Entity\StrainPlasmid',
         ));
     }
 }

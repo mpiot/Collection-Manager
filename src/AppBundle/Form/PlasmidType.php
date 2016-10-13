@@ -13,7 +13,7 @@ class PlasmidType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,11 +23,11 @@ class PlasmidType extends AbstractType
             ->add('addGenBankFile', ChoiceType::class, array(
                 'choices' => array(
                     'No' => 0,
-                    'Yes' => 1
+                    'Yes' => 1,
                 ),
                 'multiple' => false,
                 'expanded' => true,
-                'label' => 'Send a GenBank file ?'
+                'label' => 'Send a GenBank file ?',
             ))
             ->add('genBankFile', GenBankFileType::class, array(
                 'required' => false,
@@ -36,7 +36,7 @@ class PlasmidType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function(FormEvent $event) {
+            function (FormEvent $event) {
                 $plasmid = $event->getData();
 
                 if (null === $plasmid) {
@@ -58,7 +58,7 @@ class PlasmidType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Plasmid'
+            'data_class' => 'AppBundle\Entity\Plasmid',
         ));
     }
 }

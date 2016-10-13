@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Genus
+ * Genus.
  *
  * @ORM\Table(name="genus")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GenusRepository")
@@ -44,7 +44,7 @@ class Genus
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -54,7 +54,7 @@ class Genus
     }
 
     /**
-     * Set genus
+     * Set genus.
      *
      * @param string $genus
      *
@@ -68,7 +68,7 @@ class Genus
     }
 
     /**
-     * Get genus
+     * Get genus.
      *
      * @return string
      */
@@ -78,7 +78,7 @@ class Genus
     }
 
     /**
-     * Set species
+     * Set species.
      *
      * @param \stdClass $species
      *
@@ -92,7 +92,7 @@ class Genus
     }
 
     /**
-     * Get species
+     * Get species.
      *
      * @return \stdClass
      */

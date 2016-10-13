@@ -14,8 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class StrainController
- * @package AppBundle\Controller
+ * Class StrainController.
  *
  * @Route("/strain")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
@@ -30,7 +29,7 @@ class StrainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $gmoStrains = $em->getRepository('AppBundle:GmoStrain')->findAllForUser($this->getUser());
         $wildStrains = $em->getRepository('AppBundle:WildStrain')->findAllForUser($this->getUser());
-        
+
         return $this->render('strain/index.html.twig', array(
             'gmoStrains' => $gmoStrains,
             'wildStrains' => $wildStrains,
@@ -78,7 +77,7 @@ class StrainController extends Controller
         $strainUsualNames = $em->getRepository('AppBundle:GmoStrain')->findAllUsualName();
 
         $form = $this->createForm(GmoStrainType::class, $strain);
-        
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -119,7 +118,7 @@ class StrainController extends Controller
 
             return $this->redirectToRoute('strain_index');
         }
-        
+
         return $this->render('strain/wild/add.html.twig', array(
             'form' => $form->createView(),
             'strainUsualNames' => $strainUsualNames,
@@ -151,7 +150,7 @@ class StrainController extends Controller
 
             return $this->redirectToRoute('strain_gmo_view', ['id' => $strain->getId()]);
         }
-        
+
         return $this->render('strain/gmo/edit.html.twig', array(
             'form' => $form->createView(),
             'strain' => $strain,
@@ -184,7 +183,7 @@ class StrainController extends Controller
 
             return $this->redirectToRoute('strain_wild_view', ['id' => $strain->getId()]);
         }
-        
+
         return $this->render('strain/wild/edit.html.twig', array(
             'form' => $form->createView(),
             'strain' => $strain,
@@ -239,7 +238,7 @@ class StrainController extends Controller
         if ($form->handleRequest($request)->isValid()) {
             $strain->setDeleted(true);
 
-            $em = $this->getDoctrine()->getManager();;
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
 
             $this->addFlash('success', 'The strain has been deleted successfully.');
@@ -269,11 +268,11 @@ class StrainController extends Controller
         foreach ($strain->getChildren() as $child) {
             $array['children'][$c]['name'] = $child->getFullName();
 
-            foreach($child->getChildren() as $child2) {
+            foreach ($child->getChildren() as $child2) {
                 $array['children'][$c]['children'][]['name'] = $child2->getFullName();
             }
 
-            $c++;
+            ++$c;
         }
 
         $response = new Response(json_encode($array));

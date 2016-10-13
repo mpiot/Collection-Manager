@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * StrainPlasmid
+ * StrainPlasmid.
  *
  * @ORM\Table(name="strain_plasmid")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StrainPlasmidRepository")
@@ -45,7 +45,7 @@ class StrainPlasmid
     private $state;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -55,7 +55,7 @@ class StrainPlasmid
     }
 
     /**
-     * Set strain
+     * Set strain.
      *
      * @param GmoStrain $gmoStrain
      *
@@ -69,7 +69,7 @@ class StrainPlasmid
     }
 
     /**
-     * Get strain
+     * Get strain.
      *
      * @return GmoStrain
      */
@@ -79,7 +79,7 @@ class StrainPlasmid
     }
 
     /**
-     * Set plasmid
+     * Set plasmid.
      *
      * @param Plasmid $plasmid
      *
@@ -93,7 +93,7 @@ class StrainPlasmid
     }
 
     /**
-     * Get plasmid
+     * Get plasmid.
      *
      * @return Plasmid
      */
@@ -103,7 +103,7 @@ class StrainPlasmid
     }
 
     /**
-     * Set state
+     * Set state.
      *
      * @param string $state
      *
@@ -117,7 +117,7 @@ class StrainPlasmid
     }
 
     /**
-     * Get state
+     * Get state.
      *
      * @return string
      */

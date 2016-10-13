@@ -29,7 +29,7 @@ class StrainType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -51,7 +51,7 @@ class StrainType extends AbstractType
                 'attr' => array(
                     'autocomplete' => 'off',
                     'placeholder' => 'A name you want to use',
-                )
+                ),
             ))
             ->add('comment')
             ->add('sequenced')
@@ -71,8 +71,8 @@ class StrainType extends AbstractType
     protected function addSpeciesElements(FormInterface $form, Genus $genus = null)
     {
         $form->add('genus', EntityType::class, array(
-            'class'    => 'AppBundle\Entity\Genus',
-            'query_builder' => function(EntityRepository $er) {
+            'class' => 'AppBundle\Entity\Genus',
+            'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('g')
                     ->orderBy('g.genus', 'ASC');
             },

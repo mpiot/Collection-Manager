@@ -1,8 +1,9 @@
 <?php
+
 namespace AppBundle\Twig;
 
-
-class CountryExtension extends \Twig_Extension {
+class CountryExtension extends \Twig_Extension
+{
     public function getFilters()
     {
         return array(
@@ -10,7 +11,8 @@ class CountryExtension extends \Twig_Extension {
         );
     }
 
-    public function countryFilter($countryCode,$locale = "en"){
+    public function countryFilter($countryCode, $locale = 'en')
+    {
         $c = \Symfony\Component\Intl\Intl::getRegionBundle()->getCountryNames($locale);
 
         return array_key_exists($countryCode, $c)

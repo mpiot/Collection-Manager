@@ -33,5 +33,4 @@ class ProjectControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/delete/{id}');
     }
-
 }

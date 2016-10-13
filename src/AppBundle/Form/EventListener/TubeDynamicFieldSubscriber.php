@@ -46,7 +46,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
             'class' => 'AppBundle\Entity\Box',
             'choice_label' => 'name',
             'placeholder' => '-- select a box --',
-            'query_builder' => function(EntityRepository $er) use ($project) {
+            'query_builder' => function (EntityRepository $er) use ($project) {
                 return $er->createQueryBuilder('b')
                         ->leftJoin('b.project', 'p')
                         ->where('p = :project')

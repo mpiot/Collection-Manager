@@ -3,10 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * File
+ * File.
  *
  * @ORM\Entity
  * @ORM\Table(name="file")
@@ -150,7 +149,6 @@ class File
 
     /**
      * Get webPath.
-     *
      */
     public function getWebPath()
     {

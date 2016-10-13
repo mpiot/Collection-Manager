@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BiologicalOriginCategory
+ * BiologicalOriginCategory.
  *
  * @ORM\Table(name="biological_origin_category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BiologicalOriginCategoryRepository")
@@ -45,7 +45,7 @@ class BiologicalOriginCategory
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -55,7 +55,7 @@ class BiologicalOriginCategory
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -69,7 +69,7 @@ class BiologicalOriginCategory
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */

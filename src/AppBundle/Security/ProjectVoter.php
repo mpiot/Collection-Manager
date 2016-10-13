@@ -100,8 +100,6 @@ class ProjectVoter extends Voter
 
     private function canDelete(Project $project, User $user)
     {
-
-
         $projectTeams = $project->getTeams()->toArray();
         $userAdministeredTeams = $user->getAdministeredTeams()->toArray();
 

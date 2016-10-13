@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Type
+ * Type.
  *
  * @ORM\Table(name="tube")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TubeRepository")
@@ -86,7 +86,7 @@ class Tube
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -118,7 +118,7 @@ class Tube
     {
         return $this->wildStrain;
     }
-    
+
     public function getStrain()
     {
         if (null !== $this->gmoStrain) {
@@ -131,7 +131,7 @@ class Tube
     public function setBox(Box $box)
     {
         // If the actualbox is null, it's a new tube
-        if(null === $this->box) {
+        if (null === $this->box) {
             // Then we remove one space in the new box
             $box->setFreeSpace($box->getFreeSpace() - 1);
         // Else if the actual box is not null and different to the new box
@@ -205,7 +205,7 @@ class Tube
 
     public function setDeleted(bool $deleted)
     {
-        if(true === $deleted && false === $this->deleted) {
+        if (true === $deleted && false === $this->deleted) {
             $this->deletionDate = new \DateTime();
         } elseif (false === $deleted && true === $this->deleted) {
             $this->deletionDate = null;
@@ -270,9 +270,9 @@ class Tube
         $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
         $cellsName = [];
-        for ($i = 0; $i < $this->box->getRowNumber(); $i++) {
-            for ($j = 0; $j < $this->box->getColNumber(); $j++) {
-                $cellsName[] = $availableLetters[$i].($j+1);
+        for ($i = 0; $i < $this->box->getRowNumber(); ++$i) {
+            for ($j = 0; $j < $this->box->getColNumber(); ++$j) {
+                $cellsName[] = $availableLetters[$i].($j + 1);
             }
         }
 

@@ -18,11 +18,11 @@ class SearchController extends Controller
     /**
      * Quick search.
      * Do the search and return the results.
-     * 
+     *
      * @param $search
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/search/{search}", name="quick-search")
      */
     public function quickSearchAction($search)

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Wild
+ * Wild.
  *
  * @ORM\Table(name="wild_strain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\WildStrainRepository")
@@ -91,7 +91,6 @@ class WildStrain extends Strain
      */
     private $tubes;
 
-
     public function __construct()
     {
         parent::__construct();
@@ -99,7 +98,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -109,9 +108,10 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set species
+     * Set species.
      *
      * @param Species $species
+     *
      * @return $this
      */
     public function setSpecies(Species $species)
@@ -122,7 +122,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get species
+     * Get species.
      *
      * @return Species
      */
@@ -132,7 +132,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param Type $type
      *
@@ -146,7 +146,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -156,7 +156,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set address
+     * Set address.
      *
      * @param string $address
      *
@@ -170,7 +170,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get address
+     * Get address.
      *
      * @return string
      */
@@ -180,9 +180,10 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set Biological origin category
+     * Set Biological origin category.
      *
      * @param $category
+     *
      * @return $this
      */
     public function setBiologicalOriginCategory($category)
@@ -193,7 +194,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get biological origin category
+     * Get biological origin category.
      *
      * @return BiologicalOriginCategory
      */
@@ -203,7 +204,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set biologicalOrigin
+     * Set biologicalOrigin.
      *
      * @param string $biologicalOrigin
      *
@@ -217,7 +218,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get country
+     * Get country.
      *
      * @return string
      */
@@ -227,7 +228,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set country
+     * Set country.
      *
      * @param string $country
      *
@@ -241,7 +242,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get biologicalOrigin
+     * Get biologicalOrigin.
      *
      * @return string
      */
@@ -251,7 +252,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Set source
+     * Set source.
      *
      * @param string $source
      *
@@ -265,7 +266,7 @@ class WildStrain extends Strain
     }
 
     /**
-     * Get source
+     * Get source.
      *
      * @return string
      */
@@ -276,8 +277,9 @@ class WildStrain extends Strain
 
     /**
      * Set latitude.
-     * 
+     *
      * @param $latitude
+     *
      * @return $this
      */
     public function setLatitude($latitude)
@@ -289,7 +291,7 @@ class WildStrain extends Strain
 
     /**
      * Get latitude.
-     * 
+     *
      * @return string
      */
     public function getLatitude()
@@ -300,7 +302,8 @@ class WildStrain extends Strain
     /**
      * Set longitude.
      *
-     * @param $latitude
+     * @param $longitude
+     *
      * @return $this
      */
     public function setLongitude($longitude)

@@ -36,28 +36,25 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $speciesData = [
             [
                 'genus' => 'Candida',
-                'species' =>
-                    [
+                'species' => [
                         'albicans',
                         'dubliniensis',
                         'glabrata',
-                    ]
+                    ],
             ],
             [
                 'genus' => 'Escherichia',
-                'species' =>
-                    [
+                'species' => [
                         'coli',
-                    ]
+                    ],
             ],
             [
                 'genus' => 'Yarrowia',
-                'species' =>
-                    [
+                'species' => [
                         'bubula',
                         'deformans',
                         'lipolytica',
-                    ]
+                    ],
             ],
         ];
 
@@ -68,7 +65,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             $manager->persist($genus);
             $this->setReference('genus-'.$data['genus'], $genus);
 
-            foreach($data['species'] as $speciesName) {
+            foreach ($data['species'] as $speciesName) {
                 $species = new Species();
                 $species->setGenus($this->getReference('genus-'.$data['genus']));
                 $species->setSpecies($speciesName);
@@ -87,7 +84,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             ['name' => 'Plasmid', 'letter' => 'P'],
         ];
 
-        foreach($typesData as $typeData) {
+        foreach ($typesData as $typeData) {
             $type = new Type();
             $type->setName($typeData['name']);
             $type->setLetter($typeData['letter']);
@@ -112,7 +109,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             ],
         ];
 
-        foreach($projectsData as $projectData) {
+        foreach ($projectsData as $projectData) {
             $project = new Project();
             $project->setName($projectData['name']);
             $project->setPrefix($projectData['prefix']);
@@ -172,7 +169,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             ],
         ];
 
-        foreach($boxesData as $boxData) {
+        foreach ($boxesData as $boxData) {
             $box = new Box();
             $box->setProject($boxData['project']);
             $box->setName($boxData['name']);

@@ -2,11 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Strain
+ * Strain.
  *
  * @ORM\MappedSuperclass()
  * @ORM\HasLifecycleCallbacks()
@@ -68,7 +67,7 @@ class Strain
     }
 
     /**
-     * Set creationDate
+     * Set creationDate.
      *
      * @param \DateTime $creationDate
      *
@@ -82,7 +81,7 @@ class Strain
     }
 
     /**
-     * Get creationDate
+     * Get creationDate.
      *
      * @return \DateTime
      */
@@ -92,7 +91,7 @@ class Strain
     }
 
     /**
-     * Set deletionDate
+     * Set deletionDate.
      *
      * @param \DateTime $deletionDate
      *
@@ -106,7 +105,7 @@ class Strain
     }
 
     /**
-     * Get deletionDate
+     * Get deletionDate.
      *
      * @return \DateTime
      */
@@ -116,22 +115,22 @@ class Strain
     }
 
     /**
-     * Set deleted
+     * Set deleted.
      *
-     * @param boolean $deleted
+     * @param bool $deleted
      *
      * @return Strain
      */
     public function setDeleted(bool $deleted)
     {
-        if(true === $deleted && false === $this->deleted) {
+        if (true === $deleted && false === $this->deleted) {
             $this->deletionDate = new \DateTime();
         } elseif (false === $deleted && true === $this->deleted) {
             $this->deletionDate = null;
         }
 
         // If user delete a strain, wee need to delete all tubes
-        if(true === $deleted) {
+        if (true === $deleted) {
             foreach ($this->getTubes() as $tube) {
                 $tube->setDeleted(true);
             }
@@ -143,7 +142,7 @@ class Strain
     }
 
     /**
-     * Get deleted
+     * Get deleted.
      *
      * @return bool
      */
@@ -153,7 +152,7 @@ class Strain
     }
 
     /**
-     * Set comment
+     * Set comment.
      *
      * @param string $comment
      *
@@ -167,7 +166,7 @@ class Strain
     }
 
     /**
-     * Get comment
+     * Get comment.
      *
      * @return string
      */
@@ -177,7 +176,7 @@ class Strain
     }
 
     /**
-     * Set systematicName
+     * Set systematicName.
      *
      * @param string $systematicName
      *
@@ -191,7 +190,7 @@ class Strain
     }
 
     /**
-     * Get systematicName
+     * Get systematicName.
      *
      * @return string
      */
@@ -201,7 +200,7 @@ class Strain
     }
 
     /**
-     * Set usualName
+     * Set usualName.
      *
      * @param string $usualName
      *
@@ -215,7 +214,7 @@ class Strain
     }
 
     /**
-     * Get usualName
+     * Get usualName.
      *
      * @return string
      */
@@ -225,9 +224,9 @@ class Strain
     }
 
     /**
-     * Set sequenced
+     * Set sequenced.
      *
-     * @param boolean $sequenced
+     * @param bool $sequenced
      *
      * @return Strain
      */
@@ -239,7 +238,7 @@ class Strain
     }
 
     /**
-     * Get sequenced
+     * Get sequenced.
      *
      * @return bool
      */
@@ -249,7 +248,7 @@ class Strain
     }
 
     /**
-     * Get full name
+     * Get full name.
      *
      * @return string
      */
@@ -259,7 +258,7 @@ class Strain
     }
 
     /**
-     * Generate the auto name
+     * Generate the auto name.
      */
     public function generateAutoName()
     {
@@ -269,7 +268,7 @@ class Strain
     }
 
     /**
-     * Get the authorized teams
+     * Get the authorized teams.
      *
      * @return array
      */
@@ -277,9 +276,8 @@ class Strain
     {
         $teams = [];
 
-        foreach($this->getTubes() as $tube)
-        {
-            foreach($tube->getBox()->getProject()->getTeams() as $team) {
+        foreach ($this->getTubes() as $tube) {
+            foreach ($tube->getBox()->getProject()->getTeams() as $team) {
                 if (!in_array($team, $teams)) {
                     $teams[] = $team;
                 }

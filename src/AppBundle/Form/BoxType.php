@@ -24,7 +24,7 @@ class BoxType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -40,12 +40,12 @@ class BoxType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Name of the box',
-                )
+                ),
             ))
             ->add('description', TextareaType::class, array(
                 'attr' => array(
                     'placeholder' => 'Description about the box',
-                )
+                ),
             ))
             ->add('type', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Type',
@@ -63,36 +63,36 @@ class BoxType extends AbstractType
             ->add('freezer', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'In which freezer is the box: Emile',
-                )
+                ),
             ))
             ->add('location', TextType::class, array(
                 'label' => 'Location in the freezer',
                 'attr' => array(
                     'placeholder' => '1st shelf on the top, 3rd rack on the left',
-                )
+                ),
             ))
             ->add('colNumber', NumberType::class, array(
                 'label' => 'Number of columns',
                 'attr' => array(
                     'placeholder' => '10',
-                )
+                ),
             ))
             ->add('rowNumber', NumberType::class, array(
                 'label' => 'Number of rows',
                 'attr' => array(
                     'placeholder' => '10',
-                )
+                ),
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Box'
+            'data_class' => 'AppBundle\Entity\Box',
         ));
     }
 }

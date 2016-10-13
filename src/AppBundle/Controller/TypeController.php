@@ -10,9 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class typeController
- * @package AppBundle\Controller
- * 
+ * Class typeController.
+ *
  * @Route("/type")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
@@ -25,7 +24,7 @@ class TypeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
         } else {
             $types = $em->getRepository('AppBundle:Type')->findAllAuthorizedForCurrentUser($this->getUser());
@@ -118,5 +117,4 @@ class TypeController extends Controller
             'form' => $form->createView(),
         ));
     }
-
 }

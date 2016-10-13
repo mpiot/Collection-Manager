@@ -21,7 +21,7 @@ class TypeType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,12 +29,12 @@ class TypeType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Yeast, E. coli, Plasmid',
-                )
+                ),
             ))
             ->add('letter', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Y, E, P',
-                )
+                ),
             ))
             ->add('team', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Team',
@@ -50,14 +50,14 @@ class TypeType extends AbstractType
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Type'
+            'data_class' => 'AppBundle\Entity\Type',
         ));
     }
 }

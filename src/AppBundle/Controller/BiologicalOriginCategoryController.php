@@ -10,9 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class typeController
- * @package AppBundle\Controller
- * 
+ * Class typeController.
+ *
  * @Route("/categories")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
@@ -35,7 +34,7 @@ class BiologicalOriginCategoryController extends Controller
             'categories' => $categories,
         ));
     }
-    
+
     /**
      * @Route("/add", name="category_add")
      * @Security("user.isInTeam() or is_granted('ROLE_ADMIN')")
@@ -118,5 +117,4 @@ class BiologicalOriginCategoryController extends Controller
             'form' => $form->createView(),
         ));
     }
-
 }

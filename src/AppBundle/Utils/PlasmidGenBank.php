@@ -50,7 +50,7 @@ class PlasmidGenBank
                 $array['features'][]['type'] = $matches[1];
 
                 // The position: an array like [sens/reverse, start, end]
-                $array['features'][$i-1]['position'] = [
+                $array['features'][$i - 1]['position'] = [
                     'strand' => ('complement' === $matches[2]) ? -1 : 1,
                     'start' => $matches[3],
                     'stop' => $matches[4],
@@ -61,22 +61,21 @@ class PlasmidGenBank
             // all of this depend of the feature type
             // If it's all but no a translation
             elseif (preg_match('/^ {21}\/([a-zA-Z_]+)=(?:"([\w\d _.\-\(\)]+)"|(?:(\d)))/', $line, $matches)) {
-                if('codon_start' === $matches[1]) {
-                    $array['features'][$i-1]['codon_start'] = $matches[3];
+                if ('codon_start' === $matches[1]) {
+                    $array['features'][$i - 1]['codon_start'] = $matches[3];
                 } elseif ('note' === $matches[1]) {
-                    $array['features'][$i-1]['note'][] = $matches[2];
-                }
-                else {
-                    $array['features'][$i-1][$matches[1]] = $matches[2];
+                    $array['features'][$i - 1]['note'][] = $matches[2];
+                } else {
+                    $array['features'][$i - 1][$matches[1]] = $matches[2];
                 }
             }
 
             // If it's a translation
             elseif (preg_match('/ {21}(?:\/translation=")?([A-Z]+)/', $line, $matches)) {
-                if (array_key_exists('translation', $array['features'][$i-1])) {
-                    $array['features'][$i-1]['translation'] .= $matches[1];
+                if (array_key_exists('translation', $array['features'][$i - 1])) {
+                    $array['features'][$i - 1]['translation'] .= $matches[1];
                 } else {
-                    $array['features'][$i-1]['translation'] = $matches[1];
+                    $array['features'][$i - 1]['translation'] = $matches[1];
                 }
             }
 

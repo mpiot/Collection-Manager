@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Genus;
 use AppBundle\Entity\Species;
 use AppBundle\Form\SpeciesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,12 +9,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class SpeciesController
- * @package AppBundle\Controller
- * 
+ * Class SpeciesController.
+ *
  * @Route("/species")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */

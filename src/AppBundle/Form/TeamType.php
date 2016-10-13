@@ -13,7 +13,7 @@ class TeamType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -57,7 +57,7 @@ class TeamType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Team'
+            'data_class' => 'AppBundle\Entity\Team',
         ));
     }
 }

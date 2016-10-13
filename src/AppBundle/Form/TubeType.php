@@ -12,13 +12,14 @@ class TubeType extends AbstractType
 {
     private $em;
 
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -31,7 +32,7 @@ class TubeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Tube'
+            'data_class' => 'AppBundle\Entity\Tube',
         ));
     }
 }

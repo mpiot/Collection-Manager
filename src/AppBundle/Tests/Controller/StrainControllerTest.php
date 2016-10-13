@@ -40,5 +40,4 @@ class StrainControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/delete/{id}');
     }
-
 }

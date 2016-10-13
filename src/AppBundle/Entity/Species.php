@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Species
+ * Species.
  *
  * @ORM\Table(name="species")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SpeciesRepository")
@@ -58,7 +58,7 @@ class Species
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="species")
      */
     private $wildStrains;
-    
+
     public function __construct()
     {
         $this->synonyms = array();
@@ -67,7 +67,7 @@ class Species
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -77,7 +77,7 @@ class Species
     }
 
     /**
-     * Set genus
+     * Set genus.
      *
      * @param string $genus
      *
@@ -91,7 +91,7 @@ class Species
     }
 
     /**
-     * Get genus
+     * Get genus.
      *
      * @return string
      */
@@ -101,7 +101,7 @@ class Species
     }
 
     /**
-     * Set species
+     * Set species.
      *
      * @param string $species
      *
@@ -115,7 +115,7 @@ class Species
     }
 
     /**
-     * Get species
+     * Get species.
      *
      * @return string
      */
@@ -126,6 +126,7 @@ class Species
 
     /**
      * @param $synonym
+     *
      * @return $this
      */
     public function addSynonym($synonym)
@@ -139,6 +140,7 @@ class Species
 
     /**
      * @param $synonym
+     *
      * @return $this
      */
     public function removeSynonym($synonym)
@@ -152,7 +154,7 @@ class Species
     }
 
     /**
-     * Set synonyms
+     * Set synonyms.
      *
      * @param array $synonyms
      *
@@ -160,7 +162,7 @@ class Species
      */
     public function setSynonyms($synonyms)
     {
-        foreach($synonyms as $synonym) {
+        foreach ($synonyms as $synonym) {
             $this->addSynonym($synonym);
         }
 
@@ -168,7 +170,7 @@ class Species
     }
 
     /**
-     * Get synonyms
+     * Get synonyms.
      *
      * @return array
      */

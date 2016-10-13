@@ -11,8 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class TeamController
- * @package AppBundle\Controller
+ * Class TeamController.
  *
  * @Route("team")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")

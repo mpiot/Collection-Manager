@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * GenBankFile
+ * GenBankFile.
  *
  * @ORM\Table(name="gen_bank_file")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GenBankFileRepository")
@@ -41,7 +41,7 @@ class GenBankFile extends File
     protected $fileSystemPath;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -54,6 +54,7 @@ class GenBankFile extends File
      * Set Plasmid.
      *
      * @param Plasmid $plasmid
+     *
      * @return $this
      */
     public function setPlasmid(Plasmid $plasmid)

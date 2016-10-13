@@ -12,8 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class BoxController
- * @package AppBundle\Controller
+ * Class BoxController.
  *
  * @Route("/box")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
@@ -89,7 +88,7 @@ class BoxController extends Controller
     /**
      * @Route("/edit/{id}", name="box_edit")
      * @ParamConverter("box", class="AppBundle:Box", options={
-            "repository_method" = "findOneWithType"
+     *      "repository_method" = "findOneWithType"
      * })
      * @Security("is_granted('PROJECT_EDIT', box.getProject())")
      */
@@ -107,7 +106,7 @@ class BoxController extends Controller
 
             return $this->redirectToRoute('box_index');
         }
-        
+
         return $this->render('box/edit.html.twig', array(
             'box' => $box,
             'form' => $form->createView(),
@@ -156,5 +155,4 @@ class BoxController extends Controller
             'form' => $form->createView(),
         ));
     }
-
 }

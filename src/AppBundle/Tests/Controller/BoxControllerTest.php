@@ -33,5 +33,4 @@ class BoxControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/edit/{id}');
     }
-
 }

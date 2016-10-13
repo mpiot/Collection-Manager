@@ -14,14 +14,14 @@ class SpeciesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('genus', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Genus',
-                'query_builder' => function(GenusRepository $gr) {
+                'query_builder' => function (GenusRepository $gr) {
                     return $gr->createQueryBuilder('g')
                         ->orderBy('g.genus', 'ASC');
                 },
@@ -30,7 +30,7 @@ class SpeciesType extends AbstractType
             ->add('species', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'lipolytica',
-                )
+                ),
             ))
             ->add('synonyms', CollectionType::class, array(
                 'entry_type' => TextType::class,
@@ -40,14 +40,14 @@ class SpeciesType extends AbstractType
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Species'
+            'data_class' => 'AppBundle\Entity\Species',
         ));
     }
 }

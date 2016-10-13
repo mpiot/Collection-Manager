@@ -13,7 +13,7 @@ class ProjectType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -21,17 +21,17 @@ class ProjectType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Yarrowia lipolytica, populations genomics',
-                )
+                ),
             ))
             ->add('prefix', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'YALI',
-                )
+                ),
             ))
             ->add('description', TextareaType::class, array(
                 'attr' => array(
                     'placeholder' => 'A description about the project',
-                )
+                ),
             ))
             ->add('teams', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Team',
@@ -41,14 +41,14 @@ class ProjectType extends AbstractType
             ))
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Project'
+            'data_class' => 'AppBundle\Entity\Project',
         ));
     }
 }

@@ -95,5 +95,4 @@ class StrainVoter extends Voter
 
         return false;
     }
-
 }
