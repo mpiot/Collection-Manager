@@ -76,7 +76,7 @@ class ProjectController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash('success', 'The project has been edited successfully.');
+            $this->addFlash('success', 'The project has been edited unsuccessfully.');
 
             return $this->redirectToRoute('project_index');
         }
@@ -93,6 +93,13 @@ class ProjectController extends Controller
      */
     public function deleteAction(Project $project, Request $request)
     {
+        // Check if the project is empty, else redirect user
+        if (!$project->getBoxes()->isEmpty()) {
+            $this->addFlash('warning', 'The project cannot be deleted, there are boxes attached.');
+
+            return $this->redirectToRoute('project_index');
+        }
+
         // On crée un formulaire vide, qui contiendra un champ anti CSRF
         $form = $this->createFormBuilder()->getForm();
 
