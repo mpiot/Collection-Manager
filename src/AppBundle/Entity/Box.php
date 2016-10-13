@@ -403,6 +403,18 @@ class Box
         return $cells;
     }
 
+    public function isLastBox()
+    {
+        // How many boxes in the project
+        $projectBoxesNumber = $this->project->getBoxes()->count();
+        $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+        // Get the box number
+        $boxNumber = array_search($this->boxLetter, $availableLetters) + 1;
+
+        return $boxNumber === $projectBoxesNumber;
+    }
+
     /**
      * Before persist.
      *

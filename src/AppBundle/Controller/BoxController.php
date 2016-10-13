@@ -120,6 +120,23 @@ class BoxController extends Controller
      */
     public function deleteAction(Box $box, Request $request)
     {
+        $error = false;
+
+        // If the box is not emty
+        if (!$box->getTubes()->isEmpty()) {
+            $this->addFlash('warning', 'The box cannot be deleted, there are tubes attached.');
+            $error = true;
+        }
+        // If the box is not the last box
+        if (!$box->isLastBox()) {
+            $this->addFlash('warning', 'Only the last box of a project can be deleted.');
+            $error = true;
+        }
+
+        if ($error) {
+            return $this->redirectToRoute('box_index');
+        }
+
         $form = $this->createFormBuilder()->getForm();
 
         $form->handleRequest($request);
