@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 /**
  * Type
  *
  * @ORM\Table(name="type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TypeRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Type
 {
@@ -41,6 +43,10 @@ class Type
      */
     private $strains;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="types")
+     */
+    private $team;
 
     public function __construct()
     {
@@ -107,6 +113,18 @@ class Type
     public function getStrains()
     {
         return $this->strains;
+    }
+
+    public function setTeam(Team $team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    public function getTeam()
+    {
+        return $this->team;
     }
 }
 

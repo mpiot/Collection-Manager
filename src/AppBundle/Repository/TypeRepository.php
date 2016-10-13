@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * TypeRepository
@@ -10,4 +11,16 @@ namespace AppBundle\Repository;
  */
 class TypeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllAuthorizedForCurrentUser(User $user)
+    {
+        $query = $this->createQueryBuilder('type')
+            ->leftJoin('type.team', 'teams')
+            ->leftJoin('teams.members', 'members')
+            ->where('members = :user')
+                ->setParameter('user', $user)
+            ->orderBy('type.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

@@ -24,7 +24,7 @@ services:
         tags:
             - { name: twig.extension }
 
-# Form: EntityManager injection
+# Form
     app.form_type.tube:
         class: AppBundle\Form\TubeType
         arguments: ["@doctrine.orm.entity_manager"]
@@ -33,7 +33,19 @@ services:
 
     app.form_type.strain:
         class: AppBundle\Form\StrainType
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+    app.form_type.type:
+        class: AppBundle\Form\TypeType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+    app.form_type.box:
+        class: AppBundle\Form\BoxType
+        arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
 
@@ -64,6 +76,13 @@ services:
 
     app.voter.strain:
         class: AppBundle\Security\StrainVoter
+        arguments: ["@security.access.decision_manager"]
+        tags:
+            - { name: security.voter }
+        public: false
+
+    app.voter.type:
+        class: AppBundle\Security\TypeVoter
         arguments: ["@security.access.decision_manager"]
         tags:
             - { name: security.voter }

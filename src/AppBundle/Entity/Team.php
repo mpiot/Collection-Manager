@@ -56,12 +56,18 @@ class Team
      */
     private $projects;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Type", mappedBy="team")
+     */
+    private $types;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->administrators = new ArrayCollection();
         $this->moderators = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->types = new ArrayCollection();
     }
 
     public function __toString()
@@ -246,5 +252,15 @@ class Team
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * Get types
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTypes()
+    {
+        return $this->types;
     }
 }

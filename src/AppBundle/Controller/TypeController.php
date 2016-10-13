@@ -24,15 +24,21 @@ class TypeController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
+
+        if($this->isGranted('ROLE_ADMIN')) {
+            $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
+        } else {
+            $types = $em->getRepository('AppBundle:Type')->findAllAuthorizedForCurrentUser($this->getUser());
+        }
 
         return $this->render('type/index.html.twig', array(
             'typesList' => $types,
         ));
     }
-    
+
     /**
      * @Route("/add", name="type_add")
+     * @Security("user.isInTeam() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -58,6 +64,7 @@ class TypeController extends Controller
 
     /**
      * @Route("/edit/{id}", name="type_edit")
+     * @Security("is_granted('TYPE_EDIT', type)")
      */
     public function editAction(Type $type, Request $request)
     {
@@ -82,6 +89,7 @@ class TypeController extends Controller
 
     /**
      * @Route("/delete/{id}", name="type_delete")
+     * @Security("is_granted('TYPE_DELETE', type)")
      */
     public function deleteAction(Type $type, Request $request)
     {

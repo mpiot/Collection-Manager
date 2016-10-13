@@ -3,23 +3,33 @@
 {% block title %}Types list{% endblock %}
 
 {% block type_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('type_add') }}">
-            <span class="glyphicon glyphicon-plus"></span> Add a type
-        </a>
-    </div>
+    {% if app.user.isInTeam() or is_granted('ROLE_ADMIN') %}
+        <div>
+            <a class="btn btn-default" href="{{ path('type_add') }}">
+                <span class="glyphicon glyphicon-plus"></span> Add a type
+            </a>
+        </div>
+    {% endif %}
 
     <h2 class="sub-header">Types list</h2>
 
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-5">Type</th>
-                <th class="col-md-4">Letter</th>
-                <th class="col-md-2">Actions</th>
-            </tr>
+                {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
+                    <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-5">Type</th>
+                        <th class="col-md-4">Letter</th>
+                        <th class="col-md-2">Actions</th>
+                    </tr>
+                {% else %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-6">Type</th>
+                    <th class="col-md-5">Letter</th>
+                </tr>
+                {% endif %}
             </thead>
                 {% if typesList is not empty %}
                     {% for type in typesList %}
@@ -27,12 +37,19 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ type.name }}</td>
                             <td>{{ type.letter }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
-                            </td>
+                            {% if app.user.isTeamAministratorOrModerator or is_granted('ROLE_ADMIN') %}
+                                <td>
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        {% if is_granted('TYPE_EDIT', type) %}
+                                            <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                        {% endif %}
+
+                                        {% if is_granted('TYPE_DELETE', type) %}
+                                            <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% else %}

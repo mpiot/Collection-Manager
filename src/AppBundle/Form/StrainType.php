@@ -14,14 +14,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class StrainType extends AbstractType
 {
     private $em;
+    private $user;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, TokenStorage $token)
     {
         $this->em = $em;
+        $this->user = $token->getToken()->getUser();
     }
 
     /**
@@ -33,9 +36,13 @@ class StrainType extends AbstractType
         $builder
             ->add('type', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Type',
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('t')
-                        ->orderBy('t.name', 'ASC');
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('types')
+                        ->leftJoin('types.team', 'team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                        ->setParameter('user', $this->user)
+                        ->orderBy('types.name', 'ASC');
                 },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a type --',

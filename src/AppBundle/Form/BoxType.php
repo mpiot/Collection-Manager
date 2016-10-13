@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Repository\ProjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -10,9 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class BoxType extends AbstractType
 {
+    private $user;
+
+    public function __construct(TokenStorage $token)
+    {
+        $this->user = $token->getToken()->getUser();
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -40,6 +49,14 @@ class BoxType extends AbstractType
             ))
             ->add('type', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Type',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('types')
+                        ->leftJoin('types.team', 'team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                            ->setParameter('user', $this->user)
+                        ->orderBy('types.name', 'ASC');
+                },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a type --',
             ))
