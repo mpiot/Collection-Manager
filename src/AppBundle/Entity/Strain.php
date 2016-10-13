@@ -62,22 +62,6 @@ class Strain
      */
     private $sequenced;
 
-    /**
-     * @var Type
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Type", inversedBy="strains")
-     */
-    private $type;
-
-    /**
-     * @var Species
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="strains")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $species;
-    
-
     public function __construct()
     {
         $this->creationDate = new \DateTime();
@@ -262,53 +246,6 @@ class Strain
     public function getSequenced()
     {
         return $this->sequenced;
-    }
-
-    /**
-     * Set type
-     *
-     * @param Type $type
-     *
-     * @return Strain
-     */
-    public function setType(Type $type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set species
-     *
-     * @param Species $species
-     * @return $this
-     */
-    public function setSpecies(Species $species)
-    {
-        $this->species = $species;
-
-        return $this;
-    }
-
-    /**
-     * Get species
-     *
-     * @return Species
-     */
-    public function getSpecies()
-    {
-        return $this->species;
     }
 
     /**

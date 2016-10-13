@@ -45,18 +45,25 @@ class Species
      */
     private $synonyms;
 
+    /**
+     * @var Strain|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="species")
+     */
+    private $gmoStrains;
 
     /**
      * @var Strain|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="species")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="species")
      */
-    private $strains;
+    private $wildStrains;
     
     public function __construct()
     {
         $this->synonyms = array();
-        $this->strains = new ArrayCollection();
+        $this->gmoStrains = new ArrayCollection();
+        $this->wildStrains = new ArrayCollection();
     }
 
     /**
@@ -171,47 +178,24 @@ class Species
     }
 
     /**
-     * Add strain.
-     *
-     * @param Strain $strain
-     *
-     * @return $this
+     * Get gmo strains.
      */
-    public function addStrain(Strain $strain)
+    public function getGmoStrains()
     {
-        if (!$this->strains->contains($strain)) {
-            $this->strains[] = $strain;
-            $strain->setSpecies($this);
-        }
-
-        return $this;
+        return $this->gmoStrains;
     }
 
     /**
-     * Remove strain.
-     *
-     * @param Strain $strain
-     * @return $this
+     * Get wild strains.
      */
-    public function removeStrain(Strain $strain)
+    public function getWildStrains()
     {
-        if ($this->strains->contains($strain)) {
-            $this->strains->removeElement($strain);
-        }
-
-        return $this;
+        return $this->wildStrains;
     }
 
     /**
-     * Get strain.
-     *
-     * @return Strain|ArrayCollection
+     * @return string
      */
-    public function getStrains()
-    {
-        return $this->strains;
-    }
-
     public function getScientificName()
     {
         return $this->genus->getGenus().' '.$this->species;

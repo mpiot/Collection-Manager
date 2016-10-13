@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,9 +30,19 @@ class BiologicalOriginCategory
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="biologicalOriginCategory")
+     */
+    private $wildStrains;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="biologicalOriginCategories")
      */
     private $team;
+
+    public function __construct()
+    {
+        $this->wildStrains = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -65,6 +76,11 @@ class BiologicalOriginCategory
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getWildStrains()
+    {
+        return $this->wildStrains;
     }
 
     public function setTeam(Team $team)

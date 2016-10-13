@@ -93,6 +93,12 @@ class BiologicalOriginCategoryController extends Controller
      */
     public function deleteAction(BiologicalOriginCategory $category, Request $request)
     {
+        // Check if the category is used in wild strains, else redirect user
+        if (!$category->getWildStrains()->isEmpty()) {
+            $this->addFlash('warning', 'The category cannot be deleted, there are strains attached.');
+
+            return $this->redirectToRoute('category_index');
+        }
         $form = $this->createFormBuilder()->getForm();
 
         $form->handleRequest($request);

@@ -23,6 +23,21 @@ class WildStrain extends Strain
     private $id;
 
     /**
+     * @var Species
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="wildStrains")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $species;
+
+    /**
+     * @var Type
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Type", inversedBy="wildStrains")
+     */
+    private $type;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255)
@@ -39,7 +54,7 @@ class WildStrain extends Strain
     /**
      * @var BiologicalOriginCategory
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BiologicalOriginCategory")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BiologicalOriginCategory", inversedBy="wildStrains")
      */
     private $biologicalOriginCategory;
 
@@ -91,6 +106,53 @@ class WildStrain extends Strain
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set species
+     *
+     * @param Species $species
+     * @return $this
+     */
+    public function setSpecies(Species $species)
+    {
+        $this->species = $species;
+
+        return $this;
+    }
+
+    /**
+     * Get species
+     *
+     * @return Species
+     */
+    public function getSpecies()
+    {
+        return $this->species;
+    }
+
+    /**
+     * Set type
+     *
+     * @param Type $type
+     *
+     * @return Strain
+     */
+    public function setType(Type $type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

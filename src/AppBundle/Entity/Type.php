@@ -39,9 +39,14 @@ class Type
     private $letter;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="type")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="type")
      */
-    private $strains;
+    private $gmoStrains;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="type")
+     */
+    private $wildStrains;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="types")
@@ -50,7 +55,8 @@ class Type
 
     public function __construct()
     {
-        $this->strains = new ArrayCollection();
+        $this->gmoStrains = new ArrayCollection();
+        $this->wildStrains = new ArrayCollection();
     }
 
     /**
@@ -107,12 +113,14 @@ class Type
         return $this->letter;
     }
 
-    /**
-     *
-     */
-    public function getStrains()
+    public function getGmoStrains()
     {
-        return $this->strains;
+        return $this->gmoStrains;
+    }
+
+    public function getWildStrains()
+    {
+        return $this->wildStrains;
     }
 
     public function setTeam(Team $team)

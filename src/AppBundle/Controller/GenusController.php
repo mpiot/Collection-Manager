@@ -71,7 +71,7 @@ class GenusController extends Controller
 
             $this->addFlash('success', 'The genus has been edited successfully.');
 
-            return $this->redirectToRoute('species_index');
+            return $this->redirectToRoute('genus_index');
         }
 
         return $this->render('genus/edit.html.twig', array(
@@ -85,6 +85,13 @@ class GenusController extends Controller
      */
     public function deleteAction(Genus $genus, Request $request)
     {
+        // Check if the genus is empty, else redirect user
+        if (!$genus->getSpecies()->isEmpty()) {
+            $this->addFlash('warning', 'The genus cannot be deleted, there are species attached.');
+
+            return $this->redirectToRoute('genus_index');
+        }
+
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
 
@@ -95,7 +102,7 @@ class GenusController extends Controller
 
             $this->addFlash('success', 'The genus has been deleted successfully.');
 
-            return $this->redirectToRoute('species_index');
+            return $this->redirectToRoute('genus_index');
         }
 
         return $this->render('genus/delete.html.twig', array(
