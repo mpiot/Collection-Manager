@@ -94,8 +94,6 @@ class PlasmidGenBank
 
         $array['length'] = strlen($array['fasta']);
 
-        dump($array);
-
         return $array;
     }
 }
