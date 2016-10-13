@@ -24,7 +24,12 @@ class BiologicalOriginCategoryController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findBy([], ['name' => 'ASC']);
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findBy([], ['name' => 'ASC']);
+        } else {
+            $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findAllAuthorizedForCurrentUser($this->getUser());
+        }
 
         return $this->render('biological_origin_category/index.html.twig', array(
             'categories' => $categories,
@@ -33,6 +38,7 @@ class BiologicalOriginCategoryController extends Controller
     
     /**
      * @Route("/add", name="category_add")
+     * @Security("user.isInTeam() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -58,6 +64,7 @@ class BiologicalOriginCategoryController extends Controller
 
     /**
      * @Route("/edit/{id}", name="category_edit")
+     * @Security("is_granted('BIO_CATEGORY_EDIT', category)")
      */
     public function editAction(BiologicalOriginCategory $category, Request $request)
     {
@@ -82,6 +89,7 @@ class BiologicalOriginCategoryController extends Controller
 
     /**
      * @Route("/delete/{id}", name="category_delete")
+     * @Security("is_granted('BIO_CATEGORY_DELETE', category)")
      */
     public function deleteAction(BiologicalOriginCategory $category, Request $request)
     {

@@ -3,34 +3,50 @@
 {% block title %}Categories list{% endblock %}
 
 {% block type_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('category_add') }}">
-            <span class="glyphicon glyphicon-plus"></span> Add a category
-        </a>
-    </div>
+    {% if app.user.isInTeam() or is_granted('ROLE_ADMIN') %}
+        <div>
+            <a class="btn btn-default" href="{{ path('category_add') }}">
+                <span class="glyphicon glyphicon-plus"></span> Add a category
+            </a>
+        </div>
+    {% endif %}
 
     <h2 class="sub-header">Categories list</h2>
 
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-9">Category name</th>
-                <th class="col-md-2">Actions</th>
-            </tr>
+            {% if app.user.isTeamAministratorOrModerator() or is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-9">Category name</th>
+                    <th class="col-md-2">Actions</th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-11">Category name</th>
+                </tr>
+            {% endif %}
             </thead>
                 {% if categories is not empty %}
                     {% for category in categories %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ category.name }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('category_edit', { 'id': category.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('category_delete', { 'id': category.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
-                            </td>
+                            {% if app.user.isTeamAministratorOrModerator() or is_granted('ROLE_ADMIN') %}
+                                <td>
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        {% if is_granted('BIO_CATEGORY_EDIT', category) %}
+                                            <a class="btn btn-warning" href="{{ path('category_edit', { 'id': category.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                        {% endif %}
+
+                                        {% if is_granted('BIO_CATEGORY_DELETE', category) %}
+                                            <a class="btn btn-danger" href="{{ path('category_delete', { 'id': category.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% else %}

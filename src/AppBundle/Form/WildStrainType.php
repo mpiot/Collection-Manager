@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -9,9 +10,17 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WildStrainType extends AbstractType
 {
+    private $user;
+
+    public function __construct(TokenStorage $token)
+    {
+        $this->user = $token->getToken()->getUser();
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -21,6 +30,14 @@ class WildStrainType extends AbstractType
         $builder
             ->add('biologicalOriginCategory', EntityType::class, array(
                 'class' => 'AppBundle\Entity\BiologicalOriginCategory',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('category')
+                        ->leftJoin('category.team', 'team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                            ->setParameter('user', $this->user)
+                        ->orderBy('category.name', 'ASC');
+                },
                 'choice_label' => 'name',
                 'placeholder' => '-- Choose a category --',
                 'label' => 'Category',

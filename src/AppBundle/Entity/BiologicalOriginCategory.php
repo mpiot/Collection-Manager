@@ -28,6 +28,10 @@ class BiologicalOriginCategory
      */
     private $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="biologicalOriginCategories")
+     */
+    private $team;
 
     /**
      * Get id
@@ -62,5 +66,16 @@ class BiologicalOriginCategory
     {
         return $this->name;
     }
-}
 
+    public function setTeam(Team $team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    public function getTeam()
+    {
+        return $this->team;
+    }
+}

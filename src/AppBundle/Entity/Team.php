@@ -61,6 +61,11 @@ class Team
      */
     private $types;
 
+    /**
+     * @ORM\OneTOMany(targetEntity="AppBundle\Entity\BiologicalOriginCategory", mappedBy="team")
+     */
+    private $biologicalOriginCategories;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -68,6 +73,7 @@ class Team
         $this->moderators = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->types = new ArrayCollection();
+        $this->biologicalOriginCategories = new ArrayCollection();
     }
 
     public function __toString()
@@ -262,5 +268,10 @@ class Team
     public function getTypes()
     {
         return $this->types;
+    }
+
+    public function getBiologicalOriginCategories()
+    {
+        return $this->biologicalOriginCategories;
     }
 }

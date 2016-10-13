@@ -37,6 +37,12 @@ services:
         tags:
             - { name: form.type }
 
+    app.form_type.wild_strain:
+        class: AppBundle\Form\WildStrainType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
     app.form_type.type:
         class: AppBundle\Form\TypeType
         arguments: ["@security.token_storage"]
@@ -45,6 +51,12 @@ services:
 
     app.form_type.box:
         class: AppBundle\Form\BoxType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+    app.form_type.biological_origin_category:
+        class: AppBundle\Form\BiologicalOriginCategoryType
         arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
@@ -83,6 +95,13 @@ services:
 
     app.voter.type:
         class: AppBundle\Security\TypeVoter
+        arguments: ["@security.access.decision_manager"]
+        tags:
+            - { name: security.voter }
+        public: false
+
+    app.voter.biological_origin_category:
+        class: AppBundle\Security\BiologicalOriginCategoryVoter
         arguments: ["@security.access.decision_manager"]
         tags:
             - { name: security.voter }

@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * BiologicalOriginCategoryRepository
@@ -10,4 +11,16 @@ namespace AppBundle\Repository;
  */
 class BiologicalOriginCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllAuthorizedForCurrentUser(User $user)
+    {
+        $query = $this->createQueryBuilder('category')
+            ->leftJoin('category.team', 'team')
+            ->leftJoin('team.members', 'members')
+            ->where('members = :user')
+                ->setParameter('user', $user)
+            ->orderBy('category.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }
