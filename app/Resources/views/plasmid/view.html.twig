@@ -9,18 +9,17 @@
         </a>
     </div>
 
-    <h2>Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}</h2>
+    <h2>
+        Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}
+        <a type="button" class="btn btn-success btn-md" href="{{ asset(plasmid.genBankFile.webPath) }}">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+            Download
+        </a>
+    </h2>
 
     <div class="row">
         {% if gbkFile is not null %}
-            <div class="col-md-1">
-                <a type="button" class="btn btn-success btn-lg" href="{{ asset(plasmid.genBankFile.webPath) }}">
-                    <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-                    Download the plasmid
-                </a>
-            </div>
-
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-12">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
