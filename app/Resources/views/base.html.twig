@@ -64,7 +64,10 @@
                                         Signed in as <strong>{{ app.user.username }}</strong>
                                     </div>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="{{ path('team_index') }}">Manage teams</a></li>
+                                    <li><a href="{{ path('team_index') }}">Teams</a></li>
+                                    {% if app.user.isTeamAministratorOrModerator() or is_granted('ROLE_ADMIN') %}
+                                        <li><a href="{{ path('team_request_index') }}">Manage team requests</a></li>
+                                    {% endif %}
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
                                     <li><a href="{{ path('fos_user_security_logout') }}">Sign out</a></li>

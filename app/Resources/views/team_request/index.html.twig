@@ -1,0 +1,50 @@
+{% extends "team_request/base.html.twig" %}
+
+{% block title %}Request for managed teams{% endblock %}
+
+{% block team_request_body %}
+    <h2>Requests for managed teams</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-2">Asked team</th>
+                <th class="col-md-2">User</th>
+                <th class="col-md-5">User teams</th>
+                <th class="col-md-2">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% if requests is not empty %}
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ request.team.name }}</td>
+                        <td>{{ request.user.username }}</td>
+                        <td>
+                            {% if request.user.teams is not empty %}
+                                {{ request.user.teams|join(', ') }}
+                            {% else %}
+                                No team
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                <a class="btn btn-success" href="{{ path('team_request_accept', { 'id': request.id }) }}"><span class=" glyphicon glyphicon-ok" aria-hidden="true"></span> Accept</a>
+                                <a class="btn btn-danger" href="{{ path('team_request_decline', { 'id': request.id }) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Decline</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">There is no requests.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

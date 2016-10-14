@@ -18,20 +18,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    {% if app.user.isTeamAdministrator() or is_granted('ROLE_ADMIN') %}
                         <th class="col-md-1">#</th>
                         <th class="col-md-2">Name</th>
                         <th class="col-md-3">Administrators</th>
                         <th class="col-md-3">Moderators</th>
                         <th class="col-md-1">Members</th>
                         <th class="col-md-2">Actions</th>
-                    {% else %}
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Name</th>
-                        <th class="col-md-3">Administrators</th>
-                        <th class="col-md-3">Moderators</th>
-                        <th class="col-md-1">Members</th>
-                    {% endif %}
                 </tr>
             </thead>
 
@@ -44,9 +36,16 @@
                         <td>{{ team.administrators|join(', ') }}</td>
                         <td>{{ team.moderators|join(', ') }}</td>
                         <td>{{ team.members|length }}</td>
-                        {% if app.user.isTeamAdministrator() or is_granted('ROLE_ADMIN') %}
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    {% if not app.user.hasTeam(team) %}
+                                        {% if not app.user.hasRequestedTeam(team) %}
+                                            <a class="btn btn-info" href="{{ path('team_request_add', { 'id': team.id }) }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Join it</a>
+                                        {% else %}
+                                            <span class="label label-info"> Requested</span>
+                                        {% endif %}
+                                    {% endif %}
+
                                     {% if app.user.isAdministratorOf(team) or is_granted('ROLE_ADMIN') %}
                                         <a class="btn btn-warning" href="{{ path('team_edit', { 'id': team.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
                                     {% endif %}
@@ -56,7 +55,6 @@
                                     {% endif %}
                                 </div>
                             </td>
-                        {% endif %}
                     </tr>
                 {% endfor %}
             {% else %}
@@ -67,4 +65,5 @@
             </tbody>
         </table>
     </div>
+
 {% endblock %}

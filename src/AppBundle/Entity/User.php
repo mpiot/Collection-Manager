@@ -23,17 +23,22 @@ class User extends BaseUser
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", mappedBy="administrators")
      */
-    protected $administeredTeams;
+    private $administeredTeams;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", mappedBy="moderators")
      */
-    protected $moderatedTeams;
+    private $moderatedTeams;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", mappedBy="members")
      */
-    protected $teams;
+    private $teams;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeamRequest", mappedBy="user")
+     */
+    private $teamRequests;
 
     public function __construct()
     {
@@ -41,6 +46,7 @@ class User extends BaseUser
         $this->teams = new ArrayCollection();
         $this->administeredTeams = new ArrayCollection();
         $this->moderatedTeams = new ArrayCollection();
+        $this->teamRequests = new ArrayCollection();
     }
 
     public function addAdministeredTeam(Team $team)
@@ -132,5 +138,30 @@ class User extends BaseUser
     public function isInTeam()
     {
         return !$this->teams->isEmpty();
+    }
+
+    public function hasTeam(Team $team)
+    {
+        return $this->teams->contains($team);
+    }
+
+    public function getTeamRequests()
+    {
+        return $this->teamRequests;
+    }
+
+    public function hasRequestedTeam(Team $team)
+    {
+        $result = false;
+
+        foreach ($this->teamRequests as $teamRequest)
+        {
+            if ($team === $teamRequest->getTeam()) {
+                $result = true;
+                break;
+            }
+        }
+
+        return $result;
     }
 }
