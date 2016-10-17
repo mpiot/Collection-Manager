@@ -25,7 +25,8 @@ class StrainPlasmidType extends AbstractType
             ->add('state', ChoiceType::class, array(
                 'choices' => array(
                     'Replicative' => 'replicative',
-                    'Integrative' => 'integrative',
+                    'Integrated' => 'integrated',
+                    'Cured' => 'cured'
                 ),
                 'placeholder' => '-- select a state --',
             ))
