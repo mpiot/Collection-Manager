@@ -12,6 +12,7 @@
 
         {% block biologicalOrigin %}
             <li class="list-group-item">Biological origin: {{ strain.biologicalOrigin }}</li>
+            <li class="list-group-item">Source: {{ strain.source }}</li>
         {% endblock %}
 
         {% block map %}
@@ -21,7 +22,6 @@
                     <div class="panel-body">
                         Address: {{ strain.address }}<br>
                         Country: {{ strain.country|country(app.request.locale) }}<br>
-                        Source: {{ strain.source }}
                     </div>
                     <div id ="map" class="panel-body" style="height:400px;">
                     </div>
