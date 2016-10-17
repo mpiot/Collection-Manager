@@ -51,6 +51,7 @@ class WildStrainType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'CBS, ...',
                 ),
+                'required' => false,
             ))
             ->add('address', TextType::class, array(
                 'attr' => array(
@@ -65,12 +66,14 @@ class WildStrainType extends AbstractType
                 'attr' => array(
                     'placeholder' => 48.866667,
                 ),
+                'required' => false,
             ))
             ->add('longitude', NumberType::class, array(
                 'scale' => 6,
                 'attr' => array(
                     'placeholder' => 2.333333,
                 ),
+                'required' => false,
             ))
         ;
     }
