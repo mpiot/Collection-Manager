@@ -21,9 +21,7 @@ class AdvancedSearchType extends AbstractType
     {
         $builder
             ->add('search', TextType::class, array(
-                'constraints' => array(
-                    new NotBlank(),
-                ),
+                'required' => false,
             ))
             ->add('strainCategory', ChoiceType::class, array(
                 'choices' => array(
