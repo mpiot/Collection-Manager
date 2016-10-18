@@ -62,6 +62,8 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
             'choices' => $cells,
             'data' => $previousCell,
         ));
+
+        $form->add('deleted');
     }
 
     public function onPreSetData(FormEvent $event)
