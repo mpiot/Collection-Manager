@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="plasmid")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PlasmidRepository")
+ * @ORM\HasLifeCycleCallbacks()
  */
 class Plasmid
 {
@@ -26,7 +27,7 @@ class Plasmid
     /**
      * @var string
      *
-     * @ORM\Column(name="autoName", type="string", length=255, unique=true)
+     * @ORM\Column(name="autoName", type="string", length=255)
      */
     private $autoName;
 
@@ -38,8 +39,11 @@ class Plasmid
     private $name;
 
     /**
-     * @var string
-     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="plasmids")
+     */
+    private $team;
+
+    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\GenBankFile", mappedBy="plasmid", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid
@@ -117,6 +121,30 @@ class Plasmid
     }
 
     /**
+     * Set team.
+     *
+     * @param Team $team
+     *
+     * @return Plasmid
+     */
+    public function setTeam($team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team.
+     *
+     * @return Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
      * Set genBank file.
      *
      * @param string $genBankFile
@@ -160,8 +188,31 @@ class Plasmid
         return $this->addGenBankFile;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getStrainPlasmids()
     {
         return $this->strainPlasmids;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $plasmidNumber = $this->team->getLastPlasmidNumber() + 1;
+
+        if (1 !== $plasmidNumber) {
+            // Determine how many 0 put before the number
+            $nbDigit = 4;
+            $numberOf0 = $nbDigit - ceil(log10($plasmidNumber));
+            $autoName = 'p'.str_repeat('0', $numberOf0).$plasmidNumber;
+        } else {
+            $autoName = 'p0001';
+        }
+
+        $this->autoName = $autoName;
+        $this->team->setLastPlasmidNumber($plasmidNumber);
     }
 }

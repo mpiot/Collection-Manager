@@ -61,6 +61,12 @@ services:
         tags:
             - { name: form.type }
 
+    app.form_type.plasmid:
+        class: AppBundle\Form\PlasmidType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
 # Listeners
     app.event_listener.strain:
         class: AppBundle\EventListener\StrainListener

@@ -71,6 +71,19 @@ class Team
      */
     private $teamRequests;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="team")
+     */
+    private $plasmids;
+
+    /**
+     * @ORM\Column(name="last_plasmid_number", type="integer", nullable=false)
+     */
+    private $lastPlasmidNumber;
+
+    /**
+     * Team constructor.
+     */
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -80,6 +93,8 @@ class Team
         $this->types = new ArrayCollection();
         $this->biologicalOriginCategories = new ArrayCollection();
         $this->teamRequests = new ArrayCollection();
+        $this->plasmids = new ArrayCollection();
+        $this->lastPlasmidNumber = 0;
     }
 
     public function __toString()
@@ -284,5 +299,28 @@ class Team
     public function getTeamRequests()
     {
         return $this->teamRequests;
+    }
+
+    /**
+     * Get plasmids.
+     *
+     * @return ArrayCollection
+     */
+    public function getPlasmids()
+    {
+        return $this->plasmids;
+    }
+
+
+    public function setLastPlasmidNumber(int $number)
+    {
+        $this->lastPlasmidNumber = $number;
+
+        return $this;
+    }
+
+    public function getLastPlasmidNumber()
+    {
+        return $this->lastPlasmidNumber;
     }
 }
