@@ -62,14 +62,14 @@ class SearchController extends Controller
             if (in_array('gmo', $data['strainCategory'])) {
                 $gmoRepository = $repositoryManager->getRepository('AppBundle:GmoStrain');
                 //$results['gmo'] = $gmoRepository->findByNames($data['search']);
-                $results['gmo'] = $gmoRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['deleted'], null, $data['project']);
+                $results['gmo'] = $gmoRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['deleted'], null, $data['project'], $data['type']);
             }
 
             // Search for WildStrain
             if (in_array('wild', $data['strainCategory'])) {
                 // Define the repository
                 $wildRepository = $repositoryManager->getRepository('AppBundle:WildStrain');
-                $results['wild'] = $wildRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['deleted'], $data['country'], $data['project']);
+                $results['wild'] = $wildRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['deleted'], $data['country'], $data['project'], $data['type']);
             }
 
             return $this->render('search/advancedSearch.html.twig', array(

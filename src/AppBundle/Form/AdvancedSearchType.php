@@ -62,6 +62,20 @@ class AdvancedSearchType extends AbstractType
                 'placeholder' => 'All available projects',
                 'required' => false,
             ))
+            ->add('type', EntityType::class,array(
+                'class' => 'AppBundle\Entity\Type',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('type')
+                        ->leftJoin('type.team', 'teams')
+                        ->leftJoin('teams.members', 'members')
+                        ->where('members = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('type.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'placeholder' => 'All types',
+                'required' => false,
+            ))
             ->add('deleted', CheckboxType::class, array(
                 'label' => 'Search deleted strains ?',
                 'required' => false,

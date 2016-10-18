@@ -11,6 +11,7 @@ class StrainSearchIndexListener implements EventSubscriberInterface
     {
         $this->addStrainAuthorizedTeam($event);
         $this->addStrainProjects($event);
+        $this->addStrainType($event);
     }
 
     protected function addStrainAuthorizedTeam(TransformEvent $event)
@@ -43,6 +44,14 @@ class StrainSearchIndexListener implements EventSubscriberInterface
         }
 
         $document->set('projects', $projects);
+    }
+
+    protected function addStrainType(TransformEvent $event)
+    {
+        $document = $event->getDocument();
+        $strain = $event->getObject();
+
+        $document->set('type', $strain->getType()->getId());
     }
 
     public static function getSubscribedEvents()

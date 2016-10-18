@@ -6,7 +6,7 @@ use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function search($search, $userTeams, $deleted = false, $country = null, $project = null)
+    public function search($search, $userTeams, $deleted = false, $country = null, $project = null, $type = null)
     {
         // Do a BoolQuery
         $boolQuery = new \Elastica\Query\BoolQuery();
@@ -47,11 +47,15 @@ class StrainRepository extends Repository
         }
 
         if (null !== $project) {
-            dump($project->getId());
-
             $projectQuery = new \Elastica\Query\Term() ;
             $projectQuery->setTerm('projects', $project->getId());
             $boolQuery->addFilter($projectQuery);
+        }
+
+        if (null !== $type) {
+            $typeQuery = new \Elastica\Query\Term() ;
+            $typeQuery->setTerm('type', $type->getId());
+            $boolQuery->addFilter($typeQuery);
         }
 
         // build $query with Elastica objects
