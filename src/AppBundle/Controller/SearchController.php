@@ -51,7 +51,7 @@ class SearchController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             $repositoryManager = $this->container->get('fos_elastica.manager.orm');
