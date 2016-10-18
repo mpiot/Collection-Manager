@@ -45,7 +45,7 @@ class AdvancedSearchType extends AbstractType
                 ),
             ))
             ->add('country', CountryType::class, array(
-                'placeholder' => '-- Choose a country --',
+                'placeholder' => 'All countries',
                 'required' => false,
             ))
             ->add('project', EntityType::class,array(
