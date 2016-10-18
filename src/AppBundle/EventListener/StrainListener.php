@@ -5,9 +5,17 @@ namespace AppBundle\EventListener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\WildStrain;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class StrainListener
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorage $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
@@ -17,7 +25,6 @@ class StrainListener
             return;
         }
 
-        // Else, we have a GmoStrain ot a WildStrain
         $em = $args->getEntityManager();
 
         // Persist tubes
@@ -27,5 +34,8 @@ class StrainListener
 
         // After tubes persisted, generate AutoName
         $entity->generateAutoName();
+
+        // Define the author
+        $entity->setAuthor($this->tokenStorage->getToken()->getUser());
     }
 }

@@ -40,6 +40,16 @@ class User extends BaseUser
      */
     private $teamRequests;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="author")
+     */
+    private $gmoStrains;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="author")
+     */
+    private $wildStrains;
+
     public function __construct()
     {
         parent::__construct();
@@ -47,6 +57,8 @@ class User extends BaseUser
         $this->administeredTeams = new ArrayCollection();
         $this->moderatedTeams = new ArrayCollection();
         $this->teamRequests = new ArrayCollection();
+        $this->gmoStrains = new ArrayCollection();
+        $this->wildStrains = new ArrayCollection();
     }
 
     public function addAdministeredTeam(Team $team)

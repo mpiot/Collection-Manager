@@ -23,6 +23,11 @@ class WildStrain extends Strain
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="wildStrains")
+     */
+    private $author;
+
+    /**
      * @var Species
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="wildStrains")
@@ -105,6 +110,30 @@ class WildStrain extends Strain
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set author.
+     *
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function setAuthor(User $user)
+    {
+        $this->author = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get author.
+     *
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 
     /**

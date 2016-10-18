@@ -76,6 +76,7 @@ services:
 # Listeners
     app.event_listener.strain:
         class: AppBundle\EventListener\StrainListener
+        arguments: ["@security.token_storage"]
         tags:
             - { name: doctrine.event_listener, event: prePersist }
 
