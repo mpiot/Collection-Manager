@@ -55,7 +55,11 @@
                                         {% endif %}
 
                                         {% if is_granted('PROJECT_DELETE', box.project) %}
-                                            <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                            {% if box.isDeleted %}
+                                                <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                            {% else %}
+                                                <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </td>

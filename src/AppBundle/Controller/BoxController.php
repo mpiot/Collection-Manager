@@ -119,20 +119,9 @@ class BoxController extends Controller
      */
     public function deleteAction(Box $box, Request $request)
     {
-        $error = false;
+        if ($box->isDeleted()) {
+            $this->addFlash('warning', 'The box has been already deleted.');
 
-        // If the box is not emty
-        if (!$box->getTubes()->isEmpty()) {
-            $this->addFlash('warning', 'The box cannot be deleted, there are tubes attached.');
-            $error = true;
-        }
-        // If the box is not the last box
-        if (!$box->isLastBox()) {
-            $this->addFlash('warning', 'Only the last box of a project can be deleted.');
-            $error = true;
-        }
-
-        if ($error) {
             return $this->redirectToRoute('box_index');
         }
 
@@ -142,7 +131,14 @@ class BoxController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($box);
+
+            // If the box is empty and is the last of a project, delete it of the database
+            if (!$box->getTubes()->isEmpty() || !$box->isLastBox()) {
+                $box->setDeleted(true);
+            } else { // Else, softDelete it
+                $em->remove($box);
+            }
+
             $em->flush();
 
             $this->addFlash('success', 'The box has been deleted successfully.');

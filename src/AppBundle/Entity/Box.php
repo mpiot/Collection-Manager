@@ -97,9 +97,14 @@ class Box
     /**
      * @var ArrayCollection of Tube
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="box", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="box")
      */
     private $tubes;
+
+    /**
+     * @ORM\Column(name="deleted", type="boolean")
+     */
+    private $deleted;
 
     /**
      * Box constructor.
@@ -107,6 +112,7 @@ class Box
     public function __construct()
     {
         $this->tubes = new ArrayCollection();
+        $this->deleted = false;
     }
 
     /**
@@ -372,6 +378,46 @@ class Box
     public function getTubes()
     {
         return $this->tubes;
+    }
+
+    /**
+     * Set deleted.
+     *
+     * @param bool $deleted
+     *
+     * @return $this
+     */
+    public function setDeleted(bool $deleted)
+    {
+        $this->deleted = $deleted;
+
+        if (true === $this->deleted) {
+            foreach ($this->tubes as $tube) {
+                $tube->setDeleted(true);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get deleted.
+     *
+     * @return bool
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Is deleted ?
+     *
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
     }
 
     /**
