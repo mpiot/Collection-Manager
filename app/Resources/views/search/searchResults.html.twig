@@ -17,11 +17,16 @@
                             <td>{{ result.usualName }}</td>
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('strain_gmo_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% if result.deleted %}
-                                        <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    {% else %}
-                                        <a class="btn btn-danger" href="{{ path('strain_gmo_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    {% if is_granted('STRAIN_EDIT', result) %}
+                                        <a class="btn btn-warning" href="{{ path('strain_gmo_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    {% endif %}
+
+                                    {% if is_granted('STRAIN_DELETE', result) %}
+                                        {% if result.deleted %}
+                                            <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% else %}
+                                            <a class="btn btn-danger" href="{{ path('strain_gmo_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </td>
@@ -54,11 +59,16 @@
                             <td>{{ result.usualName }}</td>
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('strain_wild_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% if result.deleted %}
-                                        <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    {% else %}
-                                        <a class="btn btn-danger" href="{{ path('strain_wild_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    {% if is_granted('STRAIN_EDIT', result) %}
+                                        <a class="btn btn-warning" href="{{ path('strain_wild_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    {% endif %}
+
+                                    {% if is_granted('STRAIN_DELETE', result) %}
+                                        {% if result.deleted %}
+                                            <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% else %}
+                                            <a class="btn btn-danger" href="{{ path('strain_wild_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </td>

@@ -2,8 +2,10 @@
 
 namespace AppBundle\Security;
 
+use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\Strain;
 use AppBundle\Entity\User;
+use AppBundle\Entity\WildStrain;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -28,8 +30,8 @@ class StrainVoter extends Voter
             return false;
         }
 
-        // Only vote for Project object
-        if (!$subject instanceof Strain) {
+        // Only vote for Strain object
+        if (!$subject instanceof GmoStrain && !$subject instanceof WildStrain) {
             return false;
         }
 
@@ -72,6 +74,13 @@ class StrainVoter extends Voter
             return true;
         }
 
+        $strainTeams = $strain->getAuthorizedTeams();
+        $userTeams = $user->getTeams()->toArray();
+
+        if (!empty(array_intersect($strainTeams, $userTeams))) {
+            return true;
+        }
+
         return false;
     }
 
@@ -86,10 +95,14 @@ class StrainVoter extends Voter
 
     private function canDelete(Strain $strain, User $user)
     {
-        $strainTeams = $strain->getAuthorizedTeams();
-        $userTeams = $user->getTeams()->toArray();
+        if ($strain->isAuthor($user)) {
+            return true;
+        }
 
-        if (!empty(array_intersect($strainTeams, $userTeams))) {
+        $strainTeams = $strain->getAuthorizedTeams();
+        $userAdministeredTeams = $user->getAdministeredTeams()->toArray();
+
+        if (!empty(array_intersect($strainTeams, $userAdministeredTeams))) {
             return true;
         }
 

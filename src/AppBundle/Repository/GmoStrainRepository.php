@@ -31,6 +31,8 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('boxes.project', 'projects')
             ->leftJoin('projects.teams', 'teams')
             ->leftJoin('teams.members', 'members')
+            ->leftJoin('strain.author', 'author')
+                ->addSelect('author')
             ->where('members = :user')
                 ->setParameter('user', $user)
             ->distinct(true)
@@ -38,7 +40,7 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults($limit)
             ->getQuery();
 
-        return $query->getArrayResult();
+        return $query->getResult();
     }
 
     public function findOneWithAll($strain)

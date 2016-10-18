@@ -286,4 +286,9 @@ class Strain
 
         return $teams;
     }
+
+    public function isAuthor(User $user)
+    {
+        return $user === $this->getAuthor();
+    }
 }

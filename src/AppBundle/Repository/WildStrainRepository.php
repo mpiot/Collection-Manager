@@ -38,7 +38,7 @@ class WildStrainRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults($limit)
             ->getQuery();
 
-        return $query->getArrayResult();
+        return $query->getResult();
     }
 
     public function findOneWithAll($strain)
