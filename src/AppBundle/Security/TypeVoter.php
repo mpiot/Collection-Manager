@@ -69,13 +69,6 @@ class TypeVoter extends Voter
             return true;
         }
 
-        $typeTeam = $type->getTeam();
-        $userModeratedTeams = $user->getModeratedTeams();
-
-        if ($userModeratedTeams->contains($typeTeam)) {
-            return true;
-        }
-
         return false;
     }
 

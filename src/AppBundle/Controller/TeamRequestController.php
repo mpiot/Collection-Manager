@@ -16,7 +16,7 @@ class TeamRequestController extends Controller
 {
     /**
      * @Route("/", name="team_request_index")
-     * @Security("user.isTeamAministratorOrModerator() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function indexAction()
     {
@@ -25,7 +25,7 @@ class TeamRequestController extends Controller
         if ($this->isGranted('ROLE_ADMIN')) {
             $requests = $em->getRepository('AppBundle:TeamRequest')->findBy(array('answer' => null));
         } else {
-            $requests = $em->getRepository('AppBundle:TeamRequest')->findAdministredOrModerated($this->getUser());
+            $requests = $em->getRepository('AppBundle:TeamRequest')->findAdministredBy($this->getUser());
         }
 
         dump($requests);
@@ -65,7 +65,7 @@ class TeamRequestController extends Controller
 
     /**
      * @Route("/accept/{id}", name="team_request_accept")
-     * @Security("user.isAministratorOrModeratorOf(teamRequest.getTeam()) or is_granted('ROLE_ADMIN')")
+     * @Security("user.isAdministratorOf(teamRequest.getTeam()) or is_granted('ROLE_ADMIN')")
      */
     public function acceptAction(TeamRequest $teamRequest)
     {
@@ -92,7 +92,7 @@ class TeamRequestController extends Controller
 
     /**
      * @Route("/decline/{id}", name="team_request_decline")
-     * @Security("user.isAministratorOrModeratorOf(teamRequest.getTeam()) or is_granted('ROLE_ADMIN')")
+     * @Security("user.isAdministratorOf(teamRequest.getTeam()) or is_granted('ROLE_ADMIN')")
      */
     public function declineAction(TeamRequest $teamRequest)
     {

@@ -28,16 +28,6 @@ class TeamType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
             ))
-            ->add('moderators', EntityType::class, array(
-                'class' => 'AppBundle\Entity\User',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.username', 'ASC');
-                },
-                'multiple' => true,
-                'expanded' => false,
-                'required' => false,
-            ))
             ->add('members', EntityType::class, array(
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {

@@ -18,7 +18,7 @@ class TeamListener
                 return;
             }
 
-            $team = $this->addAdministratorAndModeratorAsUser($entity);
+            $team = $this->addAsMemberTeamAdministrators($entity);
 
             $metaData = $em->getClassMetadata('AppBundle\Entity\Team');
             $uow->computeChangeSet($metaData, $team);
@@ -30,24 +30,18 @@ class TeamListener
                 return;
             }
 
-            $team = $this->addAdministratorAndModeratorAsUser($entity);
+            $team = $this->addAsMemberTeamAdministrators($entity);
 
             $metaData = $em->getClassMetadata('AppBundle\Entity\Team');
             $uow->computeChangeSet($metaData, $team);
         }
     }
 
-    private function addAdministratorAndModeratorAsUser(Team $team)
+    private function addAsMemberTeamAdministrators(Team $team)
     {
         foreach ($team->getAdministrators()->toArray() as $administrator) {
             if (!$team->getMembers()->contains($administrator)) {
                 $team->addMember($administrator);
-            }
-        }
-
-        foreach ($team->getModerators()->toArray() as $moderator) {
-            if (!$team->getMembers()->contains($moderator)) {
-                $team->addMember($moderator);
             }
         }
 

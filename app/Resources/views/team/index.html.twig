@@ -21,7 +21,6 @@
                         <th class="col-md-1">#</th>
                         <th class="col-md-2">Name</th>
                         <th class="col-md-3">Administrators</th>
-                        <th class="col-md-3">Moderators</th>
                         <th class="col-md-1">Members</th>
                         <th class="col-md-2">Actions</th>
                 </tr>
@@ -34,7 +33,6 @@
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('team_view', { 'id': team.id }) }}">{{ team.name }}</a></td>
                         <td>{{ team.administrators|join(', ') }}</td>
-                        <td>{{ team.moderators|join(', ') }}</td>
                         <td>{{ team.members|length }}</td>
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">

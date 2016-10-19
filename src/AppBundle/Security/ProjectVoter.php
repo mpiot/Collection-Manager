@@ -88,13 +88,6 @@ class ProjectVoter extends Voter
             return true;
         }
 
-        $projectTeams = $project->getTeams()->toArray();
-        $userModeratedTeams = $user->getModeratedTeams()->toArray();
-
-        if (!empty(array_intersect($projectTeams, $userModeratedTeams))) {
-            return true;
-        }
-
         return false;
     }
 

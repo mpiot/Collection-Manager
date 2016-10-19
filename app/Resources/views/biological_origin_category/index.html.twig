@@ -16,7 +16,7 @@
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-            {% if app.user.isTeamAministratorOrModerator() or is_granted('ROLE_ADMIN') %}
+            {% if app.user.isTeamAdministrator() or is_granted('ROLE_ADMIN') %}
                 <tr>
                     <th class="col-md-1">#</th>
                     <th class="col-md-9">Category name</th>
@@ -34,7 +34,7 @@
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ category.name }}</td>
-                            {% if app.user.isTeamAministratorOrModerator() or is_granted('ROLE_ADMIN') %}
+                            {% if app.user.isTeamAdministrator() or is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                         {% if is_granted('BIO_CATEGORY_EDIT', category) %}

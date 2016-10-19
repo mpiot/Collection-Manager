@@ -31,23 +31,6 @@
         </div>
 
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Moderators</div>
-                <ul class="list-group">
-                    {% if team.moderators is not empty %}
-                        {% for moderator in team.moderators %}
-                            <li class="list-group-item">{{ moderator.username }}</li>
-                        {% endfor %}
-                    {% else %}
-                        <li class="list-group-item">No moderators</li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Members</div>
                 <ul class="list-group">
@@ -58,4 +41,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

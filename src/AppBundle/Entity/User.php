@@ -26,11 +26,6 @@ class User extends BaseUser
     private $administeredTeams;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", mappedBy="moderators")
-     */
-    private $moderatedTeams;
-
-    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", mappedBy="members")
      */
     private $teams;
@@ -65,7 +60,6 @@ class User extends BaseUser
         parent::__construct();
         $this->teams = new ArrayCollection();
         $this->administeredTeams = new ArrayCollection();
-        $this->moderatedTeams = new ArrayCollection();
         $this->teamRequests = new ArrayCollection();
         $this->gmoStrains = new ArrayCollection();
         $this->wildStrains = new ArrayCollection();
@@ -86,21 +80,6 @@ class User extends BaseUser
     public function getAdministeredTeams()
     {
         return $this->administeredTeams;
-    }
-
-    public function addModeratedTeam(Team $team)
-    {
-        $this->moderatedTeams->add($team);
-    }
-
-    public function removeModeratedTeam(Team $team)
-    {
-        $this->moderatedTeams->removeElement($team);
-    }
-
-    public function getModeratedTeams()
-    {
-        return $this->moderatedTeams;
     }
 
     public function addTeam(Team $team)
@@ -134,29 +113,9 @@ class User extends BaseUser
         return !$this->administeredTeams->isEmpty();
     }
 
-    public function isTeamModerator()
-    {
-        return !$this->moderatedTeams->isEmpty();
-    }
-
-    public function isTeamAministratorOrModerator()
-    {
-        return $this->isTeamAdministrator() || $this->isTeamModerator();
-    }
-
     public function isAdministratorOf(Team $team)
     {
         return $this->administeredTeams->contains($team);
-    }
-
-    public function isModeratorOf(Team $team)
-    {
-        return $this->moderatedTeams->contains($team);
-    }
-
-    public function isAministratorOrModeratorOf(Team $team)
-    {
-        return $this->isAdministratorOf($team) || $this->isModeratorOf($team);
     }
 
     public function isInTeam()

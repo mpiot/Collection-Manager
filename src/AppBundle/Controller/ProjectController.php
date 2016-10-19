@@ -37,7 +37,7 @@ class ProjectController extends Controller
 
     /**
      * @Route("/add", name="project_add")
-     * @Security("user.isTeamAministratorOrModerator() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {

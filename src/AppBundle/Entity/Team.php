@@ -38,13 +38,6 @@ class Team
     private $administrators;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="moderatedTeams")
-     * @ORM\JoinTable(name="team_moderators")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $moderators;
-
-    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="teams")
      * @ORM\JoinTable(name="team_members")
      * @ORM\JoinColumn(nullable=false)
@@ -88,7 +81,6 @@ class Team
     {
         $this->members = new ArrayCollection();
         $this->administrators = new ArrayCollection();
-        $this->moderators = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->types = new ArrayCollection();
         $this->biologicalOriginCategories = new ArrayCollection();
@@ -172,44 +164,6 @@ class Team
     public function getAdministrators()
     {
         return $this->administrators;
-    }
-
-    /**
-     * Add moderator.
-     *
-     * @param User $user
-     *
-     * @return Team
-     */
-    public function addModerator(User $user)
-    {
-        $user->addModeratedTeam($this);
-        $this->moderators->add($user);
-
-        // When you add a user as a moderator, add it as a member too
-        $this->addMember($user);
-
-        return $this;
-    }
-
-    /**
-     * Remove moderator.
-     *
-     * @param User $user
-     */
-    public function removeModerator(User $user)
-    {
-        $this->moderators->removeElement($user);
-    }
-
-    /**
-     * Get moderators.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getModerators()
-    {
-        return $this->moderators;
     }
 
     /**

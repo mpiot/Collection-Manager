@@ -69,13 +69,6 @@ class BiologicalOriginCategoryVoter extends Voter
             return true;
         }
 
-        $categoryTeam = $category->getTeam();
-        $userModeratedTeams = $user->getModeratedTeams();
-
-        if ($userModeratedTeams->contains($categoryTeam)) {
-            return true;
-        }
-
         return false;
     }
 

@@ -11,14 +11,12 @@ use AppBundle\Entity\User;
  */
 class TeamRequestRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAdministredOrModerated(User $user)
+    public function findAdministredBy(User $user)
     {
         $query = $this->createQueryBuilder('request')
             ->leftJoin('request.team', 'team')
             ->leftJoin('team.administrators', 'administrators')
-            ->leftJoin('team.moderators', 'moderators')
             ->where('administrators = :user')
-            ->orWhere('moderators = :user')
             ->andWhere('request.answer is NULL')
             ->setParameter('user', $user)
             ->orderBy('team.name', 'ASC')
