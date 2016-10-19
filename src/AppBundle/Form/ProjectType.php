@@ -55,6 +55,20 @@ class ProjectType extends AbstractType
                     'data-filter' => 'members',
                 )
             ))
+            ->add('administrators', EntityType::class, array(
+                'class' => 'AppBundle\Entity\User',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('user')
+                        ->orderBy('user.username', 'ASC');
+                },
+                'choice_label' => 'usernameAndTeams',
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => array(
+                    'data-filtered-name' => 'administrators',
+                    'data-filtered-by' => 'team-filter',
+                )
+            ))
             ->add('members', EntityType::class, array(
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function(EntityRepository $er) {

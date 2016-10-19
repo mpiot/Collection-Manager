@@ -51,6 +51,11 @@ class User extends BaseUser
     private $wildStrains;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="administrators")
+     */
+    private $administeredProjects;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="members")
      */
     private $projects;
@@ -65,6 +70,7 @@ class User extends BaseUser
         $this->gmoStrains = new ArrayCollection();
         $this->wildStrains = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->administeredProjects = new ArrayCollection();
     }
 
     public function addAdministeredTeam(Team $team)
@@ -196,6 +202,21 @@ class User extends BaseUser
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    public function addAdministeredProject(Project $project)
+    {
+        $this->administeredProjects->add($project);
+    }
+
+    public function removeAdministeredProject(Project $project)
+    {
+        $this->administeredProjects->removeElement($project);
+    }
+
+    public function getAdministeredProjects()
+    {
+        return $this->administeredProjects;
     }
 
     public function getUsernameAndTeams()

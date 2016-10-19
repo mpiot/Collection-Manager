@@ -63,6 +63,15 @@ class Project
     /**
      * @var ArrayCollection
      *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="administeredProjects")
+     * @ORM\JoinTable(name="project_administrators")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $administrators;
+
+    /**
+     * @var ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="projects")
      * @ORM\JoinTable(name="project_members")
      * @ORM\JoinColumn(nullable=true)
@@ -76,6 +85,7 @@ class Project
     {
         $this->boxes = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->administrators = new ArrayCollection();
         $this->members = new ArrayCollection();
     }
 
@@ -234,7 +244,42 @@ class Project
     }
 
     /**
-     * Add user.
+     * Add administrator.
+     *
+     * @param User $user
+     *
+     * @return Project
+     */
+    public function addAdministrator(User $user)
+    {
+        $user->addAdministeredProject($this);
+        $this->administrators->add($user);
+
+        return $this;
+    }
+
+    /**
+     * Remove administrator.
+     *
+     * @param Team $team
+     */
+    public function removeAdministrator(User $user)
+    {
+        $this->administrators->removeElement($user);
+    }
+
+    /**
+     * Get administrators.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAdministrators()
+    {
+        return $this->administrators;
+    }
+
+    /**
+     * Add member.
      *
      * @param User $user
      *
@@ -249,7 +294,7 @@ class Project
     }
 
     /**
-     * Remove user.
+     * Remove member.
      *
      * @param Team $team
      */
@@ -259,7 +304,7 @@ class Project
     }
 
     /**
-     * Get users.
+     * Get members.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
