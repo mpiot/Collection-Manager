@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -38,6 +39,35 @@ class ProjectType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => false,
+            ))
+            ->add('team_filter', EntityType::class, array(
+                'class' => 'AppBundle\Entity\Team',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('team')
+                        ->orderBy('team.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'mapped' => false,
+                'required' => false,
+                'placeholder' => 'All teams',
+                'attr' => array(
+                    'data-filter-name' => 'team-filter',
+                    'data-filter' => 'members',
+                )
+            ))
+            ->add('members', EntityType::class, array(
+                'class' => 'AppBundle\Entity\User',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('user')
+                        ->orderBy('user.username', 'ASC');
+                },
+                'choice_label' => 'usernameAndTeams',
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => array(
+                    'data-filtered-name' => 'members',
+                    'data-filtered-by' => 'team-filter',
+                )
             ))
         ;
     }

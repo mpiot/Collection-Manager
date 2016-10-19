@@ -50,6 +50,11 @@ class User extends BaseUser
      */
     private $wildStrains;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="members")
+     */
+    private $projects;
+
     public function __construct()
     {
         parent::__construct();
@@ -59,6 +64,7 @@ class User extends BaseUser
         $this->teamRequests = new ArrayCollection();
         $this->gmoStrains = new ArrayCollection();
         $this->wildStrains = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function addAdministeredTeam(Team $team)
@@ -175,5 +181,25 @@ class User extends BaseUser
         }
 
         return $result;
+    }
+
+    public function addProject(Project $project)
+    {
+        $this->projects->add($project);
+    }
+
+    public function removeProject(Project $project)
+    {
+        $this->projects->removeElement($project);
+    }
+
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    public function getUsernameAndTeams()
+    {
+        return $this->getUsername().' - Teams('.join(',', $this->getTeamsId()).')';
     }
 }

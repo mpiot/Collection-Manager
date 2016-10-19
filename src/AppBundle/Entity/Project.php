@@ -61,12 +61,22 @@ class Project
     private $teams;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="projects")
+     * @ORM\JoinTable(name="project_members")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $members;
+
+    /**
      * Project constructor.
      */
     public function __construct()
     {
         $this->boxes = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->members = new ArrayCollection();
     }
 
     /**
@@ -221,5 +231,40 @@ class Project
     public function getTeams()
     {
         return $this->teams;
+    }
+
+    /**
+     * Add user.
+     *
+     * @param User $user
+     *
+     * @return Project
+     */
+    public function addMember(User $user)
+    {
+        $user->addProject($this);
+        $this->members->add($user);
+
+        return $this;
+    }
+
+    /**
+     * Remove user.
+     *
+     * @param Team $team
+     */
+    public function removeMember(User $user)
+    {
+        $this->members->removeElement($user);
+    }
+
+    /**
+     * Get users.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMembers()
+    {
+        return $this->members;
     }
 }
