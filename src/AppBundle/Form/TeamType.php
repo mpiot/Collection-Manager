@@ -26,7 +26,7 @@ class TeamType extends AbstractType
                         ->orderBy('u.username', 'ASC');
                 },
                 'multiple' => true,
-                'expanded' => false,
+                'expanded' => true,
             ))
             ->add('members', EntityType::class, array(
                 'class' => 'AppBundle\Entity\User',
@@ -35,7 +35,7 @@ class TeamType extends AbstractType
                         ->orderBy('u.username', 'ASC');
                 },
                 'multiple' => true,
-                'expanded' => false,
+                'expanded' => true,
                 'required' => false,
             ))
         ;
