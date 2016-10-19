@@ -268,11 +268,11 @@ class Strain
     }
 
     /**
-     * Get the authorized teams.
+     * Get the teams.
      *
      * @return array
      */
-    public function getAuthorizedTeams()
+    public function getTeams()
     {
         $teams = [];
 
@@ -285,6 +285,26 @@ class Strain
         }
 
         return $teams;
+    }
+
+    /**
+     * Get allowed users.
+     *
+     * @return array
+     */
+    public function getAllowedUsers()
+    {
+        $allowedUsers = [];
+
+        foreach ($this->getTubes() as $tube) {
+            foreach ($tube->getBox()->getProject()->getMembers() as $member) {
+                if (!in_array($member, $allowedUsers)) {
+                    $allowedUsers[] = $member;
+                }
+            }
+        }
+
+        return $allowedUsers;
     }
 
     public function isAuthor(User $user)

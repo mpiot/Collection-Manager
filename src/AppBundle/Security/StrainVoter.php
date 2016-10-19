@@ -70,14 +70,13 @@ class StrainVoter extends Voter
 
     private function canView(Strain $strain, User $user)
     {
+        // If the user can edit, he can view
         if ($this->canEdit($strain, $user)) {
             return true;
         }
 
-        $strainTeams = $strain->getAuthorizedTeams();
-        $userTeams = $user->getTeams()->toArray();
-
-        if (!empty(array_intersect($strainTeams, $userTeams))) {
+        // If the user is member of the project
+        if (in_array($user, $strain->getAuthorizedTeams())) {
             return true;
         }
 
@@ -86,6 +85,7 @@ class StrainVoter extends Voter
 
     private function canEdit(Strain $strain, User $user)
     {
+        // If the user can delete, he can view
         if ($this->canDelete($strain, $user)) {
             return true;
         }
@@ -95,11 +95,13 @@ class StrainVoter extends Voter
 
     private function canDelete(Strain $strain, User $user)
     {
+        // If the user is the author
         if ($strain->isAuthor($user)) {
             return true;
         }
 
-        $strainTeams = $strain->getAuthorizedTeams();
+        // If the user is an administrator of project concern by the strain
+        $strainTeams = $strain->getTeams();
         $userAdministeredTeams = $user->getAdministeredTeams()->toArray();
 
         if (!empty(array_intersect($strainTeams, $userAdministeredTeams))) {
