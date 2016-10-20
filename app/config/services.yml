@@ -51,7 +51,7 @@ services:
 
     app.form_type.box:
         class: AppBundle\Form\BoxType
-        arguments: ["@security.token_storage"]
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
         tags:
             - { name: form.type }
 
