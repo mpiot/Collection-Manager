@@ -38,10 +38,6 @@ class StrainType extends AbstractType
                 'class' => 'AppBundle\Entity\Type',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('types')
-                        ->leftJoin('types.team', 'team')
-                        ->leftJoin('team.members', 'members')
-                        ->where('members = :user')
-                        ->setParameter('user', $this->user)
                         ->orderBy('types.name', 'ASC');
                 },
                 'choice_label' => 'name',

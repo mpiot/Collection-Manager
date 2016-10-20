@@ -32,10 +32,6 @@ class WildStrainType extends AbstractType
                 'class' => 'AppBundle\Entity\BiologicalOriginCategory',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('category')
-                        ->leftJoin('category.team', 'team')
-                        ->leftJoin('team.members', 'members')
-                        ->where('members = :user')
-                            ->setParameter('user', $this->user)
                         ->orderBy('category.name', 'ASC');
                 },
                 'choice_label' => 'name',

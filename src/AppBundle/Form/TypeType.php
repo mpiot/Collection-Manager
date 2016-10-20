@@ -36,18 +36,6 @@ class TypeType extends AbstractType
                     'placeholder' => 'Y, E, P',
                 ),
             ))
-            ->add('team', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Team',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('teams')
-                        ->leftJoin('teams.members', 'members')
-                        ->where('members = :user')
-                            ->setParameter('user', $this->user)
-                        ->orderBy('teams.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'placeholder' => '-- select a team --',
-            ))
         ;
     }
 

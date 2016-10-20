@@ -23,12 +23,7 @@ class TypeController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        if ($this->isGranted('ROLE_ADMIN')) {
             $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
-        } else {
-            $types = $em->getRepository('AppBundle:Type')->findAllAuthorizedForCurrentUser($this->getUser());
-        }
 
         return $this->render('type/index.html.twig', array(
             'typesList' => $types,

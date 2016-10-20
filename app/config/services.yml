@@ -27,7 +27,7 @@ services:
 # Form
     app.form_type.tube:
         class: AppBundle\Form\TubeType
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
         tags:
             - { name: form.type }
 

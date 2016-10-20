@@ -12,16 +12,19 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class TubeDynamicFieldSubscriber implements EventSubscriberInterface
 {
     private $em;
+    private $tokenStorage;
     private $box;
     private $cell;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage)
     {
         $this->em = $entityManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public static function getSubscribedEvents()
@@ -36,6 +39,13 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
     {
         $form->add('project', EntityType::class, array(
             'class' => 'AppBundle\Entity\Project',
+            'query_builder' => function (EntityRepository $pr) {
+                return $pr->createQueryBuilder('project')
+                    ->leftJoin('project.members', 'members')
+                    ->where('members = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                    ->orderBy('project.name', 'ASC');
+            },
             'choice_label' => 'name',
             'placeholder' => '-- select a project --',
             'mapped' => false,

@@ -34,11 +34,6 @@ class BiologicalOriginCategory
      */
     private $wildStrains;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="biologicalOriginCategories")
-     */
-    private $team;
-
     public function __construct()
     {
         $this->wildStrains = new ArrayCollection();
@@ -81,17 +76,5 @@ class BiologicalOriginCategory
     public function getWildStrains()
     {
         return $this->wildStrains;
-    }
-
-    public function setTeam(Team $team)
-    {
-        $this->team = $team;
-
-        return $this;
-    }
-
-    public function getTeam()
-    {
-        return $this->team;
     }
 }

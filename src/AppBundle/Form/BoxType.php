@@ -15,11 +15,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class BoxType extends AbstractType
 {
-    private $user;
+    private $tokenStorage;
 
-    public function __construct(TokenStorage $token)
+    public function __construct(TokenStorage $tokenStorage)
     {
-        $this->user = $token->getToken()->getUser();
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -32,10 +32,14 @@ class BoxType extends AbstractType
             ->add('project', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Project',
                 'query_builder' => function (ProjectRepository $pr) {
-                    return $pr->createQueryBuilder('p')
-                        ->orderBy('p.name', 'ASC');
+                    return $pr->createQueryBuilder('project')
+                        ->leftJoin('project.members', 'members')
+                        ->where('members = :user')
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('project.name', 'ASC');
                 },
                 'choice_label' => 'name',
+                'placeholder' => '-- select a project --',
             ))
             ->add('name', TextType::class, array(
                 'attr' => array(
@@ -51,10 +55,6 @@ class BoxType extends AbstractType
                 'class' => 'AppBundle\Entity\Type',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('types')
-                        ->leftJoin('types.team', 'team')
-                        ->leftJoin('team.members', 'members')
-                        ->where('members = :user')
-                            ->setParameter('user', $this->user)
                         ->orderBy('types.name', 'ASC');
                 },
                 'choice_label' => 'name',

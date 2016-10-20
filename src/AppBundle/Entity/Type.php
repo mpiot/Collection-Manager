@@ -47,11 +47,6 @@ class Type
      */
     private $wildStrains;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="types")
-     */
-    private $team;
-
     public function __construct()
     {
         $this->gmoStrains = new ArrayCollection();
@@ -120,17 +115,5 @@ class Type
     public function getWildStrains()
     {
         return $this->wildStrains;
-    }
-
-    public function setTeam(Team $team)
-    {
-        $this->team = $team;
-
-        return $this;
-    }
-
-    public function getTeam()
-    {
-        return $this->team;
     }
 }
