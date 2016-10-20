@@ -19,13 +19,15 @@
             {% if app.user.isTeamAdministrator() or is_granted('ROLE_ADMIN') %}
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-9">Category name</th>
+                    <th class="col-md-7">Category name</th>
+                    <th class="col-md-2">Team</th>
                     <th class="col-md-2">Actions</th>
                 </tr>
             {% else %}
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-11">Category name</th>
+                    <th class="col-md-9">Category name</th>
+                    <th class="col-md-2">Team</th>
                 </tr>
             {% endif %}
             </thead>
@@ -34,6 +36,7 @@
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ category.name }}</td>
+                            <td>{{ category.team.name }}</td>
                             {% if app.user.isTeamAdministrator() or is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <div class="btn-group btn-group-xs" role="group" aria-label="...">

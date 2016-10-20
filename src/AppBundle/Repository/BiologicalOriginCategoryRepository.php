@@ -12,14 +12,28 @@ use AppBundle\Entity\User;
  */
 class BiologicalOriginCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAll()
+    {
+        $query = $this->createQueryBuilder('category')
+            ->leftJoin('category.team', 'team')
+                ->addSelect('team')
+            ->orderBy('team.name', 'ASC')
+            ->addOrderBy('category.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     public function findAllAuthorizedForCurrentUser(User $user)
     {
         $query = $this->createQueryBuilder('category')
             ->leftJoin('category.team', 'team')
+            ->addSelect('team')
             ->leftJoin('team.members', 'members')
             ->where('members = :user')
                 ->setParameter('user', $user)
-            ->orderBy('category.name', 'ASC')
+            ->orderBy('team.name', 'ASC')
+            ->addOrderBy('category.name', 'ASC')
             ->getQuery();
 
         return $query->getResult();

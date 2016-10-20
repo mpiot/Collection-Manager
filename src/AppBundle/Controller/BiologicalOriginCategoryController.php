@@ -25,7 +25,7 @@ class BiologicalOriginCategoryController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findBy([], ['name' => 'ASC']);
+            $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findAll();
         } else {
             $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findAllAuthorizedForCurrentUser($this->getUser());
         }
