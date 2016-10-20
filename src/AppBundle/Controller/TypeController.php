@@ -25,7 +25,7 @@ class TypeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
+            $types = $em->getRepository('AppBundle:Type')->findAll();
         } else {
             $types = $em->getRepository('AppBundle:Type')->findAllAuthorizedForCurrentUser($this->getUser());
         }

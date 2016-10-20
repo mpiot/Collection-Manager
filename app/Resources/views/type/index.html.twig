@@ -19,8 +19,9 @@
                 {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
                     <tr>
                         <th class="col-md-1">#</th>
-                        <th class="col-md-5">Type</th>
-                        <th class="col-md-4">Letter</th>
+                        <th class="col-md-4">Type</th>
+                        <th class="col-md-1">Letter</th>
+                        <th cclass="col-md-4">Team</th>
                         <th class="col-md-2">Actions</th>
                     </tr>
                 {% else %}
@@ -28,6 +29,7 @@
                     <th class="col-md-1">#</th>
                     <th class="col-md-6">Type</th>
                     <th class="col-md-5">Letter</th>
+                    <th cclass="col-md-4">Team</th>
                 </tr>
                 {% endif %}
             </thead>
@@ -37,6 +39,7 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ type.name }}</td>
                             <td>{{ type.letter }}</td>
+                            <td>{{ type.team.name }}</td>
                             {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <div class="btn-group btn-group-xs" role="group" aria-label="...">

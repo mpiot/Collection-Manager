@@ -12,14 +12,28 @@ use AppBundle\Entity\User;
  */
 class TypeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAll()
+    {
+        $query = $this->createQueryBuilder('type')
+            ->leftJoin('type.team', 'teams')
+                ->addSelect('teams')
+            ->orderBy('teams.name', 'ASC')
+            ->addOrderBy('type.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
     public function findAllAuthorizedForCurrentUser(User $user)
     {
         $query = $this->createQueryBuilder('type')
             ->leftJoin('type.team', 'teams')
+                ->addSelect('teams')
             ->leftJoin('teams.members', 'members')
             ->where('members = :user')
                 ->setParameter('user', $user)
-            ->orderBy('type.name', 'ASC')
+            ->orderBy('teams.name', 'ASC')
+            //->addOrderBy('type.name', 'ASC')
             ->getQuery();
 
         return $query->getResult();
