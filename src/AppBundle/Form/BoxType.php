@@ -105,7 +105,6 @@ class BoxType extends AbstractType
 
     protected function addTypeElement(FormInterface $form, Project $project = null)
     {
-        dump('plop');
         $form->add('type', EntityType::class, array(
             'class' => 'AppBundle\Entity\Type',
             'query_builder' => function (EntityRepository $er) use ($project) {
@@ -125,8 +124,6 @@ class BoxType extends AbstractType
     {
         $form = $event->getForm();
         $box = $event->getData();
-
-        dump('p');
 
         $this->addTypeElement($form, $box->getProject());
     }

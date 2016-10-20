@@ -28,8 +28,6 @@ class TeamRequestController extends Controller
             $requests = $em->getRepository('AppBundle:TeamRequest')->findAdministredBy($this->getUser());
         }
 
-        dump($requests);
-
         return $this->render('team_request/index.html.twig', array(
             'requests' => $requests,
         ));
