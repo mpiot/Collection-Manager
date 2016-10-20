@@ -52,7 +52,6 @@ class ProjectType extends AbstractType
                 'placeholder' => 'All teams',
                 'attr' => array(
                     'data-filter-name' => 'team-filter',
-                    'data-filter' => 'members',
                 )
             ))
             ->add('administrators', EntityType::class, array(
@@ -61,13 +60,18 @@ class ProjectType extends AbstractType
                     return $er->createQueryBuilder('user')
                         ->orderBy('user.username', 'ASC');
                 },
-                'choice_label' => 'usernameAndTeams',
+                'choice_label' => 'username',
                 'expanded' => true,
                 'multiple' => true,
                 'attr' => array(
                     'data-filtered-name' => 'administrators',
                     'data-filtered-by' => 'team-filter',
-                )
+                ),
+                'choice_attr' => function ($user) {
+                    return [
+                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                    ];
+                },
             ))
             ->add('members', EntityType::class, array(
                 'class' => 'AppBundle\Entity\User',
@@ -75,13 +79,18 @@ class ProjectType extends AbstractType
                     return $er->createQueryBuilder('user')
                         ->orderBy('user.username', 'ASC');
                 },
-                'choice_label' => 'usernameAndTeams',
+                'choice_label' => 'username',
                 'expanded' => true,
                 'multiple' => true,
                 'attr' => array(
                     'data-filtered-name' => 'members',
                     'data-filtered-by' => 'team-filter',
-                )
+                ),
+                'choice_attr' => function ($user) {
+                    return [
+                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                    ];
+                },
             ))
         ;
     }
