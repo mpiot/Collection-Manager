@@ -69,7 +69,7 @@ class TeamRequestController extends Controller
      */
     public function acceptAction(TeamRequest $teamRequest)
     {
-        if (null !== $answer = $teamRequest->getAnswer()) {
+        if ('requested' !== $answer = $teamRequest->getAnswer()) {
             $this->addFlash('warning', 'Already aswered: '.$answer.' !');
             return $this->redirectToRoute('team_request_index');
         }
@@ -96,13 +96,13 @@ class TeamRequestController extends Controller
      */
     public function declineAction(TeamRequest $teamRequest)
     {
-        if (null !== $answer = $teamRequest->getAnswer()) {
+        if ('requested' !== $answer = $teamRequest->getAnswer()) {
             $this->addFlash('warning', 'Already aswered: '.$answer.' !');
             return $this->redirectToRoute('team_request_index');
         }
 
         $teamRequest->setAnswerDate(new \DateTime());
-        $teamRequest->setAnswer('decline');
+        $teamRequest->setAnswer('declined');
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();

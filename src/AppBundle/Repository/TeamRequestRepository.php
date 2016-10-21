@@ -17,8 +17,11 @@ class TeamRequestRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('request.team', 'team')
             ->leftJoin('team.administrators', 'administrators')
             ->where('administrators = :user')
-            ->andWhere('request.answer is NULL')
-            ->setParameter('user', $user)
+            ->andWhere('request.answer = :answer')
+            ->setParameters(array(
+                'user' => $user,
+                'answer' => 'requested',
+            ))
             ->orderBy('team.name', 'ASC')
             ->addOrderBy('request.requestDate', 'ASC')
             ->getQuery();

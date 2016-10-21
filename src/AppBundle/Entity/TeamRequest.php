@@ -55,6 +55,7 @@ class TeamRequest
     public function __construct()
     {
         $this->requestDate = new \DateTime();
+        $this->answer = 'requested';
     }
 
     /**

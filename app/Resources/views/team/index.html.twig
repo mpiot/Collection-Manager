@@ -17,13 +17,24 @@
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-                <tr>
+                {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
+                    <tr>
                         <th class="col-md-1">#</th>
                         <th class="col-md-2">Name</th>
-                        <th class="col-md-3">Administrators</th>
+                        <th class="col-md-5">Administrators</th>
                         <th class="col-md-1">Members</th>
+                        <th class="col-md-1">Request</th>
                         <th class="col-md-2">Actions</th>
-                </tr>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-3">Name</th>
+                        <th class="col-md-6">Administrators</th>
+                        <th class="col-md-1">Members</th>
+                        <th class="col-md-1">Request</th>
+                    </tr>
+                {% endif %}
             </thead>
 
             <tbody>
@@ -34,16 +45,29 @@
                         <td><a href="{{ path('team_view', { 'id': team.id }) }}">{{ team.name }}</a></td>
                         <td>{{ team.administrators|join(', ') }}</td>
                         <td>{{ team.members|length }}</td>
+                        <td>
+                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                {% if not team.isMember(app.user) and team.getTeamRequestFor(app.user) is null %}
+                                    <a class="btn btn-info" href="{{ path('team_request_add', { 'id': team.id }) }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Join it</a>
+                                {% elseif team.getTeamRequestFor(app.user) is not null %}
+                                    {% set answer = team.getTeamRequestFor(app.user).answer %}
+                                    {% if 'accepted' == answer %}
+                                        <span class="label label-success">
+                                    {% elseif "declined" == answer %}
+                                        <span class="label label-danger">
+                                    {% else %}
+                                        <span class="label label-info">
+                                    {% endif %}
+                                        {{ answer|capitalize }}
+                                    </span>
+                                {% elseif team.isMember(app.user) %}
+                                    <span class="label label-success">Accepted</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    {% if not app.user.hasTeam(team) %}
-                                        {% if not app.user.hasRequestedTeam(team) %}
-                                            <a class="btn btn-info" href="{{ path('team_request_add', { 'id': team.id }) }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Join it</a>
-                                        {% else %}
-                                            <span class="label label-info"> Requested</span>
-                                        {% endif %}
-                                    {% endif %}
-
                                     {% if app.user.isAdministratorOf(team) or is_granted('ROLE_ADMIN') %}
                                         <a class="btn btn-warning" href="{{ path('team_edit', { 'id': team.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
                                     {% endif %}
@@ -53,6 +77,7 @@
                                     {% endif %}
                                 </div>
                             </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             {% else %}
@@ -63,5 +88,4 @@
             </tbody>
         </table>
     </div>
-
 {% endblock %}

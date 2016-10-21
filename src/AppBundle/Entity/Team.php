@@ -247,6 +247,27 @@ class Team
         return $this->projects;
     }
 
+    /**
+     * Get team requests.
+     *
+     * @return ArrayCollection
+     */
+    public function getTeamRequests()
+    {
+        return $this->teamRequests;
+    }
+
+
+    public function getTeamRequestFor(User $user)
+    {
+        foreach($this->teamRequests as $teamRequest) {
+            if ($user === $teamRequest->getUser()) {
+                return $teamRequest;
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Get plasmids.
