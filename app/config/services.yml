@@ -87,6 +87,13 @@ services:
         # small performance boost
         public: false
 
+    app.voter.box:
+        class: AppBundle\Security\BoxVoter
+        arguments: ["@security.access.decision_manager"]
+        tags:
+            - { name: security.voter }
+        public: false
+
     app.voter.strain:
         class: AppBundle\Security\StrainVoter
         arguments: ["@security.access.decision_manager"]

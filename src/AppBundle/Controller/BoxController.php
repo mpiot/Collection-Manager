@@ -21,16 +21,13 @@ class BoxController extends Controller
 {
     /**
      * @Route("/", name="box_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $boxes = $em->getRepository('AppBundle:Box')->findAllWithType();
-        } else {
-            $boxes = $em->getRepository('AppBundle:Box')->findAllAuthorizedForCurrentUserWithType($this->getUser());
-        }
+        $boxes = $em->getRepository('AppBundle:Box')->findAllAuthorizedForCurrentUserWithType($this->getUser());
 
         return $this->render('box/index.html.twig', array(
             'boxes' => $boxes,
@@ -42,7 +39,7 @@ class BoxController extends Controller
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findOneWithProjectTypeTubesStrains"
      * })
-     * @Security("is_granted('PROJECT_VIEW', box.getProject())")
+     * @Security("is_granted('BOX_VIEW', box)")
      */
     public function viewAction(Box $box)
     {
@@ -61,7 +58,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/add", name="box_add")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -90,7 +87,7 @@ class BoxController extends Controller
      * @ParamConverter("box", class="AppBundle:Box", options={
      *      "repository_method" = "findOneWithType"
      * })
-     * @Security("is_granted('PROJECT_EDIT', box.getProject())")
+     * @Security("is_granted('BOX_EDIT', box)")
      */
     public function editAction(Box $box, Request $request)
     {
@@ -115,7 +112,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/delete/{id}", name="box_delete")
-     * @Security("is_granted('PROJECT_DELETE', box.getProject())")
+     * @Security("is_granted('BOX_DELETE', box)")
      */
     public function deleteAction(Box $box, Request $request)
     {

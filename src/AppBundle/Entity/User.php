@@ -217,6 +217,16 @@ class User extends BaseUser
     }
 
     /**
+     * Is a project member ?
+     *
+     * @return bool
+     */
+    public function isProjectMember()
+    {
+        return !$this->projects->isEmpty();
+    }
+
+    /**
      * Add an administered project.
      *
      * @param Project $project

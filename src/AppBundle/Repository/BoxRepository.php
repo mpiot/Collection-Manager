@@ -28,18 +28,18 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
 
     public function findAllAuthorizedForCurrentUserWithType(User $user)
     {
-        $query = $this->createQueryBuilder('b')
-            ->leftJoin('b.type', 't')
-                ->addSelect('t')
-            ->leftJoin('b.project', 'p')
-                ->addSelect('p')
-            ->leftJoin('p.teams', 'teams')
-                ->addSelect('teams')
-            ->leftJoin('teams.members', 'members')
-            ->where('members = :user')
+        $query = $this->createQueryBuilder('box')
+            ->leftJoin('box.type', 'type')
+                ->addSelect('type')
+            ->leftJoin('box.project', 'project')
+            ->leftJoin('project.members', 'members')
+            ->leftJoin('project.teams', 'teams')
+            ->leftJoin('teams.administrators', 'administrators')
+            ->where('administrators = :user')
+            ->orWhere('members = :user')
                 ->setParameter('user', $user)
-            ->orderBy('b.project', 'ASC')
-            ->addOrderBy('b.boxLetter', 'ASC')
+            ->orderBy('box.project', 'ASC')
+            ->addOrderBy('box.boxLetter', 'ASC')
             ->getQuery();
 
         return $query->getResult();
