@@ -37,6 +37,7 @@ class TeamController extends Controller
      * @ParamConverter("team", class="AppBundle:Team", options={
      *      "repository_method" = "findOneWithMembers"
      * })
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function viewAction(Team $team)
     {
