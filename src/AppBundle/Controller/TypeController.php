@@ -19,6 +19,7 @@ class TypeController extends Controller
 {
     /**
      * @Route("/", name="type_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
@@ -32,7 +33,7 @@ class TypeController extends Controller
 
     /**
      * @Route("/add", name="type_add")
-     * @Security("user.isInTeam() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -58,7 +59,7 @@ class TypeController extends Controller
 
     /**
      * @Route("/edit/{id}", name="type_edit")
-     * @Security("is_granted('TYPE_EDIT', type)")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function editAction(Type $type, Request $request)
     {
@@ -83,7 +84,7 @@ class TypeController extends Controller
 
     /**
      * @Route("/delete/{id}", name="type_delete")
-     * @Security("is_granted('TYPE_DELETE', type)")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Type $type, Request $request)
     {

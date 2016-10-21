@@ -26,7 +26,7 @@ class Genus
     /**
      * @var string
      *
-     * @ORM\Column(name="genus", type="string", length=255)
+     * @ORM\Column(name="genus", type="string", length=255, unique=true)
      * @Assert\Regex("#^[A-Z][a-z]*$#", message="The genus begin with a capital letter. (eg: Saccharomyces)")
      */
     private $genus;
@@ -94,7 +94,7 @@ class Genus
     /**
      * Get species.
      *
-     * @return \stdClass
+     * @return ArrayCollection
      */
     public function getSpecies()
     {

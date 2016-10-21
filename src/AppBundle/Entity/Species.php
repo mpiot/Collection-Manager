@@ -33,7 +33,7 @@ class Species
     /**
      * @var string
      *
-     * @ORM\Column(name="species", type="string", length=255, unique=true)
+     * @ORM\Column(name="species", type="string", length=255)
      * @Assert\Regex("#^[a-z]*$#", message="The species is in small letters. (eg: cerevisiae)")
      */
     private $species;

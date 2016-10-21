@@ -19,6 +19,7 @@ class BiologicalOriginCategoryController extends Controller
 {
     /**
      * @Route("/", name="category_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
@@ -33,7 +34,7 @@ class BiologicalOriginCategoryController extends Controller
 
     /**
      * @Route("/add", name="category_add")
-     * @Security("user.isInTeam() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -59,7 +60,7 @@ class BiologicalOriginCategoryController extends Controller
 
     /**
      * @Route("/edit/{id}", name="category_edit")
-     * @Security("is_granted('BIO_CATEGORY_EDIT', category)")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function editAction(BiologicalOriginCategory $category, Request $request)
     {
@@ -84,7 +85,7 @@ class BiologicalOriginCategoryController extends Controller
 
     /**
      * @Route("/delete/{id}", name="category_delete")
-     * @Security("is_granted('BIO_CATEGORY_DELETE', category)")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(BiologicalOriginCategory $category, Request $request)
     {

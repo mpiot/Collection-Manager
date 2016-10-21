@@ -67,36 +67,70 @@ class User extends BaseUser
         $this->administeredProjects = new ArrayCollection();
     }
 
+    /**
+     * Add administered team.
+     *
+     * @param Team $team
+     */
     public function addAdministeredTeam(Team $team)
     {
         $this->administeredTeams->add($team);
     }
 
-    public function removeAdministeredTeam(Team $team)
-    {
-        $this->administeredTeams->removeElement($team);
-    }
-
+    /**
+     * @return ArrayCollection
+     */
     public function getAdministeredTeams()
     {
         return $this->administeredTeams;
     }
 
+    /**
+     * Is a team administrator ?
+     *
+     * @return bool
+     */
+    public function isTeamAdministrator()
+    {
+        return !$this->administeredTeams->isEmpty();
+    }
+
+    /**
+     * Is an administrator of this team ?
+     *
+     * @param Team $team
+     * @return bool
+     */
+    public function isAdministratorOf(Team $team)
+    {
+        return $this->administeredTeams->contains($team);
+    }
+
+    /**
+     * Add team.
+     *
+     * @param Team $team
+     */
     public function addTeam(Team $team)
     {
         $this->teams->add($team);
     }
 
-    public function removeTeam(Team $team)
-    {
-        $this->teams->removeElement($team);
-    }
-
+    /**
+     * Get teams.
+     *
+     * @return ArrayCollection
+     */
     public function getTeams()
     {
         return $this->teams;
     }
 
+    /**
+     * Get teams Ids.
+     *
+     * @return array
+     */
     public function getTeamsId()
     {
         $teamsId = [];
@@ -108,31 +142,45 @@ class User extends BaseUser
         return $teamsId;
     }
 
-    public function isTeamAdministrator()
-    {
-        return !$this->administeredTeams->isEmpty();
-    }
-
-    public function isAdministratorOf(Team $team)
-    {
-        return $this->administeredTeams->contains($team);
-    }
-
+    /**
+     * Is in a team ?
+     *
+     * @return bool
+     */
     public function isInTeam()
     {
         return !$this->teams->isEmpty();
     }
 
+    /**
+     * Is in this teams ?
+     *
+     * @param Team $team
+     *
+     * @return bool
+     */
     public function hasTeam(Team $team)
     {
         return $this->teams->contains($team);
     }
 
+    /**
+     * Get team requests.
+     *
+     * @return ArrayCollection
+     */
     public function getTeamRequests()
     {
         return $this->teamRequests;
     }
 
+    /**
+     * Has requested for this team ?
+     *
+     * @param Team $team
+     *
+     * @return bool
+     */
     public function hasRequestedTeam(Team $team)
     {
         $result = false;
@@ -148,38 +196,64 @@ class User extends BaseUser
         return $result;
     }
 
+    /**
+     * Add a project.
+     *
+     * @param Project $project
+     */
     public function addProject(Project $project)
     {
         $this->projects->add($project);
     }
 
-    public function removeProject(Project $project)
-    {
-        $this->projects->removeElement($project);
-    }
-
+    /**
+     * Get projects.
+     *
+     * @return ArrayCollection
+     */
     public function getProjects()
     {
         return $this->projects;
     }
 
+    /**
+     * Add an administered project.
+     *
+     * @param Project $project
+     */
     public function addAdministeredProject(Project $project)
     {
         $this->administeredProjects->add($project);
     }
 
-    public function removeAdministeredProject(Project $project)
-    {
-        $this->administeredProjects->removeElement($project);
-    }
-
+    /**
+     * Get administered projects.
+     *
+     * @return ArrayCollection
+     */
     public function getAdministeredProjects()
     {
         return $this->administeredProjects;
     }
 
-    public function getUsernameAndTeams()
+    /**
+     * Is a project administrator ?
+     *
+     * @return bool
+     */
+    public function isProjectAdministrator()
     {
-        return $this->getUsername().' - Teams('.join(',', $this->getTeamsId()).')';
+        return !$this->administeredProjects->isEmpty();
+    }
+
+    /**
+     * Is an administrator of this project ?
+     *
+     * @param Team $team
+     * @return bool
+     */
+    public function isProjectAdministratorOf(Project $project)
+    {
+        return $this->administeredProjects->contains($project);
     }
 }

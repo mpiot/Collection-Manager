@@ -3,7 +3,7 @@
 {% block title %}Types list{% endblock %}
 
 {% block type_body %}
-    {% if app.user.isInTeam() or is_granted('ROLE_ADMIN') %}
+    {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
         <div>
             <a class="btn btn-default" href="{{ path('type_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a type
@@ -16,7 +16,7 @@
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-                {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
+            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
                     <tr>
                         <th class="col-md-1">#</th>
                         <th class="col-md-5">Type</th>
@@ -37,16 +37,11 @@
                             <td>{{ loop.index }}</td>
                             <td>{{ type.name }}</td>
                             <td>{{ type.letter }}</td>
-                            {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
+                            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
                                 <td>
                                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        {% if is_granted('TYPE_EDIT', type) %}
-                                            <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                        {% endif %}
-
-                                        {% if is_granted('TYPE_DELETE', type) %}
-                                            <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                        {% endif %}
+                                        <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                        <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
                                     </div>
                                 </td>
                             {% endif %}

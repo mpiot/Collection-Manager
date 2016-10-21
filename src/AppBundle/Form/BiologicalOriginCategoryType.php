@@ -2,23 +2,13 @@
 
 namespace AppBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class BiologicalOriginCategoryType extends AbstractType
 {
-    private $user;
-
-    public function __construct(TokenStorage $token)
-    {
-        $this->user = $token->getToken()->getUser();
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options

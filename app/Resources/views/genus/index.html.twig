@@ -3,34 +3,45 @@
 {% block title %}Genus list{% endblock %}
 
 {% block genus_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('genus_add') }}">
-            <span class="glyphicon glyphicon-plus"></span> Add a genus
-        </a>
-    </div>
+    {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
+        <div>
+            <a class="btn btn-default" href="{{ path('genus_add') }}">
+                <span class="glyphicon glyphicon-plus"></span> Add a genus
+            </a>
+        </div>
+    {% endif %}
 
     <h2 class="sub-header">Genus list</h2>
 
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-9">Genus</th>
-                <th class="col-md-2">Actions</th>
-            </tr>
+            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-9">Genus</th>
+                    <th class="col-md-2">Actions</th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-11">Genus</th>
+                </tr>
+            {% endif %}
             </thead>
                 {% if genusList is not empty %}
                     {% for genus in genusList %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>{{ genus.genus }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('genus_edit', { 'id': genus.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('genus_delete', { 'id': genus.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
-                            </td>
+                            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
+                                <td>
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        <a class="btn btn-warning" href="{{ path('genus_edit', { 'id': genus.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                        <a class="btn btn-danger" href="{{ path('genus_delete', { 'id': genus.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    </div>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% else %}

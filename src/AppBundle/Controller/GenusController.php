@@ -19,6 +19,7 @@ class GenusController extends Controller
 {
     /**
      * @Route("/", name="genus_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
@@ -32,6 +33,7 @@ class GenusController extends Controller
 
     /**
      * @Route("/add", name="genus_add")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -57,6 +59,7 @@ class GenusController extends Controller
 
     /**
      * @Route("/edit/{id}", name="genus_edit")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function editAction(Genus $genus, Request $request)
     {
@@ -81,6 +84,7 @@ class GenusController extends Controller
 
     /**
      * @Route("/delete/{id}", name="genus_delete")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Genus $genus, Request $request)
     {

@@ -20,6 +20,7 @@ class SpeciesController extends Controller
 {
     /**
      * @Route("/", name="species_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
@@ -33,6 +34,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/add", name="species_add")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -61,6 +63,7 @@ class SpeciesController extends Controller
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenus"
      * })
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function editAction(Species $species, Request $request)
     {
@@ -88,6 +91,7 @@ class SpeciesController extends Controller
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenus"
      * })
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Species $species, Request $request)
     {
