@@ -76,7 +76,7 @@ class StrainVoter extends Voter
         }
 
         // If the user is member of the project
-        if (in_array($user, $strain->getAuthorizedTeams())) {
+        if ($strain->isAllowedUser($user)) {
             return true;
         }
 
@@ -100,7 +100,15 @@ class StrainVoter extends Voter
             return true;
         }
 
-        // If the user is an administrator of project concern by the strain
+        // If the user is a project administrator of the concerned strain
+        $strainProjects = $strain->getProjects();
+        $userAdministeredProjects = $user->getAdministeredProjects()->toArray();
+
+        if (!empty(array_intersect($strainProjects, $userAdministeredProjects))) {
+            return true;
+        }
+
+        // If the user is an administrator of a team concerned by the strain
         $strainTeams = $strain->getTeams();
         $userAdministeredTeams = $user->getAdministeredTeams()->toArray();
 

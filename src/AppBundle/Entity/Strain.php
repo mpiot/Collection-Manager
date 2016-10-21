@@ -288,6 +288,26 @@ class Strain
     }
 
     /**
+     * Get the projects.
+     *
+     * @return array
+     */
+    public function getProjects()
+    {
+        $projects = [];
+
+        foreach ($this->getTubes() as $tube) {
+            foreach ($tube->getBox()->getProject() as $project) {
+                if (!in_array($project, $projects)) {
+                    $projects[] = $project;
+                }
+            }
+        }
+
+        return $projects;
+    }
+
+    /**
      * Get allowed users.
      *
      * @return array
@@ -307,6 +327,25 @@ class Strain
         return $allowedUsers;
     }
 
+    /**
+     * Is allowed user ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAllowedUser(User $user)
+    {
+        return in_array($user, $this->getAllowedUsers());
+    }
+
+    /**
+     * Is author ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
     public function isAuthor(User $user)
     {
         return $user === $this->getAuthor();

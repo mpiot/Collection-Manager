@@ -3,7 +3,7 @@
 {% block title %}Strains list{% endblock %}
 
 {% block strain_body %}
-    {% if false != app.user.isInTeam() or is_granted('ROLE_ADMIN') %}
+    {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or app.user.isProjectMember or is_granted('ROLE_ADMIN') %}
     <!-- Single button -->
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

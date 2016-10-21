@@ -66,7 +66,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/gmo/add", name="strain_gmo_add")
-     * @Security("false != user.isInTeam() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
      */
     public function addGmoAction(Request $request)
     {
@@ -97,7 +97,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/wild/add", name="strain_wild_add")
-     * @Security("false != user.isInTeam() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
      */
     public function addWildAction(Request $request)
     {
@@ -255,7 +255,6 @@ class StrainController extends Controller
 
     /**
      * @Route("/parental/{id}", name="strain_parental")
-     * @Security("is_granted('STRAIN_VIEW', strain)")
      */
     public function parentalStrainsAction(GmoStrain $gmoStrain)
     {
