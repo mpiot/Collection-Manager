@@ -20,11 +20,12 @@ class PlasmidController extends Controller
 {
     /**
      * @Route("/", name="plasmid_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $plasmids = $em->getRepository('AppBundle:Plasmid')->findAll();
+        $plasmids = $em->getRepository('AppBundle:Plasmid')->findAllForUser($this->getUser());
 
         return $this->render('plasmid/index.html.twig', array(
             'plasmids' => $plasmids,
@@ -33,6 +34,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/view/{id}", name="plasmid_view")
+     * @Security("is_granted('PLASMID_VIEW', plasmid)")
      */
     public function viewAction(Plasmid $plasmid)
     {
@@ -47,6 +49,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/add", name="plasmid_add")
+     * @Security("user.isInTeam()")
      */
     public function addAction(Request $request)
     {
@@ -77,6 +80,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/edit/{id}", name="plasmid_edit")
+     * @Security("is_granted('PLASMID_EDIT', plasmid)")
      */
     public function editAction(Plasmid $plasmid, Request $request)
     {
@@ -107,6 +111,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/delete/{id}", name="plasmid_delete")
+     * @Security("is_granted('PLASMID_DELETE', plasmid)")
      */
     public function deleteAction(Plasmid $plasmid, Request $request)
     {

@@ -100,3 +100,10 @@ services:
         tags:
             - { name: security.voter }
         public: false
+
+    app.voter.plasmid:
+        class: AppBundle\Security\PlasmidVoter
+        arguments: ["@security.access.decision_manager"]
+        tags:
+            - { name: security.voter }
+        public: false

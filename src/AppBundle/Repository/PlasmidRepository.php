@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * PlasmidRepository.
@@ -10,4 +11,15 @@ namespace AppBundle\Repository;
  */
 class PlasmidRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllForUser(User $user)
+    {
+        $query = $this->createQueryBuilder('plasmid')
+            ->leftJoin('plasmid.team', 'team')
+            ->leftJoin('team.members', 'members')
+            ->where('members = :user')
+                ->setParameter('user', $user)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

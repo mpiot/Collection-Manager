@@ -154,6 +154,13 @@ class Team
         return $this->administrators;
     }
 
+    /**
+     * Is User administrator ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
     public function isAdministrator(User $user)
     {
         return $this->administrators->contains($user);
@@ -192,6 +199,18 @@ class Team
     public function getMembers()
     {
         return $this->members;
+    }
+
+    /**
+     * Is User member ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isMember(User $user)
+    {
+        return $this->members->contains($user);
     }
 
     /**
