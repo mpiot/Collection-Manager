@@ -279,6 +279,18 @@ class Project
     }
 
     /**
+     * Is administrator ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAdministrator(User $user)
+    {
+        return $this->administrators->contains($user);
+    }
+
+    /**
      * Add member.
      *
      * @param User $user
@@ -311,5 +323,17 @@ class Project
     public function getMembers()
     {
         return $this->members;
+    }
+
+    /**
+     * Is member ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isMember(User $user)
+    {
+        return $this->members->contains($user);
     }
 }

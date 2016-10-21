@@ -154,6 +154,11 @@ class Team
         return $this->administrators;
     }
 
+    public function isAdministrator(User $user)
+    {
+        return $this->administrators->contains($user);
+    }
+
     /**
      * Add member.
      *

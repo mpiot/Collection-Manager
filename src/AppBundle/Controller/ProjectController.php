@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class ProjectController.
  *
- * @Route("/projet")
+ * @Route("/project")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class ProjectController extends Controller
@@ -24,11 +24,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $projects = $em->getRepository('AppBundle:Project')->findBy([], ['name' => 'ASC']);
-        } else {
-            $projects = $em->getRepository('AppBundle:Project')->findAllAuthorizedForCurrentUser($this->getUser());
-        }
+        $projects = $em->getRepository('AppBundle:Project')->findAllAuthorizedForCurrentUser($this->getUser());
 
         return $this->render('project/index.html.twig', array(
             'projects' => $projects,

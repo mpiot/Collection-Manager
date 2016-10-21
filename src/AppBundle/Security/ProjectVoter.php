@@ -72,10 +72,7 @@ class ProjectVoter extends Voter
             return true;
         }
 
-        $projectTeams = $project->getTeams()->toArray();
-        $userTeams = $user->getTeams()->toArray();
-
-        if (!empty(array_intersect($projectTeams, $userTeams))) {
+        if ($project->isMember($user)) {
             return true;
         }
 
@@ -88,16 +85,20 @@ class ProjectVoter extends Voter
             return true;
         }
 
+        if ($project->isAdministrator($user)) {
+            return true;
+        }
+
         return false;
     }
 
     private function canDelete(Project $project, User $user)
     {
-        $projectTeams = $project->getTeams()->toArray();
-        $userAdministeredTeams = $user->getAdministeredTeams()->toArray();
-
-        if (!empty(array_intersect($projectTeams, $userAdministeredTeams))) {
-            return true;
+        // Only the team administrators of the project can delete it
+        foreach ($project->getTeams() as $team) {
+            if ($team->isAdministrator($user)) {
+                return true;
+            }
         }
 
         return false;
