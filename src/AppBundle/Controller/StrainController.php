@@ -146,6 +146,8 @@ class StrainController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->container->get('fos_elastica.object_persister.app.gmostrain')->replaceOne($strain);
+
             $this->addFlash('success', 'The strain has been edited successfully.');
 
             return $this->redirectToRoute('strain_gmo_view', ['id' => $strain->getId()]);
@@ -178,6 +180,8 @@ class StrainController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
+
+            $this->container->get('fos_elastica.object_persister.app.wildstrain')->replaceOne($strain);
 
             $this->addFlash('success', 'The strain has been edited successfully.');
 

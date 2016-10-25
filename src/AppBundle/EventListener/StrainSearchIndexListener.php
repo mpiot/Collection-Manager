@@ -9,24 +9,8 @@ class StrainSearchIndexListener implements EventSubscriberInterface
 {
     public function addCustomProperties(TransformEvent $event)
     {
-        $this->addStrainAuthorizedTeam($event);
         $this->addStrainProjects($event);
         $this->addStrainType($event);
-    }
-
-    protected function addStrainAuthorizedTeam(TransformEvent $event)
-    {
-        $document = $event->getDocument();
-        $strain = $event->getObject();
-
-        $teams = $strain->getAuthorizedTeams();
-        $teamsIds = [];
-
-        foreach ($teams as $team) {
-            $teamsIds[] = $team->getId();
-        }
-
-        $document->set('authorizedTeams', $teamsIds);
     }
 
     protected function addStrainProjects(TransformEvent $event)
