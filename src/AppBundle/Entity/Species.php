@@ -26,22 +26,33 @@ class Species
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Genus", inversedBy="species")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Genus", inversedBy="species", cascade={"remove"})
      */
     private $genus;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="species", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      * @Assert\Regex("#^[a-z]*$#", message="The species is in small letters. (eg: cerevisiae)")
      */
-    private $species;
+    private $name;
 
     /**
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name="synonyms", type="array")
+     * @ORM\Column(name="taxId", type="integer", nullable=true)
+     * @Assert\Type("integer")
+     */
+    private $taxId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="synonyms")
+     */
+    private $mainSpecies;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="mainSpecies", cascade={"persist", "remove"})
      */
     private $synonyms;
 
@@ -61,7 +72,7 @@ class Species
 
     public function __construct()
     {
-        $this->synonyms = array();
+        $this->synonyms = new ArrayCollection();
         $this->gmoStrains = new ArrayCollection();
         $this->wildStrains = new ArrayCollection();
     }
@@ -107,9 +118,9 @@ class Species
      *
      * @return Species
      */
-    public function setSpecies($species)
+    public function setName($name)
     {
-        $this->species = $species;
+        $this->name = $name;
 
         return $this;
     }
@@ -119,52 +130,83 @@ class Species
      *
      * @return string
      */
-    public function getSpecies()
+    public function getName()
     {
-        return $this->species;
+        return $this->name;
     }
 
     /**
-     * @param $synonym
+     * Set TaxId.
+     *
+     * @param $taxId
      *
      * @return $this
      */
-    public function addSynonym($synonym)
+    public function setTaxId($taxId)
     {
-        if (!empty($synonym) && !in_array($synonym, $this->synonyms, true)) {
-            $this->synonyms[] = $synonym;
-        }
+        $this->taxId = $taxId;
 
         return $this;
     }
 
     /**
-     * @param $synonym
+     * Get TaxId.
+     *
+     * @return string
+     */
+    public function getTaxId()
+    {
+        return $this->taxId;
+    }
+
+    /**
+     * Set main.
+     * @param Species $species
      *
      * @return $this
      */
-    public function removeSynonym($synonym)
+    public function setMainSpecies(Species $species)
     {
-        if (false !== $key = array_search($synonym, $this->synonyms, true)) {
-            unset($this->synonyms[$key]);
-            $this->synonyms = array_values($this->synonyms);
-        }
+        $this->mainSpecies = $species;
 
         return $this;
     }
 
     /**
-     * Set synonyms.
-     *
-     * @param array $synonyms
+     * Get main.
      *
      * @return Species
      */
-    public function setSynonyms($synonyms)
+    public function getMainSpecies()
     {
-        foreach ($synonyms as $synonym) {
-            $this->addSynonym($synonym);
-        }
+        return $this->mainSpecies;
+    }
+
+    /**
+     * Add synonym.
+     *
+     * @param Species $species
+     *
+     * @return $this
+     */
+    public function addSynonym(Species $species)
+    {
+        $species->setMainSpecies($this);
+        $this->synonyms->add($species);
+
+        return $this;
+    }
+
+    /**
+     * Remove synoym.
+     *
+     * @param Species $species
+     *
+     * @return $this
+     */
+    public function removeSynonym(Species $species)
+    {
+        $this->synonyms->removeElement($species);
 
         return $this;
     }
@@ -172,7 +214,7 @@ class Species
     /**
      * Get synonyms.
      *
-     * @return array
+     * @return ArrayCollection
      */
     public function getSynonyms()
     {
@@ -196,10 +238,17 @@ class Species
     }
 
     /**
+     * Get scientificName.
+     *
      * @return string
      */
     public function getScientificName()
     {
-        return $this->genus->getGenus().' '.$this->species;
+        return $this->genus->getGenus().' '.$this->name;
+    }
+
+    public function isMainSpecies()
+    {
+        return (null !== $this->mainSpecies) ? false : true;
     }
 }

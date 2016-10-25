@@ -2,10 +2,10 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Repository\GenusRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form\Type\GenusSelectorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,24 +19,16 @@ class SpeciesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('genus', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Genus',
-                'query_builder' => function (GenusRepository $gr) {
-                    return $gr->createQueryBuilder('g')
-                        ->orderBy('g.genus', 'ASC');
-                },
-                'choice_label' => 'genus',
-            ))
-            ->add('species', TextType::class, array(
-                'attr' => array(
-                    'placeholder' => 'lipolytica',
-                ),
+            ->add('taxId', IntegerType::class)
+            ->add('genus', GenusSelectorType::class)
+            ->add('name', TextType::class, array(
+                'label' => 'Species',
             ))
             ->add('synonyms', CollectionType::class, array(
-                'entry_type' => TextType::class,
+                'entry_type' => SpeciesSynonymType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'required' => false,
+                'by_reference' => false,
             ))
         ;
     }

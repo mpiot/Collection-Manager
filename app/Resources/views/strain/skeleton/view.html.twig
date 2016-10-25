@@ -65,7 +65,7 @@
             <div class="panel-heading">Biological informations</div>
             <ul class="list-group">
                 <li class="list-group-item">Type: {{ strain.type.name }}</li>
-                <li class="list-group-item">Species: {{ strain.species.genus.genus }} {{ strain.species.species }}</li>
+                <li class="list-group-item">Species: {{ strain.species.genus.name }} {{ strain.species.name }}</li>
                 <li class="list-group-item">Sequenced: {{ strain.sequenced ? 'yes' : 'no' }}</li>
                 {% block biologicalOrigin %}
                 {% endblock %}

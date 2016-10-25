@@ -26,15 +26,15 @@ class Genus
     /**
      * @var string
      *
-     * @ORM\Column(name="genus", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\Regex("#^[A-Z][a-z]*$#", message="The genus begin with a capital letter. (eg: Saccharomyces)")
      */
-    private $genus;
+    private $name;
 
     /**
      * @var \stdClass
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="genus", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="genus")
      */
     private $species;
 
@@ -60,9 +60,9 @@ class Genus
      *
      * @return Genus
      */
-    public function setGenus($genus)
+    public function setName($name)
     {
-        $this->genus = $genus;
+        $this->name = $name;
 
         return $this;
     }
@@ -72,9 +72,9 @@ class Genus
      *
      * @return string
      */
-    public function getGenus()
+    public function getName()
     {
-        return $this->genus;
+        return $this->name;
     }
 
     /**

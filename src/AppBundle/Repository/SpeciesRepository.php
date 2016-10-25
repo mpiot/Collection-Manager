@@ -12,11 +12,11 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findAllWithGenus()
     {
-        $query = $this->createQueryBuilder('s')
-            ->leftJoin('s.genus', 'g')
-                ->addSelect('g')
-            ->orderBy('g.genus', 'ASC')
-            ->addOrderBy('s.species', 'ASC')
+        $query = $this->createQueryBuilder('species')
+            ->leftJoin('species.genus', 'genus')
+                ->addSelect('genus')
+            ->orderBy('genus.name', 'ASC')
+            ->addOrderBy('species.name', 'ASC')
             ->getQuery()
         ;
 
@@ -25,10 +25,10 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 
     public function findOneWithGenus($species)
     {
-        $query = $this->createQueryBuilder('s')
-            ->leftJoin('s.genus', 'g')
-                ->addSelect('g')
-            ->where('s = :species')
+        $query = $this->createQueryBuilder('species')
+            ->leftJoin('species.genus', 'genus')
+                ->addSelect('genus')
+            ->where('species = :species')
             ->setParameter('species', $species)
             ->getQuery();
 

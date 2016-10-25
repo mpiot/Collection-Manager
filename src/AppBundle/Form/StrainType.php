@@ -69,10 +69,10 @@ class StrainType extends AbstractType
         $form->add('genus', EntityType::class, array(
             'class' => 'AppBundle\Entity\Genus',
             'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('g')
-                    ->orderBy('g.genus', 'ASC');
+                return $er->createQueryBuilder('genus')
+                    ->orderBy('genus.name', 'ASC');
             },
-            'choice_label' => 'genus',
+            'choice_label' => 'name',
             'placeholder' => '-- select a genus --',
             'mapped' => false,
             'required' => false,
@@ -82,13 +82,13 @@ class StrainType extends AbstractType
         $form->add('species', EntityType::class, array(
             'class' => 'AppBundle\Entity\Species',
             'query_builder' => function (EntityRepository $er) use ($genus) {
-                return $er->createQueryBuilder('s')
-                    ->where('s.genus = :genus')
+                return $er->createQueryBuilder('species')
+                    ->where('species.genus = :genus')
                     ->setParameter('genus', $genus)
-                    ->orderBy('s.species', 'ASC');
+                    ->orderBy('species.name', 'ASC');
             },
             'placeholder' => '-- select a species --',
-            'choice_label' => 'species',
+            'choice_label' => 'name',
         ));
     }
 

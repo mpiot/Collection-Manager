@@ -37,5 +37,12 @@ class StrainListener
 
         // Define the author
         $entity->setAuthor($this->tokenStorage->getToken()->getUser());
+
+        // Define the main Species
+        $species = $entity->getSpecies();
+
+        if (!$species->isMainSpecies()) {
+            $entity->setSpecies($species->getMainSpecies());
+        }
     }
 }

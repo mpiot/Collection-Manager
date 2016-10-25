@@ -25,6 +25,12 @@ services:
             - { name: twig.extension }
 
 # Form
+    app.type.genus_selector:
+        class: AppBundle\Form\Type\GenusSelectorType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
+
     app.form_type.tube:
         class: AppBundle\Form\TubeType
         arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]

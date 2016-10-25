@@ -5,10 +5,6 @@
 {% block species_body %}
     {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
         <div>
-            <a class="btn btn-default" href="{{ path('genus_add') }}">
-                <span class="glyphicon glyphicon-plus"></span> Add a genus
-            </a>
-
             <a class="btn btn-default" href="{{ path('species_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a species
             </a>
@@ -23,17 +19,19 @@
             {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-2">Genus</th>
-                    <th class="col-md-2">Species</th>
-                    <th class="col-md-5">Synonyms</th>
+                    <th class="col-md-3">Genus</th>
+                    <th class="col-md-4">Species</th>
+                    <th class="col-md-1">Main</th>
+                    <th class="col-md-1">Synonym</th>
                     <th class="col-md-2">Actions</th>
                 </tr>
             {% else %}
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-2">Genus</th>
-                    <th class="col-md-2">Species</th>
-                    <th class="col-md-7">Synonyms</th>
+                    <th class="col-md-4">Genus</th>
+                    <th class="col-md-5">Species</th>
+                    <th class="col-md-1">Main</th>
+                    <th class="col-md-1">Synonym</th>
                 </tr>
             {% endif %}
             </thead>
@@ -41,21 +39,32 @@
                     {% for species in speciesList %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td>{{ species.genus.genus }}</td>
-                            <td>{{ species.species }}</td>
-                            <td>{{ species.synonyms|join(', ') }}</td>
+                            <td>{{ species.genus.name }}</td>
+                            <td>{{ species.name }}</td>
+                            <td>
+                                {% if species.mainSpecies is null %}
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if species.mainSpecies is not null %}
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                {% endif %}
+                            </td>
                             {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
                                 <td>
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                        <a class="btn btn-danger" href="{{ path('species_delete', { 'id': species.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    </div>
+                                    {% if species.mainSpecies is null %}
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                            <a class="btn btn-danger" href="{{ path('species_delete', { 'id': species.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        </div>
+                                    {% endif %}
                                 </td>
                             {% endif %}
                         </tr>
                     {% endfor %}
                 {% else %}
-                    <td class="text-center" colspan="5">There is no species.</td>
+                    <td class="text-center" colspan="6">There is no species.</td>
                 {% endif %}
             <tbody>
             </tbody>
