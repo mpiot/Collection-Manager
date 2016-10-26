@@ -149,6 +149,11 @@ class Box
         return $this->name;
     }
 
+    public function getNameAndType()
+    {
+        return $this->name.' ('.$this->type->getName().')';
+    }
+
     /**
      * Set description.
      *
