@@ -42,11 +42,14 @@ class StrainType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a type --',
+                'attr' => array(
+                    'data-help' => 'Which type of organism is it ?',
+                )
             ))
             ->add('usualName', TextType::class, array(
                 'attr' => array(
                     'autocomplete' => 'off',
-                    'placeholder' => 'A name you want to use',
+                    'data-help' => 'The name you want use to communicate about this strain.',
                 ),
             ))
             ->add('comment')

@@ -41,17 +41,20 @@ class WildStrainType extends AbstractType
             ->add('biologicalOrigin', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Galeria melonella, Insect',
+                    'data-help' => 'Where did you find it ?',
                 ),
             ))
             ->add('source', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'CBS, ...',
+                    'data-help' => 'Who give it to you ?',
                 ),
                 'required' => false,
             ))
             ->add('address', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Pyramides, 75001 Paris, France',
+                    'data-help' => 'The address with this format: Address, Zip code City, Country',
                 ),
             ))
             ->add('country', CountryType::class, array(

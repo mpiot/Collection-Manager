@@ -19,6 +19,7 @@ class BiologicalOriginCategoryType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Soil, Insect, ...',
+                    'data-help' => 'Name of the biological origin category.',
                 ),
             ))
         ;

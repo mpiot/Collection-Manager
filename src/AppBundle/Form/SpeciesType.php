@@ -19,7 +19,11 @@ class SpeciesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('taxId', IntegerType::class)
+            ->add('taxId', IntegerType::class, array(
+                'attr' => array(
+                    'data-help' => 'The taxID of the species, you can find it <a target="_blank" href="https://www.ncbi.nlm.nih.gov/taxonomy">here</a>.',
+                )
+            ))
             ->add('genus', GenusSelectorType::class)
             ->add('name', TextType::class, array(
                 'label' => 'Species',

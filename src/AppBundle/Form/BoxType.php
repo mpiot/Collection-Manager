@@ -59,16 +59,21 @@ class BoxType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a type --',
+                'attr' => array(
+                    'data-help' => 'Define the type of organisms that are in the box (just as indication).',
+                )
             ))
             ->add('freezer', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'In which freezer is the box: Emile',
+                    'placeholder' => 'Emile',
+                    'data-help' => 'In which freezer is the box ?',
                 ),
             ))
             ->add('location', TextType::class, array(
                 'label' => 'Location in the freezer',
                 'attr' => array(
                     'placeholder' => '1st shelf on the top, 3rd rack on the left',
+                    'data-help' => 'Where is the box in the freezer ?',
                 ),
             ))
             ->add('colNumber', NumberType::class, array(

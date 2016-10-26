@@ -27,6 +27,7 @@ class ProjectType extends AbstractType
             ->add('prefix', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'YALI',
+                    'data-help' => 'Prefix used to name Strains and Boxes.',
                 ),
             ))
             ->add('description', TextareaType::class, array(
@@ -52,6 +53,7 @@ class ProjectType extends AbstractType
                 'placeholder' => 'All teams',
                 'attr' => array(
                     'data-filter-name' => 'team-filter',
+                    'data-help' => 'Use this list to filter Administrators and Members checkboxes.',
                 )
             ))
             ->add('administrators', EntityType::class, array(

@@ -19,11 +19,13 @@ class TypeType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Yeast, E. coli, Plasmid',
+                    'data-help' => 'The name of the organism type.',
                 ),
             ))
             ->add('letter', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Y, E, P',
+                    'data-help' => 'A letter used as shortname.'
                 ),
             ))
         ;
