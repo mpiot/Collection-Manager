@@ -6,7 +6,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&language=en&signed_in=true&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&language=en&callback=initMap"></script>
     <script>
         $( function() {
             $('#map').hide();
@@ -22,6 +22,12 @@
 
             $('#reverseGeocode').click(function() {
                 geocodeLatLng(geocoder, map, infowindow);
+                $('#map').show();
+                google.maps.event.trigger(map, "resize");
+            });
+
+            $('#geocodeAddress').click(function() {
+                geocodeAddress(geocoder, map);
                 $('#map').show();
                 google.maps.event.trigger(map, "resize");
             });
@@ -44,18 +50,35 @@
                         infowindow.setContent(results[0].formatted_address);
                         infowindow.open(map, marker);
 
-                        var adressField = $('input[name$="[address]"]');
-                        var countryField = $('[name$="[country]"]');
-                        var adressValue = results[0]['formatted_address'];
-                        var countryCode = results[results.length - 1]['address_components'][0]['short_name'];
-
-                        adressField.val(adressValue);
-                        countryField.val(countryCode);
+                        $('input[name$="[address]"]').val(results[0].formatted_address);
+                        $('[name$="[country]"]').val(results[results.length - 1]['address_components'][0]['short_name']);
                     } else {
                         window.alert('No results found');
                     }
                 } else {
                     window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+
+        function geocodeAddress(geocoder, map) {
+            var address = $('[name$="[address]"]').val();
+
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    map.setZoom(11);
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        position: results[0].geometry.location,
+                        map: map
+                    });
+
+                    $('[name$="[address]"]').val(results[0].formatted_address);
+                    $('[name$="[latitude]"]').val(results[0].geometry.location.lat());
+                    $('[name$="[longitude]"]').val(results[0].geometry.location.lng());
+                    $('[name$="[country]"]').val(results[0].address_components[results[0].address_components.length - 2].short_name);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
                 }
             });
         }
