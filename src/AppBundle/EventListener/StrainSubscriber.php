@@ -2,18 +2,27 @@
 
 namespace AppBundle\EventListener;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\WildStrain;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class StrainListener
+class StrainSubscriber implements EventSubscriber
 {
     private $tokenStorage;
 
     public function __construct(TokenStorage $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
+    }
+
+    public function getSubscribedEvents()
+    {
+        return array(
+            'prePersist',
+            'preUpdate',
+        );
     }
 
     public function prePersist(LifecycleEventArgs $args)
@@ -37,6 +46,23 @@ class StrainListener
 
         // Define the author
         $entity->setAuthor($this->tokenStorage->getToken()->getUser());
+
+        // Define the main Species
+        $species = $entity->getSpecies();
+
+        if (!$species->isMainSpecies()) {
+            $entity->setSpecies($species->getMainSpecies());
+        }
+    }
+
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+
+        // If the entity is not a GmoStrain and not a WildStrain, return
+        if (!$entity instanceof GmoStrain && !$entity instanceof WildStrain) {
+            return;
+        }
 
         // Define the main Species
         $species = $entity->getSpecies();

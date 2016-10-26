@@ -26,7 +26,7 @@ class Species
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Genus", inversedBy="species", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Genus", inversedBy="species")
      */
     private $genus;
 
@@ -52,7 +52,7 @@ class Species
     private $mainSpecies;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="mainSpecies", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="mainSpecies", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $synonyms;
 

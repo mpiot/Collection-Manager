@@ -68,11 +68,16 @@ services:
             - { name: form.type }
 
 # Listeners
+    app.event_listener.species:
+        class: AppBundle\EventListener\SpeciesListener
+        tags:
+            - { name: doctrine.event_listener, event: postRemove }
+
     app.event_listener.strain:
-        class: AppBundle\EventListener\StrainListener
+        class: AppBundle\EventListener\StrainSubscriber
         arguments: ["@security.token_storage"]
         tags:
-            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_subscriber }
 
     app.event_listener.team:
         class: AppBundle\EventListener\TeamListener
