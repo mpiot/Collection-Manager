@@ -168,6 +168,11 @@ class Plasmid
         return $this->genBankFile;
     }
 
+    public function hasGenBankFile()
+    {
+        return (null !== $this->genBankFile) ? true : false;
+    }
+
     /**
      * @param $addManual
      *

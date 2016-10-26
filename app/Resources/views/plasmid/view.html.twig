@@ -11,14 +11,16 @@
 
     <h2>
         Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}
-        <a type="button" class="btn btn-success btn-md" href="{{ asset(plasmid.genBankFile.webPath) }}">
-            <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-            Download
-        </a>
+        {% if plasmid.hasGenBankFile %}
+            <a type="button" class="btn btn-success btn-md" href="{{ asset(plasmid.genBankFile.webPath) }}">
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                Download
+            </a>
+        {% endif %}
     </h2>
 
     <div class="row">
-        {% if gbkFile is not null %}
+        {% if plasmid.hasGenBankFile %}
             <div class="col-md-12">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">

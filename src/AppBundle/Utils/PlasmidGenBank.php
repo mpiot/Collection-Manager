@@ -33,6 +33,10 @@ class PlasmidGenBank
 
     public function getArray()
     {
+        if (null === $this->getFile()) {
+            return;
+        }
+
         $lines = explode("\n", $this->getFile());
 
         $array = [];
