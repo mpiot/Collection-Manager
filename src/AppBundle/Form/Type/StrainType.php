@@ -1,9 +1,8 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Genus;
-use AppBundle\Entity\Species;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,17 +13,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class StrainType extends AbstractType
 {
     private $em;
-    private $user;
 
-    public function __construct(EntityManager $em, TokenStorage $token)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->user = $token->getToken()->getUser();
     }
 
     /**

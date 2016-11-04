@@ -269,9 +269,12 @@ class Tube
     {
         $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+        $rowNumber = $this->box->getRowNumber();
+        $colNumber = $this->box->getColNumber();
         $cellsName = [];
-        for ($i = 0; $i < $this->box->getRowNumber(); ++$i) {
-            for ($j = 0; $j < $this->box->getColNumber(); ++$j) {
+
+        for ($i = 0; $i < $rowNumber; ++$i) {
+            for ($j = 0; $j < $colNumber; ++$j) {
                 $cellsName[] = $availableLetters[$i].($j + 1);
             }
         }

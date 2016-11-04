@@ -5,7 +5,6 @@ namespace AppBundle\Form\DataTransformer;
 use AppBundle\Entity\Genus;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class GenusToTextTransformer implements DataTransformerInterface
 {

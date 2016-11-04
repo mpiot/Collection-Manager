@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -14,13 +14,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WildStrainType extends AbstractType
 {
-    private $user;
-
-    public function __construct(TokenStorage $token)
-    {
-        $this->user = $token->getToken()->getUser();
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array

@@ -42,14 +42,11 @@ class PlasmidGenBank
         $array = [];
         $array['name'] = $this->plasmid->getAutoName().' - '.$this->plasmid->getName();
 
-        $previousFeature = null;
         $i = 0;
 
         foreach ($lines as $line) {
             // First we want Features data, they starts by 21 spaces
             if (preg_match('/^ {5}([\w]+) +(?:(complement)\()?(\d+)..(\d+)\)?/', $line, $matches)) {
-                $previousFeature = $i++;
-
                 // The feature type: source, misc_feature, promoter, ...
                 $array['features'][]['type'] = $matches[1];
 

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\AdvancedSearchType;
+use AppBundle\Form\Type\AdvancedSearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -45,7 +45,7 @@ class SearchController extends Controller
      *
      * @Route("/advanced-search", name="advanced-search")
      */
-    public function advancedSearch(Request $request)
+    public function advancedSearchAction(Request $request)
     {
         $form = $this->createForm(AdvancedSearchType::class);
 
@@ -61,7 +61,6 @@ class SearchController extends Controller
             // Search for GmoStrain
             if (in_array('gmo', $data['strainCategory'])) {
                 $gmoRepository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-                //$results['gmo'] = $gmoRepository->findByNames($data['search']);
                 $results['gmo'] = $gmoRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['deleted'], null, $data['project'], $data['type']);
             }
 

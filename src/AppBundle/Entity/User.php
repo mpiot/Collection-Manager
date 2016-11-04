@@ -266,4 +266,24 @@ class User extends BaseUser
     {
         return $this->administeredProjects->contains($project);
     }
+
+    /**
+     * Get wild strains.
+     *
+     * @return ArrayCollection
+     */
+    public function getWildStrains()
+    {
+        return $this->wildStrains;
+    }
+
+    /**
+     * Get gmo strains.
+     *
+     * @return ArrayCollection
+     */
+    public function getGmoStrains()
+    {
+        return $this->gmoStrains;
+    }
 }

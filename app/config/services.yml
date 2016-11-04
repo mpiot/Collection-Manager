@@ -32,37 +32,31 @@ services:
             - { name: form.type }
 
     app.form_type.tube:
-        class: AppBundle\Form\TubeType
+        class: AppBundle\Form\Type\TubeType
         arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
         tags:
             - { name: form.type }
 
     app.form_type.strain:
-        class: AppBundle\Form\StrainType
-        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.wild_strain:
-        class: AppBundle\Form\WildStrainType
-        arguments: ["@security.token_storage"]
+        class: AppBundle\Form\Type\StrainType
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
 
     app.form_type.box:
-        class: AppBundle\Form\BoxType
+        class: AppBundle\Form\Type\BoxType
         arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
 
     app.form_type.plasmid:
-        class: AppBundle\Form\PlasmidType
+        class: AppBundle\Form\Type\PlasmidType
         arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
 
     app.form_type.advanced_search:
-        class: AppBundle\Form\AdvancedSearchType
+        class: AppBundle\Form\Type\AdvancedSearchType
         arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }

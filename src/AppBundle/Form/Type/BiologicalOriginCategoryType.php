@@ -1,14 +1,13 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
-use AppBundle\Form\Type\GenusSelectorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SpeciesSynonymType extends AbstractType
+class BiologicalOriginCategoryType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,8 +16,13 @@ class SpeciesSynonymType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('genus', GenusSelectorType::class)
-            ->add('name', TextType::class);
+            ->add('name', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Soil, Insect, ...',
+                    'data-help' => 'Name of the biological origin category.',
+                ),
+            ))
+        ;
     }
 
     /**
@@ -27,7 +31,7 @@ class SpeciesSynonymType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Species',
+            'data_class' => 'AppBundle\Entity\BiologicalOriginCategory',
         ));
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -69,7 +70,7 @@ class ProjectType extends AbstractType
                     'data-filtered-name' => 'administrators',
                     'data-filtered-by' => 'team-filter',
                 ),
-                'choice_attr' => function ($user) {
+                'choice_attr' => function (User $user) {
                     return [
                         'data-teams' => '['.join(',', $user->getTeamsId()).']'
                     ];
@@ -88,7 +89,7 @@ class ProjectType extends AbstractType
                     'data-filtered-name' => 'members',
                     'data-filtered-by' => 'team-filter',
                 ),
-                'choice_attr' => function ($user) {
+                'choice_attr' => function (User $user) {
                     return [
                         'data-teams' => '['.join(',', $user->getTeamsId()).']'
                     ];

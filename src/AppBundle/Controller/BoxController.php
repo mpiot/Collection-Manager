@@ -3,8 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Box;
-use AppBundle\Form\BoxEditType;
-use AppBundle\Form\BoxType;
+use AppBundle\Form\Type\BoxEditType;
+use AppBundle\Form\Type\BoxType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;

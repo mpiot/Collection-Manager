@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\WildStrain;
-use AppBundle\Form\GmoStrainType;
-use AppBundle\Form\WildStrainType;
+use AppBundle\Form\Type\GmoStrainType;
+use AppBundle\Form\Type\WildStrainType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
