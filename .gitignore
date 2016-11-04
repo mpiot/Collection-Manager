@@ -17,6 +17,10 @@
 /web/css/compiled/*
 /web/js/compiled/*
 docker-compose.yml
+docker-compose-prod.yml
+docker/data*
+!docker/data/elasticsearch
+!docker/data/mariadb
 /web/files/*
 !/web/files/genBankFiles
 /web/files/genBankFiles/*
