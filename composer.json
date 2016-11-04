@@ -1,5 +1,5 @@
 {
-    "name": "Collection-Manager",
+    "name": "mpiot/collection-manager",
     "description": "A web app to manage laboratory strains.",
     "license": "proprietary",
     "type": "project",
