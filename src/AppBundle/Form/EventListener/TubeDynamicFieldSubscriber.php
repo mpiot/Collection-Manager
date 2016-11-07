@@ -6,6 +6,7 @@ use AppBundle\Entity\Box;
 use AppBundle\Entity\Project;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -20,6 +21,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
     private $tokenStorage;
     private $box;
     private $cell;
+    private $disabled;
 
     public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage)
     {
@@ -50,6 +52,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
             'placeholder' => '-- select a project --',
             'mapped' => false,
             'data' => $project,
+            'disabled' => $this->disabled,
         ));
 
         $form->add('box', EntityType::class, array(
@@ -63,6 +66,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
                         ->setParameter('project', $project);
             },
             'data' => $box,
+            'disabled' => $this->disabled,
         ));
 
         $cells = null !== $box ? $box->getEmptyCells($previousCell) : null;
@@ -71,9 +75,12 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
             'placeholder' => '-- select a cell --',
             'choices' => $cells,
             'data' => $previousCell,
+            'disabled' => $this->disabled,
         ));
 
-        $form->add('deleted');
+        $form->add('deleted', CheckboxType::class, array(
+            'required' => false,
+        ));
     }
 
     public function onPreSetData(FormEvent $event)
@@ -90,6 +97,17 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
         // Keep default value
         $this->box = $box;
         $this->cell = $cell;
+
+        // If it's not a new tube
+        if (null !== $this->box && null !== $this->cell) {
+            // Then retrieve the Strain, and get all tubes
+            $tubes = $tube->getStrain()->getTubes();
+
+            // Is this tube the first ?
+            if ($tube === $tubes->first()) {
+                $this->disabled = true;
+            }
+        }
 
         // Add the form
         $this->addElement($form, $project, $box, $cell);
