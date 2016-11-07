@@ -4,7 +4,8 @@ $(document).ready(function() {
 
     if (0 !== $container.length) {
         // On supprime les labels
-        //$('label[for^="gmo_strain_parents_"]').text('');
+        $container.find('div.form-group > label:not([for*=_strain_parents_])').text('');
+        $container.find('div.form-group > label:not([for*=_strain_parents_])').removeClass('required');
 
         // On ajoute un lien pour ajouter une nouvelle catégorie
         var $addLink = $('<a href="#" id="add_parent" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span> Add a parent</a>');
@@ -37,7 +38,7 @@ $(document).ready(function() {
             // - le texte "__name__label__" qu'il contient par le label du champ
             // - le texte "__name__" qu'il contient par le numéro du champ
             var $prototype = $(container.attr('data-prototype')
-                .replace(/__name__label__/g, index)
+                .replace(/__name__label__/g, '')
                 .replace(/__name__/g, index));
 
             // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
