@@ -78,6 +78,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
+    app.event_listener.project:
+        class: AppBundle\EventListener\ProjectListener
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
     app.event_listener.search.strain:
         class: AppBundle\EventListener\StrainSearchIndexListener
         tags:
