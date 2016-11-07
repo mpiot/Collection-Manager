@@ -4,11 +4,8 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Box;
-use AppBundle\Entity\Genus;
-use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\Project;
-use AppBundle\Entity\Species;
-use AppBundle\Entity\Tube;
+use AppBundle\Entity\Team;
 use AppBundle\Entity\Type;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -30,49 +27,120 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        //-----------------//
-        // Genus & Species //
-        //-----------------//
-        $speciesData = [
+        //---------//
+        //  Users  //
+        //---------//
+        $userManager = $this->container->get('fos_user.user_manager');
+
+        // Create a user: admin
+        $admin = $userManager->createUser();
+        $admin->setEmail('admin');
+        $admin->setUsername('admin');
+        $admin->setPlainPassword('mdp');
+        $admin->setEnabled(true);
+        $admin->addRole('ROLE_SUPER_ADMIN');
+
+        // Create a user: user
+        $user = $userManager->createUser();
+        $user->setEmail('user');
+        $user->setUsername('user');
+        $user->setPlainPassword('mdp');
+        $user->setEnabled(true);
+
+        // Create a user: Team1Admin
+        $team1admin = $userManager->createUser();
+        $team1admin->setEmail('team1admin');
+        $team1admin->setUsername('team1admin');
+        $team1admin->setPlainPassword('mdp');
+        $team1admin->setEnabled(true);
+
+        // Create a user: Team1Project
+        $team1project = $userManager->createUser();
+        $team1project->setEmail('team1project');
+        $team1project->setUsername('team1project');
+        $team1project->setPlainPassword('mdp');
+        $team1project->setEnabled(true);
+
+        // Create a user: Team1User
+        $team1user = $userManager->createUser();
+        $team1user->setEmail('team1user');
+        $team1user->setUsername('team1user');
+        $team1user->setPlainPassword('mdp');
+        $team1user->setEnabled(true);
+
+        // Create a user: Team2Admin
+        $team2admin = $userManager->createUser();
+        $team2admin->setEmail('team2admin');
+        $team2admin->setUsername('team2admin');
+        $team2admin->setPlainPassword('mdp');
+        $team2admin->setEnabled(true);
+
+        // Create a user: Team2Project
+        $team2project = $userManager->createUser();
+        $team2project->setEmail('team2project');
+        $team2project->setUsername('team2project');
+        $team2project->setPlainPassword('mdp');
+        $team2project->setEnabled(true);
+
+        // Create a user: Team2User
+        $team2user = $userManager->createUser();
+        $team2user->setEmail('team2user');
+        $team2user->setUsername('team2user');
+        $team2user->setPlainPassword('mdp');
+        $team2user->setEnabled(true);
+
+        // Persist and setReference for users
+        $manager->persist($admin);
+        $manager->persist($admin);
+        $manager->persist($user);
+        $manager->persist($team1admin);
+        $manager->persist($team1project);
+        $manager->persist($team1user);
+        $manager->persist($team2admin);
+        $manager->persist($team2project);
+        $manager->persist($team2user);
+
+        $this->setReference('user-admin', $admin);
+        $this->setReference('user-user', $user);
+        $this->setReference('user-team1admin', $team1admin);
+        $this->setReference('user-team1project', $team1project);
+        $this->setReference('user-team1user', $team1user);
+        $this->setReference('user-team2admin', $team2admin);
+        $this->setReference('user-team2project', $team2project);
+        $this->setReference('user-team2user', $team2user);
+
+        //-------//
+        // Teams //
+        //-------//
+        $teamsData = [
             [
-                'genus' => 'Candida',
-                'species' => [
-                        'albicans',
-                        'dubliniensis',
-                        'glabrata',
-                    ],
+                'name' => 'Team 1',
+                'administrators' => [$this->getReference('user-team1admin')],
+                'members' => [$this->getReference('user-team1project'), $this->getReference('user-team1user')],
             ],
             [
-                'genus' => 'Escherichia',
-                'species' => [
-                        'coli',
-                    ],
-            ],
-            [
-                'genus' => 'Yarrowia',
-                'species' => [
-                        'bubula',
-                        'deformans',
-                        'lipolytica',
-                    ],
+                'name' => 'Team 2',
+                'administrators' => [$this->getReference('user-team2admin')],
+                'members' => [$this->getReference('user-team2project'), $this->getReference('user-team2user')],
             ],
         ];
 
-        foreach ($speciesData as $data) {
-            $genus = new Genus();
-            $genus->setGenus($data['genus']);
+        foreach ($teamsData as $teamData) {
+            $team = new Team();
+            $team->setName($teamData['name']);
 
-            $manager->persist($genus);
-            $this->setReference('genus-'.$data['genus'], $genus);
-
-            foreach ($data['species'] as $speciesName) {
-                $species = new Species();
-                $species->setGenus($this->getReference('genus-'.$data['genus']));
-                $species->setSpecies($speciesName);
-
-                $manager->persist($species);
-                $this->setReference('species-'.$speciesName, $species);
+            // Foreach on Administrators
+            foreach ($teamData['administrators'] as $administrator) {
+                $team->addAdministrator($administrator);
             }
+
+            // Foreach on Members
+            foreach ($teamData['members'] as $member) {
+                $team->addMember($member);
+            }
+
+            $manager->persist($team);
+            $this->setReference('team-'.$teamData['name'], $team);
         }
 
         //-------//
@@ -80,7 +148,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //-------//
         $typesData = [
             ['name' => 'Yeast', 'letter' => 'Y'],
-            ['name' => 'E. coli', 'letter' => 'E'],
+            ['name' => 'Bacteria', 'letter' => 'B'],
             ['name' => 'Plasmid', 'letter' => 'P'],
         ];
 
@@ -98,14 +166,28 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //---------//
         $projectsData = [
             [
-                'name' => 'DivYN',
-                'prefix' => 'DIVYN',
-                'description' => 'The DivYN project',
+                'name' => 'Team1 Project',
+                'prefix' => 'T1P',
+                'description' => 'The first Team 1 project',
+                'teams' => [$this->getReference('team-Team 1')],
+                'administrators' => [$this->getReference('user-team1project')],
+                'members' => [$this->getReference('user-team1user')],
             ],
             [
-                'name' => 'EJC-NMD',
-                'prefix' => 'EJC-NMD',
-                'description' => 'The EJC - NMD project.',
+                'name' => 'Team2 Project',
+                'prefix' => 'T2P',
+                'description' => 'The first Team 2 project',
+                'teams' => [$this->getReference('team-Team 2')],
+                'administrators' => [$this->getReference('user-team2project')],
+                'members' => [$this->getReference('user-team2user')],
+            ],
+            [
+                'name' => 'Team1 & Team2 Project',
+                'prefix' => 'T1&2P',
+                'description' => 'The first Team 1 & 2 project',
+                'teams' => [$this->getReference('team-Team 1'), $this->getReference('team-Team 2')],
+                'administrators' => [$this->getReference('user-team1project'), $this->getReference('user-team2project')],
+                'members' => [$this->getReference('user-team1user'), $this->getReference('user-team2user')],
             ],
         ];
 
@@ -114,6 +196,21 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             $project->setName($projectData['name']);
             $project->setPrefix($projectData['prefix']);
             $project->setDescription($projectData['description']);
+
+            // Foreach on Teams
+            foreach ($projectData['teams'] as $team) {
+                $project->addTeam($team);
+            }
+
+            // Foreach on Administrators
+            foreach ($projectData['administrators'] as $administrator) {
+                $project->addAdministrator($administrator);
+            }
+
+            // Foreach on Members
+            foreach ($projectData['members'] as $member) {
+                $project->addMember($member);
+            }
 
             $manager->persist($project);
             $this->setReference('project-'.$projectData['prefix'], $project);
@@ -124,46 +221,62 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //-------//
         $boxesData = [
             [
-                'project' => $this->getReference('project-DIVYN'),
-                'name' => 'DivYN - Box 1',
-                'letter' => 'A',
-                'description' => 'The 1st box in the DivYN project.',
-                'type' => $this->getReference('type-Yeast'),
+                'project' => $this->getReference('project-T1P'),
+                'name' => 'T1P - Box 1',
+                'description' => 'The 1st box in the T1P project.',
+                'type' => $this->getReference('type-Bacteria'),
                 'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 3rd box in the column',
+                'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 1st box in the column',
                 'colNumber' => '10',
                 'rowNumber' => '10',
             ],
             [
-                'project' => $this->getReference('project-DIVYN'),
-                'name' => 'DivYN - Box 2',
-                'letter' => 'B',
-                'description' => 'The 2nd box in the DivYN project.',
+                'project' => $this->getReference('project-T1P'),
+                'name' => 'T1P - Box 2',
+                'description' => 'The 2nd box in the T1P project.',
                 'type' => $this->getReference('type-Yeast'),
                 'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 4th box in the column',
+                'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 2nd box in the column',
                 'colNumber' => '9',
                 'rowNumber' => '9',
             ],
             [
-                'project' => $this->getReference('project-EJC-NMD'),
-                'name' => 'EJC-NMD - Box 1',
-                'letter' => 'A',
-                'description' => 'The 1st box in tje EJC-NMD project.',
-                'type' => $this->getReference('type-E. coli'),
+                'project' => $this->getReference('project-T2P'),
+                'name' => 'T2P - Box 1',
+                'description' => 'The 1st box in the T2P project.',
+                'type' => $this->getReference('type-Bacteria'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 1st box in the column',
                 'colNumber' => '8',
                 'rowNumber' => '8',
             ],
             [
-                'project' => $this->getReference('project-EJC-NMD'),
-                'name' => 'EJC-NMD - Box 2',
-                'letter' => 'B',
-                'description' => 'The 2nd box in tje EJC-NMD project.',
+                'project' => $this->getReference('project-T2P'),
+                'name' => 'T2P - Box 2',
+                'description' => 'The 2nd box in the T2P project.',
                 'type' => $this->getReference('type-Yeast'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 2nd box in the column',
+                'colNumber' => '10',
+                'rowNumber' => '10',
+            ],
+            [
+                'project' => $this->getReference('project-T1&2P'),
+                'name' => 'T1&2P - Box 1',
+                'description' => 'The 1st box in the T1&2P project.',
+                'type' => $this->getReference('type-Bacteria'),
+                'freezer' => 'Emile',
+                'location' => '1st Shelve - 1st rack on the left - 4thColumn in the rack - 1st box in the column',
+                'colNumber' => '8',
+                'rowNumber' => '8',
+            ],
+            [
+                'project' => $this->getReference('project-T1&2P'),
+                'name' => 'T1&2P - Box 2',
+                'description' => 'The 2nd box in the T1&2P project.',
+                'type' => $this->getReference('type-Yeast'),
+                'freezer' => 'Emile',
+                'location' => '1st Shelve - 1st rack on the left - 4th Column in the rack - 2nd box in the column',
                 'colNumber' => '10',
                 'rowNumber' => '10',
             ],
@@ -183,84 +296,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             $manager->persist($box);
             $this->setReference('box-'.$boxData['name'], $box);
         }
-/*
-        //---------//
-        // Strains //
-        //---------//
 
-        //GmoStrains
-        $gmoStrainsData = [
-            [
-                'species' => $this->getReference('species-coli'),
-                'type' => $this->getReference('type-E. coli'),
-                'usualName' => 'Mach1T1',
-                'systematicName' => '',
-                'comment' => 'Strain to do competents cells.',
-                'sequenced' => true,
-                'deleted' => false,
-                'description' => 'Idem than comment',
-                'genotype' => '-',
-                'tubes' => [
-                    [
-                        'box' => $this->getReference('box-EJC-NMD - Box 1'),
-                        'cell' => 0,
-                    ],
-                    [
-                        'box' => $this->getReference('box-EJC-NMD - Box 1'),
-                        'cell' => 1,
-                    ],
-                ]
-            ],
-            [
-                'species' => $this->getReference('species-lipolytica'),
-                'type' => $this->getReference('type-Yeast'),
-                'usualName' => 'E150',
-                'systematicName' => '',
-                'comment' => '-',
-                'sequenced' => true,
-                'deleted' => false,
-                'description' => '-',
-                'genotype' => '-',
-                'tubes' => [
-                    [
-                        'box' => $this->getReference('box-EJC-NMD - Box 2'),
-                        'cell' => 0,
-                    ],
-                    [
-                        'box' => $this->getReference('box-EJC-NMD - Box 2'),
-                        'cell' => 1,
-                    ],
-                    [
-                        'box' => $this->getReference('box-DivYN - Box 1'),
-                        'cell' => 0,
-                    ],
-                ]
-            ],
-        ];
-
-        foreach ($gmoStrainsData as $strainData) {
-            $strain = new GmoStrain();
-            $strain->setSpecies($strainData['species']);
-            $strain->setType($strainData['type']);
-            $strain->setUsualName($strainData['usualName']);
-            $strain->setSystematicName($strainData['systematicName']);
-            $strain->setComment($strainData['comment']);
-            $strain->setSequenced($strainData['sequenced']);
-            $strain->setDeleted($strainData['deleted']);
-            $strain->setDescription($strainData['description']);
-            $strain->setGenotype($strainData['genotype']);
-
-            foreach($strainData['tubes'] as $tubeData) {
-                $tube = new Tube();
-                $tube->setBox($tubeData['box']);
-                $tube->setCell($tubeData['cell']);
-
-                $strain->addTube($tube);
-            }
-
-            $manager->persist($strain);
-        }
-*/
         // At the end: write all in database
         $manager->flush();
     }
