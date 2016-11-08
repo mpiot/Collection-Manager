@@ -54,6 +54,11 @@
                     <a class="navbar-brand" href="{{ path('homepage') }}">Collection Manager</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="{{ path('homepage') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Home</a></li>
+                        <li><a href="{{ path('strain_index') }}">Strains</a></li>
+                        <li><a href="{{ path('plasmid_index') }}">Plasmids</a></li>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if app.user %}
                             <li><a href="{{ path('advanced-search') }}">Advanced search</a></li>
@@ -96,17 +101,9 @@
                     <ul class="nav nav-sidebar">
                         <li><a href="{{ path('homepage') }}">Home</a></li>
                     </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href="{{ path('species_index') }}">Species</a></li>
-                        <li><a href="{{ path('type_index') }}">Types</a></li>
-                        <li><a href="{{ path('category_index') }}">Categories</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href="{{ path('project_index') }}">Projects</a></li>
-                        <li><a href="{{ path('box_index') }}">Boxes</a></li>
-                        <li><a href="{{ path('strain_index') }}">Strains</a></li>
-                        <li><a href="{{ path('plasmid_index') }}">Plasmids</a></li>
-                    </ul>
+
+                    {% block nav %}
+                    {% endblock %}
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     {# On affiche tous les messages flash dont le nom est « success » #}
