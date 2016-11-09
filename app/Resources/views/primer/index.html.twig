@@ -1,0 +1,49 @@
+{% extends "primer/base.html.twig" %}
+
+{% block title %}Primers list{% endblock %}
+
+{% block primer_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('primer_add') }}">
+            <span class="glyphicon glyphicon-plus"></span> Add a primer
+        </a>
+    </div>
+
+    <h2 class="sub-header">Primers list</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-2">AutoName</th>
+                    <th class="col-md-2">Name</th>
+                    <th class="col-md-3">Sequence</th>
+                    <th class="col-md-2">Orientation</th>
+                    <th class="col-md-2">Actions</th>
+                </tr>
+            </thead>
+                {% if primers is not empty %}
+                    {% for primer in primers %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
+                            <td>{{ primer.name }}</td>
+                            <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
+                            <td>{{ primer.orientation|capitalize }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a class="btn btn-danger" href="{{ path('primer_delete', { 'id': primer.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td class="text-center" colspan="6">There is no primers.</td>
+                {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

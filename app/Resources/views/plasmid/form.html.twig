@@ -1,8 +1,8 @@
 {{ form_start(form) }}
     {{ form_row(form.team) }}
     {{ form_row(form.name) }}
-    {{ form_row(form.addGenBankFile) }}
 
+    {{ form_row(form.addGenBankFile) }}
     <div id="genBank-file-field" class="col-sm-10 col-md-offset-2">
         <div>
             {% if app.request.requesturi != path('plasmid_add') and plasmid.genBankFile.path is defined and plasmid.genBankFile.path is not null %}
@@ -12,6 +12,7 @@
         {{ form_widget(form.genBankFile.fileSystemPath) }}
     </div>
 
+    {{ form_row(form.primers) }}
 
     {{ form_widget(form) }}
 

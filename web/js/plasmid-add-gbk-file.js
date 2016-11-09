@@ -4,7 +4,7 @@ $(document).ready(function(){
         $("#genBank-file-field").hide();
     }
 
-    $('input[name$="[addGenBankFile]"]').change(function(){
+    $('input[name$="plasmid[addGenBankFile]"]').change(function(){
         $("#genBank-file-field").toggle("slow");
     });
 });

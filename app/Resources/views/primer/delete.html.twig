@@ -1,0 +1,28 @@
+{% extends "primer/base.html.twig" %}
+
+{% block title %}Delete the primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
+
+{% block primer_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('primer_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span> Primers List
+        </a>
+    </div>
+
+    <h2 class="sub-header">Delete a primer</h2>
+
+    <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a primer !</div>
+
+    <p>Do you confirm the deletion of the primer: <b>{{ primer.autoName }} - {{ primer.name }}</b> ?</p>
+
+    <form action="{{ path('primer_delete', { 'id': primer.id}) }}" method="POST">
+        {{ form_rest(form) }}
+
+        <a class="btn btn-success" href="{{ path('primer_index') }}">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <b>Cancel !</b> Comeback in a safe area :)
+        </a>
+        <input type="submit" class="btn btn-danger" value="Delete"/>
+    </form>
+
+{% endblock %}

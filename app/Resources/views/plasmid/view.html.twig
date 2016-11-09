@@ -74,7 +74,7 @@
     <div class="row">
         <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading">Strains that contains this plasmid</div>
+            <div class="panel-heading">Plasmid used in this strains</div>
 
             <!-- Table -->
             <table class="table">
@@ -82,14 +82,51 @@
                     <th>#</th>
                     <th>Strain</th>
                 </tr>
-                {% for strainPlasmid in plasmid.strainPlasmids if 'replicative' == strainPlasmid.state %}
+                {% if plasmid.strainPlasmids is not empty %}
+                    {% for strainPlasmid in plasmid.strainPlasmids  %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                <a href="{{ path('strain_gmo_view', { 'id': strainPlasmid.gmoStrain.id }) }}">{{ strainPlasmid.gmoStrain.systematicName }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
                     <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>
-                            <a href="{{ path('strain_gmo_view', { 'id': strainPlasmid.gmoStrain.id }) }}">{{ strainPlasmid.gmoStrain.systematicName }}</a>
-                        </td>
+                        <td class="text-center" colspan="4">There is no primers.</td>
                     </tr>
-                {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Primers</div>
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th>AutoName</th>
+                    <th>Name</th>
+                    <th>Sequence</th>
+                </tr>
+                {% if plasmid.primers is not empty %}
+                    {% for primer in plasmid.primers %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
+                            <td>{{ primer.name }}</td>
+                            <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td class="text-center" colspan="4">There is no primers.</td>
+                    </tr>
+                {% endif %}
             </table>
         </div>
     </div>

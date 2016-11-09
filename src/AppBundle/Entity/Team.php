@@ -65,6 +65,16 @@ class Team
     private $lastPlasmidNumber;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Primer", mappedBy="team")
+     */
+    private $primers;
+
+    /**
+     * @ORM\Column(name="last_primer_number", type="integer", nullable=false)
+     */
+    private $lastPrimerNumber;
+
+    /**
      * Team constructor.
      */
     public function __construct()
@@ -75,6 +85,8 @@ class Team
         $this->teamRequests = new ArrayCollection();
         $this->plasmids = new ArrayCollection();
         $this->lastPlasmidNumber = 0;
+        $this->primers = new ArrayCollection();
+        $this->lastPrimerNumber = 0;
     }
 
     public function __toString()
@@ -279,7 +291,12 @@ class Team
         return $this->plasmids;
     }
 
-
+    /**
+     * Set last plasmid number.
+     *
+     * @param int $number
+     * @return $this
+     */
     public function setLastPlasmidNumber(int $number)
     {
         $this->lastPlasmidNumber = $number;
@@ -287,8 +304,46 @@ class Team
         return $this;
     }
 
+    /**
+     * Get last plasmid number.
+     *
+     * @return int
+     */
     public function getLastPlasmidNumber()
     {
         return $this->lastPlasmidNumber;
+    }
+
+    /**
+     * Get primers.
+     *
+     * @return ArrayCollection
+     */
+    public function getPrimers()
+    {
+        return $this->primers;
+    }
+
+    /**
+     * Set last primer number.
+     *
+     * @param int $number
+     * @return $this
+     */
+    public function setLastPrimerNumber(int $number)
+    {
+        $this->lastPrimerNumber = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get last primer number.
+     *
+     * @return int
+     */
+    public function getLastPrimerNumber()
+    {
+        return $this->lastPrimerNumber;
     }
 }

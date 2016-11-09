@@ -57,9 +57,18 @@ class Plasmid
      */
     private $strainPlasmids;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Primer", inversedBy="plasmids")
+     */
+    private $primers;
+
+    /**
+     * Plasmid constructor.
+     */
     public function __construct()
     {
         $this->strainPlasmids = new ArrayCollection();
+        $this->primers = new ArrayCollection();
     }
 
     /**
@@ -199,6 +208,36 @@ class Plasmid
     public function getStrainPlasmids()
     {
         return $this->strainPlasmids;
+    }
+
+    /**
+     * Add primer.
+     *
+     * @param Primer $primer
+     */
+    public function addPrimer(Primer $primer)
+    {
+        $this->primers->add($primer);
+    }
+
+    /**
+     * Remove primer.
+     *
+     * @param Primer $primer
+     */
+    public function removePrimer(Primer $primer)
+    {
+        $this->primers->removeElement($primer);
+    }
+
+    /**
+     * Get primers.
+     *
+     * @return ArrayCollection
+     */
+    public function getPrimers()
+    {
+        return $this->primers;
     }
 
     /**

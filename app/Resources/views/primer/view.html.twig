@@ -1,0 +1,49 @@
+{% extends "primer/base.html.twig" %}
+
+{% block title %}Primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
+
+{% block primer_body %}
+    <div>
+        <a class="btn btn-default" href="{{ path('primer_index') }}">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Primers list
+        </a>
+    </div>
+
+    <h2 class="sub-header">Primer: {{ primer.autoName }} - {{ primer.name }}</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Informations</div>
+                <!-- List group -->
+                <ul class="list-group">
+                    <li class="list-group-item">AutoName: {{ primer.autoName }}</li>
+                    <li class="list-group-item">Name: {{ primer.name }}</li>
+                    <li class="list-group-item">Quality: {{ primer.quality ? primer.quality : 'N/A' }}</li>
+                    <li class="list-group-item">Orientation: {{ primer.orientation|capitalize }}</li>
+                </ul>
+                <div class="panel-body">
+                    <p>Description:</p>
+                    <p>{{ primer.description ? primer.description : 'N/A' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Sequence</div>
+                <!-- List group -->
+                <div class="panel-body">
+                    {{ primer.formatedSequenceWithExtensions|raw }}
+                </div>
+                <!-- List group -->
+                <ul class="list-group">
+                    <li class="list-group-item">5' Extension: {{ primer.fivePrimeExtensionName ? primer.fivePrimeExtensionName : 'N/A' }}</li>
+                    <li class="list-group-item">3' Extension: {{ primer.threePrimeExtensionName ? primer.threePrimeExtensionName : 'N/A' }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -51,6 +52,26 @@ class PlasmidType extends AbstractType
                 'label' => 'Send a GenBank file ?',
             ))
             ->add('genBankFile', GenBankFileType::class, array(
+                'required' => false,
+            ))
+            ->add('primers', CollectionType::class, array(
+                'entry_type' => EntityType::class,
+                'entry_options' => array(
+                    'class' => 'AppBundle\Entity\Primer',
+                    'choice_label' => 'autoName',
+                    'placeholder' => '-- select a primer --',
+                    'query_builder' => function(EntityRepository $er) {
+                        return $er->createQueryBuilder('primer')
+                            ->leftJoin('primer.team', 'team')
+                            ->leftJoin('team.members', 'members')
+                            ->where('members = :user')
+                                ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                            ->orderBy('primer.name', 'ASC');
+                    }
+                ),
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
                 'required' => false,
             ))
         ;
