@@ -97,7 +97,7 @@ fos_user:
         sender_name:    CollectionManager
     registration:
         form:
-            type: AppBundle\Form\RegistrationType
+            type: AppBundle\Form\Type\RegistrationType
         confirmation:
             enabled: true
             from_email:
