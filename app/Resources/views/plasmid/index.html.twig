@@ -3,7 +3,7 @@
 {% block title %}Plasmid{% endblock %}
 
 {% block plasmid_body %}
-    {% if app.user.isInTeam or is_granted('ROLE_ADMIN') %}
+    {% if app.user.isInTeam %}
         <div>
             <a class="btn btn-default" href="{{ path('plasmid_add') }}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a plasmid
