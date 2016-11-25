@@ -1,5 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    {% if app.user is not null %}
+        <div class="panel panel-default">
+            <div class="panel-heading">Teams</div>
+            <div class="panel-body">
+                {% if app.user.isInTeam == false %}
+                    You have not team. <a href="{{ path('team_index') }}">Join a team</a>.
+                {% else %}
+                    <ul>
+                        {% for team in teams %}
+                            <li>
+                                {{ team.name }}
+                                {% if team.administrators.contains(app.user) %}
+                                    (You're an admin of this team)
+                                {% elseif app.user.isProjectAdministrator(team) %}
+                                    (You're a project admin in this team)
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ path('team_index') }}">Join an other team</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

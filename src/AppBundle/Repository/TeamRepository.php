@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * TeamRepository.
@@ -35,5 +36,17 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $query->getOneOrNullResult();
+    }
+
+    public function findAllForUser(User $user)
+    {
+        $query = $this->createQueryBuilder('team')
+            ->leftJoin('team.members', 'members')
+            ->where('members = :user')
+            ->setParameter('user', $user)
+            ->orderBy('team.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
     }
 }
