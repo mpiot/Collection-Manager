@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * PrimerRepository
@@ -10,4 +11,15 @@ namespace AppBundle\Repository;
  */
 class PrimerRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllForUser(User $user)
+    {
+        $query = $this->createQueryBuilder('primer')
+            ->leftJoin('primer.team', 'team')
+            ->leftJoin('team.members', 'members')
+            ->where('members = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return $query->getResult();
+    }
 }

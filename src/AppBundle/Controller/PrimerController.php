@@ -25,7 +25,7 @@ class PrimerController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $primers = $em->getRepository('AppBundle:Primer')->findBy([], ['autoName' => 'ASC']);
+        $primers = $em->getRepository('AppBundle:Primer')->findAllForUser($this->getUser());
 
         return $this->render('primer/index.html.twig', array(
             'primers' => $primers,
