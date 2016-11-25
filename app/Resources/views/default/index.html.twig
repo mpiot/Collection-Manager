@@ -14,13 +14,33 @@
                                 {{ team.name }}
                                 {% if team.administrators.contains(app.user) %}
                                     (You're an admin of this team)
-                                {% elseif app.user.isProjectAdministrator(team) %}
-                                    (You're a project admin in this team)
                                 {% endif %}
                             </li>
                         {% endfor %}
                     </ul>
                     <a href="{{ path('team_index') }}">Join an other team</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Projects</div>
+            <div class="panel-body">
+                {% if app.user.isInTeam == false %}
+                    You have not team, you need to <a href="{{ path('team_index') }}">join a team</a> to have projects.
+                {% elseif projects is empty %}
+                    You have no project. Ask to your team admin or to the project admin to add you on a project.
+                {% else %}
+                    <ul>
+                        {% for project in projects %}
+                            <li>
+                                {{ project.name }}
+                                {% if app.user.isProjectAdministratorOf(project) %}
+                                    (You're a project admin)
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
                 {% endif %}
             </div>
         </div>
