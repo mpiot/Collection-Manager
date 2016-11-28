@@ -2,46 +2,56 @@
 
 {% block body %}
     {% if app.user is not null %}
-        <div class="panel panel-default">
-            <div class="panel-heading">Teams</div>
-            <div class="panel-body">
-                {% if app.user.isInTeam == false %}
-                    You have not team. <a href="{{ path('team_index') }}">Join a team</a>.
-                {% else %}
-                    <ul>
-                        {% for team in teams %}
-                            <li>
-                                {{ team.name }}
-                                {% if team.administrators.contains(app.user) %}
-                                    (You're an admin of this team)
-                                {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Teams</div>
+                    {% if teams is empty %}
+                        <div class="panel-body">
+                            You have not team. <a href="{{ path('team_index') }}">Join a team</a>.
+                        </div>
+                    {% else %}
+                        <ul  class="list-group">
+                            {% for team in teams %}
+                                <li  class="list-group-item">
+                                    {% if team.administrators.contains(app.user) %}
+                                        <a href="{{ path('team_edit', { 'id': team.id }) }}">{{ team.name }}</a> (admin)
+                                    {% else %}
+                                        {{ team.name }}
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            <li class="list-group-item">
+                                <a href="{{ path('team_index') }}">Join an other team</a>
                             </li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{{ path('team_index') }}">Join an other team</a>
-                {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
-        </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">Projects</div>
-            <div class="panel-body">
-                {% if app.user.isInTeam == false %}
-                    You have not team, you need to <a href="{{ path('team_index') }}">join a team</a> to have projects.
-                {% elseif projects is empty %}
-                    You have no project. Ask to your team admin or to the project admin to add you on a project.
-                {% else %}
-                    <ul>
-                        {% for project in projects %}
-                            <li>
-                                {{ project.name }}
-                                {% if app.user.isProjectAdministratorOf(project) %}
-                                    (You're a project admin)
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Projects</div>
+                    {% if projects is empty %}
+                        <div class="panel-body">
+                            You have no project. Ask to a project admin.
+                        </div>
+                    {% else %}
+                        <ul class="list-group">
+                            {% for project in projects %}
+                                <li class="list-group-item">
+                                    {% if project.administrators.contains(app.user) %}
+                                        <a href="{{ path('project_edit', { 'id': project.id }) }}">{{ project.name }}</a> (admin)
+                                    {% elseif is_granted('PROJECT_EDIT', project) %}
+                                        <a href="{{ path('project_edit', { 'id': project.id }) }}">{{ project.name }}</a>
+                                    {% else %}
+                                        {{ project.name }}
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
         </div>
     {% endif %}
