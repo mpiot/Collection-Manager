@@ -21,18 +21,20 @@
                     <tr>
                         <th class="col-md-1">#</th>
                         <th class="col-md-2">Name</th>
-                        <th class="col-md-5">Administrators</th>
+                        <th class="col-md-4">Administrators</th>
                         <th class="col-md-1">Members</th>
                         <th class="col-md-1">Request</th>
+                        <th class="col-md-1">User status</th>
                         <th class="col-md-2">Actions</th>
                     </tr>
                 {% else %}
                     <tr>
                         <th class="col-md-1">#</th>
-                        <th class="col-md-3">Name</th>
+                        <th class="col-md-2">Name</th>
                         <th class="col-md-6">Administrators</th>
                         <th class="col-md-1">Members</th>
                         <th class="col-md-1">Request</th>
+                        <th class="col-md-1">User status</th>
                     </tr>
                 {% endif %}
             </thead>
@@ -64,6 +66,13 @@
                                     <span class="label label-success">Accepted</span>
                                 {% endif %}
                             </div>
+                        </td>
+                        <td>
+                            {% if team.isMember(app.user) %}
+                                <span class="label label-success">Member</span>
+                            {% else %}
+                                <span class="label label-default">Not member</span>
+                            {% endif %}
                         </td>
                         {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
                             <td>
