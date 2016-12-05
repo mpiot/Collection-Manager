@@ -47,9 +47,9 @@ class ProjectController extends Controller
             $em->persist($project);
             $em->flush();
 
-            $this->addFlash('success', 'The project has been added successfully.');
+            $this->addFlash('success', 'The project has been added successfully. Now you may create one or more boxe(s).');
 
-            return $this->redirectToRoute('project_index');
+            return $this->redirectToRoute('box_add_4_project', ['id' => $project->getId()]);
         }
 
         return $this->render('project/add.html.twig', array(

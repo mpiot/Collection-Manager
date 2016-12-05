@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Box;
+use AppBundle\Entity\Project;
 use AppBundle\Form\Type\BoxEditType;
 use AppBundle\Form\Type\BoxType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -58,11 +59,14 @@ class BoxController extends Controller
 
     /**
      * @Route("/add", name="box_add")
+     * @Route("/add/{id}", name="box_add_4_project")
+     * @ParamConverter("project", class="AppBundle:Project")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request, Project $project = null)
     {
         $box = new Box();
+        $box->setProject($project);
         $form = $this->createForm(BoxType::class, $box);
 
         $form->handleRequest($request);

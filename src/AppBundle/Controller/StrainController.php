@@ -30,6 +30,11 @@ class StrainController extends Controller
         $gmoStrains = $em->getRepository('AppBundle:GmoStrain')->findAllForUser($this->getUser());
         $wildStrains = $em->getRepository('AppBundle:WildStrain')->findAllForUser($this->getUser());
 
+        // If the user have no projects
+        if (!$this->getUser()->isProjectMember()) {
+            $this->addFlash('warning', 'You must be a member of a project to submit a strain.');
+        }
+
         return $this->render('strain/index.html.twig', array(
             'gmoStrains' => $gmoStrains,
             'wildStrains' => $wildStrains,
