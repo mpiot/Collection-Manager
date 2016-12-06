@@ -16,8 +16,13 @@ class SpeciesSynonymType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('genus', GenusSelectorType::class)
-            ->add('name', TextType::class);
+            ->add('genus', GenusSelectorType::class, array(
+                'required' => true,
+            ))
+            ->add('name', TextType::class, array(
+                'label' => 'Species',
+                'required' => true,
+            ));
     }
 
     /**

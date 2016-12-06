@@ -22,7 +22,8 @@ class SpeciesType extends AbstractType
             ->add('taxId', IntegerType::class, array(
                 'attr' => array(
                     'data-help' => 'The taxID of the species, you can find it <a target="_blank" href="https://www.ncbi.nlm.nih.gov/taxonomy">here</a>.',
-                )
+                ),
+                'required' => false,
             ))
             ->add('genus', GenusSelectorType::class)
             ->add('name', TextType::class, array(
@@ -33,6 +34,7 @@ class SpeciesType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'required' => false,
             ))
         ;
     }

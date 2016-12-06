@@ -22,9 +22,7 @@ $(document).ready(function() {
         var index = $container.find(':input').length;
 
         // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-        if (index == 0) {
-            addSynonym($container);
-        } else {
+        if (index != 0) {
             // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
             $container.children('div').each(function() {
                 addDeleteLink($(this));

@@ -84,7 +84,7 @@
                     // If this is a lineages or synonymes array, create fields before
                     if (key == 'synonyms') {
                         // Create fields
-                        for(i = 1; i < value.length; i++) {
+                        for(i = 0; i < value.length; i++) {
                             $('#add_synonym').trigger('click');
                         }
 

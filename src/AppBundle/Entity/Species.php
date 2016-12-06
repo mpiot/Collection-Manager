@@ -34,7 +34,7 @@ class Species
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\Regex("#^[a-z]*$#", message="The species is in small letters. (eg: cerevisiae)")
+     * @Assert\Regex("#^sp.|(?:[a-z]+ var. )?[a-z]+$#m", message="The species must be in small letters, sp. or var. (eg: cerevisiae, sp., lactis var. lactis)")
      */
     private $name;
 
