@@ -98,16 +98,8 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
         $this->box = $box;
         $this->cell = $cell;
 
-        // If it's not a new tube
-        if (null !== $this->box && null !== $this->cell) {
-            // Then retrieve the Strain, and get all tubes
-            $tubes = $tube->getStrain()->getTubes();
-
-            // Is this tube the first ?
-            if ($tube === $tubes->first()) {
-                $this->disabled = true;
-            }
-        }
+        // If it's not a new tube, disable fields
+        $this->disabled = true;
 
         // Add the form
         $this->addElement($form, $project, $box, $cell);
@@ -153,4 +145,5 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
 
         $this->addElement($form, $project, $box, $previousCell);
     }
+
 }
