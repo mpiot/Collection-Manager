@@ -127,22 +127,6 @@ class User extends BaseUser
     }
 
     /**
-     * Get teams Ids.
-     *
-     * @return array
-     */
-    public function getTeamsId()
-    {
-        $teamsId = [];
-
-        foreach ($this->teams as $team) {
-            $teamsId[] = $team->getId();
-        }
-
-        return $teamsId;
-    }
-
-    /**
      * Is in a team ?
      *
      * @return bool
@@ -214,6 +198,22 @@ class User extends BaseUser
     public function getProjects()
     {
         return $this->projects;
+    }
+
+    /**
+     * Get projects Ids.
+     *
+     * @return array
+     */
+    public function getProjectsId()
+    {
+        $projectsId = [];
+
+        foreach ($this->projects as $project) {
+            $projectsId[] = $project->getId();
+        }
+
+        return $projectsId;
     }
 
     /**

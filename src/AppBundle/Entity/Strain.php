@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -297,10 +298,8 @@ class Strain
         $projects = [];
 
         foreach ($this->getTubes() as $tube) {
-            foreach ($tube->getBox()->getProject() as $project) {
-                if (!in_array($project, $projects)) {
-                    $projects[] = $project;
-                }
+            if (!in_array($project = $tube->getBox()->getProject(), $projects)) {
+                $projects[] = $project;
             }
         }
 

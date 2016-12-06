@@ -6,12 +6,12 @@ use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function search($search, $userTeams, $deleted = false, $country = null, $project = null, $type = null)
+    public function search($search, $userProjects, $deleted = false, $country = null, $project = null, $type = null)
     {
         // Do a BoolQuery
         $boolQuery = new \Elastica\Query\BoolQuery();
 
-        // If the $search is not null add keyword in th search
+        // If the $search is not null add keyword in the search
         if (null !== $search) {
             // Request need to match at least on one ShouldQuery
             $boolQuery->setMinimumNumberShouldMatch(1);
@@ -35,9 +35,9 @@ class StrainRepository extends Repository
         $deletedQuery->setTerm('deleted', $deleted);
         $boolQuery->addFilter($deletedQuery);
 
-        $teamQuery = new \Elastica\Query\Terms();
-        $teamQuery->setTerms('authorizedTeams', $userTeams);
-        $boolQuery->addFilter($teamQuery);
+        $projectsQuery = new \Elastica\Query\Terms();
+        $projectsQuery->setTerms('projects', $userProjects);
+        $boolQuery->addFilter($projectsQuery);
 
         if (null !== $country) {
             $countryQuery = new \Elastica\Query\Term();

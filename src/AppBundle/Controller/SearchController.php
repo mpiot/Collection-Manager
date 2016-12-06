@@ -29,10 +29,10 @@ class SearchController extends Controller
     {
         $repositoryManager = $this->container->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-        $results['gmo'] = $repository->search($search, $this->getUser()->getTeamsId());
+        $results['gmo'] = $repository->search($search, $this->getUser()->getProjectsId());
 
         $repository2 = $repositoryManager->getRepository('AppBundle:WildStrain');
-        $results['wild'] = $repository2->search($search, $this->getUser()->getTeamsId());
+        $results['wild'] = $repository2->search($search, $this->getUser()->getProjectsId());
 
         return $this->render('search\quickSearch.html.twig', array(
             'search' => $search,
@@ -61,14 +61,14 @@ class SearchController extends Controller
             // Search for GmoStrain
             if (in_array('gmo', $data['strainCategory'])) {
                 $gmoRepository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-                $results['gmo'] = $gmoRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['deleted'], null, $data['project'], $data['type']);
+                $results['gmo'] = $gmoRepository->search($data['search'], $this->getUser()->getProjectsId(), $data['deleted'], null, $data['project'], $data['type']);
             }
 
             // Search for WildStrain
             if (in_array('wild', $data['strainCategory'])) {
                 // Define the repository
                 $wildRepository = $repositoryManager->getRepository('AppBundle:WildStrain');
-                $results['wild'] = $wildRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['deleted'], $data['country'], $data['project'], $data['type']);
+                $results['wild'] = $wildRepository->search($data['search'], $this->getUser()->getProjectsId(), $data['deleted'], $data['country'], $data['project'], $data['type']);
             }
 
             return $this->render('search/advancedSearch.html.twig', array(

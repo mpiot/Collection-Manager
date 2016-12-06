@@ -89,6 +89,11 @@ class Project
         $this->members = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * Get id.
      *
