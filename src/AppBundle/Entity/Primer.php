@@ -49,22 +49,15 @@ class Primer
     /**
      * @var string
      *
-     * @ORM\Column(name="orientation", type="string", length=255)
+     * @ORM\Column(name="orientation", type="string", length=255, nullable=true)
      */
     private $orientation;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="quality", type="string", length=255, nullable=true)
-     */
-    private $quality;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="sequence", type="string", length=255, unique=true)
-     * @Assert\Regex("/[ATCG]+/i", message="An ADN sequence may only contain: A, T, C or G letters.")
+     * @Assert\Regex("/[ACGTNUKSYMWRBDHV-]+/i", message="Please, see as the allowed letters in the table on the bottom of the page.")
      */
     private $sequence;
 
@@ -72,31 +65,16 @@ class Primer
      * @var string
      *
      * @ORM\Column(name="fivePrimeExtension", type="string", length=255, nullable=true)
-     * @Assert\Regex("/[ATCG]+/i", message="An ADN sequence may only contain: A, T, C or G letters.")
+     * @Assert\Regex("/[ACGTNUKSYMWRBDHV-]+/i", message="Please, see as the allowed letters in the table on the bottom of the page.")
      */
     private $fivePrimeExtension;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fivePrimeExtensionName", type="string", length=255, nullable=true)
+     * @ORM\Column(name="labelMarker", type="string", length=255, nullable=true)
      */
-    private $fivePrimeExtensionName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="threePrimeExtension", type="string", length=255, nullable=true)
-     * @Assert\Regex("/[ATCG]+/i", message="An ADN sequence may only contain: A, T, C or G letters.")
-     */
-    private $threePrimeExtension;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="threePrimeExtensionName", type="string", length=255, nullable=true)
-     */
-    private $threePrimeExtensionName;
+    private $labelMarker;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="primers")
@@ -107,6 +85,13 @@ class Primer
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="primers")
      */
     private $plasmids;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hybridationTemp", type="float", nullable=true)
+     */
+    private $hybridationTemp;
 
     /**
      * Primer constructor.
@@ -223,30 +208,6 @@ class Primer
     }
 
     /**
-     * Set quality
-     *
-     * @param string $quality
-     *
-     * @return Primer
-     */
-    public function setQuality($quality)
-    {
-        $this->quality = $quality;
-
-        return $this;
-    }
-
-    /**
-     * Get quality
-     *
-     * @return string
-     */
-    public function getQuality()
-    {
-        return $this->quality;
-    }
-
-    /**
      * Set sequence
      *
      * @param string $sequence
@@ -295,75 +256,51 @@ class Primer
     }
 
     /**
-     * Set fivePrimeExtensionName
+     * Set LabelMarker
      *
-     * @param string $fivePrimeExtensionName
+     * @param string $labelMarker
      *
      * @return Primer
      */
-    public function setFivePrimeExtensionName($fivePrimeExtensionName)
+    public function setLabelMarker($labelMarker)
     {
-        $this->fivePrimeExtensionName = $fivePrimeExtensionName;
+        $this->labelMarker = $labelMarker;
 
         return $this;
     }
 
     /**
-     * Get fivePrimeExtensionName
+     * Get LabelMarker
      *
      * @return string
      */
-    public function getFivePrimeExtensionName()
+    public function getLabelMarker()
     {
-        return $this->fivePrimeExtensionName;
+        return $this->labelMarker;
     }
 
     /**
-     * Set threePrimeExtension
+     * Set Hybridation Temperature
      *
-     * @param string $threePrimeExtension
+     * @param string $hybridationTemp
      *
      * @return Primer
      */
-    public function setThreePrimeExtension($threePrimeExtension)
+    public function setHybridationTemp($hybridationTemp)
     {
-        $this->threePrimeExtension = strtoupper($threePrimeExtension);
+        $this->hybridationTemp = $hybridationTemp;
 
         return $this;
     }
 
     /**
-     * Get threePrimeExtension
+     * Get Hybridation Temperature
      *
      * @return string
      */
-    public function getThreePrimeExtension()
+    public function getHybridationTemp()
     {
-        return $this->threePrimeExtension;
-    }
-
-    /**
-     * Set threePrimeExtensionName
-     *
-     * @param string $threePrimeExtensionName
-     *
-     * @return Primer
-     */
-    public function setThreePrimeExtensionName($threePrimeExtensionName)
-    {
-        $this->threePrimeExtensionName = $threePrimeExtensionName;
-
-        return $this;
-    }
-
-    /**
-     * Get threePrimeExtensionName
-     *
-     * @return string
-     */
-    public function getThreePrimeExtensionName()
-    {
-        return $this->threePrimeExtensionName;
+        return $this->hybridationTemp;
     }
 
     /**
@@ -373,7 +310,7 @@ class Primer
      */
     public function getSequenceWithExtensions()
     {
-        return $this->fivePrimeExtension.$this->sequence.$this->threePrimeExtension;
+        return $this->fivePrimeExtension.$this->sequence;
     }
 
     /**
@@ -383,7 +320,7 @@ class Primer
      */
     public function getFormatedSequenceWithExtensions()
     {
-        return '<b>'.$this->fivePrimeExtension.'</b>'.$this->sequence.'<b>'.$this->threePrimeExtension.'</b>';
+        return '<b>'.$this->fivePrimeExtension.'</b>'.$this->sequence;
     }
 
     /**

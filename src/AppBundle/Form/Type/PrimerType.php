@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -54,30 +55,21 @@ class PrimerType extends AbstractType
                 ],
                 'multiple' => false,
                 'expanded' => true,
-            ))
-            ->add('quality', ChoiceType::class, array(
-                'choices' => [
-                    'Bulk' => 'bulk',
-                    'Purified' => 'purified',
-                ],
-                'placeholder' => 'Select a quality',
                 'required' => false,
             ))
-            ->add('sequence', TextType::class)
+            ->add('hybridationTemp', NumberType::class, array(
+                'scale' => 1,
+                'required' => false,
+            ))
+            ->add('sequence', TextType::class, array(
+                'label' => 'Match sequence'
+            ))
             ->add('fivePrimeExtension', TextType::class, array(
-                'label' => '5\' Extension',
+                'label' => '5\' Extension sequence',
                 'required' => false,
             ))
-            ->add('fivePrimeExtensionName', TextType::class, array(
-                'label' => '5\' Extension Name',
-                'required' => false,
-            ))
-            ->add('threePrimeExtension', TextType::class, array(
-                'label' => '3\' Extension',
-                'required' => false,
-            ))
-            ->add('threePrimeExtensionName', TextType::class, array(
-                'label' => '3\' Extension Name',
+            ->add('labelMarker', TextType::class, array(
+                'label' => 'Label/Marker',
                 'required' => false,
             ))
         ;

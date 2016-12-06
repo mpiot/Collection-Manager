@@ -20,8 +20,10 @@
                 <ul class="list-group">
                     <li class="list-group-item">AutoName: {{ primer.autoName }}</li>
                     <li class="list-group-item">Name: {{ primer.name }}</li>
-                    <li class="list-group-item">Quality: {{ primer.quality ? primer.quality : 'N/A' }}</li>
                     <li class="list-group-item">Orientation: {{ primer.orientation|capitalize }}</li>
+                    {% if primer.hybridationTemp is not null %}
+                        <li class="list-group-item">Hybridation temperature: {{ primer.hybridationTemp }}°C</li>
+                    {% endif %}
                 </ul>
                 <div class="panel-body">
                     <p>Description:</p>
@@ -38,12 +40,11 @@
                 <div class="panel-body">
                     {{ primer.formatedSequenceWithExtensions|raw }}
                 </div>
-                <!-- List group -->
-                <ul class="list-group">
-                    <li class="list-group-item">5' Extension: {{ primer.fivePrimeExtensionName ? primer.fivePrimeExtensionName : 'N/A' }}</li>
-                    <li class="list-group-item">3' Extension: {{ primer.threePrimeExtensionName ? primer.threePrimeExtensionName : 'N/A' }}</li>
-                </ul>
             </div>
         </div>
+    </div>
+
+    <div class="row">
+        {% include 'primer/sequence_letters_table.html.twig' %}
     </div>
 {% endblock %}

@@ -9,11 +9,18 @@
         </a>
     </div>
 
-    <h2 class="sub-header">Add a primer</h2>
+    <div class="row">
+        <h2 class="sub-header">Add a primer</h2>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
 
-        <input type="submit" class="btn btn-default pull-right" value="Add"/>
-    {{ form_end(form) }}
+            <input type="submit" class="btn btn-default pull-right" value="Add"/>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="row">
+        <br />
+        {% include 'primer/sequence_letters_table.html.twig' %}
+    </div>
 {% endblock %}
