@@ -48,9 +48,11 @@ class WildStrainType extends AbstractType
                     'placeholder' => 'Pyramides, 75001 Paris, France',
                     'data-help' => 'The address with this format: Address, Zip code City, Country',
                 ),
+                'required' => false,
             ))
             ->add('country', CountryType::class, array(
                 'placeholder' => '-- Choose a country --',
+                'required' => false,
             ))
             ->add('latitude', NumberType::class, array(
                 'scale' => 6,

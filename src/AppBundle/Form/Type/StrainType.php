@@ -74,7 +74,7 @@ class StrainType extends AbstractType
             'choice_label' => 'name',
             'placeholder' => '-- select a genus --',
             'mapped' => false,
-            'required' => false,
+            'required' => true,
             'data' => $genus,
         ));
 
