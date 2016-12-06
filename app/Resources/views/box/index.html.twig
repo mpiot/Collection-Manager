@@ -21,18 +21,16 @@
                         <th class="col-md-1">#</th>
                         <th class="col-md-2">Auto Name</th>
                         <th class="col-md-1">Name</th>
-                        <th class="col-md-2">Description</th>
+                        <th class="col-md-3">Description</th>
                         <th class="col-md-1">Project</th>
-                        <th class="col-md-1">Type</th>
                         <th class="col-md-1">Free space</th>
                         <th class="col-md-3">Actions</th>
                     {% else %}
                         <th class="col-md-1">#</th>
                         <th class="col-md-2">Auto Name</th>
                         <th class="col-md-1">Name</th>
-                        <th class="col-md-5">Description</th>
+                        <th class="col-md-6">Description</th>
                         <th class="col-md-1">Project</th>
-                        <th class="col-md-1">Type</th>
                         <th class="col-md-1">Free space</th>
                     {% endif %}
                 </tr>
@@ -47,7 +45,6 @@
                             <td>{{ box.name }}</td>
                             <td>{{ box.description|truncate(50, true) }}</td>
                             <td>{{ box.project.name }}</td>
-                            <td>{{ box.type.name }}</td>
                             <td>{{ box.freeSpace }} / {{ box.cellNumber }}</td>
                             {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
                                 <td>

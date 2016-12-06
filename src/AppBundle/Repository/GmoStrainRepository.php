@@ -62,8 +62,6 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('boxes')
             ->leftJoin('boxes.project', 'projects')
                 ->addSelect('projects')
-            ->leftJoin('boxes.type', 'types')
-                ->addSelect('types')
             ->where('gmo = :strain')
                 ->setParameter('strain', $strain)
             ->getQuery();

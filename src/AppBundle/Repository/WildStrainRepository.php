@@ -60,8 +60,6 @@ class WildStrainRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('boxes')
             ->leftJoin('boxes.project', 'projects')
                 ->addSelect('projects')
-            ->leftJoin('boxes.type', 'types')
-                ->addSelect('types')
             ->where('wild = :strain')
                 ->setParameter('strain', $strain)
             ->getQuery();

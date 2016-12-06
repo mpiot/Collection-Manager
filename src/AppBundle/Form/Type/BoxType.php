@@ -51,18 +51,6 @@ class BoxType extends AbstractType
                     'placeholder' => 'Description about the box',
                 ),
             ))
-            ->add('type', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Type',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('types')
-                        ->orderBy('types.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'placeholder' => '-- select a type --',
-                'attr' => array(
-                    'data-help' => 'Define the type of organisms that are in the box (just as indication).',
-                )
-            ))
             ->add('freezer', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Emile',

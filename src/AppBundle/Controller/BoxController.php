@@ -88,9 +88,6 @@ class BoxController extends Controller
 
     /**
      * @Route("/edit/{id}", name="box_edit")
-     * @ParamConverter("box", class="AppBundle:Box", options={
-     *      "repository_method" = "findOneWithType"
-     * })
      * @Security("is_granted('BOX_EDIT', box)")
      */
     public function editAction(Box $box, Request $request)

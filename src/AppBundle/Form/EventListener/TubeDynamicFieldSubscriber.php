@@ -57,7 +57,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
 
         $form->add('box', EntityType::class, array(
             'class' => 'AppBundle\Entity\Box',
-            'choice_label' => 'nameAndType',
+            'choice_label' => 'name',
             'placeholder' => '-- select a box --',
             'query_builder' => function (EntityRepository $er) use ($project) {
                 return $er->createQueryBuilder('b')

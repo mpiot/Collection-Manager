@@ -15,8 +15,6 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
     public function findAllWithType()
     {
         $query = $this->createQueryBuilder('b')
-            ->leftJoin('b.type', 't')
-                ->addSelect('t')
             ->leftJoin('b.project', 'p')
                 ->addSelect('p')
             ->orderBy('b.project', 'ASC')
@@ -29,8 +27,6 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
     public function findAllAuthorizedForCurrentUserWithType(User $user)
     {
         $query = $this->createQueryBuilder('box')
-            ->leftJoin('box.type', 'type')
-                ->addSelect('type')
             ->leftJoin('box.project', 'project')
             ->leftJoin('project.members', 'members')
             ->leftJoin('project.teams', 'teams')
@@ -50,8 +46,6 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('box')
             ->leftJoin('box.project', 'project')
                 ->addSelect('project')
-            ->leftJoin('box.type', 'type')
-                ->addSelect('type')
             ->leftJoin('box.tubes', 'tubes')
                 ->addSelect('tubes')
             ->leftJoin('tubes.gmoStrain', 'g')
@@ -60,18 +54,6 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('w')
             ->where('box = :box')
             ->setParameter('box', $box)
-            ->getQuery();
-
-        return $query->getOneOrNullResult();
-    }
-
-    public function findOneWithType($box)
-    {
-        $query = $this->createQueryBuilder('box')
-            ->leftJoin('box.type', 'type')
-                ->addSelect('type')
-            ->where('box = :box')
-                ->setParameter('box', $box)
             ->getQuery();
 
         return $query->getOneOrNullResult();

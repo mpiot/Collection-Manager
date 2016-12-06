@@ -54,13 +54,6 @@ class Box
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Type")
-     */
-    private $type;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="boxLetter", type="string", length=255)
      */
     private $boxLetter;
@@ -149,11 +142,6 @@ class Box
         return $this->name;
     }
 
-    public function getNameAndType()
-    {
-        return $this->name.' ('.$this->type->getName().')';
-    }
-
     /**
      * Set description.
      *
@@ -224,30 +212,6 @@ class Box
     public function getLocation()
     {
         return $this->location;
-    }
-
-    /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return Box
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
