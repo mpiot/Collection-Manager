@@ -41,9 +41,10 @@
                     <th>Box</th>
                     <th>Cell</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
                 {% for tube in strain.tubes %}
-                    {% if tube.box.project.members.contains(app.user) %}
+                    {% if is_granted('TUBE_VIEW', tube) %}
                         <tr>
                             <td>{{ tube.box.project.name }}</td>
                             <td>{{ tube.box.name }}</td>
@@ -55,6 +56,23 @@
                                     <span style="color: green;">Present</span>
                                 {% endif %}
                             </td>
+                            {% if is_granted('TUBE_RESTORE', tube) or is_granted('TUBE_DELETE', tube) %}
+                                <td>
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        {% if is_granted('TUBE_RESTORE', tube) %}
+                                            <a class="btn btn-success" value="Delete" href="{{ path('tube_restore', { 'id': tube.id }) }}">
+                                                <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                                            </a>
+                                        {% endif %}
+
+                                        {% if is_granted('TUBE_DELETE', tube) %}
+                                        <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id }) }}">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}

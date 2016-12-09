@@ -50,8 +50,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
             },
             'choice_label' => 'name',
             'placeholder' => '-- select a project --',
-            'mapped' => false,
-            'data' => $project,
+            //'data' => $project,
             'disabled' => $this->disabled,
         ));
 
@@ -63,9 +62,9 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
                 return $er->createQueryBuilder('b')
                         ->leftJoin('b.project', 'p')
                         ->where('p = :project')
-                        ->setParameter('project', $project);
+                            ->setParameter('project', $project);
             },
-            'data' => $box,
+            //'data' => $box,
             'disabled' => $this->disabled,
         ));
 
@@ -74,12 +73,8 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
         $form->add('cell', ChoiceType::class, array(
             'placeholder' => '-- select a cell --',
             'choices' => $cells,
-            'data' => $previousCell,
+            //'data' => $previousCell,
             'disabled' => $this->disabled,
-        ));
-
-        $form->add('deleted', CheckboxType::class, array(
-            'required' => false,
         ));
     }
 
@@ -87,9 +82,16 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
     {
         // Store form and data
         $form = $event->getForm();
-        $tube = $event->getData();
+        $data = $event->getData();
 
-        // If it's a new tube, no box and no cell exists
+        // The tube is $data
+        $tube = $data;
+
+        // If it's a new tube, disable the fields
+        if (null !== $tube && $tube->getId()) {
+            $this->disabled = true;
+        }
+
         $box = null !== $tube && null !== $tube->getBox() ? $tube->getBox() : null;
         $project = null !== $box ? $box->getProject() : null;
         $cell = null !== $tube && null !== $tube->getCell() ? $tube->getCell() : null;
@@ -97,11 +99,6 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
         // Keep default value
         $this->box = $box;
         $this->cell = $cell;
-
-        // If it's not a new tube, disable fields
-        if (null !== $this->box && null !== $this->cell) {
-            $this->disabled = true;
-        }
 
         // Add the form
         $this->addElement($form, $project, $box, $cell);
