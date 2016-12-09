@@ -127,6 +127,22 @@ class User extends BaseUser
     }
 
     /**
+     * Get teams Ids.
+     *
+     * @return array
+     */
+    public function getTeamsId()
+    {
+        $teamsId = [];
+
+        foreach ($this->teams as $team) {
+            $teamsId[] = $team->getId();
+        }
+
+        return $teamsId;
+    }
+
+    /**
      * Is in a team ?
      *
      * @return bool

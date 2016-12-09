@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Team.
@@ -34,6 +35,7 @@ class Team
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="administeredTeams")
      * @ORM\JoinTable(name="team_administrators")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Count(min="1", minMessage = "You must specify at least one administrator.")
      */
     private $administrators;
 

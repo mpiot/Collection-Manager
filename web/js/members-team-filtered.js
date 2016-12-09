@@ -1,15 +1,37 @@
 $(document).ready(function() {
+    // Get the members and administrators form
     var membersCheckBoxesContainer = $( "div[data-filtered-name='members']" );
     var administratorsCheckBoxesContainer = $( "div[data-filtered-name='administrators']" );
 
+    // Get the filter field
     var teamFilterSelect = $( "select[data-filter-name='team-filter']" );
 
-    teamFilter(administratorsCheckBoxesContainer, teamFilterSelect);
-    teamFilter(membersCheckBoxesContainer, teamFilterSelect);
+    // If the filter field exists, Add a choice in, and call the filter function
+    if (0 != teamFilterSelect.length) {
+        // Add a choice on teamFilterSelect
+        teamFilterSelect.find('option:first').after($('<option/>', {
+            value: 0,
+            text: 'User without team'
+        }));
 
+        // Then call the filter function for Administrators and Members checkboxes
+        // Before control the fields exists
+        if (0 != administratorsCheckBoxesContainer.length) {
+            teamFilter(administratorsCheckBoxesContainer, teamFilterSelect);
+        }
+        if (0 != membersCheckBoxesContainer.length) {
+            teamFilter(membersCheckBoxesContainer, teamFilterSelect);
+        }
+    }
+
+    // The team filter function call for each checkbox input we want filtered
     function teamFilter(userCheckBoxesContainer, teamFilterSelect) {
         // Define var that contains fields
         var userCheckboxes = userCheckBoxesContainer.find( "div.checkbox" );
+
+        //********************************//
+        //  Add the links (check/uncheck)*//
+        //********************************//
 
         // Define checkAll/uncheckAll links
         var checkAllLink = $('<a href="#" class="check_all_users" > Check all</a>');
@@ -20,9 +42,16 @@ $(document).ready(function() {
         userCheckBoxesContainer.prepend(' / ');
         userCheckBoxesContainer.prepend(checkAllLink);
 
-        // Create onClick envent on Team filter
+        //***************************//
+        // Create all onCLick events*//
+        //***************************//
+
+        // Create onClick event on Team filter
         teamFilterSelect.change(function () {
+            // Get and convert the Id in Integer
             var teamId = parseInt($(this).val());
+
+            // Call the function and give the ID (int)
             showHideUsers(teamId);
         });
 
@@ -53,7 +82,6 @@ $(document).ready(function() {
 
         function showHideUsers(teamId) {
             if (isNaN(teamId)) {
-                // We want show all users
                 userCheckboxes.show();
             } else {
                 // Hide all Users
@@ -63,19 +91,31 @@ $(document).ready(function() {
                 userCheckboxes.each(function () {
                     var userTeams = $( this ).find( "input:checkbox" ).data('teams');
 
-                    if (-1 != $.inArray(teamId, userTeams)) {
+                    if (0 == userTeams.length && 0 == teamId) {
                         $(this).show();
+                    } else {
+                        if (-1 != $.inArray(teamId, userTeams)) {
+                            $(this).show();
+                        }
                     }
                 });
             }
         }
 
+        //
+        // Base functions: check/uncheck all checkboxes and check/uncheck specific boxes (per TeamId)
+        //
+
         function checkAllTeam(teamId) {
             userCheckboxes.each(function () {
                 var userTeams = $(this).find( "input:checkbox" ).data('teams');
 
-                if (-1 != $.inArray(teamId, userTeams)) {
+                if (0 == userTeams.length && 0 == teamId) {
                     $(this).find("input:checkbox").prop('checked', true);
+                } else {
+                    if (-1 != $.inArray(teamId, userTeams)) {
+                        $(this).find("input:checkbox").prop('checked', true);
+                    }
                 }
             });
         }
@@ -84,8 +124,12 @@ $(document).ready(function() {
             userCheckboxes.each(function () {
                 var userTeams = $(this).find( "input:checkbox" ).data('teams');
 
-                if (-1 != $.inArray(teamId, userTeams)) {
+                if (0 == userTeams.length && 0 == teamId) {
                     $(this).find("input:checkbox").prop('checked', false);
+                } else {
+                    if (-1 != $.inArray(teamId, userTeams)) {
+                        $(this).find("input:checkbox").prop('checked', false);
+                    }
                 }
             });
         }
