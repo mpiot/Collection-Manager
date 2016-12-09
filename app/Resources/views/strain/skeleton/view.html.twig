@@ -5,8 +5,10 @@
 </div>
 
 <h2 class="sub-header">{{ strain.systematicName }} - {{ strain.usualName }}
-    {% block strainEditButton %}
-    {% endblock %}
+    {% if is_granted('STRAIN_EDIT', strain) %}
+        {% block strainEditButton %}
+        {% endblock %}
+    {% endif %}
 </h2>
 
 
