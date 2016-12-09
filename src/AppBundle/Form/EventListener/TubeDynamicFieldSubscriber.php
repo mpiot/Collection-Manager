@@ -99,7 +99,9 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
         $this->cell = $cell;
 
         // If it's not a new tube, disable fields
-        $this->disabled = true;
+        if (null !== $this->box && null !== $this->cell) {
+            $this->disabled = true;
+        }
 
         // Add the form
         $this->addElement($form, $project, $box, $cell);
