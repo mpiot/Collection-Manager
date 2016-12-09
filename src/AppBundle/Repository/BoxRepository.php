@@ -12,18 +12,6 @@ use AppBundle\Entity\User;
  */
 class BoxRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllWithType()
-    {
-        $query = $this->createQueryBuilder('b')
-            ->leftJoin('b.project', 'p')
-                ->addSelect('p')
-            ->orderBy('b.project', 'ASC')
-            ->addOrderBy('b.boxLetter', 'ASC')
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
     public function findAllAuthorizedForCurrentUserWithType(User $user)
     {
         $query = $this->createQueryBuilder('box')
