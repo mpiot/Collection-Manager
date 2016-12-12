@@ -224,7 +224,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'project' => $this->getReference('project-T1P'),
                 'name' => 'T1P - Box 1',
                 'description' => 'The 1st box in the T1P project.',
-                'type' => $this->getReference('type-Bacteria'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 1st box in the column',
                 'colNumber' => '10',
@@ -234,7 +233,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'project' => $this->getReference('project-T1P'),
                 'name' => 'T1P - Box 2',
                 'description' => 'The 2nd box in the T1P project.',
-                'type' => $this->getReference('type-Yeast'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 2nd box in the column',
                 'colNumber' => '9',
@@ -244,7 +242,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'project' => $this->getReference('project-T2P'),
                 'name' => 'T2P - Box 1',
                 'description' => 'The 1st box in the T2P project.',
-                'type' => $this->getReference('type-Bacteria'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 1st box in the column',
                 'colNumber' => '8',
@@ -254,7 +251,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'project' => $this->getReference('project-T2P'),
                 'name' => 'T2P - Box 2',
                 'description' => 'The 2nd box in the T2P project.',
-                'type' => $this->getReference('type-Yeast'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 2nd box in the column',
                 'colNumber' => '10',
@@ -264,7 +260,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'project' => $this->getReference('project-T1&2P'),
                 'name' => 'T1&2P - Box 1',
                 'description' => 'The 1st box in the T1&2P project.',
-                'type' => $this->getReference('type-Bacteria'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 4thColumn in the rack - 1st box in the column',
                 'colNumber' => '8',
@@ -274,7 +269,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'project' => $this->getReference('project-T1&2P'),
                 'name' => 'T1&2P - Box 2',
                 'description' => 'The 2nd box in the T1&2P project.',
-                'type' => $this->getReference('type-Yeast'),
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 4th Column in the rack - 2nd box in the column',
                 'colNumber' => '10',
@@ -287,7 +281,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             $box->setProject($boxData['project']);
             $box->setName($boxData['name']);
             $box->setDescription($boxData['description']);
-            $box->setType($boxData['type']);
             $box->setFreezer($boxData['freezer']);
             $box->setLocation($boxData['location']);
             $box->setColNumber($boxData['colNumber']);
