@@ -16,8 +16,8 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->createQueryBuilder('project')
             ->leftJoin('project.members', 'members')
-            ->leftJoin('project.teams', 'teams')
-            ->leftJoin('teams.administrators', 'administrators')
+            ->leftJoin('project.team', 'team')
+            ->leftJoin('team.administrators', 'administrators')
             ->where('members = :user')
             ->orWhere('administrators = :user')
                 ->setParameter('user', $user)

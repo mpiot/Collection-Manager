@@ -10,9 +10,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class ProjectType extends AbstractType
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorage $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -36,11 +44,18 @@ class ProjectType extends AbstractType
                     'placeholder' => 'A description about the project',
                 ),
             ))
-            ->add('teams', EntityType::class, array(
+            ->add('team', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Team',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('team.name', 'ASC');
+                },
                 'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => false,
+                'placeholder' => '-- Select a team --',
+                'multiple' => false,
             ))
             ->add('team_filter', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Team',

@@ -169,7 +169,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'name' => 'Team1 Project',
                 'prefix' => 'T1P',
                 'description' => 'The first Team 1 project',
-                'teams' => [$this->getReference('team-Team 1')],
+                'team' => $this->getReference('team-Team 1'),
                 'administrators' => [$this->getReference('user-team1project')],
                 'members' => [$this->getReference('user-team1user')],
             ],
@@ -177,17 +177,9 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'name' => 'Team2 Project',
                 'prefix' => 'T2P',
                 'description' => 'The first Team 2 project',
-                'teams' => [$this->getReference('team-Team 2')],
+                'team' => $this->getReference('team-Team 2'),
                 'administrators' => [$this->getReference('user-team2project')],
                 'members' => [$this->getReference('user-team2user')],
-            ],
-            [
-                'name' => 'Team1 & Team2 Project',
-                'prefix' => 'T1&2P',
-                'description' => 'The first Team 1 & 2 project',
-                'teams' => [$this->getReference('team-Team 1'), $this->getReference('team-Team 2')],
-                'administrators' => [$this->getReference('user-team1project'), $this->getReference('user-team2project')],
-                'members' => [$this->getReference('user-team1user'), $this->getReference('user-team2user')],
             ],
         ];
 
@@ -196,11 +188,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             $project->setName($projectData['name']);
             $project->setPrefix($projectData['prefix']);
             $project->setDescription($projectData['description']);
-
-            // Foreach on Teams
-            foreach ($projectData['teams'] as $team) {
-                $project->addTeam($team);
-            }
+            $project->setTeam($projectData['team']);
 
             // Foreach on Administrators
             foreach ($projectData['administrators'] as $administrator) {
@@ -253,24 +241,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'description' => 'The 2nd box in the T2P project.',
                 'freezer' => 'Emile',
                 'location' => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 2nd box in the column',
-                'colNumber' => '10',
-                'rowNumber' => '10',
-            ],
-            [
-                'project' => $this->getReference('project-T1&2P'),
-                'name' => 'T1&2P - Box 1',
-                'description' => 'The 1st box in the T1&2P project.',
-                'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 4thColumn in the rack - 1st box in the column',
-                'colNumber' => '8',
-                'rowNumber' => '8',
-            ],
-            [
-                'project' => $this->getReference('project-T1&2P'),
-                'name' => 'T1&2P - Box 2',
-                'description' => 'The 2nd box in the T1&2P project.',
-                'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 4th Column in the rack - 2nd box in the column',
                 'colNumber' => '10',
                 'rowNumber' => '10',
             ],

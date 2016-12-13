@@ -90,11 +90,9 @@ class BoxVoter extends Voter
 
     private function canDelete(Box $box, User $user)
     {
-        // The team administrator can delete a box
-        foreach ($box->getProject()->getTeams() as $team) {
-            if ($team->isAdministrator($user)) {
-                return true;
-            }
+        // A team administrator of the project can delete it
+        if ($box->getProject()->getTeam()->isAdministrator($user)) {
+            return true;
         }
 
         // The Project administrator can delete a box

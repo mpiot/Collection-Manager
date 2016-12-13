@@ -95,10 +95,8 @@ class ProjectVoter extends Voter
     private function canDelete(Project $project, User $user)
     {
         // Only the team administrators of the project can delete it
-        foreach ($project->getTeams() as $team) {
-            if ($team->isAdministrator($user)) {
-                return true;
-            }
+        if ($project->getTeam()->isAdministrator($user)) {
+            return true;
         }
 
         return false;

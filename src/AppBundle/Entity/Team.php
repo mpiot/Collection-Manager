@@ -47,7 +47,7 @@ class Team
     private $members;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="teams")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Project", mappedBy="team")
      */
     private $projects;
 
