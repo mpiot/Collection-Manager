@@ -21,12 +21,17 @@ class TubeController extends Controller
      */
     public function restoreAction(Tube $tube)
     {
-        $tube->setDeleted(false);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($tube);
-        $em->flush();
+        // If the tube is no deleted, return an error message
+        if (false === $tube->getDeleted()) {
+            $this->addFlash('warning', 'The tube is not deleted.');
+        } else {
+            $tube->setDeleted(false);
 
-        $this->addFlash('success', 'The tube has been deleted successfully.');
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('success', 'The tube has been restored successfully.');
+        }
 
         // Is it a Gmo or Wild strain ?
         if ($tube->getGmoStrain()) {
@@ -42,12 +47,17 @@ class TubeController extends Controller
      */
     public function deleteAction(Tube $tube)
     {
-        $tube->setDeleted(true);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($tube);
-        $em->flush();
+        // If the tube is already deleted, return an error message
+        if (true === $tube->getDeleted()) {
+            $this->addFlash('warning', 'The tube is already deleted.');
+        } else {
+            $tube->setDeleted(true);
 
-        $this->addFlash('success', 'The tube has been deleted successfully.');
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('success', 'The tube has been deleted successfully.');
+        }
 
         // Is it a Gmo or Wild strain ?
         if ($tube->getGmoStrain()) {
