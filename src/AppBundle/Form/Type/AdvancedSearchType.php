@@ -52,11 +52,10 @@ class AdvancedSearchType extends AbstractType
                 'class' => 'AppBundle\Entity\Project',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('project')
-                        ->leftJoin('project.teams', 'teams')
-                        ->leftJoin('teams.members', 'members')
+                        ->leftJoin('project.members', 'members')
                         ->where('members = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('teams.name', 'ASC');
+                        ->orderBy('project.name', 'ASC');
                 },
                 'choice_label' => 'name',
                 'placeholder' => 'All available projects',
