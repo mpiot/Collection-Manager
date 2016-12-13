@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,8 +19,12 @@ class GmoStrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description')
-            ->add('genotype')
+            ->add('description', TextareaType::class, array(
+                'required' => false,
+            ))
+            ->add('genotype', TextareaType::class, array(
+                'required' => false,
+            ))
             ->add('strainPlasmids', CollectionType::class, array(
                 'entry_type' => StrainPlasmidType::class,
                 'allow_add' => true,

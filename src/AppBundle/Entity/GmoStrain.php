@@ -46,7 +46,7 @@ class GmoStrain extends Strain
     /**
      * @var string
      *
-     * @ORM\Column(name="genotype", type="text")
+     * @ORM\Column(name="genotype", type="text", nullable=true)
      */
     private $genotype;
 
