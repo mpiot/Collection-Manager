@@ -108,4 +108,16 @@ class TeamRequestController extends Controller
         $this->addFlash('success', 'User declined !');
         return $this->redirectToRoute('team_request_index');
     }
+
+    public function numberRequestsAction()
+    {
+        $numberRequests = 10;
+
+        $em = $this->getDoctrine()->getManager();
+        $numberRequests = $em->getRepository('AppBundle:TeamRequest')->countRequests($this->getUser());
+
+        return $this->render('team_request/number_requests.html.twig', array(
+            'numberRequests' => $numberRequests,
+        ));
+    }
 }

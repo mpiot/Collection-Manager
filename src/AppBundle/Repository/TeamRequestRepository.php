@@ -28,4 +28,21 @@ class TeamRequestRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    public function countRequests(User $user)
+    {
+        $query = $this->createQueryBuilder('requests')
+            ->select('COUNT(requests)')
+            ->leftJoin('requests.team', 'team')
+            ->leftJoin('team.administrators', 'administrators')
+            ->where('administrators = :user')
+            ->andWhere('requests.answer = :answer')
+            ->setParameters(array(
+                'user' =>  $user,
+                'answer' => 'requested',
+            ))
+            ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
 }

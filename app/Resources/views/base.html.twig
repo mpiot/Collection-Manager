@@ -72,7 +72,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{ path('team_index') }}">Teams list</a></li>
                                     {% if app.user.isTeamAdministrator() or is_granted('ROLE_ADMIN') %}
-                                        <li><a href="{{ path('team_request_index') }}">Manage team requests</a></li>
+                                        <li><a href="{{ path('team_request_index') }}">Manage team requests {{ render(controller("AppBundle:TeamRequest:numberRequests")) }}</a></li>
                                     {% endif %}
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{ path('fos_user_profile_show') }}">My profile</a></li>
