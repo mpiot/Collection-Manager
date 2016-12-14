@@ -56,7 +56,7 @@ class PlasmidVoter extends Voter
 
         switch ($attribute) {
             case self::VIEW:
-                return $this->canView($plasmid, $user);
+                return $this->canView($plasmid, $user, $token);
             case self::EDIT:
                 return $this->canEdit($plasmid, $user);
             case self::DELETE:
@@ -66,10 +66,17 @@ class PlasmidVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(Plasmid $plasmid, User $user)
+    private function canView(Plasmid $plasmid, User $user, TokenInterface $token)
     {
         if ($this->canEdit($plasmid, $user)) {
             return true;
+        }
+
+        // If the user can view the strain,he can view the plasmid
+        foreach ($plasmid->getStrains() as $strain) {
+            if ($this->decisionManager->decide($token, array('STRAIN_VIEW'), $strain)) {
+                return true;
+            }
         }
 
         return false;

@@ -277,10 +277,10 @@ class Strain
         $teams = [];
 
         foreach ($this->getTubes() as $tube) {
-            foreach ($tube->getBox()->getProject()->getTeams() as $team) {
-                if (!in_array($team, $teams)) {
-                    $teams[] = $team;
-                }
+            $team = $tube->getBox()->getProject()->getTeam();
+
+            if (!in_array($team, $teams)) {
+                $teams[] = $team;
             }
         }
 

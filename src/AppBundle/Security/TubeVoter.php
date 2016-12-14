@@ -101,10 +101,10 @@ class TubeVoter extends Voter
         }
 
         // If the user is an administrator of a team concerned by the strain
-        $tubeTeams = $tubeProject->getTeams()->toArray();
+        $tubeTeam = $tubeProject->getTeam();
         $userAdministeredTeams = $user->getAdministeredTeams()->toArray();
 
-        if (!empty(array_intersect($tubeTeams, $userAdministeredTeams))) {
+        if (in_array($tubeTeam, $userAdministeredTeams)) {
             return true;
         }
 

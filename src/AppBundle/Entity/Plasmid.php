@@ -211,6 +211,20 @@ class Plasmid
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getStrains()
+    {
+        $strains = new ArrayCollection();
+
+        foreach ($this->strainPlasmids as $strainPlasmid) {
+            $strains->add($strainPlasmid->getGmoStrain());
+        }
+
+        return $strains;
+    }
+
+    /**
      * Add primer.
      *
      * @param Primer $primer
