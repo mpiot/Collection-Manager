@@ -263,12 +263,39 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/parental/{id}", name="strain_parental")
+     * @Route("/parental/parents/{id}", name="strain_parental_parents")
      */
-    public function parentalStrainsAction(GmoStrain $gmoStrain)
+    public function parentalParentsStrainsAction(GmoStrain $gmoStrain)
     {
         $em = $this->getDoctrine()->getManager();
         $strain = $em->getRepository('AppBundle:GmoStrain')->findParents($gmoStrain);
+
+        $array['name'] = $strain->getFullName();
+
+        $c = 0;
+        foreach ($strain->getParents() as $parent) {
+            $array['children'][$c]['name'] = $parent->getFullName();
+
+            foreach ($parent->getParents() as $parent2) {
+                $array['children'][$c]['children'][]['name'] = $parent2->getFullName();
+            }
+
+            ++$c;
+        }
+
+        $response = new Response(json_encode($array));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/parental/children/{id}", name="strain_parental_children")
+     */
+    public function parentalChildrenStrainsAction(GmoStrain $gmoStrain)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $strain = $em->getRepository('AppBundle:GmoStrain')->findChildren($gmoStrain);
 
         $array['name'] = $strain->getFullName();
 

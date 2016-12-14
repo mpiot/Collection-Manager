@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Strain;
 use AppBundle\Entity\User;
 
 /**
@@ -69,13 +70,23 @@ class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function findParents($strain)
+    public function findParents(Strain $strain)
     {
         $query = $this->createQueryBuilder('gmo')
             ->leftJoin('gmo.parents', 'parents')
                 ->addSelect('parents')
+            ->where('gmo = :strain')
+            ->setParameter('strain', $strain)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    public function findChildren(Strain $strain)
+    {
+        $query = $this->createQueryBuilder('gmo')
             ->leftJoin('gmo.children', 'children')
-                ->addSelect('children')
+            ->addSelect('children')
             ->where('gmo = :strain')
             ->setParameter('strain', $strain)
             ->getQuery();
