@@ -42,4 +42,27 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">Team projects</div>
+                <ul class="list-group">
+                    {% for project in team.projects %}
+                        <li class="list-group-item">{{ project.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">Partner projects</div>
+                <ul class="list-group">
+                    {% for project in team.getPartnerProjects %}
+                        <li class="list-group-item">{{ project.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

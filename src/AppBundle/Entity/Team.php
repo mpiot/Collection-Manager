@@ -262,6 +262,25 @@ class Team
     }
 
     /**
+     * Get collaboration.
+     */
+    public function getPartnerProjects()
+    {
+        // Foreach user, get projects
+        $projects = [];
+
+        foreach ($this->members as $member) {
+            foreach ($member->getProjects() as $project) {
+                if (!$this->projects->contains($project) && !in_array($project, $projects)) {
+                    $projects[] = $project;
+                }
+            }
+        }
+
+        return $projects;
+    }
+
+    /**
      * Get team requests.
      *
      * @return ArrayCollection
