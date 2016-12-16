@@ -94,6 +94,6 @@ class GenBankFile extends File
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
-        return 'files/genBankFiles';
+        return 'uploads/genBankFiles';
     }
 }

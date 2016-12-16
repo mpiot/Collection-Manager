@@ -16,7 +16,7 @@
 /web/bundles/
 /web/css/compiled/*
 /web/js/compiled/*
-/web/files/*
-!/web/files/genBankFiles
-/web/files/genBankFiles/*
+/web/uploads/*
+!/web/uploads/genBankFiles
+/web/uploads/genBankFiles/*
 docker-compose.yml
