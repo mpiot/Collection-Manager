@@ -143,5 +143,4 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
 
         $this->addElement($form, $project, $box, $previousCell);
     }
-
 }

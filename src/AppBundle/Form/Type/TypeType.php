@@ -25,7 +25,7 @@ class TypeType extends AbstractType
             ->add('letter', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Y, E, P',
-                    'data-help' => 'A letter used as shortname.'
+                    'data-help' => 'A letter used as shortname.',
                 ],
             ])
         ;

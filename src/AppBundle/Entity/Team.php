@@ -290,16 +290,15 @@ class Team
         return $this->teamRequests;
     }
 
-
     public function getTeamRequestFor(User $user)
     {
-        foreach($this->teamRequests as $teamRequest) {
+        foreach ($this->teamRequests as $teamRequest) {
             if ($user === $teamRequest->getUser()) {
                 return $teamRequest;
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -316,6 +315,7 @@ class Team
      * Set last plasmid number.
      *
      * @param int $number
+     *
      * @return $this
      */
     public function setLastPlasmidNumber(int $number)
@@ -349,6 +349,7 @@ class Team
      * Set last primer number.
      *
      * @param int $number
+     *
      * @return $this
      */
     public function setLastPrimerNumber(int $number)

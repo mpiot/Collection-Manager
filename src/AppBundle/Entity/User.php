@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Entity/User.php
 
 namespace AppBundle\Entity;
@@ -99,6 +100,7 @@ class User extends BaseUser
      * Is an administrator of this team ?
      *
      * @param Team $team
+     *
      * @return bool
      */
     public function isAdministratorOf(Team $team)
@@ -185,8 +187,7 @@ class User extends BaseUser
     {
         $result = false;
 
-        foreach ($this->teamRequests as $teamRequest)
-        {
+        foreach ($this->teamRequests as $teamRequest) {
             if ($team === $teamRequest->getTeam()) {
                 $result = true;
                 break;
@@ -276,6 +277,7 @@ class User extends BaseUser
      * Is an administrator of this project ?
      *
      * @param Team $team
+     *
      * @return bool
      */
     public function isProjectAdministratorOf(Project $project)

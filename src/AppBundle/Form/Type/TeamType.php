@@ -33,7 +33,7 @@ class TeamType extends AbstractType
                 'attr' => [
                     'data-filter-name' => 'team-filter',
                     'data-help' => 'Use this list to filter Administrators and Members checkboxes.',
-                ]
+                ],
             ])
             ->add('administrators', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
@@ -49,7 +49,7 @@ class TeamType extends AbstractType
                 ],
                 'choice_attr' => function (User $user) {
                     return [
-                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
             ])
@@ -68,7 +68,7 @@ class TeamType extends AbstractType
                 ],
                 'choice_attr' => function (User $user) {
                     return [
-                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
             ])

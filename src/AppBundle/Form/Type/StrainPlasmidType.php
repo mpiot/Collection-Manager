@@ -37,7 +37,7 @@ class StrainPlasmidType extends AbstractType
                         ->orderBy('p.autoName', 'ASC')
                     ;
                 },
-                'choice_label' => function($plasmid) {
+                'choice_label' => function ($plasmid) {
                     return $plasmid->getAutoName().' - '.$plasmid->getName();
                 },
                 'placeholder' => '-- select a plasmid --',
@@ -46,7 +46,7 @@ class StrainPlasmidType extends AbstractType
                 'choices' => [
                     'Replicative' => 'replicative',
                     'Integrated' => 'integrated',
-                    'Cured' => 'cured'
+                    'Cured' => 'cured',
                 ],
                 'placeholder' => '-- select a state --',
             ])

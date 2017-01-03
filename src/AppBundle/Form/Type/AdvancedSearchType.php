@@ -48,9 +48,9 @@ class AdvancedSearchType extends AbstractType
                 'placeholder' => 'All countries',
                 'required' => false,
             ])
-            ->add('project', EntityType::class,[
+            ->add('project', EntityType::class, [
                 'class' => 'AppBundle\Entity\Project',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('project')
                         ->leftJoin('project.members', 'members')
                         ->where('members = :user')
@@ -61,9 +61,9 @@ class AdvancedSearchType extends AbstractType
                 'placeholder' => 'All available projects',
                 'required' => false,
             ])
-            ->add('type', EntityType::class,[
+            ->add('type', EntityType::class, [
                 'class' => 'AppBundle\Entity\Type',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('type')
                         ->orderBy('type.name', 'ASC');
                 },
