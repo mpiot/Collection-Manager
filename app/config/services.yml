@@ -7,6 +7,7 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
 # Twig extensions
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
@@ -24,7 +25,7 @@ services:
         tags:
             - { name: twig.extension }
 
-# Form
+# Form type
     app.type.genus_selector:
         class: AppBundle\Form\Type\GenusSelectorType
         arguments: ['@doctrine.orm.entity_manager']
@@ -73,7 +74,7 @@ services:
         tags:
             - { name: form.type }
 
-# Listeners
+# Doctrine's listeners and subscribers
     app.event_listener.species:
         class: AppBundle\EventListener\SpeciesListener
         tags:
@@ -95,6 +96,19 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
+    app.event_listener.plasmid:
+        class: AppBundle\EventListener\PlasmidSubscriber
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.event_listener.primer:
+        class: AppBundle\EventListener\PrimerSubscriber
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+# Kernel's listeners and subscribers
     app.event_listener.search.strain:
         class: AppBundle\EventListener\StrainSearchIndexListener
         tags:
@@ -106,7 +120,6 @@ services:
         arguments: ["@security.access.decision_manager"]
         tags:
             - { name: security.voter }
-        # small performance boost
         public: false
 
     app.voter.box:

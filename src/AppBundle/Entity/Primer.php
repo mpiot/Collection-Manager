@@ -93,6 +93,22 @@ class Primer
     private $hybridationTemp;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $author;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="last_editor", nullable=true)
+     */
+    private $lastEditor;
+
+    /**
+     * @ORM\Column(name="last_edit", type="datetime", nullable=true)
+     */
+    private $lastEdit;
+
+    /**
      * Primer constructor.
      */
     public function __construct()
@@ -357,23 +373,71 @@ class Primer
     }
 
     /**
-     * @ORM\PrePersist()
+     * Set author.
+     *
+     * @param User $user
+     * @return $this
      */
-    public function prePersist()
+    public function setAuthor(User $user)
     {
-        $primerNumber = $this->team->getLastPrimerNumber() + 1;
+        $this->author = $user;
 
-        if (1 !== $primerNumber) {
-            // Determine how many 0 put before the number
-            $nbDigit = 4;
-            $numberOf0 = $nbDigit - ceil(log10($primerNumber));
-            $autoName = 'primer'.str_repeat('0', $numberOf0).$primerNumber;
-        } else {
-            $autoName = 'primer0001';
-        }
+        return $this;
+    }
 
-        $this->autoName = $autoName;
-        $this->team->setLastPrimerNumber($primerNumber);
+    /**
+     * Get author.
+     *
+     * @return User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set lastEditor.
+     *
+     * @param User $user
+     * @return $this
+     */
+    public function setLastEditor(User $user)
+    {
+        $this->lastEditor = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get lastEditor.
+     *
+     * @return User
+     */
+    public function getLastEditor()
+    {
+        return $this->lastEditor;
+    }
+
+    /**
+     * Set lastEdit.
+     *
+     * @param \DateTime $lastEdit
+     * @return $this
+     */
+    public function setLastEdit(\DateTime $lastEdit)
+    {
+        $this->lastEdit = $lastEdit;
+
+        return $this;
+    }
+
+    /**
+     * Get lastEdit.
+     *
+     * @return mixed
+     */
+    public function getLastEdit()
+    {
+        return $this->lastEdit;
     }
 }
-
