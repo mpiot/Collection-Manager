@@ -38,7 +38,7 @@ class PrimerType extends AbstractType
                         ->where('members = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('team.name', 'ASC');
-                }
+                },
             ])
             ->add('name', TextType::class, [
                 'attr' => [
@@ -51,7 +51,7 @@ class PrimerType extends AbstractType
             ->add('orientation', ChoiceType::class, [
                 'choices' => [
                     'Forward' => 'forward',
-                    'Reverse' => 'reverse'
+                    'Reverse' => 'reverse',
                 ],
                 'multiple' => false,
                 'expanded' => true,
@@ -62,7 +62,7 @@ class PrimerType extends AbstractType
                 'required' => false,
             ])
             ->add('sequence', TextType::class, [
-                'label' => 'Match sequence'
+                'label' => 'Match sequence',
             ])
             ->add('fivePrimeExtension', TextType::class, [
                 'label' => '5\' Extension sequence',

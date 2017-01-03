@@ -40,7 +40,7 @@ class StrainType extends AbstractType
                 'placeholder' => '-- select a type --',
                 'attr' => [
                     'data-help' => 'Which type of organism is it ?',
-                ]
+                ],
             ])
             ->add('usualName', TextType::class, [
                 'attr' => [

@@ -24,7 +24,7 @@ class TypeController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-            $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
+        $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
 
         return $this->render('type/index.html.twig', [
             'typesList' => $types,

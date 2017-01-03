@@ -70,11 +70,11 @@ class ProjectType extends AbstractType
                 'attr' => [
                     'data-filter-name' => 'team-filter',
                     'data-help' => 'Use this list to filter Administrators and Members checkboxes.',
-                ]
+                ],
             ])
             ->add('administrators', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('user')
                         ->orderBy('user.username', 'ASC');
                 },
@@ -87,13 +87,13 @@ class ProjectType extends AbstractType
                 ],
                 'choice_attr' => function (User $user) {
                     return [
-                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
             ])
             ->add('members', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('user')
                         ->orderBy('user.username', 'ASC');
                 },
@@ -106,7 +106,7 @@ class ProjectType extends AbstractType
                 ],
                 'choice_attr' => function (User $user) {
                     return [
-                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
             ])

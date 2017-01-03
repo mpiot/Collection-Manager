@@ -60,14 +60,14 @@ class PlasmidType extends AbstractType
                     'class' => 'AppBundle\Entity\Primer',
                     'choice_label' => 'autoName',
                     'placeholder' => '-- select a primer --',
-                    'query_builder' => function(EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('primer')
                             ->leftJoin('primer.team', 'team')
                             ->leftJoin('team.members', 'members')
                             ->where('members = :user')
                                 ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                             ->orderBy('primer.name', 'ASC');
-                    }
+                    },
                 ],
                 'by_reference' => false,
                 'allow_add' => true,

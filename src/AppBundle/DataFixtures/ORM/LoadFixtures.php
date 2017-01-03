@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/DataFixtures/ORM/LoadFixtures.php
 
 namespace AppBundle\DataFixtures\ORM;

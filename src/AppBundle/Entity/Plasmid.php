@@ -274,6 +274,7 @@ class Plasmid
      * Set author.
      *
      * @param User $user
+     *
      * @return $this
      */
     public function setAuthor(User $user)
@@ -297,6 +298,7 @@ class Plasmid
      * Set lastEditor.
      *
      * @param User $user
+     *
      * @return $this
      */
     public function setLastEditor(User $user)
@@ -320,6 +322,7 @@ class Plasmid
      * Set lastEdit.
      *
      * @param \DateTime $lastEdit
+     *
      * @return $this
      */
     public function setLastEdit(\DateTime $lastEdit)

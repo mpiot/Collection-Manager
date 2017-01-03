@@ -180,7 +180,6 @@ class SpeciesController extends Controller
 
                         ++$i;
                     }
-
                 }
             } else {
                 $response['error'] = 'This ID does not match on a species';
