@@ -34,10 +34,10 @@ class SearchController extends Controller
         $repository2 = $repositoryManager->getRepository('AppBundle:WildStrain');
         $results['wild'] = $repository2->search($search, $this->getUser()->getProjectsId());
 
-        return $this->render('search\quickSearch.html.twig', array(
+        return $this->render('search\quickSearch.html.twig', [
             'search' => $search,
             'results' => $results,
-        ));
+        ]);
     }
 
     /**
@@ -71,14 +71,14 @@ class SearchController extends Controller
                 $results['wild'] = $wildRepository->search($data['search'], $this->getUser()->getProjectsId(), $data['deleted'], $data['country'], $data['project'], $data['type']);
             }
 
-            return $this->render('search/advancedSearch.html.twig', array(
+            return $this->render('search/advancedSearch.html.twig', [
                 'form' => $form->createView(),
                 'results' => $results,
-            ));
+            ]);
         }
 
-        return $this->render('search/advancedSearch.html.twig', array(
+        return $this->render('search/advancedSearch.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 }

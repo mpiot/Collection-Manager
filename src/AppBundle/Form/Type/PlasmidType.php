@@ -29,7 +29,7 @@ class PlasmidType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('team', EntityType::class, array(
+            ->add('team', EntityType::class, [
                 'class' => 'AppBundle\Entity\Team',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('team')
@@ -40,40 +40,40 @@ class PlasmidType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a team --',
-            ))
+            ])
             ->add('name')
-            ->add('addGenBankFile', ChoiceType::class, array(
-                'choices' => array(
+            ->add('addGenBankFile', ChoiceType::class, [
+                'choices' => [
                     'No' => 0,
                     'Yes' => 1,
-                ),
+                ],
                 'multiple' => false,
                 'expanded' => true,
                 'label' => 'Send a GenBank file ?',
-            ))
-            ->add('genBankFile', GenBankFileType::class, array(
+            ])
+            ->add('genBankFile', GenBankFileType::class, [
                 'required' => false,
-            ))
-            ->add('primers', CollectionType::class, array(
+            ])
+            ->add('primers', CollectionType::class, [
                 'entry_type' => EntityType::class,
-                'entry_options' => array(
+                'entry_options' => [
                     'class' => 'AppBundle\Entity\Primer',
                     'choice_label' => 'autoName',
                     'placeholder' => '-- select a primer --',
-                    'query_builder' => function(EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('primer')
                             ->leftJoin('primer.team', 'team')
                             ->leftJoin('team.members', 'members')
                             ->where('members = :user')
                                 ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                             ->orderBy('primer.name', 'ASC');
-                    }
-                ),
+                    },
+                ],
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'required' => false,
-            ))
+            ])
         ;
 
         $builder->addEventListener(
@@ -99,8 +99,8 @@ class PlasmidType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Plasmid',
-        ));
+        ]);
     }
 }

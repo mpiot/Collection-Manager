@@ -26,7 +26,7 @@ class StrainPlasmidType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('plasmid', EntityType::class, array(
+            ->add('plasmid', EntityType::class, [
                 'class' => 'AppBundle\Entity\Plasmid',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('p')
@@ -37,19 +37,19 @@ class StrainPlasmidType extends AbstractType
                         ->orderBy('p.autoName', 'ASC')
                     ;
                 },
-                'choice_label' => function($plasmid) {
+                'choice_label' => function ($plasmid) {
                     return $plasmid->getAutoName().' - '.$plasmid->getName();
                 },
                 'placeholder' => '-- select a plasmid --',
-            ))
-            ->add('state', ChoiceType::class, array(
-                'choices' => array(
+            ])
+            ->add('state', ChoiceType::class, [
+                'choices' => [
                     'Replicative' => 'replicative',
                     'Integrated' => 'integrated',
-                    'Cured' => 'cured'
-                ),
+                    'Cured' => 'cured',
+                ],
                 'placeholder' => '-- select a state --',
-            ))
+            ])
         ;
     }
 
@@ -58,8 +58,8 @@ class StrainPlasmidType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\StrainPlasmid',
-        ));
+        ]);
     }
 }

@@ -6,10 +6,10 @@ class PlasmidExtension extends \Twig_Extension
 {
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('linearPlasmid', array($this, 'linearPlasmid')),
-            new \Twig_SimpleFilter('circularPlasmid', array($this, 'circularPlasmid')),
-        );
+        return [
+            new \Twig_SimpleFilter('linearPlasmid', [$this, 'linearPlasmid']),
+            new \Twig_SimpleFilter('circularPlasmid', [$this, 'circularPlasmid']),
+        ];
     }
 
     public function linearPlasmid($genBankArray)
@@ -97,7 +97,7 @@ class PlasmidExtension extends \Twig_Extension
     public function circularPlasmid($genBankArray)
     {
         // Parametres graphiques
-        $param = array(
+        $param = [
             'canvas_width' => 500,
             'canvas_height' => 500,
             'radius_factor' => 0.7,
@@ -110,7 +110,7 @@ class PlasmidExtension extends \Twig_Extension
             'feature_stroke' => '#DD2222',
             'feature_fill' => '#FFBBBB',
             'feature_stroke_width' => 2,
-        );
+        ];
 
         // Cette fonction convertie des angles en coordonnees
         function coordonnees($cx, $cy, $rayon, $angle)
@@ -118,10 +118,10 @@ class PlasmidExtension extends \Twig_Extension
             // calcul de l'angle en radian
             $radian = $angle * pi() / 180.0;
             // calcul des coordonnees correspondantes
-            $coord = array(
+            $coord = [
                 'x' => $cx + ($rayon * cos($radian)),
                 'y' => $cy + ($rayon * sin($radian)),
-            );
+            ];
 
             return $coord;
         }

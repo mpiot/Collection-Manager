@@ -28,7 +28,7 @@ class BoxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('project', EntityType::class, array(
+            ->add('project', EntityType::class, [
                 'class' => 'AppBundle\Entity\Project',
                 'query_builder' => function (ProjectRepository $pr) {
                     return $pr->createQueryBuilder('project')
@@ -39,42 +39,42 @@ class BoxType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a project --',
-            ))
-            ->add('name', TextType::class, array(
-                'attr' => array(
+            ])
+            ->add('name', TextType::class, [
+                'attr' => [
                     'placeholder' => 'Name of the box',
-                ),
-            ))
-            ->add('description', TextareaType::class, array(
-                'attr' => array(
+                ],
+            ])
+            ->add('description', TextareaType::class, [
+                'attr' => [
                     'placeholder' => 'Description about the box',
-                ),
-            ))
-            ->add('freezer', TextType::class, array(
-                'attr' => array(
+                ],
+            ])
+            ->add('freezer', TextType::class, [
+                'attr' => [
                     'placeholder' => 'Emile',
                     'data-help' => 'In which freezer is the box ?',
-                ),
-            ))
-            ->add('location', TextType::class, array(
+                ],
+            ])
+            ->add('location', TextType::class, [
                 'label' => 'Location in the freezer',
-                'attr' => array(
+                'attr' => [
                     'placeholder' => '1st shelf on the top, 3rd rack on the left',
                     'data-help' => 'Where is the box in the freezer ?',
-                ),
-            ))
-            ->add('colNumber', NumberType::class, array(
+                ],
+            ])
+            ->add('colNumber', NumberType::class, [
                 'label' => 'Number of columns',
-                'attr' => array(
+                'attr' => [
                     'placeholder' => '10',
-                ),
-            ))
-            ->add('rowNumber', NumberType::class, array(
+                ],
+            ])
+            ->add('rowNumber', NumberType::class, [
                 'label' => 'Number of rows',
-                'attr' => array(
+                'attr' => [
                     'placeholder' => '10',
-                ),
-            ))
+                ],
+            ])
         ;
     }
 
@@ -83,8 +83,8 @@ class BoxType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Box',
-        ));
+        ]);
     }
 }

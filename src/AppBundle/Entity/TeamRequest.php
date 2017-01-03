@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TeamRequest
+ * TeamRequest.
  *
  * @ORM\Table(name="team_request")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TeamRequestRepository")
@@ -59,7 +59,7 @@ class TeamRequest
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -69,7 +69,7 @@ class TeamRequest
     }
 
     /**
-     * Set team
+     * Set team.
      *
      * @param string $team
      *
@@ -83,7 +83,7 @@ class TeamRequest
     }
 
     /**
-     * Get team
+     * Get team.
      *
      * @return string
      */
@@ -93,7 +93,7 @@ class TeamRequest
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param string $user
      *
@@ -107,7 +107,7 @@ class TeamRequest
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return string
      */
@@ -117,7 +117,7 @@ class TeamRequest
     }
 
     /**
-     * Set requestDate
+     * Set requestDate.
      *
      * @param \DateTime $requestDate
      *
@@ -131,7 +131,7 @@ class TeamRequest
     }
 
     /**
-     * Get requestDate
+     * Get requestDate.
      *
      * @return \DateTime
      */
@@ -141,7 +141,7 @@ class TeamRequest
     }
 
     /**
-     * Set answerDate
+     * Set answerDate.
      *
      * @param \DateTime $answerDate
      *
@@ -155,7 +155,7 @@ class TeamRequest
     }
 
     /**
-     * Get answerDate
+     * Get answerDate.
      *
      * @return \DateTime
      */
@@ -165,7 +165,7 @@ class TeamRequest
     }
 
     /**
-     * Set answer
+     * Set answer.
      *
      * @param string $answer
      *
@@ -179,7 +179,7 @@ class TeamRequest
     }
 
     /**
-     * Get answer
+     * Get answer.
      *
      * @return string
      */

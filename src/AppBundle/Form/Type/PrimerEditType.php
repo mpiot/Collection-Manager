@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PrimerEditType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array

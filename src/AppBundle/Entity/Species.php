@@ -161,6 +161,7 @@ class Species
 
     /**
      * Set main.
+     *
      * @param Species $species
      *
      * @return $this

@@ -24,11 +24,11 @@ class TypeController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-            $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
+        $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
 
-        return $this->render('type/index.html.twig', array(
+        return $this->render('type/index.html.twig', [
             'typesList' => $types,
-        ));
+        ]);
     }
 
     /**
@@ -52,9 +52,9 @@ class TypeController extends Controller
             return $this->redirectToRoute('type_index');
         }
 
-        return $this->render('type/add.html.twig', array(
+        return $this->render('type/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -76,10 +76,10 @@ class TypeController extends Controller
             return $this->redirectToRoute('type_index');
         }
 
-        return $this->render('type/edit.html.twig', array(
+        return $this->render('type/edit.html.twig', [
             'type' => $type,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -108,9 +108,9 @@ class TypeController extends Controller
             return $this->redirectToRoute('type_index');
         }
 
-        return $this->render('type/delete.html.twig', array(
+        return $this->render('type/delete.html.twig', [
             'type' => $type,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 }

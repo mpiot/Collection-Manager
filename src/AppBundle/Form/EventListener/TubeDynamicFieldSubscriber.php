@@ -30,15 +30,15 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             FormEvents::PRE_SET_DATA => 'onPreSetData',
             FormEvents::PRE_SUBMIT => 'onPreSubmit',
-        );
+        ];
     }
 
     protected function addElement(FormInterface $form, Project $project = null, Box $box = null, $previousCell = null)
     {
-        $form->add('project', EntityType::class, array(
+        $form->add('project', EntityType::class, [
             'class' => 'AppBundle\Entity\Project',
             'query_builder' => function (EntityRepository $pr) {
                 return $pr->createQueryBuilder('project')
@@ -51,9 +51,9 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
             'placeholder' => '-- select a project --',
             //'data' => $project,
             'disabled' => $this->disabled,
-        ));
+        ]);
 
-        $form->add('box', EntityType::class, array(
+        $form->add('box', EntityType::class, [
             'class' => 'AppBundle\Entity\Box',
             'choice_label' => 'name',
             'placeholder' => '-- select a box --',
@@ -65,16 +65,16 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
             },
             //'data' => $box,
             'disabled' => $this->disabled,
-        ));
+        ]);
 
         $cells = null !== $box ? $box->getEmptyCells($previousCell) : null;
 
-        $form->add('cell', ChoiceType::class, array(
+        $form->add('cell', ChoiceType::class, [
             'placeholder' => '-- select a cell --',
             'choices' => $cells,
             //'data' => $previousCell,
             'disabled' => $this->disabled,
-        ));
+        ]);
     }
 
     public function onPreSetData(FormEvent $event)
@@ -143,5 +143,4 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
 
         $this->addElement($form, $project, $box, $previousCell);
     }
-
 }

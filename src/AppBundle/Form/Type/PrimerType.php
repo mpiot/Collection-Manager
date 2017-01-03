@@ -29,7 +29,7 @@ class PrimerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('team', EntityType::class, array(
+            ->add('team', EntityType::class, [
                 'class' => 'AppBundle\Entity\Team',
                 'choice_label' => 'name',
                 'query_builder' => function (EntityRepository $er) {
@@ -38,40 +38,40 @@ class PrimerType extends AbstractType
                         ->where('members = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('team.name', 'ASC');
-                }
-            ))
-            ->add('name', TextType::class, array(
-                'attr' => array(
+                },
+            ])
+            ->add('name', TextType::class, [
+                'attr' => [
                     'data-help' => 'The name you want to use.',
-                ),
-            ))
-            ->add('description', TextareaType::class, array(
+                ],
+            ])
+            ->add('description', TextareaType::class, [
                 'required' => false,
-            ))
-            ->add('orientation', ChoiceType::class, array(
+            ])
+            ->add('orientation', ChoiceType::class, [
                 'choices' => [
                     'Forward' => 'forward',
-                    'Reverse' => 'reverse'
+                    'Reverse' => 'reverse',
                 ],
                 'multiple' => false,
                 'expanded' => true,
                 'required' => false,
-            ))
-            ->add('hybridationTemp', NumberType::class, array(
+            ])
+            ->add('hybridationTemp', NumberType::class, [
                 'scale' => 1,
                 'required' => false,
-            ))
-            ->add('sequence', TextType::class, array(
-                'label' => 'Match sequence'
-            ))
-            ->add('fivePrimeExtension', TextType::class, array(
+            ])
+            ->add('sequence', TextType::class, [
+                'label' => 'Match sequence',
+            ])
+            ->add('fivePrimeExtension', TextType::class, [
                 'label' => '5\' Extension sequence',
                 'required' => false,
-            ))
-            ->add('labelMarker', TextType::class, array(
+            ])
+            ->add('labelMarker', TextType::class, [
                 'label' => 'Label/Marker',
                 'required' => false,
-            ))
+            ])
         ;
     }
 
@@ -80,8 +80,8 @@ class PrimerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Primer',
-        ));
+        ]);
     }
 }
