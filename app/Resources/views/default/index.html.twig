@@ -31,7 +31,12 @@
 
             <div class="col-md-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading">My projects</div>
+                    <div class="panel-heading">
+                        My projects
+                        {% if app.user.isTeamAdministrator() %}
+                            <a class="pull-right" href="{{ path('project_add') }}">Create a new project</a>
+                        {% endif %}
+                    </div>
                     {% if projects is empty %}
                         <div class="panel-body">
                             You have no project. Ask to a project admin.
