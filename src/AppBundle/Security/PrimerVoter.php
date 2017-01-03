@@ -56,7 +56,7 @@ class PrimerVoter extends Voter
 
         switch ($attribute) {
             case self::VIEW:
-                return $this->canView($primer, $user);
+                return $this->canView($primer, $user, $token);
             case self::EDIT:
                 return $this->canEdit($primer, $user);
             case self::DELETE:
@@ -66,10 +66,17 @@ class PrimerVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(Primer $primer, User $user)
+    private function canView(Primer $primer, User $user, TokenInterface $token)
     {
         if ($this->canEdit($primer, $user)) {
             return true;
+        }
+
+        // If the user can view the plasmid, he can view the primer
+        foreach ($primer->getPlasmids() as $plasmid) {
+            if ($this->decisionManager->decide($token, array('PLASMID_VIEW'), $plasmid)) {
+                return true;
+            }
         }
 
         return false;
