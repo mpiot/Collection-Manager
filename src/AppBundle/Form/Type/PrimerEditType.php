@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PrimerEditType extends AbstractType
 {
-
     /**
      * @param FormBuilderInterface $builder
      * @param array
@@ -15,8 +14,7 @@ class PrimerEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->remove('team')
-        ;
+            ->remove('team');
     }
 
     /**

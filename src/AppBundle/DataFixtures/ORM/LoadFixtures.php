@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/DataFixtures/ORM/LoadFixtures.php
 
 namespace AppBundle\DataFixtures\ORM;
@@ -114,14 +115,14 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //-------//
         $teamsData = [
             [
-                'name' => 'Team 1',
+                'name'           => 'Team 1',
                 'administrators' => [$this->getReference('user-team1admin')],
-                'members' => [$this->getReference('user-team1project'), $this->getReference('user-team1user')],
+                'members'        => [$this->getReference('user-team1project'), $this->getReference('user-team1user')],
             ],
             [
-                'name' => 'Team 2',
+                'name'           => 'Team 2',
                 'administrators' => [$this->getReference('user-team2admin')],
-                'members' => [$this->getReference('user-team2project'), $this->getReference('user-team2user')],
+                'members'        => [$this->getReference('user-team2project'), $this->getReference('user-team2user')],
             ],
         ];
 
@@ -166,20 +167,20 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //---------//
         $projectsData = [
             [
-                'name' => 'Team1 Project',
-                'prefix' => 'T1P',
-                'description' => 'The first Team 1 project',
-                'team' => $this->getReference('team-Team 1'),
+                'name'           => 'Team1 Project',
+                'prefix'         => 'T1P',
+                'description'    => 'The first Team 1 project',
+                'team'           => $this->getReference('team-Team 1'),
                 'administrators' => [$this->getReference('user-team1project')],
-                'members' => [$this->getReference('user-team1user')],
+                'members'        => [$this->getReference('user-team1user')],
             ],
             [
-                'name' => 'Team2 Project',
-                'prefix' => 'T2P',
-                'description' => 'The first Team 2 project',
-                'team' => $this->getReference('team-Team 2'),
+                'name'           => 'Team2 Project',
+                'prefix'         => 'T2P',
+                'description'    => 'The first Team 2 project',
+                'team'           => $this->getReference('team-Team 2'),
                 'administrators' => [$this->getReference('user-team2project')],
-                'members' => [$this->getReference('user-team2user')],
+                'members'        => [$this->getReference('user-team2user')],
             ],
         ];
 
@@ -209,40 +210,40 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //-------//
         $boxesData = [
             [
-                'project' => $this->getReference('project-T1P'),
-                'name' => 'T1P - Box 1',
+                'project'     => $this->getReference('project-T1P'),
+                'name'        => 'T1P - Box 1',
                 'description' => 'The 1st box in the T1P project.',
-                'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 1st box in the column',
-                'colNumber' => '10',
-                'rowNumber' => '10',
+                'freezer'     => 'Emile',
+                'location'    => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 1st box in the column',
+                'colNumber'   => '10',
+                'rowNumber'   => '10',
             ],
             [
-                'project' => $this->getReference('project-T1P'),
-                'name' => 'T1P - Box 2',
+                'project'     => $this->getReference('project-T1P'),
+                'name'        => 'T1P - Box 2',
                 'description' => 'The 2nd box in the T1P project.',
-                'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 2nd box in the column',
-                'colNumber' => '9',
-                'rowNumber' => '9',
+                'freezer'     => 'Emile',
+                'location'    => '1st Shelve - 1st rack on the left - 2nd Column in the rack - 2nd box in the column',
+                'colNumber'   => '9',
+                'rowNumber'   => '9',
             ],
             [
-                'project' => $this->getReference('project-T2P'),
-                'name' => 'T2P - Box 1',
+                'project'     => $this->getReference('project-T2P'),
+                'name'        => 'T2P - Box 1',
                 'description' => 'The 1st box in the T2P project.',
-                'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 1st box in the column',
-                'colNumber' => '8',
-                'rowNumber' => '8',
+                'freezer'     => 'Emile',
+                'location'    => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 1st box in the column',
+                'colNumber'   => '8',
+                'rowNumber'   => '8',
             ],
             [
-                'project' => $this->getReference('project-T2P'),
-                'name' => 'T2P - Box 2',
+                'project'     => $this->getReference('project-T2P'),
+                'name'        => 'T2P - Box 2',
                 'description' => 'The 2nd box in the T2P project.',
-                'freezer' => 'Emile',
-                'location' => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 2nd box in the column',
-                'colNumber' => '10',
-                'rowNumber' => '10',
+                'freezer'     => 'Emile',
+                'location'    => '1st Shelve - 1st rack on the left - 3rd Column in the rack - 2nd box in the column',
+                'colNumber'   => '10',
+                'rowNumber'   => '10',
             ],
         ];
 

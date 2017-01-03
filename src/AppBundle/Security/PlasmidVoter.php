@@ -24,7 +24,7 @@ class PlasmidVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::DELETE))) {
+        if (!in_array($attribute, [self::VIEW, self::EDIT, self::DELETE])) {
             return false;
         }
 
@@ -47,7 +47,7 @@ class PlasmidVoter extends Voter
         }
 
         // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
             return true;
         }
 
@@ -74,7 +74,7 @@ class PlasmidVoter extends Voter
 
         // If the user can view the strain,he can view the plasmid
         foreach ($plasmid->getStrains() as $strain) {
-            if ($this->decisionManager->decide($token, array('STRAIN_VIEW'), $strain)) {
+            if ($this->decisionManager->decide($token, ['STRAIN_VIEW'], $strain)) {
                 return true;
             }
         }

@@ -4,10 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Species;
 use AppBundle\Form\Type\SpeciesType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,9 +34,9 @@ class SpeciesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $species = $em->getRepository('AppBundle:Species')->findAllWithGenus();
 
-        return $this->render('species/index.html.twig', array(
+        return $this->render('species/index.html.twig', [
             'speciesList' => $species,
-        ));
+        ]);
     }
 
     /**
@@ -60,9 +60,9 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_index');
         }
 
-        return $this->render('species/add.html.twig', array(
+        return $this->render('species/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -87,10 +87,10 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_index');
         }
 
-        return $this->render('species/edit.html.twig', array(
+        return $this->render('species/edit.html.twig', [
             'species' => $species,
-            'form' => $form->createView(),
-        ));
+            'form'    => $form->createView(),
+        ]);
     }
 
     /**
@@ -122,10 +122,10 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_index');
         }
 
-        return $this->render('species/delete.html.twig', array(
+        return $this->render('species/delete.html.twig', [
             'species' => $species,
-            'form' => $form->createView(),
-        ));
+            'form'    => $form->createView(),
+        ]);
     }
 
     /**
@@ -147,7 +147,7 @@ class SpeciesController extends Controller
         $crawler = new Crawler($xmlString);
 
         // Initialise the response
-        $response = array();
+        $response = [];
 
         // Count the number of taxon tag, if different of 0 there are contents, else the document is empty, it's because the Taxon Id doesn't exists
         if (0 !== $crawler->filterXPath('//TaxaSet/Taxon')->count()) {
@@ -180,7 +180,6 @@ class SpeciesController extends Controller
 
                         ++$i;
                     }
-
                 }
             } else {
                 $response['error'] = 'This ID does not match on a species';

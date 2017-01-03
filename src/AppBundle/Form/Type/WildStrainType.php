@@ -20,55 +20,54 @@ class WildStrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('biologicalOriginCategory', EntityType::class, array(
-                'class' => 'AppBundle\Entity\BiologicalOriginCategory',
+            ->add('biologicalOriginCategory', EntityType::class, [
+                'class'         => 'AppBundle\Entity\BiologicalOriginCategory',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('category')
                         ->orderBy('category.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => '-- Choose a category --',
-                'label' => 'Category',
-            ))
-            ->add('biologicalOrigin', TextType::class, array(
-                'attr' => array(
+                'placeholder'  => '-- Choose a category --',
+                'label'        => 'Category',
+            ])
+            ->add('biologicalOrigin', TextType::class, [
+                'attr' => [
                     'placeholder' => 'Galeria melonella, Insect',
-                    'data-help' => 'Where did you find it ?',
-                ),
-            ))
-            ->add('source', TextType::class, array(
-                'attr' => array(
+                    'data-help'   => 'Where did you find it ?',
+                ],
+            ])
+            ->add('source', TextType::class, [
+                'attr' => [
                     'placeholder' => 'CBS, ...',
-                    'data-help' => 'Who give it to you ?',
-                ),
+                    'data-help'   => 'Who give it to you ?',
+                ],
                 'required' => false,
-            ))
-            ->add('address', TextType::class, array(
-                'attr' => array(
+            ])
+            ->add('address', TextType::class, [
+                'attr' => [
                     'placeholder' => 'Pyramides, 75001 Paris, France',
-                    'data-help' => 'The address with this format: Address, Zip code City, Country',
-                ),
+                    'data-help'   => 'The address with this format: Address, Zip code City, Country',
+                ],
                 'required' => false,
-            ))
-            ->add('country', CountryType::class, array(
+            ])
+            ->add('country', CountryType::class, [
                 'placeholder' => '-- Choose a country --',
-                'required' => false,
-            ))
-            ->add('latitude', NumberType::class, array(
+                'required'    => false,
+            ])
+            ->add('latitude', NumberType::class, [
                 'scale' => 6,
-                'attr' => array(
+                'attr'  => [
                     'placeholder' => 48.866667,
-                ),
+                ],
                 'required' => false,
-            ))
-            ->add('longitude', NumberType::class, array(
+            ])
+            ->add('longitude', NumberType::class, [
                 'scale' => 6,
-                'attr' => array(
+                'attr'  => [
                     'placeholder' => 2.333333,
-                ),
+                ],
                 'required' => false,
-            ))
-        ;
+            ]);
     }
 
     /**
@@ -76,9 +75,9 @@ class WildStrainType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\WildStrain',
-        ));
+        ]);
     }
 
     public function getParent()

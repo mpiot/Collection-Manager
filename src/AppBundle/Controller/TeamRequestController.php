@@ -4,9 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Team;
 use AppBundle\Entity\TeamRequest;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * @Route("/team-request")
@@ -23,14 +23,14 @@ class TeamRequestController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $requests = $em->getRepository('AppBundle:TeamRequest')->findBy(array('answer' => null));
+            $requests = $em->getRepository('AppBundle:TeamRequest')->findBy(['answer' => null]);
         } else {
             $requests = $em->getRepository('AppBundle:TeamRequest')->findAdministredBy($this->getUser());
         }
 
-        return $this->render('team_request/index.html.twig', array(
+        return $this->render('team_request/index.html.twig', [
             'requests' => $requests,
-        ));
+        ]);
     }
 
     /**
@@ -41,11 +41,13 @@ class TeamRequestController extends Controller
     {
         if ($this->getUser()->hasRequestedTeam($team)) {
             $this->addFlash('warning', 'Already requested !');
+
             return $this->redirectToRoute('team_index');
         }
 
         if ($this->getUser()->hasTeam($team)) {
             $this->addFlash('warning', 'Already in team !');
+
             return $this->redirectToRoute('team_index');
         }
 
@@ -58,6 +60,7 @@ class TeamRequestController extends Controller
         $em->flush();
 
         $this->addFlash('success', 'Request ok!');
+
         return $this->redirectToRoute('team_index');
     }
 
@@ -69,6 +72,7 @@ class TeamRequestController extends Controller
     {
         if ('requested' !== $answer = $teamRequest->getAnswer()) {
             $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+
             return $this->redirectToRoute('team_request_index');
         }
 
@@ -85,6 +89,7 @@ class TeamRequestController extends Controller
         $em->flush();
 
         $this->addFlash('success', 'User accepted');
+
         return $this->redirectToRoute('team_request_index');
     }
 
@@ -96,6 +101,7 @@ class TeamRequestController extends Controller
     {
         if ('requested' !== $answer = $teamRequest->getAnswer()) {
             $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+
             return $this->redirectToRoute('team_request_index');
         }
 
@@ -106,6 +112,7 @@ class TeamRequestController extends Controller
         $em->flush();
 
         $this->addFlash('success', 'User declined !');
+
         return $this->redirectToRoute('team_request_index');
     }
 
@@ -116,8 +123,8 @@ class TeamRequestController extends Controller
         $em = $this->getDoctrine()->getManager();
         $numberRequests = $em->getRepository('AppBundle:TeamRequest')->countRequests($this->getUser());
 
-        return $this->render('team_request/number_requests.html.twig', array(
+        return $this->render('team_request/number_requests.html.twig', [
             'numberRequests' => $numberRequests,
-        ));
+        ]);
     }
 }

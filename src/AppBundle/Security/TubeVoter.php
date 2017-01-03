@@ -24,7 +24,7 @@ class TubeVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::RESTORE, self::DELETE))) {
+        if (!in_array($attribute, [self::VIEW, self::RESTORE, self::DELETE])) {
             return false;
         }
 
@@ -47,7 +47,7 @@ class TubeVoter extends Voter
         }
 
         // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
             return true;
         }
 

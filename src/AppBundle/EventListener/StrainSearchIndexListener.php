@@ -2,8 +2,8 @@
 
 namespace AppBundle\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use FOS\ElasticaBundle\Event\TransformEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class StrainSearchIndexListener implements EventSubscriberInterface
 {
@@ -40,8 +40,8 @@ class StrainSearchIndexListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             TransformEvent::POST_TRANSFORM => 'addCustomProperties',
-        );
+        ];
     }
 }

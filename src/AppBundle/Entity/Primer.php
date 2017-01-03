@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Primer
+ * Primer.
  *
  * @ORM\Table(name="primer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrimerRepository")
@@ -117,7 +117,7 @@ class Primer
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -127,7 +127,7 @@ class Primer
     }
 
     /**
-     * Set autoName
+     * Set autoName.
      *
      * @param string $autoName
      *
@@ -141,7 +141,7 @@ class Primer
     }
 
     /**
-     * Get autoName
+     * Get autoName.
      *
      * @return string
      */
@@ -151,7 +151,7 @@ class Primer
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -165,7 +165,7 @@ class Primer
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -175,7 +175,7 @@ class Primer
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -189,7 +189,7 @@ class Primer
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -199,7 +199,7 @@ class Primer
     }
 
     /**
-     * Set orientation
+     * Set orientation.
      *
      * @param string $orientation
      *
@@ -213,7 +213,7 @@ class Primer
     }
 
     /**
-     * Get orientation
+     * Get orientation.
      *
      * @return string
      */
@@ -223,7 +223,7 @@ class Primer
     }
 
     /**
-     * Set sequence
+     * Set sequence.
      *
      * @param string $sequence
      *
@@ -237,7 +237,7 @@ class Primer
     }
 
     /**
-     * Get sequence
+     * Get sequence.
      *
      * @return string
      */
@@ -247,7 +247,7 @@ class Primer
     }
 
     /**
-     * Set fivePrimeExtension
+     * Set fivePrimeExtension.
      *
      * @param string $fivePrimeExtension
      *
@@ -261,7 +261,7 @@ class Primer
     }
 
     /**
-     * Get fivePrimeExtension
+     * Get fivePrimeExtension.
      *
      * @return string
      */
@@ -271,7 +271,7 @@ class Primer
     }
 
     /**
-     * Set LabelMarker
+     * Set LabelMarker.
      *
      * @param string $labelMarker
      *
@@ -285,7 +285,7 @@ class Primer
     }
 
     /**
-     * Get LabelMarker
+     * Get LabelMarker.
      *
      * @return string
      */
@@ -295,7 +295,7 @@ class Primer
     }
 
     /**
-     * Set Hybridation Temperature
+     * Set Hybridation Temperature.
      *
      * @param string $hybridationTemp
      *
@@ -309,7 +309,7 @@ class Primer
     }
 
     /**
-     * Get Hybridation Temperature
+     * Get Hybridation Temperature.
      *
      * @return string
      */
@@ -376,6 +376,7 @@ class Primer
      * Set author.
      *
      * @param User $user
+     *
      * @return $this
      */
     public function setAuthor(User $user)
@@ -399,6 +400,7 @@ class Primer
      * Set lastEditor.
      *
      * @param User $user
+     *
      * @return $this
      */
     public function setLastEditor(User $user)
@@ -422,6 +424,7 @@ class Primer
      * Set lastEdit.
      *
      * @param \DateTime $lastEdit
+     *
      * @return $this
      */
     public function setLastEdit(\DateTime $lastEdit)

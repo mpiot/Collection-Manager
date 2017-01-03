@@ -2,8 +2,8 @@
 
 namespace AppBundle\Utils;
 
-use Symfony\Component\Finder\Finder;
 use AppBundle\Entity\Plasmid;
+use Symfony\Component\Finder\Finder;
 
 class PlasmidGenBank
 {
@@ -53,8 +53,8 @@ class PlasmidGenBank
                 // The position: an array like [sens/reverse, start, end]
                 $array['features'][$i - 1]['position'] = [
                     'strand' => ('complement' === $matches[2]) ? -1 : 1,
-                    'start' => $matches[3],
-                    'stop' => $matches[4],
+                    'start'  => $matches[3],
+                    'stop'   => $matches[4],
                 ];
             }
 

@@ -47,13 +47,13 @@ class StrainRepository extends Repository
         }
 
         if (null !== $project) {
-            $projectQuery = new \Elastica\Query\Term() ;
+            $projectQuery = new \Elastica\Query\Term();
             $projectQuery->setTerm('projects', $project->getId());
             $boolQuery->addFilter($projectQuery);
         }
 
         if (null !== $type) {
-            $typeQuery = new \Elastica\Query\Term() ;
+            $typeQuery = new \Elastica\Query\Term();
             $typeQuery->setTerm('type', $type->getId());
             $boolQuery->addFilter($typeQuery);
         }
