@@ -19,36 +19,35 @@ class GmoStrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', TextareaType::class, array(
+            ->add('description', TextareaType::class, [
                 'required' => false,
-            ))
-            ->add('genotype', TextareaType::class, array(
+            ])
+            ->add('genotype', TextareaType::class, [
                 'required' => false,
-            ))
-            ->add('strainPlasmids', CollectionType::class, array(
-                'entry_type' => StrainPlasmidType::class,
-                'allow_add' => true,
+            ])
+            ->add('strainPlasmids', CollectionType::class, [
+                'entry_type'   => StrainPlasmidType::class,
+                'allow_add'    => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'required' => false,
-            ))
-            ->add('parents', CollectionType::class, array(
-                'entry_type' => EntityType::class,
-                'entry_options' => array(
-                    'class' => 'AppBundle\Entity\GmoStrain',
-                    'choice_label' => 'fullName',
-                    'placeholder' => '-- select a parent --',
+                'required'     => false,
+            ])
+            ->add('parents', CollectionType::class, [
+                'entry_type'    => EntityType::class,
+                'entry_options' => [
+                    'class'         => 'AppBundle\Entity\GmoStrain',
+                    'choice_label'  => 'fullName',
+                    'placeholder'   => '-- select a parent --',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('strain')
                             ->orderBy('strain.systematicName', 'ASC');
                     },
-                ),
+                ],
                 'by_reference' => false,
-                'allow_add' => true,
+                'allow_add'    => true,
                 'allow_delete' => true,
-                'required' => false,
-            ))
-        ;
+                'required'     => false,
+            ]);
     }
 
     /**
@@ -56,9 +55,9 @@ class GmoStrainType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\GmoStrain',
-        ));
+        ]);
     }
 
     public function getParent()

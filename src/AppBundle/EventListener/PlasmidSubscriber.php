@@ -18,10 +18,10 @@ class PlasmidSubscriber implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             'prePersist',
             'preUpdate',
-        );
+        ];
     }
 
     public function prePersist(LifecycleEventArgs $args)

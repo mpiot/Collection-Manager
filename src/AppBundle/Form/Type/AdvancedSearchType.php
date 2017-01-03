@@ -29,28 +29,28 @@ class AdvancedSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('search', TextType::class, array(
+            ->add('search', TextType::class, [
                 'required' => false,
-            ))
-            ->add('strainCategory', ChoiceType::class, array(
-                'choices' => array(
-                    'Gmo' => 'gmo',
+            ])
+            ->add('strainCategory', ChoiceType::class, [
+                'choices' => [
+                    'Gmo'  => 'gmo',
                     'Wild' => 'wild',
-                ),
-                'expanded' => true,
-                'multiple' => true,
-                'data' => ['gmo', 'wild'],
-                'constraints' => array(
-                    new Count(array('min' => 1, 'minMessage' => 'Select at least one element.')),
-                ),
-            ))
-            ->add('country', CountryType::class, array(
+                ],
+                'expanded'    => true,
+                'multiple'    => true,
+                'data'        => ['gmo', 'wild'],
+                'constraints' => [
+                    new Count(['min' => 1, 'minMessage' => 'Select at least one element.']),
+                ],
+            ])
+            ->add('country', CountryType::class, [
                 'placeholder' => 'All countries',
-                'required' => false,
-            ))
-            ->add('project', EntityType::class,array(
-                'class' => 'AppBundle\Entity\Project',
-                'query_builder' => function(EntityRepository $er) {
+                'required'    => false,
+            ])
+            ->add('project', EntityType::class, [
+                'class'         => 'AppBundle\Entity\Project',
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('project')
                         ->leftJoin('project.members', 'members')
                         ->where('members = :user')
@@ -58,23 +58,22 @@ class AdvancedSearchType extends AbstractType
                         ->orderBy('project.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'All available projects',
-                'required' => false,
-            ))
-            ->add('type', EntityType::class,array(
-                'class' => 'AppBundle\Entity\Type',
-                'query_builder' => function(EntityRepository $er) {
+                'placeholder'  => 'All available projects',
+                'required'     => false,
+            ])
+            ->add('type', EntityType::class, [
+                'class'         => 'AppBundle\Entity\Type',
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('type')
                         ->orderBy('type.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'All types',
+                'placeholder'  => 'All types',
+                'required'     => false,
+            ])
+            ->add('deleted', CheckboxType::class, [
+                'label'    => 'Search deleted strains ?',
                 'required' => false,
-            ))
-            ->add('deleted', CheckboxType::class, array(
-                'label' => 'Search deleted strains ?',
-                'required' => false,
-            ))
-        ;
+            ]);
     }
 }

@@ -19,6 +19,7 @@ class GenusToTextTransformer implements DataTransformerInterface
      * Transforms an object (genus) to a string (text).
      *
      * @param Genus $genus
+     *
      * @return string
      */
     public function transform($genus)

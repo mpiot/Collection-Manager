@@ -4,9 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Project;
 use AppBundle\Form\Type\ProjectType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -26,9 +26,9 @@ class ProjectController extends Controller
 
         $projects = $em->getRepository('AppBundle:Project')->findAllAuthorizedForCurrentUser($this->getUser());
 
-        return $this->render('project/index.html.twig', array(
+        return $this->render('project/index.html.twig', [
             'projects' => $projects,
-        ));
+        ]);
     }
 
     /**
@@ -52,9 +52,9 @@ class ProjectController extends Controller
             return $this->redirectToRoute('box_add_4_project', ['id' => $project->getId()]);
         }
 
-        return $this->render('project/add.html.twig', array(
+        return $this->render('project/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -76,10 +76,10 @@ class ProjectController extends Controller
             return $this->redirectToRoute('project_index');
         }
 
-        return $this->render('project/edit.html.twig', array(
+        return $this->render('project/edit.html.twig', [
             'project' => $project,
-            'form' => $form->createView(),
-        ));
+            'form'    => $form->createView(),
+        ]);
     }
 
     /**
@@ -110,9 +110,9 @@ class ProjectController extends Controller
             return $this->redirectToRoute('project_index');
         }
 
-        return $this->render('project/delete.html.twig', array(
+        return $this->render('project/delete.html.twig', [
             'project' => $project,
-            'form' => $form->createView(),
-        ));
+            'form'    => $form->createView(),
+        ]);
     }
 }

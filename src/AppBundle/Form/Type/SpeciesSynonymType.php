@@ -16,13 +16,13 @@ class SpeciesSynonymType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('genus', GenusSelectorType::class, array(
+            ->add('genus', GenusSelectorType::class, [
                 'required' => true,
-            ))
-            ->add('name', TextType::class, array(
-                'label' => 'Species',
+            ])
+            ->add('name', TextType::class, [
+                'label'    => 'Species',
                 'required' => true,
-            ));
+            ]);
     }
 
     /**
@@ -30,8 +30,8 @@ class SpeciesSynonymType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Species',
-        ));
+        ]);
     }
 }

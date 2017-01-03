@@ -16,13 +16,12 @@ class BiologicalOriginCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                'attr' => array(
+            ->add('name', TextType::class, [
+                'attr' => [
                     'placeholder' => 'Soil, Insect, ...',
-                    'data-help' => 'Name of the biological origin category.',
-                ),
-            ))
-        ;
+                    'data-help'   => 'Name of the biological origin category.',
+                ],
+            ]);
     }
 
     /**
@@ -30,8 +29,8 @@ class BiologicalOriginCategoryType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\BiologicalOriginCategory',
-        ));
+        ]);
     }
 }

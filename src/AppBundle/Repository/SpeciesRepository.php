@@ -17,8 +17,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('genus')
             ->orderBy('genus.name', 'ASC')
             ->addOrderBy('species.name', 'ASC')
-            ->getQuery()
-        ;
+            ->getQuery();
 
         return $query->getResult();
     }

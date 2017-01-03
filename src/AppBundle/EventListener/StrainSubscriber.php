@@ -2,10 +2,10 @@
 
 namespace AppBundle\EventListener;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\WildStrain;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class StrainSubscriber implements EventSubscriber
@@ -19,10 +19,10 @@ class StrainSubscriber implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             'prePersist',
             'preUpdate',
-        );
+        ];
     }
 
     public function prePersist(LifecycleEventArgs $args)

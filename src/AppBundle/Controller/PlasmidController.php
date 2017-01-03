@@ -4,11 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Plasmid;
 use AppBundle\Form\Type\PlasmidType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Utils\PlasmidGenBank;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Utils\PlasmidGenBank;
 
 /**
  * Class plasmidController.
@@ -27,9 +27,9 @@ class PlasmidController extends Controller
         $em = $this->getDoctrine()->getManager();
         $plasmids = $em->getRepository('AppBundle:Plasmid')->findAllForUser($this->getUser());
 
-        return $this->render('plasmid/index.html.twig', array(
+        return $this->render('plasmid/index.html.twig', [
             'plasmids' => $plasmids,
-        ));
+        ]);
     }
 
     /**
@@ -40,11 +40,11 @@ class PlasmidController extends Controller
     {
         $gbk = new PlasmidGenBank($plasmid);
 
-        return $this->render('plasmid/view.html.twig', array(
+        return $this->render('plasmid/view.html.twig', [
             'plasmid' => $plasmid,
             'gbkFile' => $gbk->getFile(),
-            'gbk' => $gbk->getArray(),
-        ));
+            'gbk'     => $gbk->getArray(),
+        ]);
     }
 
     /**
@@ -73,9 +73,9 @@ class PlasmidController extends Controller
             return $this->redirectToRoute('plasmid_index');
         }
 
-        return $this->render('plasmid/add.html.twig', array(
+        return $this->render('plasmid/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -103,10 +103,10 @@ class PlasmidController extends Controller
             return $this->redirectToRoute('plasmid_index');
         }
 
-        return $this->render('plasmid/edit.html.twig', array(
+        return $this->render('plasmid/edit.html.twig', [
             'plasmid' => $plasmid,
-            'form' => $form->createView(),
-        ));
+            'form'    => $form->createView(),
+        ]);
     }
 
     /**
@@ -128,9 +128,9 @@ class PlasmidController extends Controller
             return $this->redirectToRoute('plasmid_index');
         }
 
-        return $this->render('plasmid/delete.html.twig', array(
+        return $this->render('plasmid/delete.html.twig', [
             'plasmid' => $plasmid,
-            'form' => $form->createView(),
-        ));
+            'form'    => $form->createView(),
+        ]);
     }
 }

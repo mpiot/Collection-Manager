@@ -4,9 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\BiologicalOriginCategory;
 use AppBundle\Form\Type\BiologicalOriginCategoryType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,9 +27,9 @@ class BiologicalOriginCategoryController extends Controller
 
         $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findBy([], ['name' => 'ASC']);
 
-        return $this->render('biological_origin_category/index.html.twig', array(
+        return $this->render('biological_origin_category/index.html.twig', [
             'categories' => $categories,
-        ));
+        ]);
     }
 
     /**
@@ -53,9 +53,9 @@ class BiologicalOriginCategoryController extends Controller
             return $this->redirectToRoute('category_index');
         }
 
-        return $this->render('biological_origin_category/add.html.twig', array(
+        return $this->render('biological_origin_category/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -77,10 +77,10 @@ class BiologicalOriginCategoryController extends Controller
             return $this->redirectToRoute('category_index');
         }
 
-        return $this->render('biological_origin_category/edit.html.twig', array(
+        return $this->render('biological_origin_category/edit.html.twig', [
             'category' => $category,
-            'form' => $form->createView(),
-        ));
+            'form'     => $form->createView(),
+        ]);
     }
 
     /**
@@ -109,9 +109,9 @@ class BiologicalOriginCategoryController extends Controller
             return $this->redirectToRoute('category_index');
         }
 
-        return $this->render('biological_origin_category/delete.html.twig', array(
+        return $this->render('biological_origin_category/delete.html.twig', [
             'category' => $category,
-            'form' => $form->createView(),
-        ));
+            'form'     => $form->createView(),
+        ]);
     }
 }

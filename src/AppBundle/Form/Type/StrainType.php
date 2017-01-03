@@ -30,65 +30,65 @@ class StrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Type',
+            ->add('type', EntityType::class, [
+                'class'         => 'AppBundle\Entity\Type',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('types')
                         ->orderBy('types.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => '-- select a type --',
-                'attr' => array(
+                'placeholder'  => '-- select a type --',
+                'attr'         => [
                     'data-help' => 'Which type of organism is it ?',
-                )
-            ))
-            ->add('usualName', TextType::class, array(
-                'attr' => array(
+                ],
+            ])
+            ->add('usualName', TextType::class, [
+                'attr' => [
                     'autocomplete' => 'off',
-                    'data-help' => 'The name you want use to communicate about this strain.',
-                ),
-            ))
+                    'data-help'    => 'The name you want use to communicate about this strain.',
+                ],
+            ])
             ->add('comment')
             ->add('sequenced')
             ->add('deleted')
-            ->add('tubes', CollectionType::class, array(
-                'entry_type' => TubeType::class,
-                'allow_add' => true,
+            ->add('tubes', CollectionType::class, [
+                'entry_type'   => TubeType::class,
+                'allow_add'    => true,
                 'allow_delete' => true,
                 // Use add and remove properties in the entity
                 'by_reference' => false,
-            ));
+            ]);
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
     }
 
     protected function addSpeciesElements(FormInterface $form, Genus $genus = null)
     {
-        $form->add('genus', EntityType::class, array(
-            'class' => 'AppBundle\Entity\Genus',
+        $form->add('genus', EntityType::class, [
+            'class'         => 'AppBundle\Entity\Genus',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('genus')
                     ->orderBy('genus.name', 'ASC');
             },
             'choice_label' => 'name',
-            'placeholder' => '-- select a genus --',
-            'mapped' => false,
-            'required' => true,
-            'data' => $genus,
-        ));
+            'placeholder'  => '-- select a genus --',
+            'mapped'       => false,
+            'required'     => true,
+            'data'         => $genus,
+        ]);
 
-        $form->add('species', EntityType::class, array(
-            'class' => 'AppBundle\Entity\Species',
+        $form->add('species', EntityType::class, [
+            'class'         => 'AppBundle\Entity\Species',
             'query_builder' => function (EntityRepository $er) use ($genus) {
                 return $er->createQueryBuilder('species')
                     ->where('species.genus = :genus')
                     ->setParameter('genus', $genus)
                     ->orderBy('species.name', 'ASC');
             },
-            'placeholder' => '-- select a species --',
+            'placeholder'  => '-- select a species --',
             'choice_label' => 'name',
-        ));
+        ]);
     }
 
     public function onPreSetData(FormEvent $event)

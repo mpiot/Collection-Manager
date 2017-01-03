@@ -5,9 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Primer;
 use AppBundle\Form\Type\PrimerEditType;
 use AppBundle\Form\Type\PrimerType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,9 +27,9 @@ class PrimerController extends Controller
         $em = $this->getDoctrine()->getManager();
         $primers = $em->getRepository('AppBundle:Primer')->findAllForUser($this->getUser());
 
-        return $this->render('primer/index.html.twig', array(
+        return $this->render('primer/index.html.twig', [
             'primers' => $primers,
-        ));
+        ]);
     }
 
     /**
@@ -38,9 +38,9 @@ class PrimerController extends Controller
      */
     public function viewAction(Primer $primer)
     {
-        return $this->render('primer/view.html.twig', array(
+        return $this->render('primer/view.html.twig', [
             'primer' => $primer,
-        ));
+        ]);
     }
 
     /**
@@ -64,9 +64,9 @@ class PrimerController extends Controller
             return $this->redirectToRoute('primer_index');
         }
 
-        return $this->render('primer/add.html.twig', array(
+        return $this->render('primer/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -88,10 +88,10 @@ class PrimerController extends Controller
             return $this->redirectToRoute('primer_index');
         }
 
-        return $this->render('primer/edit.html.twig', array(
+        return $this->render('primer/edit.html.twig', [
             'primer' => $primer,
-            'form' => $form->createView(),
-        ));
+            'form'   => $form->createView(),
+        ]);
     }
 
     /**
@@ -113,9 +113,9 @@ class PrimerController extends Controller
             return $this->redirectToRoute('primer_index');
         }
 
-        return $this->render('primer/delete.html.twig', array(
+        return $this->render('primer/delete.html.twig', [
             'primer' => $primer,
-            'form' => $form->createView(),
-        ));
+            'form'   => $form->createView(),
+        ]);
     }
 }

@@ -20,41 +20,41 @@ class TeamType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('team_filter', EntityType::class, array(
-                'class' => 'AppBundle\Entity\Team',
+            ->add('team_filter', EntityType::class, [
+                'class'         => 'AppBundle\Entity\Team',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('team')
                         ->orderBy('team.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'mapped' => false,
-                'required' => false,
-                'placeholder' => 'All teams',
-                'attr' => array(
+                'mapped'       => false,
+                'required'     => false,
+                'placeholder'  => 'All teams',
+                'attr'         => [
                     'data-filter-name' => 'team-filter',
-                    'data-help' => 'Use this list to filter Administrators and Members checkboxes.',
-                )
-            ))
-            ->add('administrators', EntityType::class, array(
-                'class' => 'AppBundle\Entity\User',
+                    'data-help'        => 'Use this list to filter Administrators and Members checkboxes.',
+                ],
+            ])
+            ->add('administrators', EntityType::class, [
+                'class'         => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.username', 'ASC');
                 },
                 'multiple' => true,
                 'expanded' => true,
-                'attr' => array(
+                'attr'     => [
                     'data-filtered-name' => 'administrators',
-                    'data-filtered-by' => 'team-filter',
-                ),
+                    'data-filtered-by'   => 'team-filter',
+                ],
                 'choice_attr' => function (User $user) {
                     return [
-                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
-            ))
-            ->add('members', EntityType::class, array(
-                'class' => 'AppBundle\Entity\User',
+            ])
+            ->add('members', EntityType::class, [
+                'class'         => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.username', 'ASC');
@@ -62,17 +62,16 @@ class TeamType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'required' => false,
-                'attr' => array(
+                'attr'     => [
                     'data-filtered-name' => 'members',
-                    'data-filtered-by' => 'team-filter',
-                ),
+                    'data-filtered-by'   => 'team-filter',
+                ],
                 'choice_attr' => function (User $user) {
                     return [
-                        'data-teams' => '['.join(',', $user->getTeamsId()).']'
+                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
-            ))
-        ;
+            ]);
     }
 
     /**
@@ -80,8 +79,8 @@ class TeamType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Team',
-        ));
+        ]);
     }
 }

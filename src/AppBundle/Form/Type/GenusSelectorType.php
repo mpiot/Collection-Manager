@@ -26,9 +26,9 @@ class GenusSelectorType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'invalid_message' => 'The selected genus does not exist',
-        ));
+        ]);
     }
 
     public function getParent()
