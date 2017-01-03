@@ -2,14 +2,23 @@
 
 namespace AppBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class StrainPlasmidType extends AbstractType
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorage $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array
@@ -19,7 +28,18 @@ class StrainPlasmidType extends AbstractType
         $builder
             ->add('plasmid', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Plasmid',
-                'choice_label' => 'name',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->leftJoin('p.team', 'team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('p.autoName', 'ASC')
+                    ;
+                },
+                'choice_label' => function($plasmid) {
+                    return $plasmid->getAutoName().' - '.$plasmid->getName();
+                },
                 'placeholder' => '-- select a plasmid --',
             ))
             ->add('state', ChoiceType::class, array(

@@ -74,6 +74,12 @@ services:
         tags:
             - { name: form.type }
 
+    app.form_type.strain_plasmid:
+        class: AppBundle\Form\Type\StrainPlasmidType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
 # Doctrine's listeners and subscribers
     app.event_listener.species:
         class: AppBundle\EventListener\SpeciesListener
