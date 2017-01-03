@@ -16,18 +16,18 @@ class TypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                'attr' => array(
+            ->add('name', TextType::class, [
+                'attr' => [
                     'placeholder' => 'Yeast, E. coli, Plasmid',
                     'data-help' => 'The name of the organism type.',
-                ),
-            ))
-            ->add('letter', TextType::class, array(
-                'attr' => array(
+                ],
+            ])
+            ->add('letter', TextType::class, [
+                'attr' => [
                     'placeholder' => 'Y, E, P',
                     'data-help' => 'A letter used as shortname.'
-                ),
-            ))
+                ],
+            ])
         ;
     }
 
@@ -36,8 +36,8 @@ class TypeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Type',
-        ));
+        ]);
     }
 }

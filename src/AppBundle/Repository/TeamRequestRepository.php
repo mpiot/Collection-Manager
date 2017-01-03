@@ -18,10 +18,10 @@ class TeamRequestRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('team.administrators', 'administrators')
             ->where('administrators = :user')
             ->andWhere('request.answer = :answer')
-            ->setParameters(array(
+            ->setParameters([
                 'user' => $user,
                 'answer' => 'requested',
-            ))
+            ])
             ->orderBy('team.name', 'ASC')
             ->addOrderBy('request.requestDate', 'ASC')
             ->getQuery();
@@ -37,10 +37,10 @@ class TeamRequestRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('team.administrators', 'administrators')
             ->where('administrators = :user')
             ->andWhere('requests.answer = :answer')
-            ->setParameters(array(
+            ->setParameters([
                 'user' =>  $user,
                 'answer' => 'requested',
-            ))
+            ])
             ->getQuery();
 
         return $query->getSingleScalarResult();

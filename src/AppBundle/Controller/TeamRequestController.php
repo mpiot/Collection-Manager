@@ -23,14 +23,14 @@ class TeamRequestController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $requests = $em->getRepository('AppBundle:TeamRequest')->findBy(array('answer' => null));
+            $requests = $em->getRepository('AppBundle:TeamRequest')->findBy(['answer' => null]);
         } else {
             $requests = $em->getRepository('AppBundle:TeamRequest')->findAdministredBy($this->getUser());
         }
 
-        return $this->render('team_request/index.html.twig', array(
+        return $this->render('team_request/index.html.twig', [
             'requests' => $requests,
-        ));
+        ]);
     }
 
     /**
@@ -116,8 +116,8 @@ class TeamRequestController extends Controller
         $em = $this->getDoctrine()->getManager();
         $numberRequests = $em->getRepository('AppBundle:TeamRequest')->countRequests($this->getUser());
 
-        return $this->render('team_request/number_requests.html.twig', array(
+        return $this->render('team_request/number_requests.html.twig', [
             'numberRequests' => $numberRequests,
-        ));
+        ]);
     }
 }

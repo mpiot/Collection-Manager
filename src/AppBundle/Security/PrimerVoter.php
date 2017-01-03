@@ -24,7 +24,7 @@ class PrimerVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::DELETE))) {
+        if (!in_array($attribute, [self::VIEW, self::EDIT, self::DELETE])) {
             return false;
         }
 
@@ -47,7 +47,7 @@ class PrimerVoter extends Voter
         }
 
         // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
             return true;
         }
 
@@ -74,7 +74,7 @@ class PrimerVoter extends Voter
 
         // If the user can view the plasmid, he can view the primer
         foreach ($primer->getPlasmids() as $plasmid) {
-            if ($this->decisionManager->decide($token, array('PLASMID_VIEW'), $plasmid)) {
+            if ($this->decisionManager->decide($token, ['PLASMID_VIEW'], $plasmid)) {
                 return true;
             }
         }

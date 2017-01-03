@@ -30,9 +30,9 @@ class BoxController extends Controller
 
         $boxes = $em->getRepository('AppBundle:Box')->findAllAuthorizedForCurrentUserWithType($this->getUser());
 
-        return $this->render('box/index.html.twig', array(
+        return $this->render('box/index.html.twig', [
             'boxes' => $boxes,
-        ));
+        ]);
     }
 
     /**
@@ -51,10 +51,10 @@ class BoxController extends Controller
             $tubes[$tube->getCell()] = $tube;
         }
 
-        return $this->render('box/view.html.twig', array(
+        return $this->render('box/view.html.twig', [
             'box' => $box,
             'tubes' => $tubes,
-        ));
+        ]);
     }
 
     /**
@@ -81,9 +81,9 @@ class BoxController extends Controller
             return $this->redirectToRoute('box_index');
         }
 
-        return $this->render('box/add.html.twig', array(
+        return $this->render('box/add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -105,10 +105,10 @@ class BoxController extends Controller
             return $this->redirectToRoute('box_index');
         }
 
-        return $this->render('box/edit.html.twig', array(
+        return $this->render('box/edit.html.twig', [
             'box' => $box,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -144,9 +144,9 @@ class BoxController extends Controller
             return $this->redirectToRoute('box_index');
         }
 
-        return $this->render('box/delete.html.twig', array(
+        return $this->render('box/delete.html.twig', [
             'box' => $box,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 }

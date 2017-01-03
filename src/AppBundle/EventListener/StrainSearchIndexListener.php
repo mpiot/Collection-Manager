@@ -40,8 +40,8 @@ class StrainSearchIndexListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             TransformEvent::POST_TRANSFORM => 'addCustomProperties',
-        );
+        ];
     }
 }
