@@ -39,20 +39,20 @@ class StrainRepository extends Repository
         $projectsQuery->setTerms('projects', $userProjects);
         $boolQuery->addFilter($projectsQuery);
 
-        if (null !== $country) {
+        if (null !== $country && '' !== $country) {
             $countryQuery = new \Elastica\Query\Term();
             // We can't use an analyzer on a term, then we need to lower it here.
             $countryQuery->setTerm('country', strtolower($country));
             $boolQuery->addFilter($countryQuery);
         }
 
-        if (null !== $project) {
+        if (null !== $project && '' !== $project) {
             $projectQuery = new \Elastica\Query\Term();
             $projectQuery->setTerm('projects', $project->getId());
             $boolQuery->addFilter($projectQuery);
         }
 
-        if (null !== $type) {
+        if (null !== $type && '' !== $type) {
             $typeQuery = new \Elastica\Query\Term();
             $typeQuery->setTerm('type', $type->getId());
             $boolQuery->addFilter($typeQuery);
