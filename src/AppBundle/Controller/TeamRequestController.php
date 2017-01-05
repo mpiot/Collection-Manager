@@ -59,7 +59,10 @@ class TeamRequestController extends Controller
         $em->persist($teamRequest);
         $em->flush();
 
-        $this->addFlash('success', 'Request ok!');
+        $this->get('app.mailer')->sendTeamRequestConfirmation($teamRequest);
+        $this->get('app.mailer')->sendTeamRequestNotification($teamRequest);
+
+        $this->addFlash('success', 'Your request has been sent successfully ! You\'ll receive a mail when an administrator will have answered to your request.');
 
         return $this->redirectToRoute('team_index');
     }
@@ -88,7 +91,9 @@ class TeamRequestController extends Controller
         $em->persist($team);
         $em->flush();
 
-        $this->addFlash('success', 'User accepted');
+        $this->get('app.mailer')->sendTeamRequestAnswer($teamRequest);
+
+        $this->addFlash('success', 'The user has been successfully accepted !');
 
         return $this->redirectToRoute('team_request_index');
     }
@@ -111,15 +116,15 @@ class TeamRequestController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        $this->addFlash('success', 'User declined !');
+        $this->get('app.mailer')->sendTeamRequestAnswer($teamRequest);
+
+        $this->addFlash('success', 'The user has been successfully declined !');
 
         return $this->redirectToRoute('team_request_index');
     }
 
     public function numberRequestsAction()
     {
-        $numberRequests = 10;
-
         $em = $this->getDoctrine()->getManager();
         $numberRequests = $em->getRepository('AppBundle:TeamRequest')->countRequests($this->getUser());
 
