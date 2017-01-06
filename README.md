@@ -30,3 +30,4 @@ it provides the management of:
      bin/console cache:clear
  
  Now, you can start to work on the app.
+ 

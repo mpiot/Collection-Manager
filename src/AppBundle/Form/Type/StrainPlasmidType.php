@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Plasmid;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -37,7 +38,7 @@ class StrainPlasmidType extends AbstractType
                         ->orderBy('p.autoName', 'ASC')
                     ;
                 },
-                'choice_label' => function ($plasmid) {
+                'choice_label' => function (Plasmid $plasmid) {
                     return $plasmid->getAutoName().' - '.$plasmid->getName();
                 },
                 'placeholder' => '-- select a plasmid --',
