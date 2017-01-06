@@ -18,6 +18,8 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('firstName')
+            ->add('lastName')
             ->add('recaptcha', EWZRecaptchaType::class, [
                 'mapped' => false,
                 'constraints' => [

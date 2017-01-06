@@ -108,6 +108,9 @@ fos_user:
             from_email:
                 address:        noreply@collection-manager.dev
                 sender_name:    CollectionManager Resetting
+    profile:
+        form:
+            type: AppBundle\Form\Type\ProfileType
 
 # ReCaptcha
 ewz_recaptcha:
