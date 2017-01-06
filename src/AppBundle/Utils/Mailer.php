@@ -1,4 +1,5 @@
 <?php
+
 // src/AppBundle/Utils/Mailer.php
 
 namespace AppBundle\Utils;

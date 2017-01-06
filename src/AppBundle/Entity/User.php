@@ -99,6 +99,7 @@ class User extends BaseUser
      * Set firstName.
      *
      * @param $firstName
+     *
      * @return $this
      */
     public function setFirstName($firstName)
@@ -122,6 +123,7 @@ class User extends BaseUser
      * Set lastName.
      *
      * @param $firstName
+     *
      * @return $this
      */
     public function setLastName($lastName)
