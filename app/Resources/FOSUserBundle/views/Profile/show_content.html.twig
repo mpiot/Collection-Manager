@@ -1,6 +1,18 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
-    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
+    <div class="btn-group pull-right" role="group">
+        <a class="btn btn-warning" href="{{ path('fos_user_profile_edit') }}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            Edit
+        </a>
+
+        <a class="btn btn-default" href="{{ path('fos_user_change_password') }}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            Change password
+        </a>
+    </div>
+
+    <h3>{{ user.username }}</h3>
     <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
 </div>
