@@ -2,13 +2,13 @@
 
 {% block title %}Plasmid{% endblock %}
 
-{% block plasmid_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('plasmid_index') }}">
-            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Plasmids list
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('plasmid_index') }}">Plasmids list</a></li>
+    <li class="active">Add a pladmid</li>
+{% endblock %}
 
+{% block plasmid_body %}
     <h2 class="sub-header">Add a plasmid</h2>
 
     {{ include('plasmid/form.html.twig') }}

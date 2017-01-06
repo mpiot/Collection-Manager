@@ -2,13 +2,13 @@
 
 {% block title %}Edit the type: {{ type.name }}{% endblock %}
 
-{% block type_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('type_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Types List
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('type_index') }}">Types list</a></li>
+    <li class="active">Edit</li>
+{% endblock %}
 
+{% block type_body %}
     <h2 class="sub-header">Edit a type</h2>
 
     {{ form_start(form) }}

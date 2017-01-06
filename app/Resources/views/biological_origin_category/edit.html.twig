@@ -2,13 +2,13 @@
 
 {% block title %}Edit the category: {{ category.name }}{% endblock %}
 
-{% block type_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('category_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Categories List
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('category_index') }}">Categories list</a></li>
+    <li class="active">Edit</li>
+{% endblock %}
 
+{% block type_body %}
     <h2 class="sub-header">Edit a category</h2>
 
     {{ form_start(form) }}

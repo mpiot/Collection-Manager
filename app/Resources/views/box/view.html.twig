@@ -2,14 +2,36 @@
 
 {% block title %}Box: {{ box.name }}{% endblock %}
 
-{% block box_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('box_index') }}">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Liste des boîtes
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('box_index') }}">Boxes list</a></li>
+    <li class="active">{{ box.project.prefix }}_Box{{ box.boxLetter }} ({{ box.name }})</li>
+{% endblock %}
 
-    <h2 class="sub-header">Boîte: {{ box.project.prefix }}_Box{{ box.boxLetter }} ({{ box.name }})</h2>
+{% block box_body %}
+
+    <div class="row">
+        <div class="col-md-10">
+            <h2 class="sub-header">Box: {{ box.project.prefix }}_Box{{ box.boxLetter }} ({{ box.name }})</h2>
+
+        </div>
+
+        <div class="col-md-2">
+            <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                {% if is_granted('BOX_EDIT', box) %}
+                    <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                {% endif %}
+
+                {% if is_granted('BOX_DELETE', box) %}
+                    {% if box.isDeleted %}
+                        <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                    {% else %}
+                        <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12">

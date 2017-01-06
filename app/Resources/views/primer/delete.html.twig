@@ -2,13 +2,14 @@
 
 {% block title %}Delete the primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
 
-{% block primer_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('primer_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Primers List
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('primer_index') }}">Primers list</a></li>
+    <li><a href="{{ path('primer_view', { id: primer.id }) }}">{{ primer.autoName }} - {{ primer.name }}</a></li>
+    <li class="active">Delete</li>
+{% endblock %}
 
+{% block primer_body %}
     <h2 class="sub-header">Delete a primer</h2>
 
     <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a primer !</div>
@@ -18,7 +19,7 @@
     <form action="{{ path('primer_delete', { 'id': primer.id}) }}" method="POST">
         {{ form_rest(form) }}
 
-        <a class="btn btn-success" href="{{ path('primer_index') }}">
+        <a class="btn btn-success" href="{{ path('primer_view', { id: primer.id }) }}">
             <span class="glyphicon glyphicon-chevron-left"></span>
             <b>Cancel !</b> Comeback in a safe area :)
         </a>

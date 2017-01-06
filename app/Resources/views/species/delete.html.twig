@@ -2,13 +2,13 @@
 
 {% block title %}Delete the species: {{ species.genus.name }} {{ species.name }}{% endblock %}
 
-{% block species_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('species_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Species List
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('species_index') }}">Species list</a></li>
+    <li class="active">Delete</li>
+{% endblock %}
 
+{% block species_body %}
     <h2 class="sub-header">Delete a species</h2>
 
     <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a species !</div>

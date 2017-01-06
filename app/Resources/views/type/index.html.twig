@@ -2,6 +2,11 @@
 
 {% block title %}Types list{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Types list</li>
+{% endblock %}
+
 {% block type_body %}
     {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
         <div>

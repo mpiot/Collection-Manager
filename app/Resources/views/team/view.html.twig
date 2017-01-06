@@ -2,19 +2,22 @@
 
 {% block title %}{{ team.name }} - {{ parent() }}{% endblock %}
 
-{% block team_body %}
-    <div>
-        <a type="button" class="btn btn-default" href="{{ path('team_index') }}">
-            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-            Teams list
-        </a>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('team_index') }}">Teams</a></li>
+    <li class="active">{{ team.name }}</li>
+{% endblock %}
 
-        {% if app.user.isAdministratorOf(team) or is_granted('ROLE_ADMIN') %}
+{% block team_body %}
+
+    {% if app.user.isAdministratorOf(team) or is_granted('ROLE_ADMIN') %}
+        <div>
             <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("team_edit", {'id': team.id }) }}">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </a>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
+
 
     <h2>{{ team.name }}</h2>
 

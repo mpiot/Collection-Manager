@@ -6,6 +6,11 @@
     Advanced search - {{ parent() }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Advanced search</li>
+{% endblock %}
+
 {% block body %}
     <div class="row">
         {{ form_start(form) }}

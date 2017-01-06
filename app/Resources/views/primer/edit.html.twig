@@ -2,13 +2,14 @@
 
 {% block title %}Edit the primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
 
-{% block primer_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('primer_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Primers List
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('primer_index') }}">Primers list</a></li>
+    <li><a href="{{ path('primer_view', { id: primer.id }) }}">{{ primer.autoName }} - {{ primer.name }}</a></li>
+    <li class="active">Edit</li>
+{% endblock %}
 
+{% block primer_body %}
     <div class="row">
         <h2 class="sub-header">Edit a primer</h2>
 

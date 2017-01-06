@@ -2,6 +2,13 @@
 
 {% block title %}Delete the team: {{ team.name }}{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('team_index') }}">Teams</a></li>
+    <li><a href="{{ path('team_view', { id: team.id }) }}">{{ team.name }}</a></li>
+    <li class="active">Delete</li>
+{% endblock %}
+
 {% block team_body %}
     <div>
         <a type="button" class="btn btn-default" href="{{ path('team_index') }}">

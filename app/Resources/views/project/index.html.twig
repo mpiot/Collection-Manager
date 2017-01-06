@@ -2,6 +2,11 @@
 
 {% block title %}Projects list{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Projects list</li>
+{% endblock %}
+
 {% block project_body %}
     {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
         <div>

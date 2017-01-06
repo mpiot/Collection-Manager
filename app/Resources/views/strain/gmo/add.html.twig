@@ -4,6 +4,12 @@
     Add a GMO strain - {{ parent() }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="active">Add GMO</li>
+{% endblock %}
+
 {% block h2 %}
     <h2>Add a GMO strain</h2>
 {% endblock %}

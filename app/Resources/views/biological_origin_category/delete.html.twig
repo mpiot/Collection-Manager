@@ -2,13 +2,13 @@
 
 {% block title %}Delete the category: {{ category.name }}{% endblock %}
 
-{% block type_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('category_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Categories List
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('category_index') }}">Categories list</a></li>
+    <li class="active">Delete</li>
+{% endblock %}
 
+{% block type_body %}
     <h2 class="sub-header">Delete a category</h2>
 
     <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a category !</div>

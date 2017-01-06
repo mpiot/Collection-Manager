@@ -2,10 +2,30 @@
 
 {% block title %}Delete the strain {{ strain.systematicName }} - {{ strain.usualName }}{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li><a href="{{ path('strain_gmo_view', { id: strain.id }) }}">{{ strain.systematicName }} - {{ strain.usualName }}</a></li>
+    <li class="active">Delete</li>
+{% endblock %}
+
 {% block strain_body %}
-    {% embed 'strain/skeleton/delete.html.twig' %}
-        {% block formAction %}
-            <form action="{{ path('strain_gmo_delete', {'id': strain.id}) }}" method="post">
-        {% endblock %}
-    {% endembed %}
+    <h2 class="sub-header">Delete a strain</h2>
+
+    <div class="alert alert-danger" role="alert"><b>WARNING !</b> You're deleting a strain !</div>
+
+    <p>Do you confirm the deletion of: <b>{{ strain.systematicName }} - {{ strain.usualName }}</b> ?</p>
+
+    <form action="{{ path('strain_gmo_delete', {'id': strain.id}) }}" method="post">
+        {# Generate CSRF field #}
+        {{ form_rest(form) }}
+
+        <a href="{{ path('strain_gmo_view', { id: strain.id }) }}" class="btn btn-success">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            <b>Cancel !</b> Comeback to the strain
+        </a>
+
+        <input type="submit" value="Delete" class="btn btn-danger" />
+
+    </form>
 {% endblock %}

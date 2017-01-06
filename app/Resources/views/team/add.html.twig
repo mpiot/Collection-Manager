@@ -2,6 +2,12 @@
 
 {% block title %}Add a team{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('team_index') }}">Teams</a></li>
+    <li class="active">Add</li>
+{% endblock %}
+
 {% block team_body %}
     <h2>Add a team</h2>
 

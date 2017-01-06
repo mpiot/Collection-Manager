@@ -2,6 +2,11 @@
 
 {% block title %}AppBundle:Team:index{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Teams</li>
+{% endblock %}
+
 {% block team_body %}
     <h2>Teams list</h2>
 

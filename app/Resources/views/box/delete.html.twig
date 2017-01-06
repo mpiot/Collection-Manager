@@ -2,13 +2,14 @@
 
 {% block title %}Delete the box: {{ box.name }}{% endblock %}
 
-{% block box_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('box_index') }}">
-            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Boxes list
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('box_index') }}">Boxes list</a></li>
+    <li><a href="{{ path('box_view', { id: box.id }) }}">{{ box.project.prefix }}_Box{{ box.boxLetter }} ({{ box.name }})</a></li>
+    <li class="active">Delete</li>
+{% endblock %}
 
+{% block box_body %}
     <h2 class="sub-header">Delete a box</h2>
 
     <div class="alert alert-danger" role="alert"><b>CAUTION !</b> You delete a box !</div>
@@ -19,9 +20,9 @@
         {# Ceci va générer le champ CSRF #}
         {{ form_rest(form) }}
 
-        <a href="{{ path('box_index') }}" class="btn btn-success">
+        <a href="{{ path('box_view', { id: box.id }) }}" class="btn btn-success">
             <i class="glyphicon glyphicon-chevron-left"></i>
-            <b>Cancel !</b> Comeback in a safe area :)
+            <b>Cancel !</b> Comeback to the box
         </a>
 
         {# Ici j'ai écrit le bouton de soumission à la main #}

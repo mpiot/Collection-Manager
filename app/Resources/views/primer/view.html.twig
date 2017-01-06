@@ -2,14 +2,25 @@
 
 {% block title %}Primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
 
-{% block primer_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('primer_index') }}">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Primers list
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('primer_index') }}">Primers list</a></li>
+    <li class="active">{{ primer.autoName }} - {{ primer.name }}</li>
+{% endblock %}
 
-    <h2 class="sub-header">Primer: {{ primer.autoName }} - {{ primer.name }}</h2>
+{% block primer_body %}
+    <div class="row">
+        <div class="col-md-10">
+            <h2 class="sub-header">Primer: {{ primer.autoName }} - {{ primer.name }}</h2>
+        </div>
+
+        <div class="col-md-2">
+            <div class="btn-group btn-group-xs" role="group">
+                <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                <a class="btn btn-danger" href="{{ path('primer_delete', { 'id': primer.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-4">

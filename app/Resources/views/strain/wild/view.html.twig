@@ -2,6 +2,12 @@
 
 {% block title %}Strain {{ strain.systematicName }} - {{ strain.usualName }}{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="active">{{ strain.systematicName }} - {{ strain.usualName }}</li>
+{% endblock %}
+
 {% block strain_body %}
     {% embed 'strain/skeleton/view.html.twig' %}
         {% block strainEditButton %}

@@ -2,6 +2,11 @@
 
 {% block title %}Species list{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Species list</li>
+{% endblock %}
+
 {% block species_body %}
     {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
         <div>

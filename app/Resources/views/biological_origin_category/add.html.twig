@@ -2,13 +2,13 @@
 
 {% block title %}Add a category{% endblock %}
 
-{% block type_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('category_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Categories list
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('category_index') }}">Categories list</a></li>
+    <li class="active">Add</li>
+{% endblock %}
 
+{% block type_body %}
     <h2 class="sub-header">Add a category</h2>
 
     {{ form_start(form) }}

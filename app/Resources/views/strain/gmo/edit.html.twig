@@ -4,6 +4,13 @@
     Edit a gmo strain - {{ parent() }}
 {% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li><a href="{{ path('strain_gmo_view', { id: strain.id }) }}">{{ strain.systematicName }} - {{ strain.usualName }}</a></li>
+    <li class="active">Edit</li>
+{% endblock %}
+
 {% block h2 %}
     <h2>Edit a GMO strain: {{ strain.fullName }}</h2>
 {% endblock %}

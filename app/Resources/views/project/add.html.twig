@@ -2,13 +2,13 @@
 
 {% block title %}Add a project{% endblock %}
 
-{% block project_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('project_index') }}">
-            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Projects list
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('project_index') }}">Projects list</a></li>
+    <li class="active">Add</li>
+{% endblock %}
 
+{% block project_body %}
     <h2 class="sub-header">Add a project</h2>
     {{ form_start(form) }}
             {{ form_row(form.name) }}

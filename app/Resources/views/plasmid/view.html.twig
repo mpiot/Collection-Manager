@@ -2,22 +2,33 @@
 
 {% block title %}Plasmid{% endblock %}
 
-{% block plasmid_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('plasmid_index') }}">
-            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Plasmids list
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('plasmid_index') }}">Plasmids list</a></li>
+    <li class="active">{{ plasmid.autoName }} - {{ plasmid.name }}</li>
+{% endblock %}
 
-    <h2>
-        Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}
-        {% if plasmid.hasGenBankFile %}
-            <a type="button" class="btn btn-success btn-md" href="{{ asset(plasmid.genBankFile.webPath) }}">
-                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-                Download
-            </a>
-        {% endif %}
-    </h2>
+{% block plasmid_body %}
+    <div class="row">
+        <div class="col-md-10">
+            <h2>
+                Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}
+                {% if plasmid.hasGenBankFile %}
+                    <a type="button" class="btn btn-success btn-md" href="{{ asset(plasmid.genBankFile.webPath) }}">
+                        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                        Download
+                    </a>
+                {% endif %}
+            </h2>
+        </div>
+
+        <div class="col-md-2">
+            <div class="btn-group btn-group-xs" role="group">
+                <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                <a class="btn btn-danger" href="{{ path('plasmid_delete', { 'id': plasmid.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         {% if plasmid.hasGenBankFile %}

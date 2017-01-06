@@ -2,14 +2,14 @@
 
 {% block title %}Edit a team{% endblock %}
 
-{% block team_body %}
-    <div>
-        <a type="button" class="btn btn-default" href="{{ path('team_index') }}">
-            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-            Teams list
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('team_index') }}">Teams</a></li>
+    <li><a href="{{ path('team_view', { id: team.id }) }}">{{ team.name }}</a></li>
+    <li class="active">Edit</li>
+{% endblock %}
 
+{% block team_body %}
     <h2 class="sub-header">Edit the team: {{ team.name }}</h2>
 
     {{ form_start(form) }}

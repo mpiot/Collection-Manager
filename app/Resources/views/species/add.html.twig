@@ -2,13 +2,13 @@
 
 {% block title %}Add a species{% endblock %}
 
-{% block species_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('species_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Species List
-        </a>
-    </div>
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('species_index') }}">Species list</a></li>
+    <li class="active">Add</li>
+{% endblock %}
 
+{% block species_body %}
     <h2 class="sub-header">Add a species</h2>
 
     {{ form_start(form) }}

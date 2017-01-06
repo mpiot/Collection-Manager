@@ -2,6 +2,11 @@
 
 {% block title %}Primers list{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Primers list</li>
+{% endblock %}
+
 {% block primer_body %}
     {% if app.user.isInTeam %}
         <div>

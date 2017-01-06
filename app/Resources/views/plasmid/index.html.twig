@@ -2,6 +2,11 @@
 
 {% block title %}Plasmid{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Plasmids list</li>
+{% endblock %}
+
 {% block plasmid_body %}
     {% if app.user.isInTeam %}
         <div>

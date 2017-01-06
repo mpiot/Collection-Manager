@@ -2,6 +2,11 @@
 
 {% block title %}Request for managed teams{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Team requests</li>
+{% endblock %}
+
 {% block team_request_body %}
     <h2>Requests for managed teams</h2>
 
