@@ -2,19 +2,16 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\WildStrain;
-use AppBundle\Form\Type\GmoStrainType;
 use AppBundle\Form\Type\WildStrainType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class StrainController.
+ * Class WildStrainController.
  *
  * @Route("/strain")
  * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
