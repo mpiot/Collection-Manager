@@ -2,11 +2,14 @@
 
 namespace AppBundle\SearchRepository;
 
+use AppBundle\Entity\Project;
+use AppBundle\Entity\Type;
+use AppBundle\Entity\User;
 use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function search($search, $userProjects, $deleted = false, $country = null, $project = null, $type = null)
+    public function search($search, $userProjects, $deleted = false, $country = null, Project $project = null, Type $type = null, User $author = null)
     {
         // Do a BoolQuery
         $boolQuery = new \Elastica\Query\BoolQuery();
@@ -56,6 +59,12 @@ class StrainRepository extends Repository
             $typeQuery = new \Elastica\Query\Term();
             $typeQuery->setTerm('type', $type->getId());
             $boolQuery->addFilter($typeQuery);
+        }
+
+        if (null !== $author && '' !== $author) {
+            $authorQuery = new \Elastica\Query\Term();
+            $authorQuery->setTerm('author', $author->getId());
+            $boolQuery->addFilter($authorQuery);
         }
 
         // build $query with Elastica objects

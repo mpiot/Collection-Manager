@@ -28,11 +28,15 @@ class SearchController extends Controller
     public function quickSearchAction($search)
     {
         $repositoryManager = $this->container->get('fos_elastica.manager.orm');
+
         $repository = $repositoryManager->getRepository('AppBundle:GmoStrain');
         $results['gmo'] = $repository->search($search, $this->getUser()->getProjectsId());
 
         $repository2 = $repositoryManager->getRepository('AppBundle:WildStrain');
         $results['wild'] = $repository2->search($search, $this->getUser()->getProjectsId());
+
+        $repository3 = $repositoryManager->getRepository('AppBundle:Plasmid');
+        $results['plasmid'] = $repository3->search($search, $this->getUser()->getTeamsId());
 
         return $this->render('search\quickSearch.html.twig', [
             'search' => $search,
@@ -59,17 +63,26 @@ class SearchController extends Controller
             $results = [];
 
             // Search for GmoStrain
-            if (in_array('gmo', $data['strainCategory'])) {
+            if (in_array('gmo', $data['category'])) {
                 $gmoRepository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-                $results['gmo'] = $gmoRepository->search($data['search'], $this->getUser()->getProjectsId(), $data['deleted'], null, $data['project'], $data['type']);
+                $results['gmo'] = $gmoRepository->search($data['search'], $this->getUser()->getProjectsId(), $data['deleted'], null, $data['project'], $data['type'], $data['author']);
             }
 
             // Search for WildStrain
-            if (in_array('wild', $data['strainCategory'])) {
+            if (in_array('wild', $data['category'])) {
                 // Define the repository
                 $wildRepository = $repositoryManager->getRepository('AppBundle:WildStrain');
-                $results['wild'] = $wildRepository->search($data['search'], $this->getUser()->getProjectsId(), $data['deleted'], $data['country'], $data['project'], $data['type']);
+                $results['wild'] = $wildRepository->search($data['search'], $this->getUser()->getProjectsId(), $data['deleted'], $data['country'], $data['project'], $data['type'], $data['author']);
             }
+
+            // Search for Plasmids
+            if (in_array('plasmid', $data['category'])) {
+                // Define the repository
+                $plasmidRepository = $repositoryManager->getRepository('AppBundle:Plasmid');
+                $results['plasmid'] = $plasmidRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['author']);
+            }
+
+            dump($results);
 
             return $this->render('search/advancedSearch.html.twig', [
                 'form' => $form->createView(),

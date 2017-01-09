@@ -32,14 +32,15 @@ class AdvancedSearchType extends AbstractType
             ->add('search', TextType::class, [
                 'required' => false,
             ])
-            ->add('strainCategory', ChoiceType::class, [
+            ->add('category', ChoiceType::class, [
                 'choices' => [
                     'Gmo' => 'gmo',
                     'Wild' => 'wild',
+                    'Plasmid' => 'plasmid',
                 ],
                 'expanded' => true,
                 'multiple' => true,
-                'data' => ['gmo', 'wild'],
+                'data' => ['gmo', 'wild', 'plasmid'],
                 'constraints' => [
                     new Count(['min' => 1, 'minMessage' => 'Select at least one element.']),
                 ],
@@ -69,6 +70,19 @@ class AdvancedSearchType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'placeholder' => 'All types',
+                'required' => false,
+            ])
+            ->add('author', EntityType::class, [
+                'class' => 'AppBundle\Entity\User',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('user')
+                        ->leftJoin('user.teams', 'teams')
+                        ->where('teams = :teams')
+                        ->setParameter('teams', $this->tokenStorage->getToken()->getUser()->getTeams())
+                        ->orderBy('user.username', 'ASC');
+                },
+                'choice_label' => 'username',
+                'placeholder' => 'All users',
                 'required' => false,
             ])
             ->add('deleted', CheckboxType::class, [

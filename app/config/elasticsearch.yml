@@ -10,17 +10,19 @@ fos_elastica:
                 index:
                     analysis:
                         analyzer:
-                            strain_name_analyzer:
+                            simple_name_analyzer:
                                 type: simple
             types:
                 gmoStrain:
                     mappings:
                         systematicName:
-                            analyzer :        strain_name_analyzer
-                            search_analyzer : strain_name_analyzer
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
                         usualName:
-                            analyzer :        strain_name_analyzer
-                            search_analyzer : strain_name_analyzer
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
+                        author:
+                            property_path:    author.id
                         deleted:
                     persistence:
                       driver:                 orm
@@ -32,12 +34,14 @@ fos_elastica:
                 wildStrain:
                     mappings:
                         systematicName:
-                            analyzer :        strain_name_analyzer
-                            search_analyzer : strain_name_analyzer
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
                         usualName:
-                            analyzer :        strain_name_analyzer
-                            search_analyzer : strain_name_analyzer
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
                         country:
+                        author:
+                            property_path:    author.id
                         deleted:
                     persistence:
                       driver:                 orm
@@ -46,3 +50,22 @@ fos_elastica:
                       listener:               ~
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\StrainRepository
+                plasmid:
+                    mappings:
+                        autoName:
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
+                        name:
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
+                        team:
+                            property_path:    team.id
+                        author:
+                            property_path:    author.id
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Plasmid
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\PlasmidRepository
