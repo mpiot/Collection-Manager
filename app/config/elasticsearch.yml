@@ -69,3 +69,23 @@ fos_elastica:
                       listener:               ~
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\PlasmidRepository
+                primer:
+                    mappings:
+                        autoName:
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
+                        name:
+                            analyzer :        simple_name_analyzer
+                            search_analyzer : simple_name_analyzer
+                        team:
+                            property_path:    team.id
+                        author:
+                            property_path:    author.id
+                        sequence:
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Primer
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\PrimerRepository

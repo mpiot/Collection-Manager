@@ -34,7 +34,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                        <td colspan="4" style="text-align:center;">There is no result.</td>
                     </tr>
                 {% endif %}
             </table>
@@ -76,7 +76,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                        <td colspan="4" style="text-align:center;">There is no result.</td>
                     </tr>
                 {% endif %}
             </table>
@@ -114,7 +114,47 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="3" style="text-align:center;">There is no result.</td>
+                        <td colspan="4" style="text-align:center;">There is no result.</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+    <div class="showhide-4">
+        <h3>Primers</h3>
+        <div class="searchResults">
+            <table class="table table-striped">
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-2">Auto Name</th>
+                    <th class="col-md-3">Name</th>
+                    <th class="col-md-4">Sequence</th>
+                    <th class="col-md-2">Actions</th>
+                </tr>
+                {% if results['primer'] is defined and results['primer'] is not empty %}
+                    {% for result in results['primer'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ path('primer_view', { 'id': result.id }) }}">{{ result.autoName }}</a></td>
+                            <td>{{ result.name }}</td>
+                            <td>{{ result.sequence }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    {% if is_granted('PRIMER_EDIT', result) %}
+                                        <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    {% endif %}
+
+                                    {% if is_granted('PRIMER_DELETE', result) %}
+                                        <a class="btn btn-danger" href="{{ path('primer_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align:center;">There is no result.</td>
                     </tr>
                 {% endif %}
             </table>

@@ -29,14 +29,17 @@ class SearchController extends Controller
     {
         $repositoryManager = $this->container->get('fos_elastica.manager.orm');
 
-        $repository = $repositoryManager->getRepository('AppBundle:GmoStrain');
-        $results['gmo'] = $repository->search($search, $this->getUser()->getProjectsId());
+        $gmoRepository = $repositoryManager->getRepository('AppBundle:GmoStrain');
+        $results['gmo'] = $gmoRepository->search($search, $this->getUser()->getProjectsId());
 
-        $repository2 = $repositoryManager->getRepository('AppBundle:WildStrain');
-        $results['wild'] = $repository2->search($search, $this->getUser()->getProjectsId());
+        $wildRepository = $repositoryManager->getRepository('AppBundle:WildStrain');
+        $results['wild'] = $wildRepository->search($search, $this->getUser()->getProjectsId());
 
-        $repository3 = $repositoryManager->getRepository('AppBundle:Plasmid');
-        $results['plasmid'] = $repository3->search($search, $this->getUser()->getTeamsId());
+        $plasmidRepository = $repositoryManager->getRepository('AppBundle:Plasmid');
+        $results['plasmid'] = $plasmidRepository->search($search, $this->getUser()->getTeamsId());
+
+        $primerRepository = $repositoryManager->getRepository('AppBundle:Primer');
+        $results['primer'] = $primerRepository->search($search, $this->getUser()->getTeamsId());
 
         return $this->render('search\quickSearch.html.twig', [
             'search' => $search,
@@ -82,7 +85,12 @@ class SearchController extends Controller
                 $results['plasmid'] = $plasmidRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['author']);
             }
 
-            dump($results);
+            // Search for Primers
+            if (in_array('primer', $data['category'])) {
+                // Define the repository
+                $primerRepository = $repositoryManager->getRepository('AppBundle:Primer');
+                $results['primer'] = $primerRepository->search($data['search'], $this->getUser()->getTeamsId(), $data['author']);
+            }
 
             return $this->render('search/advancedSearch.html.twig', [
                 'form' => $form->createView(),
