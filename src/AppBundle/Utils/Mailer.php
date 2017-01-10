@@ -14,13 +14,15 @@ class Mailer
 {
     protected $mailer;
     protected $templating;
-    private $from = 'no-reply@collection-manager.dev';
-    private $name = 'Collection Manager';
+    private $from;
+    private $name;
 
-    public function __construct($mailer, EngineInterface $templating)
+    public function __construct($mailer, EngineInterface $templating, $mailer_from, $mailer_name)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->from = $mailer_from;
+        $this->name = $mailer_name;
     }
 
     /**
