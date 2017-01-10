@@ -50,7 +50,11 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('team_view', { 'id': team.id }) }}">{{ team.name }}</a></td>
-                        <td>{{ team.administrators|join(', ') }}</td>
+                        <td>
+                            {% for administrator in team.administrators %}
+                                {{ administrator.firstName }} {{ administrator.lastName }}{{ (loop.last) ? '.' : ',' }}
+                            {% endfor %}
+                        </td>
                         <td>{{ team.members|length }}</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">

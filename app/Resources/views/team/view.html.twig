@@ -27,7 +27,7 @@
                 <div class="panel-heading">Administrators</div>
                 <ul class="list-group">
                     {% for administrator in team.administrators %}
-                        <li class="list-group-item">{{ administrator.username }}</li>
+                        <li class="list-group-item">{{ administrator.firstName }} {{ administrator.lastName }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -38,7 +38,7 @@
                 <div class="panel-heading">Members</div>
                 <ul class="list-group">
                     {% for member in team.members %}
-                        <li class="list-group-item">{{ member.username }}</li>
+                        <li class="list-group-item">{{ member.firstName }} {{ member.lastName }}</li>
                     {% endfor %}
                 </ul>
             </div>
