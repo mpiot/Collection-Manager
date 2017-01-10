@@ -79,7 +79,6 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    delivery_address: 'mathieu.piot@inra.fr' # Redirect mail to this address for tests
     transport: "%mailer_transport%"
     host:      "%mailer_host%"
     username:  "%mailer_user%"
