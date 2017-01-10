@@ -39,7 +39,8 @@ class TeamType extends AbstractType
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                        ->orderBy('u.username', 'ASC');
+                        ->orderBy('u.lastName', 'ASC')
+                        ->addOrderBy('u.firstName', 'ASC');
                 },
                 'multiple' => true,
                 'expanded' => true,
@@ -52,12 +53,16 @@ class TeamType extends AbstractType
                         'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
+                'choice_label' => function(User $user) {
+                    return $user->getLastName().' '.$user->getFirstName();
+                }
             ])
             ->add('members', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                        ->orderBy('u.username', 'ASC');
+                        ->orderBy('u.lastName', 'ASC')
+                        ->addOrderBy('u.firstName', 'ASC');
                 },
                 'multiple' => true,
                 'expanded' => true,
@@ -71,6 +76,9 @@ class TeamType extends AbstractType
                         'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
+                'choice_label' => function(User $user) {
+                    return $user->getLastName().' '.$user->getFirstName();
+                }
             ])
         ;
     }
