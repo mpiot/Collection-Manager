@@ -77,9 +77,10 @@ class AdvancedSearchType extends AbstractType
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('user')
-                        ->leftJoin('user.teams', 'teams')
-                        ->where('teams = :teams')
-                        ->setParameter('teams', $this->tokenStorage->getToken()->getUser()->getTeams())
+                        ->leftJoin('user.projects', 'projects')
+                        ->leftJoin('projects.members', 'members')
+                        ->where('members = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('user.username', 'ASC');
                 },
                 'choice_label' => 'username',
