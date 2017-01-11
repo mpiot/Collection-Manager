@@ -118,7 +118,7 @@ class WildStrainController extends Controller
 
             $this->addFlash('success', 'The strain has been deleted successfully.');
 
-            return $this->redirect($this->generateUrl('strain_index'));
+            return $this->redirectToRoute('strain_wild_view', ['id' => $strain->getId()]);
         }
 
         return $this->render('strain/wild/delete.html.twig', [

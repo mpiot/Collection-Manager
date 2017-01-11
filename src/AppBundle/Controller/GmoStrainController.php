@@ -121,7 +121,7 @@ class GmoStrainController extends Controller
 
             $this->addFlash('success', 'The strain has been deleted successfully.');
 
-            return $this->redirect($this->generateUrl('strain_index'));
+            return $this->redirectToRoute('strain_gmo_view', ['id' => $strain->getId()]);
         }
 
         return $this->render('strain/gmo/delete.html.twig', [
