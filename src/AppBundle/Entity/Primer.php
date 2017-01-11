@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Primer.
@@ -12,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="primer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrimerRepository")
  * @ORM\HasLifeCycleCallbacks()
+ * @UniqueEntity({"name", "team"}, message="This name is already used by another primer.")
  */
 class Primer
 {
@@ -27,14 +29,14 @@ class Primer
     /**
      * @var string
      *
-     * @ORM\Column(name="autoName", type="string", length=255, unique=true)
+     * @ORM\Column(name="autoName", type="string", length=255)
      */
     private $autoName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -55,7 +57,7 @@ class Primer
     /**
      * @var string
      *
-     * @ORM\Column(name="sequence", type="string", length=255, unique=true)
+     * @ORM\Column(name="sequence", type="string", length=255)
      * @Assert\Regex("/[ACGTNUKSYMWRBDHV-]+/i", message="Please, see as the allowed letters in the table on the bottom of the page.")
      */
     private $sequence;

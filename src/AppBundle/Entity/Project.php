@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Project.
  *
  * @ORM\Table(name="project")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProjectRepository")
+ * @UniqueEntity({"name", "team"}, message="This name is already used by another project.")
+ * @UniqueEntity({"prefix", "team"}, message="This prefix is already used by another project.")
  */
 class Project
 {
@@ -25,14 +28,14 @@ class Project
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="prefix", type="string", length=255, unique=true)
+     * @ORM\Column(name="prefix", type="string", length=255)
      */
     private $prefix;
 
