@@ -11,9 +11,18 @@
 {% block strain_body %}
     {% embed 'strain/skeleton/view.html.twig' %}
         {% block strainEditButton %}
-            <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("strain_wild_edit", {'id': strain.id }) }}">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            </a>
+            <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
+                {% if is_granted('STRAIN_EDIT', strain) %}
+                    <a class="btn btn-warning" href="{{ path('strain_wild_edit', { 'id': strain.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                {% endif %}
+                {% if is_granted('STRAIN_DELETE', strain) %}
+                    {% if strain.deleted %}
+                        <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                    {% else %}
+                        <a class="btn btn-danger" href="{{ path('strain_wild_delete', { 'id': strain.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                    {% endif %}
+                {% endif %}
+            </div>
         {% endblock %}
 
         {% block biologicalOrigin %}
