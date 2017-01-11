@@ -52,7 +52,7 @@
                         <td><a href="{{ path('team_view', { 'id': team.id }) }}">{{ team.name }}</a></td>
                         <td>
                             {% for administrator in team.administrators %}
-                                {{ administrator.firstName }} {{ administrator.lastName }}{{ (loop.last) ? '.' : ',' }}
+                                {{ administrator.firstName }} {{ administrator.lastName }}{{ (not loop.last) ? ',' }}
                             {% endfor %}
                         </td>
                         <td>{{ team.members|length }}</td>
