@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints as AppAssert;
 
 /**
  * Species.
  *
  * @ORM\Table(name="species")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SpeciesRepository")
+ * @AppAssert\UniqueSpecies
  */
 class Species
 {
@@ -53,6 +55,7 @@ class Species
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="mainSpecies", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid
      */
     private $synonyms;
 

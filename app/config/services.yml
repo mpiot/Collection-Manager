@@ -7,9 +7,18 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+# General
     app.mailer:
         class: AppBundle\Utils\Mailer
         arguments: ["@mailer", "@templating", '%mailer_from%', '%mailer_name%']
+
+# Constraints
+    app.constraints.unique_species:
+        class: AppBundle\Validator\Constraints\UniqueSpeciesValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator }
 
 # Twig extensions
     twig.extension.text:
