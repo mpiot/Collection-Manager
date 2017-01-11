@@ -32,8 +32,11 @@ class BoxType extends AbstractType
                 'class' => 'AppBundle\Entity\Project',
                 'query_builder' => function (ProjectRepository $pr) {
                     return $pr->createQueryBuilder('project')
+                        ->leftJoin('project.team', 'team')
+                        ->leftJoin('team.administrators', 'teamadmin')
                         ->leftJoin('project.members', 'members')
                         ->where('members = :user')
+                        ->orWhere('teamadmin = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('project.name', 'ASC');
                 },
