@@ -21,7 +21,7 @@ class PlasmidGenBank
         $file = null;
 
         if (null !== $this->plasmid->getGenBankFile()) {
-            $this->finder->in('uploads/genBankFiles')->files()->name($this->plasmid->getGenBankFile()->getPath());
+            $this->finder->in('files/genBankFiles')->files()->name($this->plasmid->getGenBankFile()->getPath());
 
             foreach ($this->finder as $file) {
                 $file = $file->getContents();
