@@ -41,7 +41,8 @@ class WildStrainController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $strain = new WildStrain();
-        $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName();
+
+        $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName($this->getUser());
 
         $form = $this->createForm(WildStrainType::class, $strain);
 
@@ -73,7 +74,7 @@ class WildStrainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName();
+        $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName($this->getUser());
 
         $form = $this->createForm(WildStrainType::class, $strain);
 

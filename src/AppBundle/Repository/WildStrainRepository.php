@@ -12,11 +12,16 @@ use AppBundle\Entity\User;
  */
 class WildStrainRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllName()
+    public function findAllName(User $user)
     {
-        $query = $this->createQueryBuilder('gmo')
-            ->select('gmo.name')
-            ->orderBy('gmo.name', 'ASC')
+        $query = $this->createQueryBuilder('wild')
+            ->leftJoin('wild.tubes', 'tubes')
+            ->leftJoin('tubes.project', 'project')
+            ->leftJoin('project.members', 'members')
+            ->where('members = :user')
+            ->setParameter('user', $user)
+            ->select('wild.name')
+            ->orderBy('wild.name', 'ASC')
             ->distinct()
             ->getQuery();
 

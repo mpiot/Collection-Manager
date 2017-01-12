@@ -13,9 +13,14 @@ use AppBundle\Entity\User;
  */
 class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllName()
+    public function findAllName(User $user)
     {
         $query = $this->createQueryBuilder('gmo')
+            ->leftJoin('gmo.tubes', 'tubes')
+            ->leftJoin('tubes.project', 'project')
+            ->leftJoin('project.members', 'members')
+            ->where('members = :user')
+            ->setParameter('user', $user)
             ->select('gmo.name')
             ->orderBy('gmo.name', 'ASC')
             ->distinct()

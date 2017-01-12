@@ -43,7 +43,7 @@ class GmoStrainController extends Controller
 
         $strain = new GmoStrain();
 
-        $strainNames = $em->getRepository('AppBundle:GmoStrain')->findAllName();
+        $strainNames = $em->getRepository('AppBundle:GmoStrain')->findAllName($this->getUser());
 
         $form = $this->createForm(GmoStrainType::class, $strain);
 
@@ -75,7 +75,7 @@ class GmoStrainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $strainNames = $em->getRepository('AppBundle:GmoStrain')->findAllName();
+        $strainNames = $em->getRepository('AppBundle:GmoStrain')->findAllName($this->getUser());
 
         $form = $this->createForm(GmoStrainType::class, $strain);
 
