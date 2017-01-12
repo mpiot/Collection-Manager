@@ -37,6 +37,8 @@ framework:
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
+    bundles:
+        - AppBundle
     # the path to the node executable
     node: /usr/bin/nodejs
     filters:
