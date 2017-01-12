@@ -42,7 +42,7 @@ class StrainType extends AbstractType
                     'data-help' => 'Which type of organism is it ?',
                 ],
             ])
-            ->add('usualName', TextType::class, [
+            ->add('name', TextType::class, [
                 'attr' => [
                     'autocomplete' => 'off',
                     'data-help' => 'The name you want use to communicate about this strain.',

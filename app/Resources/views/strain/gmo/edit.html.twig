@@ -7,7 +7,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('strain_index') }}">Strains</a></li>
-    <li><a href="{{ path('strain_gmo_view', { id: strain.id }) }}">{{ strain.systematicName }} - {{ strain.usualName }}</a></li>
+    <li><a href="{{ path('strain_gmo_view', { id: strain.id }) }}">{{ strain.autoName }} - {{ strain.name }}</a></li>
     <li class="active">Edit</li>
 {% endblock %}
 

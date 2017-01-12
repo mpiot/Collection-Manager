@@ -1,11 +1,11 @@
 {% extends "strain/base.html.twig" %}
 
-{% block title %}Delete the strain {{ strain.systematicName }} - {{ strain.usualName }}{% endblock %}
+{% block title %}Delete the strain {{ strain.autoName }} - {{ strain.name }}{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('strain_index') }}">Strains</a></li>
-    <li><a href="{{ path('strain_wild_view', { id: strain.id }) }}">{{ strain.systematicName }} - {{ strain.usualName }}</a></li>
+    <li><a href="{{ path('strain_wild_view', { id: strain.id }) }}">{{ strain.autoName }} - {{ strain.name }}</a></li>
     <li class="active">Delete</li>
 {% endblock %}
 
@@ -14,7 +14,7 @@
 
     <div class="alert alert-danger" role="alert"><b>WARNING !</b> You're deleting a strain !</div>
 
-    <p>Do you confirm the deletion of: <b>{{ strain.systematicName }} - {{ strain.usualName }}</b> ?</p>
+    <p>Do you confirm the deletion of: <b>{{ strain.autoName }} - {{ strain.name }}</b> ?</p>
 
     <form action="{{ path('strain_wild_delete', {'id': strain.id}) }}" method="post">
         {# Generate CSRF field #}

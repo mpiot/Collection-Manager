@@ -98,7 +98,7 @@
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>
-                                <a href="{{ path('strain_gmo_view', { 'id': strainPlasmid.gmoStrain.id }) }}">{{ strainPlasmid.gmoStrain.systematicName }}</a>
+                                <a href="{{ path('strain_gmo_view', { 'id': strainPlasmid.gmoStrain.id }) }}">{{ strainPlasmid.gmoStrain.autoName }}</a>
                             </td>
                         </tr>
                     {% endfor %}

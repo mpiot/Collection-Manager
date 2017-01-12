@@ -13,8 +13,8 @@
                     {% for result in results['gmo'] %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('strain_gmo_view', { 'id': result.id }) }}">{{ result.systematicName }}</a></td>
-                            <td>{{ result.usualName }}</td>
+                            <td><a href="{{ path('strain_gmo_view', { 'id': result.id }) }}">{{ result.autoName }}</a></td>
+                            <td>{{ result.name }}</td>
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                     {% if is_granted('STRAIN_EDIT', result) %}
@@ -55,8 +55,8 @@
                     {% for result in results['wild'] %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('strain_wild_view', { 'id': result.id }) }}">{{ result.systematicName }}</a></td>
-                            <td>{{ result.usualName }}</td>
+                            <td><a href="{{ path('strain_wild_view', { 'id': result.id }) }}">{{ result.autoName }}</a></td>
+                            <td>{{ result.name }}</td>
                             <td>
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                     {% if is_granted('STRAIN_EDIT', result) %}

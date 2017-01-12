@@ -1,4 +1,4 @@
-<h2 class="sub-header">{{ strain.systematicName }} - {{ strain.usualName }}
+<h2 class="sub-header">{{ strain.autoName }} - {{ strain.name }}
     {% if is_granted('STRAIN_EDIT', strain) %}
         {% block strainEditButton %}
         {% endblock %}
@@ -11,8 +11,8 @@
         <div class="panel panel-default">
             <div class="panel-heading">Registration informations</div>
             <ul class="list-group">
-                <li class="list-group-item">Usual name: {{ strain.usualName }}</li>
-                <li class="list-group-item">Systematic name: {{ strain.systematicName }}</li>
+                <li class="list-group-item">Name: {{ strain.name }}</li>
+                <li class="list-group-item">Auto name: {{ strain.autoName }}</li>
                 <li class="list-group-item">Created on: {{ strain.creationDate|date("Y/m/d") }}</li>
                 <li class="list-group-item">
                     Deleted:

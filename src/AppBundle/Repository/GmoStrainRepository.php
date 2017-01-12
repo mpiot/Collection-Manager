@@ -13,11 +13,11 @@ use AppBundle\Entity\User;
  */
 class GmoStrainRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllUsualName()
+    public function findAllName()
     {
         $query = $this->createQueryBuilder('gmo')
-            ->select('gmo.usualName')
-            ->orderBy('gmo.usualName', 'ASC')
+            ->select('gmo.name')
+            ->orderBy('gmo.name', 'ASC')
             ->distinct()
             ->getQuery();
 

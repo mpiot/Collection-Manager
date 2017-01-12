@@ -19,17 +19,17 @@ class StrainRepository extends Repository
             // Request need to match at least on one ShouldQuery
             $boolQuery->setMinimumNumberShouldMatch(1);
 
-            // Search in systematicName
-            $systematicNameQuery = new  \Elastica\Query\Match();
-            $systematicNameQuery->setFieldQuery('systematicName', $search);
-            $systematicNameQuery->setFieldFuzziness('systematicName', 'AUTO');
-            $boolQuery->addShould($systematicNameQuery);
+            // Search in autoName
+            $autoNameQuery = new  \Elastica\Query\Match();
+            $autoNameQuery->setFieldQuery('autoName', $search);
+            $autoNameQuery->setFieldFuzziness('autoName', 'AUTO');
+            $boolQuery->addShould($autoNameQuery);
 
-            // Search in usualName
-            $usualNameQuery = new  \Elastica\Query\Match();
-            $usualNameQuery->setFieldQuery('usualName', $search);
-            $usualNameQuery->setFieldFuzziness('usualName', 'AUTO');
-            $boolQuery->addShould($usualNameQuery);
+            // Search in name
+            $nameQuery = new  \Elastica\Query\Match();
+            $nameQuery->setFieldQuery('name', $search);
+            $nameQuery->setFieldFuzziness('name', 'AUTO');
+            $boolQuery->addShould($nameQuery);
         }
 
         // Bool to string

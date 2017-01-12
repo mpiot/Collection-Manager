@@ -40,7 +40,7 @@ class GmoStrainType extends AbstractType
                     'placeholder' => '-- select a parent --',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('strain')
-                            ->orderBy('strain.systematicName', 'ASC');
+                            ->orderBy('strain.autoName', 'ASC');
                     },
                 ],
                 'by_reference' => false,

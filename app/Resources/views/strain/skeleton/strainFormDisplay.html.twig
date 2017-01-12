@@ -21,11 +21,11 @@
     <script>
         $( function() {
             var availableTags = [
-                {% for usualName in strainUsualNames %}
-                "{{ usualName.usualName }}",
+                {% for name in strainNames %}
+                "{{ name.name }}",
                 {% endfor %}
             ];
-            $( '[name$="[usualName]"]' ).autocomplete({
+            $( '[name$="[name]"]' ).autocomplete({
                 source: availableTags
             });
         } );

@@ -114,7 +114,7 @@ class Plasmid
     }
 
     /**
-     * Get systematicName.
+     * Get autoName.
      *
      * @return string
      */

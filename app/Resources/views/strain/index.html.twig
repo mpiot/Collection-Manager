@@ -39,8 +39,8 @@
                 {% for strain in gmoStrains %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('strain_gmo_view', { 'id': strain.id }) }}">{{ strain.systematicName }}</a></td>
-                        <td>{{ strain.usualName }}</td>
+                        <td><a href="{{ path('strain_gmo_view', { 'id': strain.id }) }}">{{ strain.autoName }}</a></td>
+                        <td>{{ strain.name }}</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                 {% if is_granted('STRAIN_EDIT', strain) %}
@@ -83,8 +83,8 @@
                 {% for strain in wildStrains %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('strain_wild_view', { 'id': strain.id }) }}">{{ strain.systematicName }}</a></td>
-                        <td>{{ strain.usualName }}</td>
+                        <td><a href="{{ path('strain_wild_view', { 'id': strain.id }) }}">{{ strain.autoName }}</a></td>
+                        <td>{{ strain.name }}</td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                 {% if is_granted('STRAIN_EDIT', strain) %}

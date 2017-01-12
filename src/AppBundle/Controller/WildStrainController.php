@@ -41,7 +41,7 @@ class WildStrainController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $strain = new WildStrain();
-        $strainUsualNames = $em->getRepository('AppBundle:WildStrain')->findAllUsualName();
+        $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName();
 
         $form = $this->createForm(WildStrainType::class, $strain);
 
@@ -51,14 +51,14 @@ class WildStrainController extends Controller
             $em->persist($strain);
             $em->flush();
 
-            $this->addFlash('success', 'The strain has been added successfully: '.$strain->getSystematicName());
+            $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
 
             return $this->redirectToRoute('strain_index');
         }
 
         return $this->render('strain/wild/add.html.twig', [
             'form' => $form->createView(),
-            'strainUsualNames' => $strainUsualNames,
+            'strainNames' => $strainNames,
         ]);
     }
 
@@ -73,7 +73,7 @@ class WildStrainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $strainUsualNames = $em->getRepository('AppBundle:WildStrain')->findAllUsualName();
+        $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName();
 
         $form = $this->createForm(WildStrainType::class, $strain);
 
@@ -93,7 +93,7 @@ class WildStrainController extends Controller
         return $this->render('strain/wild/edit.html.twig', [
             'form' => $form->createView(),
             'strain' => $strain,
-            'strainUsualNames' => $strainUsualNames,
+            'strainNames' => $strainNames,
         ]);
     }
 

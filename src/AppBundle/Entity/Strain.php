@@ -43,16 +43,16 @@ class Strain
     /**
      * @var string
      *
-     * @ORM\Column(name="systematicName", type="string", length=255, unique=true)
+     * @ORM\Column(name="auto_name", type="string", length=255, unique=true)
      */
-    private $systematicName;
+    private $autoName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="usualName", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $usualName;
+    private $name;
 
     /**
      * @var bool
@@ -176,51 +176,51 @@ class Strain
     }
 
     /**
-     * Set systematicName.
+     * Set autoName.
      *
-     * @param string $systematicName
+     * @param string $autoName
      *
      * @return Strain
      */
-    public function setSystematicName($systematicName)
+    public function setAutoName($autoName)
     {
-        $this->systematicName = $systematicName;
+        $this->autoName = $autoName;
 
         return $this;
     }
 
     /**
-     * Get systematicName.
+     * Get autoName.
      *
      * @return string
      */
-    public function getSystematicName()
+    public function getAutoName()
     {
-        return $this->systematicName;
+        return $this->autoName;
     }
 
     /**
-     * Set usualName.
+     * Set name.
      *
-     * @param string $usualName
+     * @param string $name
      *
      * @return Strain
      */
-    public function setUsualName($usualName)
+    public function setName($name)
     {
-        $this->usualName = $usualName;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get usualName.
+     * Get name.
      *
      * @return string
      */
-    public function getUsualName()
+    public function getName()
     {
-        return $this->usualName;
+        return $this->name;
     }
 
     /**
@@ -254,7 +254,7 @@ class Strain
      */
     public function getFullName()
     {
-        return $this->systematicName.' - '.$this->usualName;
+        return $this->autoName.' - '.$this->name;
     }
 
     /**
@@ -264,7 +264,7 @@ class Strain
     {
         // The automatic name of the strain is the name of the first tube
         // when the strain is registred the first time
-        $this->systematicName = $this->getTubes()->first()->getName();
+        $this->autoName = $this->getTubes()->first()->getName();
     }
 
     /**

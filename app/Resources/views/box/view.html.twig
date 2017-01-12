@@ -69,8 +69,8 @@
                                         <td
                                             style="background-color: {{ tubes[cellCounter].deleted ? 'darkgrey' : 'greenyellow' }};"
                                             data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
-                                            title="{{ tubes[cellCounter].strain.systematicName }}"
-                                            data-content="{{ tubes[cellCounter].strain.usualName }}">
+                                            title="{{ tubes[cellCounter].strain.autoName }}"
+                                            data-content="{{ tubes[cellCounter].strain.name }}">
                                             {{ cellCounter + 1 }}
                                         </td>
                                     {% else %}
@@ -119,10 +119,10 @@
                                 {% else %}
                                     <a href="{{ path('strain_wild_view', { id: tube.strain.id }) }}">
                                 {% endif %}
-                                    {{ tube.strain.systematicName }}
+                                    {{ tube.strain.autoName }}
                                 </a>
                             </td>
-                            <td>{{ tube.strain.usualName }}</td>
+                            <td>{{ tube.strain.name }}</td>
                             <td>{{ tube.box.project.name }}</td>
                         </tr>
                     {% endfor %}
