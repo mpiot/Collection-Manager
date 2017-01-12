@@ -45,23 +45,26 @@ class PlasmidGenBank
         $i = 0;
 
         foreach ($lines as $line) {
-            // First we want Features data, they starts by 21 spaces
-            if (preg_match('/^ {5}([\w]+) +(?:(complement)\()?(\d+)..(\d+)\)?/', $line, $matches)) {
+            // First we want Features data, they starts by 5 spaces
+            //if (preg_match('/^ {5}([\w]+) +(?:(complement)\()?(\d+)..(\d+)\)?/', $line, $matches)) {
+            if (preg_match('/^ {5}([\w]+) +(?:(?:(complement)\()?(\d+)\.\.(\d+)\)?)/', $line, $matches)) {
                 // The feature type: source, misc_feature, promoter, ...
                 $array['features'][]['type'] = $matches[1];
 
                 // The position: an array like [sens/reverse, start, end]
-                $array['features'][$i - 1]['position'] = [
+                $array['features'][$i]['position'] = [
                     'strand' => ('complement' === $matches[2]) ? -1 : 1,
                     'start' => $matches[3],
                     'stop' => $matches[4],
                 ];
+
+                $i++;
             }
 
             // In second, we want other informations on features (organism, mol_type, label, gene, translation)
             // all of this depend of the feature type
             // If it's all but no a translation
-            elseif (preg_match('/^ {21}\/([a-zA-Z_]+)=(?:"([\w\d _.\-\(\)]+)"|(?:(\d)))/', $line, $matches)) {
+            elseif (preg_match('/^ {21}\/([a-zA-Z_]+)=(?:"\'?([\w\d\s_.\-\(\)]+)"|(?:(\d)))/', $line, $matches)) {
                 if ('codon_start' === $matches[1]) {
                     $array['features'][$i - 1]['codon_start'] = $matches[3];
                 } elseif ('note' === $matches[1]) {
@@ -70,7 +73,7 @@ class PlasmidGenBank
                     $array['features'][$i - 1][$matches[1]] = $matches[2];
                 }
             }
-
+/*
             // If it's a translation
             elseif (preg_match('/ {21}(?:\/translation=")?([A-Z]+)/', $line, $matches)) {
                 if (array_key_exists('translation', $array['features'][$i - 1])) {
@@ -79,6 +82,7 @@ class PlasmidGenBank
                     $array['features'][$i - 1]['translation'] = $matches[1];
                 }
             }
+*/
 
             // Finally, if it the sequence
             elseif (preg_match('/^ +\d+ ([\w ]+)/', $line, $matches)) {

@@ -81,7 +81,7 @@ class PlasmidExtension extends \Twig_Extension
                         fill="'.$arrowFill.'" />';
                 }
 
-                $svg .= '<text x="'.(($x1 + $x2) / 2).'" y="'.($height / 2 + $arrowWidth + 5).'" style="text-anchor: middle;">'.$feature['note'][0].'</text>';
+                $svg .= '<text x="'.(($x1 + $x2) / 2).'" y="'.($height / 2 + $arrowWidth + 5).'" style="text-anchor: middle;">'.$feature['gene'].'</text>';
             }
         }
 
@@ -206,7 +206,7 @@ class PlasmidExtension extends \Twig_Extension
             $coord_legend_3 = coordonnees($cx, $cy, $rayon_2 + $param['legend_tick'] + $param['legend_space'], $angle_legend);
             echo '<path d="M '.$coord_legend_1['x'].' '.$coord_legend_1['y'].' L'.$coord_legend_2['x'].' '.$coord_legend_2['y'].'" stroke="black" stroke-width="1" />';
             $anchor = legend_anchor($angle_legend + $param['origine']);
-            echo "<text text-anchor=\"$anchor\" x=\"".$coord_legend_3['x'].'" y="'.$coord_legend_3['y'].'">'.$feature['note'][0].'</text>';
+            echo "<text text-anchor=\"$anchor\" x=\"".$coord_legend_3['x'].'" y="'.$coord_legend_3['y'].'">'.$feature['gene'].'</text>';
         }
 
         // Fonction principale
