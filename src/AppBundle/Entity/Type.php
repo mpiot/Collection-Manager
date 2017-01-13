@@ -31,13 +31,6 @@ class Type
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="letter", type="string", length=255, unique=true)
-     */
-    private $letter;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="type")
      */
     private $gmoStrains;
@@ -85,26 +78,6 @@ class Type
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $letter
-     *
-     * @return Type
-     */
-    public function setLetter($letter)
-    {
-        $this->letter = $letter;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLetter()
-    {
-        return $this->letter;
     }
 
     public function getGmoStrains()

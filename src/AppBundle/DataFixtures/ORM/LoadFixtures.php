@@ -164,15 +164,14 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         // Types //
         //-------//
         $typesData = [
-            ['name' => 'Yeast', 'letter' => 'Y'],
-            ['name' => 'Bacteria', 'letter' => 'B'],
-            ['name' => 'Plasmid', 'letter' => 'P'],
+            ['name' => 'Yeast'],
+            ['name' => 'Bacteria'],
+            ['name' => 'Plasmid'],
         ];
 
         foreach ($typesData as $typeData) {
             $type = new Type();
             $type->setName($typeData['name']);
-            $type->setLetter($typeData['letter']);
 
             $manager->persist($type);
             $this->setReference('type-'.$typeData['name'], $type);

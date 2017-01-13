@@ -22,12 +22,6 @@ class TypeType extends AbstractType
                     'data-help' => 'The name of the organism type.',
                 ],
             ])
-            ->add('letter', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'Y, E, P',
-                    'data-help' => 'A letter used as shortname.',
-                ],
-            ])
         ;
     }
 
