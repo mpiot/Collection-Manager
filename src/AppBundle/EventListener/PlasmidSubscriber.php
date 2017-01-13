@@ -37,15 +37,17 @@ class PlasmidSubscriber implements EventSubscriber
 
         $plasmidNumber = $plasmid->getTeam()->getLastPlasmidNumber() + 1;
 
-        if (1 !== $plasmidNumber) {
-            // Determine how many 0 put before the number
-            $nbDigit = 4;
-            $numberOf0 = $nbDigit - ceil(log10($plasmidNumber));
-            $autoName = 'p'.str_repeat('0', $numberOf0).$plasmidNumber;
-        } else {
-            $autoName = 'p0001';
+        // Determine how many 0 put before the number
+        $nbDigit = 4;
+        $numberOf0 = $nbDigit - floor(log10($plasmidNumber) + 1);
+
+        if ($numberOf0 < 0) {
+            $numberOf0 = 0;
         }
 
+        $autoName = 'p' . str_repeat('0', $numberOf0) . $plasmidNumber;
+
+        // Set autoName
         $plasmid->setAutoName($autoName);
         $plasmid->getTeam()->setLastPlasmidNumber($plasmidNumber);
 

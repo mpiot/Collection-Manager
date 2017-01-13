@@ -37,15 +37,17 @@ class PrimerSubscriber implements EventSubscriber
 
         $primerNumber = $primer->getTeam()->getLastPrimerNumber() + 1;
 
-        if (1 !== $primerNumber) {
-            // Determine how many 0 put before the number
-            $nbDigit = 4;
-            $numberOf0 = $nbDigit - ceil(log10($primerNumber));
-            $autoName = 'primer'.str_repeat('0', $numberOf0).$primerNumber;
-        } else {
-            $autoName = 'primer0001';
+        // Determine how many 0 put before the number
+        $nbDigit = 4;
+        $numberOf0 = $nbDigit - floor(log10($primerNumber) + 1);
+
+        if ($numberOf0 < 0) {
+            $numberOf0 = 0;
         }
 
+        $autoName = 'primer' . str_repeat('0', $numberOf0) . $primerNumber;
+
+        // Set autoName
         $primer->setAutoName($autoName);
         $primer->getTeam()->setLastPrimerNumber($primerNumber);
 

@@ -256,24 +256,18 @@ class Tube
         // In array the first cell is 0, in real box, it's 1
         $cell = $this->cell + 1;
 
-        // Adapt the boxCell like: 1 => 001, 10 => 010, 100 => 100, never more than 999
-        if ($cell < 10) {
-            $boxCell = '00'.$cell;
-        } elseif ($cell > 99) {
-            $boxCell = $cell;
-        } else {
-            $boxCell = '0'.$cell;
+        // Determine how many 0 put before the number
+        $nbDigit = 3;
+        $numberOf0 = $nbDigit - floor(log10($cell) + 1);
+
+        if ($numberOf0 < 0) {
+            $numberOf0 = 0;
         }
 
-        // Type Letter
-        if (null !== $this->getGmoStrain()) {
-            $lastLetter = $this->getGmoStrain()->getType()->getLetter();
-        } else {
-            $lastLetter = $this->getWildStrain()->getType()->getLetter();
-        }
+        $boxCell = str_repeat('0', $numberOf0) . $cell;
 
         // Generate the tube name
-        $this->name = $projectPrefix.'_'.$boxLetter.$boxCell.$lastLetter;
+        $this->name = $projectPrefix.'_'.$boxLetter.$boxCell;
     }
 
     /**
