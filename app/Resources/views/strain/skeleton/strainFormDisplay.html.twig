@@ -11,6 +11,22 @@
 
     {% block form %}
     {% endblock %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="addTypeModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addTypeModalLabel">Add a type</h4>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('AppBundle:Type:embdedAdd')) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -29,5 +45,53 @@
                 source: availableTags
             });
         } );
+    </script>
+
+    <script>
+        function sendForm(form, callback) {
+            // Get all form values
+            var values = {};
+            $.each( form[0].elements, function(i, field) {
+                if (field.type != 'checkbox' || (field.type == 'checkbox' && field.checked)) {
+                    values[field.name] = field.value;
+                }
+            });
+
+            // Post form
+            $.ajax({
+                type        : form.attr( 'method' ),
+                url         : form.attr( 'action' ),
+                data        : values,
+                success     : function(result) { callback( result ); }
+            });
+        }
+
+        function handleForm(targetField, modal, form) {
+            form.find(':submit').click( function( e ){
+                e.preventDefault();
+
+                sendForm( form, function( response ) {
+                    if (typeof response == "object") {
+                        targetField
+                            .append($('<option>', {value: response.id, text: response.name}))
+                            .val(response.id);
+                        modal.modal('hide');
+
+                    }
+                    else {
+                        // Unbind the click event on the button
+                        form.find(':submit').unbind("click");
+                        // Change the form code
+                        modal.find('.modal-body').html(response);
+                        // Recall this method on a new event
+                        handleForm(targetField, modal, $('form[name="type"]'));
+                    }
+                });
+            });
+        }
+
+        $(function() {
+            handleForm($('select[name$="_strain[type]"]'), $('#addTypeModal'), $('form[name="type"]'));
+        });
     </script>
 {% endblock %}

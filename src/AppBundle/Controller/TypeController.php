@@ -7,6 +7,7 @@ use AppBundle\Form\Type\TypeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -37,14 +38,14 @@ class TypeController extends Controller
      */
     public function addAction(Request $request)
     {
-        $species = new Type();
-        $form = $this->createForm(TypeType::class, $species);
+        $type = new Type();
+        $form = $this->createForm(TypeType::class, $type);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($species);
+            $em->persist($type);
             $em->flush();
 
             $this->addFlash('success', 'The type has been added successfully.');
@@ -53,6 +54,37 @@ class TypeController extends Controller
         }
 
         return $this->render('type/add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/embdedAdd", name="type_embded_add", condition="request.isXmlHttpRequest()")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
+     */
+    public function embdedAddAction(Request $request)
+    {
+        $type = new Type();
+        $form = $this->createForm(TypeType::class, $type, [
+            'action' => $this->generateUrl('type_embded_add'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($type);
+            $em->flush();
+
+            // return a json response with the new type
+            return new JsonResponse([
+                'success' => true,
+                'id' => $type->getId(),
+                'name'=> $type->getName(),
+            ]);
+        }
+
+        return $this->render('type/embdedAdd.html.twig', [
             'form' => $form->createView(),
         ]);
     }

@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Type.
@@ -11,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TypeRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("name", message="A type already exist with the name: {{ value }}.")
  */
 class Type
 {
@@ -27,6 +30,8 @@ class Type
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^[A-Z]/", message="A type must start by a capital letter.")
      */
     private $name;
 
