@@ -2,7 +2,18 @@
     {% block specialFields %}
         <fieldset>
             <legend>Biological origin</legend>
-            {{ form_row(form.biologicalOriginCategory) }}
+            <div class="form-group">
+                {{ form_label(form.biologicalOriginCategory) }}
+                <div class="col-sm-9">
+                    {{ form_widget(form.biologicalOriginCategory) }}
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addBioCategoryModal">
+                        Add a category
+                    </button>
+                </div>
+            </div>
+
             {{ form_row(form.biologicalOrigin) }}
             {{ form_row(form.source) }}
         </fieldset>

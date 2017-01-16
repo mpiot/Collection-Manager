@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * BiologicalOriginCategory.
  *
  * @ORM\Table(name="biological_origin_category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BiologicalOriginCategoryRepository")
+ * @UniqueEntity("name", message="A category already exist with the name: {{ value }}.")
  */
 class BiologicalOriginCategory
 {
@@ -26,6 +29,8 @@ class BiologicalOriginCategory
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^[A-Z]/", message="A type must start by a capital letter.")
      */
     private $name;
 

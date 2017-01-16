@@ -7,6 +7,7 @@ use AppBundle\Form\Type\BiologicalOriginCategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -54,6 +55,37 @@ class BiologicalOriginCategoryController extends Controller
         }
 
         return $this->render('biological_origin_category/add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/embdedAdd", name="category_embded_add", condition="request.isXmlHttpRequest()")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
+     */
+    public function embdedAddAction(Request $request)
+    {
+        $category = new BiologicalOriginCategory();
+        $form = $this->createForm(BiologicalOriginCategoryType::class, $category, [
+            'action' => $this->generateUrl('category_embded_add'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($category);
+            $em->flush();
+
+            // return a json response with the new type
+            return new JsonResponse([
+                'success' => true,
+                'id' => $category->getId(),
+                'name'=> $category->getName(),
+            ]);
+        }
+
+        return $this->render('biological_origin_category/embdedAdd.html.twig', [
             'form' => $form->createView(),
         ]);
     }
