@@ -1,163 +1,39 @@
-{% if results is defined %}
-    <div class="showhide-1">
-        <h3>Gmo Strains</h3>
-        <div class="searchResults">
-            <table class="table table-striped">
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-4">Auto Name</th>
-                    <th class="col-md-4">Name</th>
-                    <th class="col-md-2">Actions</th>
-                </tr>
-                {% if results['gmo'] is defined and results['gmo'] is not empty %}
-                    {% for result in results['gmo'] %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('strain_gmo_view', { 'id': result.id }) }}">{{ result.autoName }}</a></td>
-                            <td>{{ result.name }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    {% if is_granted('STRAIN_EDIT', result) %}
-                                        <a class="btn btn-warning" href="{{ path('strain_gmo_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% endif %}
+{% if results is defined  %}
+    {% if results is not empty %}
+        <h3>Number of results: {{ results|length }}</h3>
 
-                                    {% if is_granted('STRAIN_DELETE', result) %}
-                                        {% if result.deleted %}
-                                            <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                        {% else %}
-                                            <a class="btn btn-danger" href="{{ path('strain_gmo_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="4" style="text-align:center;">There is no result.</td>
-                    </tr>
+        {% for result in results %}
+            <div class="search-result">
+                {% if result is gmoStrain %}
+                    <h4><a href="{{ path('strain_gmo_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <p>
+                        GMO Strain<br />
+                        Type: {{ result.type.name }}<br />
+                        Species: {{ result.species.scientificName }}
+
+                    </p>
+                {% elseif result is wildStrain %}
+                    <h4><a href="{{ path('strain_wild_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <p>
+                        Wild Strain<br />
+                        Type: {{ result.type.name }}<br />
+
+                    </p>
+                {% elseif result is plasmid %}
+                    <h4><a href="{{ path('plasmid_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <p>
+                        Plasmid<br />
+                    </p>
+                {% elseif result is primer %}
+                    <h4><a href="{{ path('primer_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <p>
+                        Primer<br />
+                        Sequence: {{ result.sequence }}
+                    </p>
                 {% endif %}
-            </table>
-        </div>
-    </div>
-
-    <div class="showhide-2">
-        <h3>Wild Strains</h3>
-        <div class="searchResults">
-            <table class="table table-striped">
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-4">Auto Name</th>
-                    <th class="col-md-4">Name</th>
-                    <th class="col-md-2">Actions</th>
-                </tr>
-                {% if results['wild'] is defined and results['wild'] is not empty %}
-                    {% for result in results['wild'] %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('strain_wild_view', { 'id': result.id }) }}">{{ result.autoName }}</a></td>
-                            <td>{{ result.name }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    {% if is_granted('STRAIN_EDIT', result) %}
-                                        <a class="btn btn-warning" href="{{ path('strain_wild_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% endif %}
-
-                                    {% if is_granted('STRAIN_DELETE', result) %}
-                                        {% if result.deleted %}
-                                            <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                        {% else %}
-                                            <a class="btn btn-danger" href="{{ path('strain_wild_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="4" style="text-align:center;">There is no result.</td>
-                    </tr>
-                {% endif %}
-            </table>
-        </div>
-    </div>
-
-    <div class="showhide-3">
-        <h3>Plasmids</h3>
-        <div class="searchResults">
-            <table class="table table-striped">
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-4">Auto Name</th>
-                    <th class="col-md-4">Name</th>
-                    <th class="col-md-2">Actions</th>
-                </tr>
-                {% if results['plasmid'] is defined and results['plasmid'] is not empty %}
-                    {% for result in results['plasmid'] %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('plasmid_view', { 'id': result.id }) }}">{{ result.autoName }}</a></td>
-                            <td>{{ result.name }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    {% if is_granted('PLASMID_EDIT', result) %}
-                                        <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% endif %}
-
-                                    {% if is_granted('PLASMID_DELETE', result) %}
-                                        <a class="btn btn-danger" href="{{ path('plasmid_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="4" style="text-align:center;">There is no result.</td>
-                    </tr>
-                {% endif %}
-            </table>
-        </div>
-    </div>
-
-    <div class="showhide-4">
-        <h3>Primers</h3>
-        <div class="searchResults">
-            <table class="table table-striped">
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-2">Auto Name</th>
-                    <th class="col-md-3">Name</th>
-                    <th class="col-md-4">Sequence</th>
-                    <th class="col-md-2">Actions</th>
-                </tr>
-                {% if results['primer'] is defined and results['primer'] is not empty %}
-                    {% for result in results['primer'] %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('primer_view', { 'id': result.id }) }}">{{ result.autoName }}</a></td>
-                            <td>{{ result.name }}</td>
-                            <td>{{ result.sequence }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    {% if is_granted('PRIMER_EDIT', result) %}
-                                        <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': result.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% endif %}
-
-                                    {% if is_granted('PRIMER_DELETE', result) %}
-                                        <a class="btn btn-danger" href="{{ path('primer_delete', { 'id': result.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="5" style="text-align:center;">There is no result.</td>
-                    </tr>
-                {% endif %}
-            </table>
-        </div>
-    </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info search-result" role="alert">There is no result</div>
+    {% endif %}
 {% endif %}

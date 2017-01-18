@@ -248,7 +248,7 @@ class Species
      */
     public function getScientificName()
     {
-        return $this->genus->getGenus().' '.$this->name;
+        return $this->genus->getName().' '.$this->name;
     }
 
     public function isMainSpecies()
