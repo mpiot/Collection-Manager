@@ -34,4 +34,21 @@ $( function() {
             });
         }
     });
+
+    $('[name="gmo_strain[name]"], [name$="wild_strain[name]"]').autocomplete({
+        minLength: 2,
+        source: function (request, response) {
+            $.ajax({
+                url: Routing.generate('strain-name-suggest', { keyword: $('[name="gmo_strain[name]"], [name$="wild_strain[name]"]').val() }),
+                dataType: 'json',
+                success: function (data) {
+                    var items = [];
+                    $.each(data, function (key, val) {
+                        items.push(val);
+                    });
+                    response(items);
+                }
+            });
+        }
+    });
 });
