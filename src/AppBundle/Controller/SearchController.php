@@ -9,6 +9,7 @@ use AppBundle\Form\Type\AdvancedSearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -77,6 +78,36 @@ class SearchController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/suggest-search", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="suggest-search")
+     */
+    public function suggestAction(Request $request)
+    {
+        $keyword = $request->get('search', null);
+
+        // Get the query
+        $query = $this->searchQuery($keyword);
+
+        // Execute the query
+        $index = $this->container->get('fos_elastica.index.app');
+        $results = $index->search($query, 10)->getResults();
+
+        $data= [];
+
+        foreach ($results as $result) {
+            $source = $result->getSource();
+            $data[] = [
+                'suggest' => $source['name'].' ('.$source['autoName'].')',
+                'autoName' => $source['autoName'],
+                'name' => $source['name'],
+            ];
+        }
+
+        return new JsonResponse($data, 200, [
+            'Cache-Control' => 'no-cache',
+        ]);
+    }
+
     private function searchQuery($keyword = null, $category = null, $country = null, Project $project = null, Type $type = null, User $author = null, $deleted = false)
     {
         // Create the search query
@@ -88,19 +119,10 @@ class SearchController extends Controller
 
         // If user set a keyword, else, he just want use a filter
         if (null !== $keyword) {
-            // Search in autoName
-            $autoNameQuery = new  \Elastica\Query\Match();
-            $autoNameQuery->setFieldQuery('autoName', $keyword);
-            $autoNameQuery->setFieldFuzziness('autoName', 'AUTO');
-
-            // Search in name
-            $nameQuery = new  \Elastica\Query\Match();
-            $nameQuery->setFieldQuery('name', $keyword);
-            $nameQuery->setFieldFuzziness('name', 'AUTO');
-
-            // Search in sequence
-            $sequenceQuery = new  \Elastica\Query\Match();
-            $sequenceQuery->setFieldQuery('sequence', $keyword);
+            $keywordQuery = new \Elastica\Query\QueryString();
+            $keywordQuery->setFields(['autoName', 'name', 'sequence']);
+            $keywordQuery->setDefaultOperator('AND');
+            $keywordQuery->setQuery($keyword);
         }
 
         // Set deleted filter on false
@@ -165,8 +187,7 @@ class SearchController extends Controller
 
             // Then, all conditional queries
             if (null !== $keyword) {
-                $plasmidBoolQuery->addShould($autoNameQuery);
-                $plasmidBoolQuery->addShould($nameQuery);
+                $plasmidBoolQuery->addShould($keywordQuery);
             }
             if (null !== $author && '' !== $author) {
                 $plasmidBoolQuery->addFilter($authorQuery);
@@ -193,9 +214,7 @@ class SearchController extends Controller
 
             // Then, all conditional queries
             if (null !== $keyword) {
-                $primerBoolQuery->addShould($autoNameQuery);
-                $primerBoolQuery->addShould($nameQuery);
-                $primerBoolQuery->addShould($sequenceQuery);
+                $primerBoolQuery->addShould($keywordQuery);
             }
             if (null !== $author && '' !== $author) {
                 $primerBoolQuery->addFilter($authorQuery);
@@ -222,8 +241,7 @@ class SearchController extends Controller
 
             // Then, all conditional queries
             if (null !== $keyword) {
-                $gmoStrainBoolQuery->addShould($autoNameQuery);
-                $gmoStrainBoolQuery->addShould($nameQuery);
+                $gmoStrainBoolQuery->addShould($keywordQuery);
             }
             $gmoStrainBoolQuery->addFilter($deletedQuery);
             if (null !== $author && '' !== $author) {
@@ -257,8 +275,7 @@ class SearchController extends Controller
 
             // Then, all conditional queries
             if (null !== $keyword) {
-                $wildStrainBoolQuery->addShould($autoNameQuery);
-                $wildStrainBoolQuery->addShould($nameQuery);
+                $wildStrainBoolQuery->addShould($keywordQuery);
             }
             $wildStrainBoolQuery->addFilter($deletedQuery);
             if (null !== $author && '' !== $author) {
