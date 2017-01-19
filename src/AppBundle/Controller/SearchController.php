@@ -27,7 +27,7 @@ class SearchController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/search/{keyword}", name="quick-search")
+     * @Route("/search/{keyword}", options={"expose"=true}, name="quick-search")
      */
     public function quickSearchAction($keyword)
     {
