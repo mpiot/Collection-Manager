@@ -24,7 +24,7 @@ class InstanceOfExtension extends \Twig_Extension
             }),
             new \Twig_SimpleTest('wildStrain', function ($event) {
                 return $event instanceof WildStrain;
-            })
+            }),
         ];
     }
 }
