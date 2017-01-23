@@ -10,19 +10,6 @@ namespace AppBundle\Repository;
  */
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllWithGenus()
-    {
-        $query = $this->createQueryBuilder('species')
-            ->leftJoin('species.genus', 'genus')
-                ->addSelect('genus')
-            ->orderBy('genus.name', 'ASC')
-            ->addOrderBy('species.name', 'ASC')
-            ->getQuery()
-        ;
-
-        return $query->getResult();
-    }
-
     public function findOneWithGenus($species)
     {
         $query = $this->createQueryBuilder('species')

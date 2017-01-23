@@ -102,3 +102,16 @@ fos_elastica:
                       listener:               ~
                       finder:                 ~
                       repository:             ~
+                species:
+                    mappings:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    scientificName
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Species
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\SpeciesRepository

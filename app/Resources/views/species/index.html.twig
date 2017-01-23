@@ -18,61 +18,40 @@
 
     <h2 class="sub-header">Species List</h2>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-3">Genus</th>
-                    <th class="col-md-4">Species</th>
-                    <th class="col-md-1">Main</th>
-                    <th class="col-md-1">Synonym</th>
-                    <th class="col-md-2">Actions</th>
-                </tr>
-            {% else %}
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-4">Genus</th>
-                    <th class="col-md-5">Species</th>
-                    <th class="col-md-1">Main</th>
-                    <th class="col-md-1">Synonym</th>
-                </tr>
-            {% endif %}
-            </thead>
-                {% if speciesList is not empty %}
-                    {% for species in speciesList %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ species.genus.name }}</td>
-                            <td>{{ species.name }}</td>
-                            <td>
-                                {% if species.mainSpecies is null %}
-                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if species.mainSpecies is not null %}
-                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                {% endif %}
-                            </td>
-                            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
-                                <td>
-                                    {% if species.mainSpecies is null %}
-                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                            <a class="btn btn-danger" href="{{ path('species_delete', { 'id': species.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                        </div>
-                                    {% endif %}
-                                </td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <td class="text-center" colspan="6">There is no species.</td>
-                {% endif %}
-            <tbody>
-            </tbody>
-        </table>
+    <div class="row">
+        <form id="species-search-form" method="get">
+            <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" id="species-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+                        <span class="input-group-btn">
+                            <button id="species-search-button" class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+            </div>
+        </form>
     </div>
+
+    {{ list.content|raw }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $('input#species-search-field').keyup(function() {
+            var field = $(this);
+            $.ajax({
+                type: 'GET',
+                url: Routing.generate('species_index_ajax', { q: field.val(), p: 1 }),
+                dataType: 'html',
+                success: function (html) {
+                    history.replaceState('', '', Routing.generate('species_index', { q: field.val(), p: 1 }));
+                    $('#species-list').replaceWith(html);
+                }
+            });
+
+        });
+    </script>
 {% endblock %}
