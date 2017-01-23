@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SearchController extends Controller
 {
-    const HIT_PER_PAGE = 50;
+    const HITS_PER_PAGE = 50;
+    const SUGGEST_HITS = 10;
+
     /**
      * Quick search.
      * Do the search and return the results.
@@ -41,7 +43,7 @@ class SearchController extends Controller
         $search->addType('primer');
         $search->addType('gmoStrain');
         $search->addType('wildStrain');
-        $resultSet = $search->search($query, self::HIT_PER_PAGE);
+        $resultSet = $search->search($query, self::HITS_PER_PAGE);
         $transformer = $this->get('fos_elastica.elastica_to_model_transformer.collection.app');
         $results = $transformer->transform($resultSet->getResults());
 
@@ -77,7 +79,7 @@ class SearchController extends Controller
             $search->addType('primer');
             $search->addType('gmoStrain');
             $search->addType('wildStrain');
-            $resultSet = $search->search($query, self::HIT_PER_PAGE);
+            $resultSet = $search->search($query, self::HITS_PER_PAGE);
             $transformer = $this->get('fos_elastica.elastica_to_model_transformer.collection.app');
             $results = $transformer->transform($resultSet->getResults());
 
@@ -101,11 +103,17 @@ class SearchController extends Controller
         $keyword = $request->get('search', null);
 
         // Get the query
-        $query = $this->searchQuery($keyword);
+        $repository = new GlobalRepository();
+        $query = $repository->searchQuery($keyword, $this->getUser());
 
         // Execute the query
-        $index = $this->container->get('fos_elastica.index.app');
-        $results = $index->search($query, 10)->getResults();
+        $mngr = $this->get('fos_elastica.index_manager');
+        $search = $mngr->getIndex('app')->createSearch();
+        $search->addType('plasmid');
+        $search->addType('primer');
+        $search->addType('gmoStrain');
+        $search->addType('wildStrain');
+        $results = $search->search($query, self::SUGGEST_HITS);
 
         $data= [];
 
