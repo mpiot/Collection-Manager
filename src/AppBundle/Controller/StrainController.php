@@ -36,7 +36,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/name-suggest/{keyword}", options={"expose"=true}, name="strain-name-suggest")
+     * @Route("/name-suggest/{keyword}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain-name-suggest")
      */
     public function nameSuggestAction($keyword)
     {
