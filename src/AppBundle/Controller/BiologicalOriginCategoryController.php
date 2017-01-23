@@ -52,11 +52,14 @@ class BiologicalOriginCategoryController extends Controller
         $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
         $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1 ;
 
-        $repositoryManager = $this->container->get('fos_elastica.manager.orm');
+        $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
-        $categoryList = $repository->findByName($query, $page, self::HIT_PER_PAGE);
+        $elasticQuery = $repository->searchByNameQuery($query, $page, self::HIT_PER_PAGE);
+        $nbResults = $this->get('fos_elastica.index.app.biologicalorigincategory')->count($elasticQuery);
+        $finder = $this->get('fos_elastica.finder.app.biologicalorigincategory');
+        $categoryList = $finder->find($elasticQuery);
 
-        $nbPages = ceil($categoryList->getNbResults() / self::HIT_PER_PAGE);
+        $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
 
         return $this->render('biological_origin_category/list.html.twig', [
             'categoryList' => $categoryList,

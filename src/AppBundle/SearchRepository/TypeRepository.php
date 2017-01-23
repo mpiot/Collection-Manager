@@ -6,24 +6,29 @@ use FOS\ElasticaBundle\Repository;
 
 class TypeRepository extends Repository
 {
-    public function findByName($q, $p, $hpp)
+    public function searchByNameQuery($q, $p, $hpp)
     {
+        $query = new \Elastica\Query();
+
         if (null !== $q) {
-            $query = new \Elastica\Query\QueryString();
-            $query->setFields(['name']);
-            $query->setDefaultOperator('AND');
-            $query->setQuery($q);
+            $queryString = new \Elastica\Query\QueryString();
+            $queryString->setFields(['name']);
+            $queryString->setDefaultOperator('AND');
+            $queryString->setQuery($q);
+
+            $query->setQuery($queryString);
         } else {
             $matchAllQuery = new \Elastica\Query\MatchAll();
 
-            $query = new \Elastica\Query();
             $query->setQuery($matchAllQuery);
             $query->setSort(['name_raw' => 'asc']);
         }
 
+        $query
+            ->setFrom(($p - 1) * $hpp)
+            ->setSize($hpp);
+
         // build $query with Elastica objects
-        return $this->findPaginated($query)
-            ->setMaxPerPage($hpp)
-            ->setCurrentPage($p);
+        return $query;
     }
 }

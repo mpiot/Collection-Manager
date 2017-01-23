@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
