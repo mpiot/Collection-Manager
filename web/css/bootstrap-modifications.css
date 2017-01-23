@@ -28,6 +28,17 @@ body {
     margin-right: 10px;
 }
 
+a.navbar-brand {
+    padding-top: 10px;
+}
+
+a.navbar-brand > small {
+    position: relative;
+    top: 10px;
+    right: 70px;
+    font-size: 0.6em;
+}
+
 /*
  * Sidebar
  */
