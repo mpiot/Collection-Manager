@@ -18,18 +18,51 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BiologicalOriginCategoryController extends Controller
 {
+    const HIT_PER_PAGE = 10;
+
     /**
-     * @Route("/", name="category_index")
+     * @Route(
+     *     "/",
+     *     options={"expose"=true},
+     *     name="category_index"
+     * )
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $categories = $em->getRepository('AppBundle:BiologicalOriginCategory')->findBy([], ['name' => 'ASC']);
+        $list = $this->listAction($request);
 
         return $this->render('biological_origin_category/index.html.twig', [
-            'categories' => $categories,
+            'list' => $list,
+            'query' => $request->get('q'),
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/list",
+     *     options={"expose"=true},
+     *     condition="request.isXmlHttpRequest()",
+     *     name="category_index_ajax"
+     * )
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function listAction(Request $request)
+    {
+        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1 ;
+
+        $repositoryManager = $this->container->get('fos_elastica.manager.orm');
+        $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
+        $categoryList = $repository->findByName($query, $page, self::HIT_PER_PAGE);
+
+        $nbPages = ceil($categoryList->getNbResults() / self::HIT_PER_PAGE);
+
+        return $this->render('biological_origin_category/list.html.twig', [
+            'categoryList' => $categoryList,
+            'query'       => $query,
+            'page'        => $page,
+            'nbPages'     => $nbPages,
         ]);
     }
 
