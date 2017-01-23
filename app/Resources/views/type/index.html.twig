@@ -18,42 +18,41 @@
 
     <h2 class="sub-header">Types list</h2>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
-                    <tr>
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-9">Type</th>
-                        <th class="col-md-2">Actions</th>
-                    </tr>
-                {% else %}
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-11">Type</th>
-                </tr>
-                {% endif %}
-            </thead>
-                {% if typesList is not empty %}
-                    {% for type in typesList %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ type.name }}</td>
-                            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
-                                <td>
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                        <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    </div>
-                                </td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <td class="text-center" colspan="5">There is no types.</td>
-                {% endif %}
-            <tbody>
-            </tbody>
-        </table>
+    <div class="row">
+        <form id="type-search-form" method="get">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="type-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+                    <span class="input-group-btn">
+                            <button id="type-search-button" class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                </div>
+            </div>
+        </form>
     </div>
+
+    {{ list.content|raw }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $('input#type-search-field').keyup(function() {
+            console.log('up');
+            var field = $(this);
+            $.ajax({
+                type: 'GET',
+                url: Routing.generate('type_index_ajax', { q: field.val(), p: 1 }),
+                dataType: 'html',
+                success: function (html) {
+                    history.replaceState('', '', Routing.generate('type_index', { q: field.val(), p: 1 }));
+                    $('#type-list').replaceWith(html);
+                }
+            });
+
+        });
+    </script>
 {% endblock %}

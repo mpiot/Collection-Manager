@@ -1,0 +1,54 @@
+<div id="type-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-9">Type</th>
+                    <th class="col-md-2">Actions</th>
+                </tr>
+            {% else %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-11">Type</th>
+                </tr>
+            {% endif %}
+            </thead>
+            {% if typesList is not empty %}
+                {% for type in typesList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ type.name }}</td>
+                        {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                </div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td class="text-center" colspan="5">There is no types.</td>
+            {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% if nbPages > 0 %}
+            {% for p in range(1, nbPages) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('type_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="active">
+                <a href="{{ path('type_index', {'q': query, 'p': 1}) }}">1</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

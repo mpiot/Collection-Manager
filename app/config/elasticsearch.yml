@@ -121,3 +121,20 @@ fos_elastica:
                       repository:             AppBundle\SearchRepository\SpeciesRepository
                       elastica_to_model_transformer:
                         query_builder_method: createSearchQueryBuilder
+                type:
+                    mappings:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    name
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Type
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\TypeRepository

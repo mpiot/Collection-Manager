@@ -18,17 +18,51 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TypeController extends Controller
 {
+    const HIT_PER_PAGE = 10;
+
     /**
-     * @Route("/", name="type_index")
+     * @Route(
+     *     "/",
+     *     options={"expose"=true},
+     *     name="type_index"
+     * )
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $types = $em->getRepository('AppBundle:Type')->findBy([], ['name' => 'ASC']);
+        $list = $this->listAction($request);
 
         return $this->render('type/index.html.twig', [
-            'typesList' => $types,
+            'list' => $list,
+            'query' => $request->get('q'),
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/list",
+     *     options={"expose"=true},
+     *     condition="request.isXmlHttpRequest()",
+     *     name="type_index_ajax"
+     * )
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function listAction(Request $request)
+    {
+        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1 ;
+
+        $repositoryManager = $this->container->get('fos_elastica.manager.orm');
+        $repository = $repositoryManager->getRepository('AppBundle:Type');
+        $typesList = $repository->findByName($query, $page, self::HIT_PER_PAGE);
+
+        $nbPages = ceil($typesList->getNbResults() / self::HIT_PER_PAGE);
+
+        return $this->render('type/list.html.twig', [
+            'typesList' => $typesList,
+            'query'       => $query,
+            'page'        => $page,
+            'nbPages'     => $nbPages,
         ]);
     }
 
