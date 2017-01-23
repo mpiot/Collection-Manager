@@ -10,6 +10,17 @@ namespace AppBundle\Repository;
  */
 class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function createSearchQueryBuilder($entityAlias)
+    {
+        $qb = $this->createQueryBuilder($entityAlias);
+
+        $qb->select($entityAlias, 's')
+            ->innerJoin($entityAlias.'.genus', 's')
+        ;
+
+        return $qb;
+    }
+
     public function findOneWithGenus($species)
     {
         $query = $this->createQueryBuilder('species')

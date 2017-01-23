@@ -18,7 +18,7 @@ class SpeciesRepository extends Repository
 
             $query = new \Elastica\Query();
             $query->setQuery($matchAllQuery);
-            $query->setSort(['name' => 'asc']);
+            $query->setSort(['name_raw' => 'asc']);
         }
 
         // build $query with Elastica objects

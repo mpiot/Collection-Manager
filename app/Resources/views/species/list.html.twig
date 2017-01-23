@@ -44,6 +44,11 @@
                                         <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
                                         <a class="btn btn-danger" href="{{ path('species_delete', { 'id': species.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
                                     </div>
+                                {% else %}
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.mainSpecies.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                        <a class="btn btn-danger" href="{{ path('species_delete', { 'id': species.mainSpecies.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                    </div>
                                 {% endif %}
                             </td>
                         {% endif %}
@@ -52,8 +57,6 @@
             {% else %}
                 <td class="text-center" colspan="6">There is no species.</td>
             {% endif %}
-            <tbody>
-            </tbody>
         </table>
     </div>
 
