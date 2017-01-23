@@ -58,7 +58,7 @@ class PlasmidGenBank
                     'stop' => $matches[4],
                 ];
 
-                $i++;
+                ++$i;
             }
 
             // In second, we want other informations on features (organism, mol_type, label, gene, translation)

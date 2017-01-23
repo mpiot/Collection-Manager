@@ -53,9 +53,9 @@ class TeamType extends AbstractType
                         'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
-                'choice_label' => function(User $user) {
+                'choice_label' => function (User $user) {
                     return $user->getLastName().' '.$user->getFirstName();
-                }
+                },
             ])
             ->add('members', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
@@ -76,9 +76,9 @@ class TeamType extends AbstractType
                         'data-teams' => '['.implode(',', $user->getTeamsId()).']',
                     ];
                 },
-                'choice_label' => function(User $user) {
+                'choice_label' => function (User $user) {
                     return $user->getLastName().' '.$user->getFirstName();
-                }
+                },
             ])
         ;
     }

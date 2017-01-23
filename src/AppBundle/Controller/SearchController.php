@@ -115,7 +115,7 @@ class SearchController extends Controller
         $search->addType('wildStrain');
         $results = $search->search($query, self::SUGGEST_HITS);
 
-        $data= [];
+        $data = [];
 
         foreach ($results as $result) {
             $source = $result->getSource();

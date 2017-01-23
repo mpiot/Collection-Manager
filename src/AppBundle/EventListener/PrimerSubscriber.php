@@ -45,7 +45,7 @@ class PrimerSubscriber implements EventSubscriber
             $numberOf0 = 0;
         }
 
-        $autoName = 'primer' . str_repeat('0', $numberOf0) . $primerNumber;
+        $autoName = 'primer'.str_repeat('0', $numberOf0).$primerNumber;
 
         // Set autoName
         $primer->setAutoName($autoName);

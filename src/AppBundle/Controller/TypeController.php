@@ -50,7 +50,7 @@ class TypeController extends Controller
     public function listAction(Request $request)
     {
         $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1 ;
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Type');
@@ -63,9 +63,9 @@ class TypeController extends Controller
 
         return $this->render('type/list.html.twig', [
             'typesList' => $typesList,
-            'query'       => $query,
-            'page'        => $page,
-            'nbPages'     => $nbPages,
+            'query' => $query,
+            'page' => $page,
+            'nbPages' => $nbPages,
         ]);
     }
 
@@ -117,7 +117,7 @@ class TypeController extends Controller
             return new JsonResponse([
                 'success' => true,
                 'id' => $type->getId(),
-                'name'=> $type->getName(),
+                'name' => $type->getName(),
             ]);
         }
 

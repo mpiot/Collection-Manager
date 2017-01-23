@@ -5,7 +5,6 @@ namespace AppBundle\SearchRepository;
 use AppBundle\Entity\Project;
 use AppBundle\Entity\Type;
 use AppBundle\Entity\User;
-use FOS\ElasticaBundle\Repository;
 
 class GlobalRepository
 {

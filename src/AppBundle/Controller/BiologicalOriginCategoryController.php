@@ -50,7 +50,7 @@ class BiologicalOriginCategoryController extends Controller
     public function listAction(Request $request)
     {
         $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1 ;
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
@@ -63,9 +63,9 @@ class BiologicalOriginCategoryController extends Controller
 
         return $this->render('biological_origin_category/list.html.twig', [
             'categoryList' => $categoryList,
-            'query'       => $query,
-            'page'        => $page,
-            'nbPages'     => $nbPages,
+            'query' => $query,
+            'page' => $page,
+            'nbPages' => $nbPages,
         ]);
     }
 
@@ -117,7 +117,7 @@ class BiologicalOriginCategoryController extends Controller
             return new JsonResponse([
                 'success' => true,
                 'id' => $category->getId(),
-                'name'=> $category->getName(),
+                'name' => $category->getName(),
             ]);
         }
 

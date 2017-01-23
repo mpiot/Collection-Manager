@@ -264,7 +264,7 @@ class Tube
             $numberOf0 = 0;
         }
 
-        $boxCell = str_repeat('0', $numberOf0) . $cell;
+        $boxCell = str_repeat('0', $numberOf0).$cell;
 
         // Generate the tube name
         $this->name = $projectPrefix.'_'.$boxLetter.$boxCell;

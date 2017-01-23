@@ -61,7 +61,7 @@ class StrainController extends Controller
         $search->addType('wildStrain');
         $results = $search->search($query, 10)->getResults();
 
-        $data= [];
+        $data = [];
 
         foreach ($results as $result) {
             $source = $result->getSource();

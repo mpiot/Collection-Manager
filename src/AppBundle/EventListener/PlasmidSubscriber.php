@@ -45,7 +45,7 @@ class PlasmidSubscriber implements EventSubscriber
             $numberOf0 = 0;
         }
 
-        $autoName = 'p' . str_repeat('0', $numberOf0) . $plasmidNumber;
+        $autoName = 'p'.str_repeat('0', $numberOf0).$plasmidNumber;
 
         // Set autoName
         $plasmid->setAutoName($autoName);

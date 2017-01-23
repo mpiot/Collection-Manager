@@ -52,7 +52,7 @@ class SpeciesController extends Controller
     public function listAction(Request $request)
     {
         $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1 ;
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Species');
@@ -65,9 +65,9 @@ class SpeciesController extends Controller
 
         return $this->render('species/list.html.twig', [
             'speciesList' => $speciesList,
-            'query'       => $query,
-            'page'        => $page,
-            'nbPages'     => $nbPages,
+            'query' => $query,
+            'page' => $page,
+            'nbPages' => $nbPages,
         ]);
     }
 
