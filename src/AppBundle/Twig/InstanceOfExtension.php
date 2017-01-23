@@ -2,7 +2,6 @@
 
 namespace AppBundle\Twig;
 
-
 use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Primer;
