@@ -1,6 +1,3 @@
-![Collection Manager Logo](./web/images/logo.png)
-=
-
 # This project is under development
 
 Collection Manager is a software (website) intended to manage strains in microbiological laboratories,

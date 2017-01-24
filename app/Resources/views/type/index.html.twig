@@ -40,19 +40,33 @@
     {{ parent() }}
 
     <script>
-        $('input#type-search-field').keyup(function() {
-            console.log('up');
-            var field = $(this);
-            $.ajax({
-                type: 'GET',
-                url: Routing.generate('type_index_ajax', { q: field.val(), p: 1 }),
-                dataType: 'html',
-                success: function (html) {
-                    history.replaceState('', '', Routing.generate('type_index', { q: field.val(), p: 1 }));
-                    $('#type-list').replaceWith(html);
-                }
-            });
+        $(document).ready(function(){
+            var processing = false;
+            $('#type-search-field').keyup(function() {
+                var field = $('#type-search-field');
 
+                history.replaceState('', '', Routing.generate('type_index', { q: field.val(), p: 1 }));
+
+                delay(function(){
+                    $.ajax({
+                        type: 'GET',
+                        url: Routing.generate('type_index_ajax', { q: field.val(), p: 1 }),
+                        dataType: 'html',
+                        delay: 400,
+                        beforeSend: function() {
+                            if (processing) {
+                                return false;
+                            } else {
+                                processing = true;
+                            }
+                        },
+                        success: function (html) {
+                            $('#type-list').replaceWith(html);
+                            processing = false;
+                        }
+                    });
+                }, 400 );
+            });
         });
     </script>
 {% endblock %}
