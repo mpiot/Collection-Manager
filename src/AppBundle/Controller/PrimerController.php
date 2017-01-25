@@ -8,6 +8,7 @@ use AppBundle\Form\Type\PrimerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -50,7 +51,21 @@ class PrimerController extends Controller
     public function addAction(Request $request)
     {
         $primer = new Primer();
-        $form = $this->createForm(PrimerType::class, $primer);
+        $form = $this->createForm(PrimerType::class, $primer)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -61,7 +76,11 @@ class PrimerController extends Controller
 
             $this->addFlash('success', 'The primer has been added successfully.');
 
-            return $this->redirectToRoute('primer_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'primer_add'
+                : 'primer_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('primer/add.html.twig', [

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -67,7 +68,21 @@ class BoxController extends Controller
     {
         $box = new Box();
         $box->setProject($project);
-        $form = $this->createForm(BoxType::class, $box);
+        $form = $this->createForm(BoxType::class, $box)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -78,7 +93,11 @@ class BoxController extends Controller
 
             $this->addFlash('success', 'The box has been added successfully.');
 
-            return $this->redirectToRoute('box_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'box_add'
+                : 'box_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('box/add.html.twig', [

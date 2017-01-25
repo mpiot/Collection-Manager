@@ -7,6 +7,7 @@ use AppBundle\Form\Type\BiologicalOriginCategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -76,7 +77,21 @@ class BiologicalOriginCategoryController extends Controller
     public function addAction(Request $request)
     {
         $category = new BiologicalOriginCategory();
-        $form = $this->createForm(BiologicalOriginCategoryType::class, $category);
+        $form = $this->createForm(BiologicalOriginCategoryType::class, $category)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -87,7 +102,11 @@ class BiologicalOriginCategoryController extends Controller
 
             $this->addFlash('success', 'The category has been added successfully.');
 
-            return $this->redirectToRoute('category_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'category_add'
+                : 'category_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('biological_origin_category/add.html.twig', [

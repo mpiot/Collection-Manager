@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -78,7 +79,21 @@ class SpeciesController extends Controller
     public function addAction(Request $request)
     {
         $species = new Species();
-        $form = $this->createForm(SpeciesType::class, $species);
+        $form = $this->createForm(SpeciesType::class, $species)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -89,7 +104,11 @@ class SpeciesController extends Controller
 
             $this->addFlash('success', 'The species has been added successfully.');
 
-            return $this->redirectToRoute('species_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'species_add'
+                : 'species_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('species/add.html.twig', [

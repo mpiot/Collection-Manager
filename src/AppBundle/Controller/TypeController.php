@@ -7,6 +7,7 @@ use AppBundle\Form\Type\TypeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -76,7 +77,21 @@ class TypeController extends Controller
     public function addAction(Request $request)
     {
         $type = new Type();
-        $form = $this->createForm(TypeType::class, $type);
+        $form = $this->createForm(TypeType::class, $type)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -87,7 +102,11 @@ class TypeController extends Controller
 
             $this->addFlash('success', 'The type has been added successfully.');
 
-            return $this->redirectToRoute('type_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'type_add'
+                : 'type_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('type/add.html.twig', [

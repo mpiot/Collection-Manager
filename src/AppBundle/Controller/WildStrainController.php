@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -44,7 +45,21 @@ class WildStrainController extends Controller
 
         $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName($this->getUser());
 
-        $form = $this->createForm(WildStrainType::class, $strain);
+        $form = $this->createForm(WildStrainType::class, $strain)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -54,7 +69,11 @@ class WildStrainController extends Controller
 
             $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
 
-            return $this->redirectToRoute('strain_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'strain_wild_add'
+                : 'strain_wild_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('strain/wild/add.html.twig', [

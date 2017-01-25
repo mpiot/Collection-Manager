@@ -9,17 +9,9 @@
 {% endblock %}
 
 {% block type_body %}
-    <div>
-        <a class="btn btn-default" href="{{ path('type_index') }}">
-            <span class="glyphicon glyphicon-chevron-left"></span> Types list
-        </a>
-    </div>
-
     <h2 class="sub-header">Add a type</h2>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-
-        <input type="submit" class="btn btn-default pull-right" value="Add"/>
     {{ form_end(form) }}
 {% endblock %}

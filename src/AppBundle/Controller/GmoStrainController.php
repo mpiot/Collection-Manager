@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,7 +46,21 @@ class GmoStrainController extends Controller
 
         $strainNames = $em->getRepository('AppBundle:GmoStrain')->findAllName($this->getUser());
 
-        $form = $this->createForm(GmoStrainType::class, $strain);
+        $form = $this->createForm(GmoStrainType::class, $strain)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -55,7 +70,11 @@ class GmoStrainController extends Controller
 
             $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
 
-            return $this->redirectToRoute('strain_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'strain_gmo_add'
+                : 'strain_gmo_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('strain/gmo/add.html.twig', [

@@ -12,3 +12,26 @@
     {{ parent() }}
     {{- block('form_help') -}}
 {%- endblock form_errors %}
+
+{% block submit_row -%}
+    {% spaceless %}
+        {% if 'btn-group' in attr %}
+            {% if 'btn-first' in attr %}
+                <div class="col-sm-offset-2 btn-group pull-right">
+            {% endif %}
+
+            {{ form_widget(form) }}
+
+            {% if 'btn-last' in attr %}
+                </div>
+            {% endif %}
+        {% else %}
+        <div class="form-group pull-right">
+            <div class="{{ block('form_label_class') }}"></div>
+            <div class="{{ block('form_group_class') }}">
+                {{ form_widget(form) }}
+            </div>
+        </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock submit_row %}

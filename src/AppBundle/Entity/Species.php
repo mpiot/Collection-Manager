@@ -29,6 +29,7 @@ class Species
      * @var string
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Genus", inversedBy="species")
+     * @Assert\Valid
      */
     private $genus;
 

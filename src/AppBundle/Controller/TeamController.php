@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -53,7 +54,21 @@ class TeamController extends Controller
     public function addAction(Request $request)
     {
         $team = new Team();
-        $form = $this->createForm(TeamType::class, $team);
+        $form = $this->createForm(TeamType::class, $team)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -64,7 +79,11 @@ class TeamController extends Controller
 
             $this->addFlash('success', 'The team has been added successfully.');
 
-            return $this->redirectToRoute('team_view', ['id' => $team->getId()]);
+            if ($form->get('saveAndAdd')->isClicked()) {
+                return $this->redirectToRoute('team_add');
+            } else {
+                return $this->redirectToRoute('team_view', ['id' => $team->getId()]);
+            }
         }
 
         return $this->render('team/add.html.twig', [

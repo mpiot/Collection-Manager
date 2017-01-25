@@ -7,6 +7,7 @@ use AppBundle\Form\Type\PlasmidType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Utils\PlasmidGenBank;
 
@@ -54,7 +55,21 @@ class PlasmidController extends Controller
     public function addAction(Request $request)
     {
         $plasmid = new Plasmid();
-        $form = $this->createForm(PlasmidType::class, $plasmid);
+        $form = $this->createForm(PlasmidType::class, $plasmid)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -70,7 +85,11 @@ class PlasmidController extends Controller
 
             $this->addFlash('success', 'The plasmid has been added successfully.');
 
-            return $this->redirectToRoute('plasmid_index');
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'plasmid_add'
+                : 'plasmid_index';
+
+            return $this->redirectToRoute($nextAction);
         }
 
         return $this->render('plasmid/add.html.twig', [
@@ -84,7 +103,10 @@ class PlasmidController extends Controller
      */
     public function editAction(Plasmid $plasmid, Request $request)
     {
-        $form = $this->createForm(PlasmidType::class, $plasmid);
+        $form = $this->createForm(PlasmidType::class, $plasmid)
+            ->add('save', SubmitType::class, [
+                'label' => 'Edit',
+            ]);
 
         $form->handleRequest($request);
 

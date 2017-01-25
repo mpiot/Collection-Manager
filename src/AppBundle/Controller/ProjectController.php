@@ -7,6 +7,7 @@ use AppBundle\Form\Type\ProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -38,7 +39,27 @@ class ProjectController extends Controller
     public function addAction(Request $request)
     {
         $project = new Project();
-        $form = $this->createForm(ProjectType::class, $project);
+        $form = $this->createForm(ProjectType::class, $project)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                ]
+            ])
+            ->add('saveAndAddBox', SubmitType::class, [
+                'label' => 'Create and Add a box',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
@@ -49,7 +70,13 @@ class ProjectController extends Controller
 
             $this->addFlash('success', 'The project has been added successfully. Now you may create one or more boxe(s).');
 
-            return $this->redirectToRoute('box_add_4_project', ['id' => $project->getId()]);
+            if ($form->get('saveAndAdd')->isClicked()) {
+                return $this->redirectToRoute('project_add');
+            } elseif ($form->get('saveAndAddBox')->isClicked()) {
+                return $this->redirectToRoute('box_add_4_project', ['id' => $project->getId()]);
+            } else {
+                return $this->redirectToRoute('project_index');
+            }
         }
 
         return $this->render('project/add.html.twig', [
