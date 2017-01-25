@@ -6,6 +6,7 @@ use AppBundle\Entity\Tube;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class tubeController.
@@ -19,18 +20,22 @@ class TubeController extends Controller
      * @Route("/restore/{id}", name="tube_restore")
      * @Security("is_granted('TUBE_RESTORE', tube)")
      */
-    public function restoreAction(Tube $tube)
+    public function restoreAction(Tube $tube, Request $request)
     {
-        // If the tube is no deleted, return an error message
-        if (false === $tube->getDeleted()) {
-            $this->addFlash('warning', 'The tube is not deleted.');
+        if ($this->isCsrfTokenValid('restoreTube-' . $tube->getId(), $request->get('token'))) {
+            // If the tube is no deleted, return an error message
+            if (false === $tube->getDeleted()) {
+                $this->addFlash('warning', 'The tube is not deleted.');
+            } else {
+                $tube->setDeleted(false);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+
+                $this->addFlash('success', 'The tube has been restored successfully.');
+            }
         } else {
-            $tube->setDeleted(false);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-
-            $this->addFlash('success', 'The tube has been restored successfully.');
+            $this->addFlash('warning', 'The token is not valid !');
         }
 
         // Is it a Gmo or Wild strain ?
@@ -45,18 +50,22 @@ class TubeController extends Controller
      * @Route("/delete/{id}", name="tube_delete")
      * @Security("is_granted('TUBE_DELETE', tube)")
      */
-    public function deleteAction(Tube $tube)
+    public function deleteAction(Tube $tube, Request $request)
     {
-        // If the tube is already deleted, return an error message
-        if (true === $tube->getDeleted()) {
-            $this->addFlash('warning', 'The tube is already deleted.');
+        if ($this->isCsrfTokenValid('deleteTube-'.$tube->getId(), $request->get('token'))) {
+            // If the tube is already deleted, return an error message
+            if (true === $tube->getDeleted()) {
+                $this->addFlash('warning', 'The tube is already deleted.');
+            } else {
+                $tube->setDeleted(true);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+
+                $this->addFlash('success', 'The tube has been deleted successfully.');
+            }
         } else {
-            $tube->setDeleted(true);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-
-            $this->addFlash('success', 'The tube has been deleted successfully.');
+            $this->addFlash('warning', 'The token is not valid !');
         }
 
         // Is it a Gmo or Wild strain ?

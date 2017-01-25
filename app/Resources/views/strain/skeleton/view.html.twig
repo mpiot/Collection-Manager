@@ -54,13 +54,13 @@
                             {% if is_granted('TUBE_RESTORE', tube) or is_granted('TUBE_DELETE', tube) %}
                                 <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                     {% if tube.deleted == true and is_granted('TUBE_RESTORE', tube) %}
-                                        <a class="btn btn-success" value="Delete" href="{{ path('tube_restore', { 'id': tube.id }) }}">
+                                        <a class="btn btn-success" value="Delete" href="{{ path('tube_restore', { 'id': tube.id, 'token': csrf_token('restoreTube-' ~ tube.id) }) }}">
                                             <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
                                         </a>
                                     {% endif %}
 
                                     {% if tube.deleted == false and is_granted('TUBE_DELETE', tube) %}
-                                    <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id }) }}">
+                                    <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id, 'token': csrf_token('deleteTube-' ~ tube.id) }) }}">
                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
                                     {% endif %}
