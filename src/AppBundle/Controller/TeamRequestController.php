@@ -74,33 +74,29 @@ class TeamRequestController extends Controller
      */
     public function acceptAction(TeamRequest $teamRequest, Request $request)
     {
-        if ('requested' !== $answer = $teamRequest->getAnswer()) {
-            $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+        if ($this->isCsrfTokenValid('accept-'.$teamRequest->getId(), $request->get('token'))) {
+            if ('requested' === $answer = $teamRequest->getAnswer()) {
+                $teamRequest->setAnswerDate(new \DateTime());
+                $teamRequest->setAnswer('accepted');
 
-            return $this->redirectToRoute('team_request_index');
-        }
+                $team = $teamRequest->getTeam();
+                $user = $teamRequest->getUser();
 
-        if (!$this->isCsrfTokenValid('accept-'.$teamRequest->getId(), $request->get('token'))) {
+                $team->addMember($user);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($team);
+                $em->flush();
+
+                $this->get('app.mailer')->sendTeamRequestAnswer($teamRequest);
+
+                $this->addFlash('success', 'The user has been successfully accepted !');
+            } else {
+                $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+            }
+        } else {
             $this->addFlash('warning', 'The token is not valid !');
-
-            return $this->redirectToRoute('team_request_index');
         }
-
-        $teamRequest->setAnswerDate(new \DateTime());
-        $teamRequest->setAnswer('accepted');
-
-        $team = $teamRequest->getTeam();
-        $user = $teamRequest->getUser();
-
-        $team->addMember($user);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($team);
-        $em->flush();
-
-        $this->get('app.mailer')->sendTeamRequestAnswer($teamRequest);
-
-        $this->addFlash('success', 'The user has been successfully accepted !');
 
         return $this->redirectToRoute('team_request_index');
     }
@@ -111,27 +107,23 @@ class TeamRequestController extends Controller
      */
     public function declineAction(TeamRequest $teamRequest, Request $request)
     {
-        if ('requested' !== $answer = $teamRequest->getAnswer()) {
-            $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+        if ($this->isCsrfTokenValid('decline-'.$teamRequest->getId(), $request->get('token'))) {
+            if ('requested' === $answer = $teamRequest->getAnswer()) {
+                $teamRequest->setAnswerDate(new \DateTime());
+                $teamRequest->setAnswer('declined');
 
-            return $this->redirectToRoute('team_request_index');
-        }
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
 
-        if (!$this->isCsrfTokenValid('decline-'.$teamRequest->getId(), $request->get('token'))) {
+                $this->get('app.mailer')->sendTeamRequestAnswer($teamRequest);
+
+                $this->addFlash('success', 'The user has been successfully declined !');
+            } else {
+                $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+            }
+        } else {
             $this->addFlash('warning', 'The token is not valid !');
-
-            return $this->redirectToRoute('team_request_index');
         }
-
-        $teamRequest->setAnswerDate(new \DateTime());
-        $teamRequest->setAnswer('declined');
-
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
-
-        $this->get('app.mailer')->sendTeamRequestAnswer($teamRequest);
-
-        $this->addFlash('success', 'The user has been successfully declined !');
 
         return $this->redirectToRoute('team_request_index');
     }
