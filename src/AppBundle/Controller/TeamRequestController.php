@@ -7,6 +7,7 @@ use AppBundle\Entity\TeamRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/team-request")
@@ -71,10 +72,16 @@ class TeamRequestController extends Controller
      * @Route("/accept/{id}", name="team_request_accept")
      * @Security("user.isAdministratorOf(teamRequest.getTeam()) or is_granted('ROLE_ADMIN')")
      */
-    public function acceptAction(TeamRequest $teamRequest)
+    public function acceptAction(TeamRequest $teamRequest, Request $request)
     {
         if ('requested' !== $answer = $teamRequest->getAnswer()) {
             $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+
+            return $this->redirectToRoute('team_request_index');
+        }
+
+        if (!$this->isCsrfTokenValid('accept-'.$teamRequest->getId(), $request->get('token'))) {
+            $this->addFlash('warning', 'The token is not valid !');
 
             return $this->redirectToRoute('team_request_index');
         }
@@ -102,10 +109,16 @@ class TeamRequestController extends Controller
      * @Route("/decline/{id}", name="team_request_decline")
      * @Security("user.isAdministratorOf(teamRequest.getTeam()) or is_granted('ROLE_ADMIN')")
      */
-    public function declineAction(TeamRequest $teamRequest)
+    public function declineAction(TeamRequest $teamRequest, Request $request)
     {
         if ('requested' !== $answer = $teamRequest->getAnswer()) {
             $this->addFlash('warning', 'Already aswered: '.$answer.' !');
+
+            return $this->redirectToRoute('team_request_index');
+        }
+
+        if (!$this->isCsrfTokenValid('decline-'.$teamRequest->getId(), $request->get('token'))) {
+            $this->addFlash('warning', 'The token is not valid !');
 
             return $this->redirectToRoute('team_request_index');
         }

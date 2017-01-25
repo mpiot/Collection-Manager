@@ -38,8 +38,8 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                <a class="btn btn-success" href="{{ path('team_request_accept', { 'id': request.id }) }}"><span class=" glyphicon glyphicon-ok" aria-hidden="true"></span> Accept</a>
-                                <a class="btn btn-danger" href="{{ path('team_request_decline', { 'id': request.id }) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Decline</a>
+                                <a class="btn btn-success" href="{{ path('team_request_accept', { 'id': request.id, 'token': csrf_token('accept-' ~ request.id) }) }}"><span class=" glyphicon glyphicon-ok" aria-hidden="true"></span> Accept</a>
+                                <a class="btn btn-danger" href="{{ path('team_request_decline', { 'id': request.id, 'token': csrf_token('decline-' ~ request.id) }) }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Decline</a>
                             </div>
                         </td>
                     </tr>
