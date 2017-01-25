@@ -45,20 +45,20 @@ class ProjectController extends Controller
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-first',
-                ]
+                ],
             ])
             ->add('saveAndAdd', SubmitType::class, [
                 'label' => 'Create and Add',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
-                ]
+                ],
             ])
             ->add('saveAndAddBox', SubmitType::class, [
                 'label' => 'Create and Add a box',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-last',
-                ]
+                ],
             ]);
 
         $form->handleRequest($request);
