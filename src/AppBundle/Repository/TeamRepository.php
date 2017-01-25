@@ -43,6 +43,8 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->createQueryBuilder('team')
             ->leftJoin('team.members', 'members')
+            ->leftJoin('team.administrators', 'administrators')
+                ->addSelect('administrators')
             ->where('members = :user')
                 ->setParameter('user', $user)
             ->orderBy('team.name', 'ASC')
