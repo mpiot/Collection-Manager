@@ -95,7 +95,14 @@ class WildStrainController extends Controller
 
         $strainNames = $em->getRepository('AppBundle:WildStrain')->findAllName($this->getUser());
 
-        $form = $this->createForm(WildStrainType::class, $strain);
+        $form = $this->createForm(WildStrainType::class, $strain)
+            ->add('edit', SubmitType::class, [
+                'label' => 'Edit',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ]);
 
         $form->handleRequest($request);
 

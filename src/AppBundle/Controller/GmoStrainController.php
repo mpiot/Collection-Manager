@@ -96,7 +96,14 @@ class GmoStrainController extends Controller
 
         $strainNames = $em->getRepository('AppBundle:GmoStrain')->findAllName($this->getUser());
 
-        $form = $this->createForm(GmoStrainType::class, $strain);
+        $form = $this->createForm(GmoStrainType::class, $strain)
+            ->add('edit', SubmitType::class, [
+                'label' => 'Edit',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ]
+            ]);
 
         $form->handleRequest($request);
 
