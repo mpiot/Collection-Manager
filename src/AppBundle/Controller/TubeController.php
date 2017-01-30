@@ -22,7 +22,7 @@ class TubeController extends Controller
      */
     public function restoreAction(Tube $tube, Request $request)
     {
-        if ($this->isCsrfTokenValid('restoreTube-' . $tube->getId(), $request->get('token'))) {
+        if ($this->isCsrfTokenValid('restoreTube-'.$tube->getId(), $request->get('token'))) {
             // If the tube is no deleted, return an error message
             if (false === $tube->getDeleted()) {
                 $this->addFlash('warning', 'The tube is not deleted.');
