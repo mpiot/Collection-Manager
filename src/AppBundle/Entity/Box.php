@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Box.
@@ -11,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="box")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BoxRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity({"project", "name"}, message="A box already exist with the name: {{ value }}.")
  */
 class Box
 {
@@ -26,7 +28,14 @@ class Box
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="auto_name", type="string", length=255)
+     */
+    private $autoName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -116,6 +125,16 @@ class Box
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get autoName.
+     *
+     * @return string
+     */
+    public function getAutoName()
+    {
+        return $this->autoName;
     }
 
     /**
@@ -470,5 +489,7 @@ class Box
 
         // Determine the freeSpace
         $this->freeSpace = $this->colNumber * $this->rowNumber;
+
+        $this->autoName = $this->project->getPrefix().'_Box'.$this->boxLetter;
     }
 }

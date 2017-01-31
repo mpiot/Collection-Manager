@@ -18,64 +18,56 @@
 
     <h2 class="sub-header">Boxes list</h2>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Auto Name</th>
-                        <th class="col-md-1">Name</th>
-                        <th class="col-md-3">Description</th>
-                        <th class="col-md-1">Project</th>
-                        <th class="col-md-1">Free space</th>
-                        <th class="col-md-3">Actions</th>
-                    {% else %}
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Auto Name</th>
-                        <th class="col-md-1">Name</th>
-                        <th class="col-md-6">Description</th>
-                        <th class="col-md-1">Project</th>
-                        <th class="col-md-1">Free space</th>
-                    {% endif %}
-                </tr>
-            </thead>
-
-            <tbody>
-                {% if boxes is not empty %}
-                    {% for box in boxes %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('box_view', { 'id': box.id }) }}">{{ box.project.prefix }}_Box{{ box.boxLetter }}</a></td>
-                            <td>{{ box.name }}</td>
-                            <td>{{ box.description|truncate(50, true) }}</td>
-                            <td>{{ box.project.name }}</td>
-                            <td>{{ box.freeSpace }} / {{ box.cellNumber }}</td>
-                            {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
-                                <td>
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        {% if is_granted('BOX_EDIT', box) %}
-                                            <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                        {% endif %}
-
-                                        {% if is_granted('BOX_DELETE', box) %}
-                                            {% if box.isDeleted %}
-                                                <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                            {% else %}
-                                                <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                            {% endif %}
-                                        {% endif %}
-                                    </div>
-                                </td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="7" class="text-center">There are no boxes.</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
+    <div class="row">
+        <form id="box-search-form" method="get">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="box-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+                    <span class="input-group-btn">
+                        <button id="box-search-button" class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
     </div>
+
+    {{ list.content|raw }}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            var processing = false;
+            $('#box-search-field').keyup(function() {
+                var field = $('#box-search-field');
+
+                history.replaceState('', '', Routing.generate('box_index', { q: field.val(), p: 1 }));
+
+                delay(function(){
+                    $.ajax({
+                        type: 'GET',
+                        url: Routing.generate('box_index_ajax', { q: field.val(), p: 1 }),
+                        dataType: 'html',
+                        delay: 400,
+                        beforeSend: function() {
+                            if (processing) {
+                                return false;
+                            } else {
+                                processing = true;
+                            }
+                        },
+                        success: function (html) {
+                            $('#box-list').replaceWith(html);
+                            processing = false;
+                        }
+                    });
+                }, 400 );
+            });
+        });
+    </script>
 {% endblock %}

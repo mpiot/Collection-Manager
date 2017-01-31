@@ -1,0 +1,76 @@
+<div id="box-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-2">Auto Name</th>
+                    <th class="col-md-1">Name</th>
+                    <th class="col-md-3">Description</th>
+                    <th class="col-md-1">Project</th>
+                    <th class="col-md-1">Free space</th>
+                    <th class="col-md-3">Actions</th>
+                {% else %}
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-2">Auto Name</th>
+                    <th class="col-md-1">Name</th>
+                    <th class="col-md-6">Description</th>
+                    <th class="col-md-1">Project</th>
+                    <th class="col-md-1">Free space</th>
+                {% endif %}
+            </tr>
+            </thead>
+
+            <tbody>
+            {% if boxList is not empty %}
+                {% for box in boxList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('box_view', { 'id': box.id }) }}">{{ box.autoName }}</a></td>
+                        <td>{{ box.name }}</td>
+                        <td>{{ box.description|truncate(50, true) }}</td>
+                        <td>{{ box.project.name }}</td>
+                        <td>{{ box.freeSpace }} / {{ box.cellNumber }}</td>
+                        {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    {% if is_granted('BOX_EDIT', box) %}
+                                        <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
+                                    {% endif %}
+
+                                    {% if is_granted('BOX_DELETE', box) %}
+                                        {% if box.isDeleted %}
+                                            <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% else %}
+                                            <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">There are no boxes.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% if nbPages > 0 %}
+            {% for p in range(1, nbPages) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('box_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="active">
+                <a href="{{ path('box_index', {'q': query, 'p': 1}) }}">1</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

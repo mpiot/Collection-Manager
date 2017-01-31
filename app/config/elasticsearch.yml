@@ -174,3 +174,35 @@ fos_elastica:
                       listener:               ~
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\ProjectRepository
+                box:
+                    mappings:
+                        autoName:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        autoName_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    autoName
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        description:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        project:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    project
+                        project_id:
+                            property_path:    project.id
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Box
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\BoxRepository
