@@ -155,3 +155,22 @@ fos_elastica:
                       listener:               ~
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\BiologicalOriginCategoryRepository
+                project:
+                    mappings:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    name
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        members:
+                            property_path:    membersId
+                    persistence:
+                      driver:                 orm
+                      model:                  AppBundle\Entity\Project
+                      provider:               ~
+                      listener:               ~
+                      finder:                 ~
+                      repository:             AppBundle\SearchRepository\ProjectRepository

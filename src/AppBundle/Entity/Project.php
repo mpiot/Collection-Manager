@@ -321,6 +321,22 @@ class Project
     }
 
     /**
+     * Get members id.
+     *
+     * @return array
+     */
+    public function getMembersId()
+    {
+        $membersId = [];
+
+        foreach ($this->members as $member) {
+            $membersId[] = $member->getId();
+        }
+
+        return $membersId;
+    }
+
+    /**
      * Is member ?
      *
      * @param User $user

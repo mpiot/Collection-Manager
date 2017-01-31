@@ -18,54 +18,55 @@
 
     <h2 class="sub-header">Projects list</h2>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Name</th>
-                        <th class="col-md-2">Prefix</th>
-                        <th class="col-md-5">Description</th>
-                        <th class="col-md-2">Actions</th>
-                    {% else %}
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Name</th>
-                        <th class="col-md-2">Prefix</th>
-                        <th class="col-md-7">Description</th>
-                    {% endif %}
-                </tr>
-            </thead>
-
-            <tbody>
-                {% if projects is not empty %}
-                    {% for project in projects %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ project.name }}</td>
-                            <td>{{ project.prefix }}</td>
-                            <td>{{ project.description|truncate(100, true) }}</td>
-                            {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
-                                <td>
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        {% if is_granted('PROJECT_EDIT', project) %}
-                                            <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                        {% endif %}
-
-                                        {% if is_granted('PROJECT_DELETE', project) %}
-                                            <a class="btn btn-danger" href="{{ path('project_delete', { 'id': project.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                        {% endif %}
-                                    </div>
-                                </td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="5" class="text-center">There are no projects.</td>
-                    </tr>
-                {% endif %}
-            </tbody>
-        </table>
+    <div class="row">
+        <form id="project-search-form" method="get">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" id="project-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+                    <span class="input-group-btn">
+                            <button id="project-search-button" class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                </div>
+            </div>
+        </form>
     </div>
+
+    {{ list.content|raw }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            var processing = false;
+            $('#project-search-field').keyup(function() {
+                var field = $('#project-search-field');
+
+                history.replaceState('', '', Routing.generate('project_index', { q: field.val(), p: 1 }));
+
+                delay(function(){
+                    $.ajax({
+                        type: 'GET',
+                        url: Routing.generate('project_index_ajax', { q: field.val(), p: 1 }),
+                        dataType: 'html',
+                        delay: 400,
+                        beforeSend: function() {
+                            if (processing) {
+                                return false;
+                            } else {
+                                processing = true;
+                            }
+                        },
+                        success: function (html) {
+                            $('#project-list').replaceWith(html);
+                            processing = false;
+                        }
+                    });
+                }, 400 );
+            });
+        });
+    </script>
 {% endblock %}

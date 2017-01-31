@@ -18,17 +18,52 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProjectController extends Controller
 {
-    /**
-     * @Route("/", name="project_index")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+    const HIT_PER_PAGE = 10;
 
-        $projects = $em->getRepository('AppBundle:Project')->findAllAuthorizedForCurrentUser($this->getUser());
+    /**
+     * @Route("/",
+     *     options={"expose"=true},
+     *     name="project_index"
+     * )
+     */
+    public function indexAction(Request $request)
+    {
+        $list = $this->listAction($request);
 
         return $this->render('project/index.html.twig', [
-            'projects' => $projects,
+            'list' => $list,
+            'query' => $request->get('q'),
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/list",
+     *     options={"expose"=true},
+     *     condition="request.isXmlHttpRequest()",
+     *     name="project_index_ajax"
+     * )
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function listAction(Request $request)
+    {
+        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
+
+        $repositoryManager = $this->get('fos_elastica.manager.orm');
+        $repository = $repositoryManager->getRepository('AppBundle:Project');
+        $elasticQuery = $repository->searchByNameQuery($query, $page, self::HIT_PER_PAGE, $this->getUser());
+        $nbResults = $this->get('fos_elastica.index.app.project')->count($elasticQuery);
+        $finder = $this->get('fos_elastica.finder.app.project');
+        $projectList = $finder->find($elasticQuery);
+
+        $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
+
+        return $this->render('project/list.html.twig', [
+            'projectList' => $projectList,
+            'query' => $query,
+            'page' => $page,
+            'nbPages' => $nbPages,
         ]);
     }
 
