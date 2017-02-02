@@ -47,8 +47,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $user = $userManager->createUser();
         $user->setEmail('user');
         $user->setUsername('user');
-        $admin->setFirstName('user');
-        $admin->setLastName('user');
+        $user->setFirstName('user');
+        $user->setLastName('user');
         $user->setPlainPassword('mdp');
         $user->setEnabled(true);
 
@@ -56,8 +56,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $team1admin = $userManager->createUser();
         $team1admin->setEmail('team1admin');
         $team1admin->setUsername('team1admin');
-        $admin->setFirstName('team1admin');
-        $admin->setLastName('team1admin');
+        $team1admin->setFirstName('team1admin');
+        $team1admin->setLastName('team1admin');
         $team1admin->setPlainPassword('mdp');
         $team1admin->setEnabled(true);
 
@@ -65,8 +65,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $team1project = $userManager->createUser();
         $team1project->setEmail('team1project');
         $team1project->setUsername('team1project');
-        $admin->setFirstName('team1project');
-        $admin->setLastName('team1project');
+        $team1project->setFirstName('team1project');
+        $team1project->setLastName('team1project');
         $team1project->setPlainPassword('mdp');
         $team1project->setEnabled(true);
 
@@ -74,8 +74,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $team1user = $userManager->createUser();
         $team1user->setEmail('team1user');
         $team1user->setUsername('team1user');
-        $admin->setFirstName('team1user');
-        $admin->setLastName('team1user');
+        $team1user->setFirstName('team1user');
+        $team1user->setLastName('team1user');
         $team1user->setPlainPassword('mdp');
         $team1user->setEnabled(true);
 
@@ -83,8 +83,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $team2admin = $userManager->createUser();
         $team2admin->setEmail('team2admin');
         $team2admin->setUsername('team2admin');
-        $admin->setFirstName('team2admin');
-        $admin->setLastName('team2admin');
+        $team2admin->setFirstName('team2admin');
+        $team2admin->setLastName('team2admin');
         $team2admin->setPlainPassword('mdp');
         $team2admin->setEnabled(true);
 
@@ -92,8 +92,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $team2project = $userManager->createUser();
         $team2project->setEmail('team2project');
         $team2project->setUsername('team2project');
-        $admin->setFirstName('team2project');
-        $admin->setLastName('team2project');
+        $team2project->setFirstName('team2project');
+        $team2project->setLastName('team2project');
         $team2project->setPlainPassword('mdp');
         $team2project->setEnabled(true);
 
@@ -101,8 +101,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         $team2user = $userManager->createUser();
         $team2user->setEmail('team2user');
         $team2user->setUsername('team2user');
-        $admin->setFirstName('team2user');
-        $admin->setLastName('team2user');
+        $team2user->setFirstName('team2user');
+        $team2user->setLastName('team2user');
         $team2user->setPlainPassword('mdp');
         $team2user->setEnabled(true);
 
