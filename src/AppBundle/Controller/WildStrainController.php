@@ -101,7 +101,7 @@ class WildStrainController extends Controller
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-first',
-                ]
+                ],
             ]);
 
         $form->handleRequest($request);
