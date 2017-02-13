@@ -34,7 +34,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/view/{id}", name="team_view")
+     * @Route("/{id}", name="team_view")
      * @ParamConverter("team", class="AppBundle:Team", options={
      *      "repository_method" = "findOneWithMembers"
      * })
@@ -92,7 +92,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="team_edit")
+     * @Route("/{id}/edit", name="team_edit")
      * @ParamConverter("team", class="AppBundle:Team", options={
      *      "repository_method" = "findOneWithMembers"
      * })
@@ -119,7 +119,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="team_delete")
+     * @Route("/{id}/delete", name="team_delete")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Team $team, Request $request)

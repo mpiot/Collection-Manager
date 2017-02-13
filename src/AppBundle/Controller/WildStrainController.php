@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class WildStrainController extends Controller
 {
     /**
-     * @Route("/view/wild/{id}", name="strain_wild_view")
+     * @Route("/wild/{id}", name="strain_wild_view")
      * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -83,7 +83,7 @@ class WildStrainController extends Controller
     }
 
     /**
-     * @Route("/edit/wild/{id}", name="strain_wild_edit")
+     * @Route("/wild/{id}/edit", name="strain_wild_edit")
      * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -125,7 +125,7 @@ class WildStrainController extends Controller
     }
 
     /**
-     * @Route("/delete/wild/{id}", name="strain_wild_delete")
+     * @Route("/wild/{id}/delete", name="strain_wild_delete")
      * @Security("is_granted('STRAIN_DELETE', strain)")
      */
     public function deleteWildAction(WildStrain $strain, Request $request)

@@ -147,7 +147,7 @@ class BiologicalOriginCategoryController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="category_edit")
+     * @Route("/{id}/edit", name="category_edit")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function editAction(BiologicalOriginCategory $category, Request $request)
@@ -172,7 +172,7 @@ class BiologicalOriginCategoryController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="category_delete")
+     * @Route("/{id}/delete", name="category_delete")
      * @Method("POST")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */

@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 class GmoStrainController extends Controller
 {
     /**
-     * @Route("/view/gmo/{id}", name="strain_gmo_view")
+     * @Route("/gmo/{id}", name="strain_gmo_view")
      * @ParamConverter("GmoStrain", class="AppBundle:GmoStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -84,7 +84,7 @@ class GmoStrainController extends Controller
     }
 
     /**
-     * @Route("/edit/gmo/{id}", name="strain_gmo_edit")
+     * @Route("/gmo/{id}/edit", name="strain_gmo_edit")
      * @ParamConverter("gmoStrain", class="AppBundle:GmoStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -126,7 +126,7 @@ class GmoStrainController extends Controller
     }
 
     /**
-     * @Route("/delete/gmo/{id}", name="strain_gmo_delete")
+     * @Route("/gmo/{id}/delete", name="strain_gmo_delete")
      * @Security("is_granted('STRAIN_DELETE', strain)")
      */
     public function deleteGmoAction(GmoStrain $strain, Request $request)

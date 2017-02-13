@@ -35,7 +35,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}/view", name="primer_view")
+     * @Route("/{id}", name="primer_view")
      * @Security("is_granted('PRIMER_VIEW', primer)")
      */
     public function viewAction(Primer $primer)

@@ -35,7 +35,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}/view", name="plasmid_view")
+     * @Route("/{id}", name="plasmid_view")
      * @Security("is_granted('PLASMID_VIEW', plasmid)")
      */
     public function viewAction(Plasmid $plasmid)

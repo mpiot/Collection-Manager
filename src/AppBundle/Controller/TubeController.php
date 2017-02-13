@@ -47,7 +47,7 @@ class TubeController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="tube_delete")
+     * @Route("/{id}/delete", name="tube_delete")
      * @Security("is_granted('TUBE_DELETE', tube)")
      */
     public function deleteAction(Tube $tube, Request $request)

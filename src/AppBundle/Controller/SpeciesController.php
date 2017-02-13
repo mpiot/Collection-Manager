@@ -74,7 +74,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{id}/view", name="species_view")
+     * @Route("/{id}", name="species_view")
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenusAndSynonyms"
      * })
@@ -138,7 +138,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="species_edit")
+     * @Route("/{id}/edit", name="species_edit")
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenus"
      * })

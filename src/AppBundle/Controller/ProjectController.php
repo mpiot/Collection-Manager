@@ -121,7 +121,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="project_edit")
+     * @Route("/{id}/edit", name="project_edit")
      * @Security("is_granted('PROJECT_EDIT', project)")
      */
     public function editAction(Project $project, Request $request)
@@ -146,7 +146,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="project_delete")
+     * @Route("/{id}/delete", name="project_delete")
      * @Method("POST")
      * @Security("is_granted('PROJECT_DELETE', project)")
      */

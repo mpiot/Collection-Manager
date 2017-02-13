@@ -147,7 +147,7 @@ class TypeController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="type_edit")
+     * @Route("/{id}/edit", name="type_edit")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function editAction(Type $type, Request $request)
