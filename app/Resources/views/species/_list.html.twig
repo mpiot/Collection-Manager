@@ -4,8 +4,7 @@
             <thead>
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-4">Genus</th>
-                    <th class="col-md-5">Species</th>
+                    <th class="col-md-9">Scientific name</th>
                     <th class="col-md-1">Main</th>
                     <th class="col-md-1">Synonym</th>
                 </tr>
@@ -17,13 +16,14 @@
                         <td>
                             {% if species.isMainSpecies %}
                                 <a href="{{ path('species_view', { id: species.id }) }}">
-                                    {{ species.genus.name }}
+                                    {{ species.scientificName }}
                                 </a>
                             {% else %}
-                                {{ species.genus.name }}
+                                <a href="{{ path('species_view', { id: species.mainSpecies.id }) }}">
+                                    {{ species.scientificName }}
+                                </a>
                             {% endif %}
                         </td>
-                        <td>{{ species.name }}</td>
                         <td>
                             {% if species.isMainSpecies %}
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

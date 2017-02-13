@@ -39,11 +39,15 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Synonyms</div>
                 <ul class="list-group">
-                    {% for synonym in species.synonyms %}
-                        <li class="list-group-item">
-                            {{ synonym.scientificName }}
-                        </li>
-                    {% endfor %}
+                    {% if species.synonyms is not empty %}
+                        {% for synonym in species.synonyms %}
+                            <li class="list-group-item">
+                                {{ synonym.scientificName }}
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="list-group-item text-center">There is no synonym</li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
