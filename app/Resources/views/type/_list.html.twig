@@ -22,10 +22,7 @@
                         <td>{{ type.name }}</td>
                         {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
                             <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('type_edit', { 'id': type.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('type_delete', { 'id': type.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
+                                {{ include('type/_delete_form.html.twig', { type: type }, with_context = false) }}
                             </td>
                         {% endif %}
                     </tr>

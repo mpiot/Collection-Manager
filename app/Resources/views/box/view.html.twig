@@ -17,19 +17,7 @@
         </div>
 
         <div class="col-md-2">
-            <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                {% if is_granted('BOX_EDIT', box) %}
-                    <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                {% endif %}
-
-                {% if is_granted('BOX_DELETE', box) %}
-                    {% if box.isDeleted %}
-                        <a class="btn btn-danger" href="#" disabled><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                    {% else %}
-                        <a class="btn btn-danger" href="{{ path('box_delete', { 'id': box.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                    {% endif %}
-                {% endif %}
-            </div>
+            {{ include('box/_delete_form.html.twig', { box: box }, with_context = false) }}
         </div>
     </div>
 

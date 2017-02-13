@@ -28,14 +28,8 @@
                         <td>{{ project.description|truncate(100, true) }}</td>
                         {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
                             <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    {% if is_granted('PROJECT_EDIT', project) %}
-                                        <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% endif %}
-
-                                    {% if is_granted('PROJECT_DELETE', project) %}
-                                        <a class="btn btn-danger" href="{{ path('project_delete', { 'id': project.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    {% endif %}
+                                <div class="btn-group btn-group-xs" role="group">
+                                    {{ include('project/_delete_form.html.twig', { project: project }, with_context = false) }}
                                 </div>
                             </td>
                         {% endif %}

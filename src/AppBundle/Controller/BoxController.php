@@ -8,6 +8,7 @@ use AppBundle\Form\Type\BoxEditType;
 use AppBundle\Form\Type\BoxType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -64,7 +65,7 @@ class BoxController extends Controller
 
         $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
 
-        return $this->render('box/list.html.twig', [
+        return $this->render('box/_list.html.twig', [
             'boxList' => $boxList,
             'query' => $query,
             'page' => $page,
@@ -73,7 +74,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/view/{id}", name="box_view")
+     * @Route("/{id}/view", name="box_view")
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findOneWithProjectTypeTubesStrains"
      * })
@@ -168,40 +169,38 @@ class BoxController extends Controller
 
     /**
      * @Route("/delete/{id}", name="box_delete")
+     * @Method("POST")
      * @Security("is_granted('BOX_DELETE', box)")
      */
     public function deleteAction(Box $box, Request $request)
     {
+        // If the box is already deleted
         if ($box->isDeleted()) {
             $this->addFlash('warning', 'The box has been already deleted.');
 
             return $this->redirectToRoute('box_index');
         }
 
-        $form = $this->createFormBuilder()->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            // If the box is empty and is the last of a project, delete it of the database
-            if (!$box->getTubes()->isEmpty() || !$box->isLastBox()) {
-                $box->setDeleted(true);
-            } else { // Else, softDelete it
-                $em->remove($box);
-            }
-
-            $em->flush();
-
-            $this->addFlash('success', 'The box has been deleted successfully.');
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('box_delete', $request->request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $this->redirectToRoute('box_index');
         }
 
-        return $this->render('box/delete.html.twig', [
-            'box' => $box,
-            'form' => $form->createView(),
-        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // If the box is empty and is the last of a project, delete it of the database
+        if (!$box->getTubes()->isEmpty() || !$box->isLastBox()) {
+            $box->setDeleted(true);
+        } else { // Else, softDelete it
+            $entityManager->remove($box);
+        }
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The box has been deleted successfully.');
+
+        return $this->redirectToRoute('box_index');
     }
 }

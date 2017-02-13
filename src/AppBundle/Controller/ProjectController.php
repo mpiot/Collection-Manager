@@ -6,6 +6,7 @@ use AppBundle\Entity\Project;
 use AppBundle\Form\Type\ProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +60,7 @@ class ProjectController extends Controller
 
         $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
 
-        return $this->render('project/list.html.twig', [
+        return $this->render('project/_list.html.twig', [
             'projectList' => $projectList,
             'query' => $query,
             'page' => $page,
@@ -146,35 +147,32 @@ class ProjectController extends Controller
 
     /**
      * @Route("/delete/{id}", name="project_delete")
+     * @Method("POST")
      * @Security("is_granted('PROJECT_DELETE', project)")
      */
     public function deleteAction(Project $project, Request $request)
     {
-        // Check if the project is empty, else redirect user
+        // If the project is not empty, else redirect user
         if (!$project->getBoxes()->isEmpty()) {
             $this->addFlash('warning', 'The project cannot be deleted, there are boxes attached.');
 
-            return $this->redirectToRoute('project_index');
+            return $this->redirectToRoute('type_index');
         }
 
-        // On crée un formulaire vide, qui contiendra un champ anti CSRF
-        $form = $this->createFormBuilder()->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($project);
-            $em->flush();
-
-            $this->addFlash('success', 'The project has been deleted successfully.');
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('project_delete', $request->request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $this->redirectToRoute('project_index');
         }
 
-        return $this->render('project/delete.html.twig', [
-            'project' => $project,
-            'form' => $form->createView(),
-        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($project);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The project has been deleted successfully.');
+
+        return $this->redirectToRoute('project_index');
     }
 }

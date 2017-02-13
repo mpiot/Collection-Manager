@@ -1,0 +1,16 @@
+{{ include('project/_delete_confirmation.html.twig') }}
+<form action="{{ url('project_delete', { id: project.id }) }}" method="post" data-confirmation="true">
+    <input type="hidden" name="token" value="{{ csrf_token('project_delete') }}" />
+    <div class="btn-group btn-group-xs" role="group">
+        {% if is_granted('PROJECT_EDIT', project) %}
+        <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id}) }}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+        </a>
+        {% endif %}
+        {% if is_granted('PROJECT_DELETE', project) %}
+        <button type="submit" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+        </button>
+        {% endif %}
+    </div>
+</form>

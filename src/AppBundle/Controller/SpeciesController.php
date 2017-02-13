@@ -7,6 +7,7 @@ use AppBundle\Form\Type\SpeciesType;
 use AppBundle\Utils\TaxId;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -64,11 +65,31 @@ class SpeciesController extends Controller
 
         $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
 
-        return $this->render('species/list.html.twig', [
+        return $this->render('species/_list.html.twig', [
             'speciesList' => $speciesList,
             'query' => $query,
             'page' => $page,
             'nbPages' => $nbPages,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/view", name="species_view")
+     * @ParamConverter("species", class="AppBundle:Species", options={
+     *     "repository_method" = "findOneWithGenusAndSynonyms"
+     * })
+     */
+    public function viewAction(Species $species)
+    {
+        if (!$species->isMainSpecies()) {
+            $this->addFlash('warning', 'This is not a main species.');
+
+            return $this->redirectToRoute('species_index');
+        }
+
+        return $this->render('species/view.html.twig', [
+            'species' => $species,
+
         ]);
     }
 
@@ -145,7 +166,8 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="species_delete")
+     * @Route("/{id}/delete", name="species_delete")
+     * @Method("POST")
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenus"
      * })
@@ -160,23 +182,21 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_index');
         }
 
-        $form = $this->createFormBuilder()->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($species);
-            $em->flush();
-
-            $this->addFlash('success', 'The species has been deleted successfully.');
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('species_delete', $request->request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $this->redirectToRoute('species_index');
         }
 
-        return $this->render('species/delete.html.twig', [
-            'species' => $species,
-            'form' => $form->createView(),
-        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($species);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The species has been deleted successfully.');
+
+        return $this->redirectToRoute('species_index');
     }
 
     /**

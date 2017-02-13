@@ -23,27 +23,21 @@
             <thead>
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-2">AutoName</th>
                     <th class="col-md-2">Name</th>
-                    <th class="col-md-3">Sequence</th>
-                    <th class="col-md-2">Orientation</th>
-                    <th class="col-md-2">Actions</th>
+                    <th class="col-md-7">Sequence</th>
+                    <th class="col-md-1">Orientation</th>
+                    <th class="col-md-1">AutoName</th>
                 </tr>
             </thead>
                 {% if primers is not empty %}
                     {% for primer in primers %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
+
                             <td>{{ primer.name }}</td>
                             <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
                             <td>{{ primer.orientation|capitalize }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('primer_delete', { 'id': primer.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
-                            </td>
+                            <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
                         </tr>
                     {% endfor %}
                 {% else %}

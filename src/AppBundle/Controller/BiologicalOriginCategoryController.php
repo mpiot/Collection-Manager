@@ -6,6 +6,7 @@ use AppBundle\Entity\BiologicalOriginCategory;
 use AppBundle\Form\Type\BiologicalOriginCategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -62,7 +63,7 @@ class BiologicalOriginCategoryController extends Controller
 
         $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
 
-        return $this->render('biological_origin_category/list.html.twig', [
+        return $this->render('biological_origin_category/_list.html.twig', [
             'categoryList' => $categoryList,
             'query' => $query,
             'page' => $page,
@@ -172,33 +173,32 @@ class BiologicalOriginCategoryController extends Controller
 
     /**
      * @Route("/delete/{id}", name="category_delete")
+     * @Method("POST")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(BiologicalOriginCategory $category, Request $request)
     {
-        // Check if the category is used in wild strains, else redirect user
+        // If the type is used by strains, redirect user
         if (!$category->getWildStrains()->isEmpty()) {
-            $this->addFlash('warning', 'The category cannot be deleted, there are strains attached.');
+            $this->addFlash('warning', 'The category cannot be deleted, it\'s used in strain(s).');
 
-            return $this->redirectToRoute('category_index');
+            return $this->redirectToRoute('type_index');
         }
-        $form = $this->createFormBuilder()->getForm();
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($category);
-            $em->flush();
-
-            $this->addFlash('success', 'The category has been deleted successfully.');
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('biological_origin_category_delete', $request->request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $this->redirectToRoute('category_index');
         }
 
-        return $this->render('biological_origin_category/delete.html.twig', [
-            'category' => $category,
-            'form' => $form->createView(),
-        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($category);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The category has been deleted successfully.');
+
+        return $this->redirectToRoute('category_index');
     }
 }

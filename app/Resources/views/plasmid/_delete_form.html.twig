@@ -1,0 +1,17 @@
+{{ include('plasmid/_delete_confirmation.html.twig') }}
+<form action="{{ url('plasmid_delete', { id: plasmid.id }) }}" method="post" data-confirmation="true">
+    <input type="hidden" name="token" value="{{ csrf_token('plasmid_delete') }}" />
+    <div class="btn-group btn-group-xs" role="group">
+        {% if is_granted('PLASMID_EDIT', plasmid) %}
+            <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id}) }}">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+            </a>
+        {% endif %}
+
+        {% if is_granted('PLASMID_DELETE', plasmid) %}
+            <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+            </button>
+        {% endif %}
+    </div>
+</form>

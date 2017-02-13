@@ -6,6 +6,7 @@ use AppBundle\Entity\Plasmid;
 use AppBundle\Form\Type\PlasmidType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/view/{id}", name="plasmid_view")
+     * @Route("/{id}/view", name="plasmid_view")
      * @Security("is_granted('PLASMID_VIEW', plasmid)")
      */
     public function viewAction(Plasmid $plasmid)
@@ -98,7 +99,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="plasmid_edit")
+     * @Route("/{id}/edit", name="plasmid_edit")
      * @Security("is_granted('PLASMID_EDIT', plasmid)")
      */
     public function editAction(Plasmid $plasmid, Request $request)
@@ -132,27 +133,33 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="plasmid_delete")
+     * @Route("/{id}/delete", name="plasmid_delete")
+     * @Method("POST")
      * @Security("is_granted('PLASMID_DELETE', plasmid)")
      */
     public function deleteAction(Plasmid $plasmid, Request $request)
     {
-        $form = $this->createFormBuilder()->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($plasmid);
-            $em->flush();
-
-            $this->addFlash('success', 'The plasmid has been deleted successfully.');
+        // If the plasmid is used by strains, redirect user
+        if (!$plasmid->getStrains()->isEmpty()) {
+            $this->addFlash('warning', 'The plasmid cannot be deleted, it\'s used in strain(s).');
 
             return $this->redirectToRoute('plasmid_index');
         }
 
-        return $this->render('plasmid/delete.html.twig', [
-            'plasmid' => $plasmid,
-            'form' => $form->createView(),
-        ]);
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('plasmid_delete', $request->request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
+
+            return $this->redirectToRoute('plasmid_index');
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($plasmid);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The plasmid has been deleted successfully.');
+
+        return $this->redirectToRoute('plasmid_index');
     }
 }

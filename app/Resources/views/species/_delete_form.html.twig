@@ -1,0 +1,12 @@
+{{ include('species/_delete_confirmation.html.twig') }}
+<form action="{{ url('species_delete', { id: species.id }) }}" method="post" data-confirmation="true">
+    <input type="hidden" name="token" value="{{ csrf_token('species_delete') }}" />
+    <div class="btn-group btn-group-xs" role="group">
+        <a class="btn btn-warning" href="{{ path('species_edit', { 'id': species.id}) }}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+        </a>
+        <button type="submit" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+        </button>
+    </div>
+</form>

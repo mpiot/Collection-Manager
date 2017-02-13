@@ -1,0 +1,49 @@
+<div id="box-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-2">Name</th>
+                    <th class="col-md-6">Description</th>
+                    <th class="col-md-1">Project</th>
+                    <th class="col-md-1">Free space</th>
+                    <th class="col-md-1">Auto Name</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% if boxList is not empty %}
+                {% for box in boxList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ box.name }}</td>
+                        <td>{{ box.description|truncate(50, true) }}</td>
+                        <td>{{ box.project.name }}</td>
+                        <td>{{ box.freeSpace }} / {{ box.cellNumber }}</td>
+                        <td><a href="{{ path('box_view', { 'id': box.id }) }}">{{ box.autoName }}</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">There are no boxes.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% if nbPages > 0 %}
+            {% for p in range(1, nbPages) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('box_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="active">
+                <a href="{{ path('box_index', {'q': query, 'p': 1}) }}">1</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

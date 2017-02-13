@@ -32,4 +32,18 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    public function findOneWithGenusAndSynonyms($species)
+    {
+        $query = $this->createQueryBuilder('species')
+            ->leftJoin('species.genus', 'genus')
+                ->addSelect('genus')
+            ->leftJoin('species.synonyms', 'synonyms')
+                ->addSelect('synonyms')
+            ->where('species = :species')
+                ->setParameter('species', $species)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

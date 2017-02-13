@@ -15,10 +15,7 @@
         </div>
 
         <div class="col-md-2">
-            <div class="btn-group btn-group-xs" role="group">
-                <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                <a class="btn btn-danger" href="{{ path('primer_delete', { 'id': primer.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-            </div>
+            {{ include('primer/_delete_form.html.twig', { primer: primer }, with_context = false) }}
         </div>
     </div>
 

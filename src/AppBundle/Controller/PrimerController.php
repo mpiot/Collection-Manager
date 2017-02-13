@@ -7,6 +7,7 @@ use AppBundle\Form\Type\PrimerEditType;
 use AppBundle\Form\Type\PrimerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +35,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/view/{id}", name="primer_view")
+     * @Route("/{id}/view", name="primer_view")
      * @Security("is_granted('PRIMER_VIEW', primer)")
      */
     public function viewAction(Primer $primer)
@@ -89,7 +90,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="primer_edit")
+     * @Route("/{id}/edit", name="primer_edit")
      * @Security("is_granted('PRIMER_EDIT', primer)")
      */
     public function editAction(Primer $primer, Request $request)
@@ -114,27 +115,26 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}", name="primer_delete")
+     * @Route("/{id}/delete", name="primer_delete")
+     * @Method("POST")
      * @Security("is_granted('PRIMER_DELETE', primer)")
      */
     public function deleteAction(Primer $primer, Request $request)
     {
-        $form = $this->createFormBuilder()->getForm();
-        $form->handleRequest($request);
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('primer_delete', $request->request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($primer);
-            $em->flush();
-
-            $this->addFlash('success', 'The primer has been deleted successfully.');
-
-            return $this->redirectToRoute('primer_index');
+            return $this->redirectToRoute('plasmid_index');
         }
 
-        return $this->render('primer/delete.html.twig', [
-            'primer' => $primer,
-            'form' => $form->createView(),
-        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($primer);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The primer has been deleted successfully.');
+
+        return $this->redirectToRoute('primer_index');
     }
 }

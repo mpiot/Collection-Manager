@@ -23,17 +23,16 @@
             <thead>
             <tr>
                 <th class="col-md-1">#</th>
-                <th class="col-md-2">Auto name</th>
-                <th class="col-md-4">Name</th>
-                <th class="col-md-3">File</th>
-                <th class="col-md-2">Actions</th>
+                <th class="col-md-8">Name</th>
+                <th class="col-md-2">File</th>
+                <th class="col-md-1">Auto name</th>
             </tr>
             </thead>
                 {% if plasmids is not empty %}
                     {% for plasmid in plasmids %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('plasmid_view', { 'id': plasmid.id }) }}">{{ plasmid.autoName }}</a></td>
+
                             <td>{{ plasmid.name }}</td>
                             <td>
                                 {% if plasmid.genBankFile is not null %}
@@ -44,12 +43,7 @@
                                     No GenBank file
                                 {% endif %}
                             </td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id }) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    <a class="btn btn-danger" href="{{ path('plasmid_delete', { 'id': plasmid.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                </div>
-                            </td>
+                            <td><a href="{{ path('plasmid_view', { 'id': plasmid.id }) }}">{{ plasmid.autoName }}</a></td>
                         </tr>
                     {% endfor %}
                 {% else %}

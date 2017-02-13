@@ -1,0 +1,51 @@
+{% extends "species/base.html.twig" %}
+
+{% block title %}Species: {{ species.scientificName }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('species_index') }}">Species list</a></li>
+    <li class="active">{{ species.scientificName }}</li>
+{% endblock %}
+
+{% block species_body %}
+
+    <div class="row">
+        <div class="col-md-10">
+            <h2 class="sub-header">{{ species.scientificName }}</h2>
+        </div>
+
+        <div class="col-md-2">
+            {{ include('species/_delete_form.html.twig', { species: species }, with_context = false) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">General</div>
+                <ul class="list-group">
+                    <li class="list-group-item">Genus: {{ species.genus.name }}</li>
+                    <li class="list-group-item">Species: {{ species.name }}</li>
+                    <li class="list-group-item">TaxId:
+                        <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id={{ species.taxId }}" target="_blank">
+                            {{ species.taxId }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Synonyms</div>
+                <ul class="list-group">
+                    {% for synonym in species.synonyms %}
+                        <li class="list-group-item">
+                            {{ synonym.scientificName }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
