@@ -87,7 +87,6 @@ class SpeciesController extends Controller
 
         return $this->render('species/view.html.twig', [
             'species' => $species,
-
         ]);
     }
 
