@@ -31,7 +31,6 @@ class Type
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Regex("/^[A-Z]/", message="A type must start by a capital letter.")
      */
     private $name;
 
@@ -70,7 +69,7 @@ class Type
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = ucfirst($name);
 
         return $this;
     }

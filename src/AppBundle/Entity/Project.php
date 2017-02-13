@@ -138,7 +138,7 @@ class Project
      */
     public function setPrefix($prefix)
     {
-        $this->prefix = $prefix;
+        $this->prefix = strtoupper($prefix);
 
         return $this;
     }
