@@ -2,11 +2,12 @@
 
 namespace AppBundle\SearchRepository;
 
+use AppBundle\Entity\Type;
 use FOS\ElasticaBundle\Repository;
 
 class TypeRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, $hpp)
+    public function searchByNameQuery($q, $p)
     {
         $query = new \Elastica\Query();
 
@@ -25,8 +26,8 @@ class TypeRepository extends Repository
         }
 
         $query
-            ->setFrom(($p - 1) * $hpp)
-            ->setSize($hpp);
+            ->setFrom(($p - 1) * Type::NUM_ITEMS)
+            ->setSize(Type::NUM_ITEMS);
 
         // build $query with Elastica objects
         return $query;

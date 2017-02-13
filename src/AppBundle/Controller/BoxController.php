@@ -22,8 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BoxController extends Controller
 {
-    const HIT_PER_PAGE = 10;
-
     /**
      * @Route(
      *     "/",
@@ -58,12 +56,12 @@ class BoxController extends Controller
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Box');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, self::HIT_PER_PAGE, $this->getUser());
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
         $nbResults = $this->get('fos_elastica.index.app.box')->count($elasticQuery);
         $finder = $this->get('fos_elastica.finder.app.box');
         $boxList = $finder->find($elasticQuery);
 
-        $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
+        $nbPages = ceil($nbResults / Box::NUM_ITEMS);
 
         return $this->render('box/_list.html.twig', [
             'boxList' => $boxList,

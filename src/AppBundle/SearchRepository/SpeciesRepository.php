@@ -2,11 +2,12 @@
 
 namespace AppBundle\SearchRepository;
 
+use AppBundle\Entity\Species;
 use FOS\ElasticaBundle\Repository;
 
 class SpeciesRepository extends Repository
 {
-    public function searchByScientificNameQuery($q, $p, $hpp)
+    public function searchByScientificNameQuery($q, $p)
     {
         $query = new \Elastica\Query();
 
@@ -25,8 +26,8 @@ class SpeciesRepository extends Repository
         }
 
         $query
-            ->setFrom(($p - 1) * $hpp)
-            ->setSize($hpp);
+            ->setFrom(($p - 1) * Species::NUM_ITEMS)
+            ->setSize(Species::NUM_ITEMS);
 
         // build $query with Elastica objects
         return $query;

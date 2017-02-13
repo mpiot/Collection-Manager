@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ProjectController extends Controller
 {
-    const HIT_PER_PAGE = 10;
-
     /**
      * @Route("/",
      *     options={"expose"=true},
@@ -53,12 +51,12 @@ class ProjectController extends Controller
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Project');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, self::HIT_PER_PAGE, $this->getUser());
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
         $nbResults = $this->get('fos_elastica.index.app.project')->count($elasticQuery);
         $finder = $this->get('fos_elastica.finder.app.project');
         $projectList = $finder->find($elasticQuery);
 
-        $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
+        $nbPages = ceil($nbResults / Project::NUM_ITEMS);
 
         return $this->render('project/_list.html.twig', [
             'projectList' => $projectList,

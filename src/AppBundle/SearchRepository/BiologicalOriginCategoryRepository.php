@@ -2,11 +2,12 @@
 
 namespace AppBundle\SearchRepository;
 
+use AppBundle\Entity\BiologicalOriginCategory;
 use FOS\ElasticaBundle\Repository;
 
 class BiologicalOriginCategoryRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, $hpp)
+    public function searchByNameQuery($q, $p)
     {
         $query = new \Elastica\Query();
 
@@ -25,8 +26,8 @@ class BiologicalOriginCategoryRepository extends Repository
         }
 
         $query
-            ->setFrom(($p - 1) * $hpp)
-            ->setSize($hpp);
+            ->setFrom(($p - 1) * BiologicalOriginCategory::NUM_ITEMS)
+            ->setSize(BiologicalOriginCategory::NUM_ITEMS);
 
         // build $query with Elastica objects
         return $query;

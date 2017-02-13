@@ -16,6 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Box
 {
+    const NUM_ITEMS = 10;
+
     /**
      * @var int
      *

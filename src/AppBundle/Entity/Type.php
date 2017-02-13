@@ -17,6 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Type
 {
+    const NUM_ITEMS = 10;
+
     /**
      * @var int
      *

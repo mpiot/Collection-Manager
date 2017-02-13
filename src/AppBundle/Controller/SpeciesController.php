@@ -22,8 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SpeciesController extends Controller
 {
-    const HIT_PER_PAGE = 10;
-
     /**
      * @Route(
      *     "/",
@@ -58,12 +56,12 @@ class SpeciesController extends Controller
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Species');
-        $elasticQuery = $repository->searchByScientificNameQuery($query, $page, self::HIT_PER_PAGE);
+        $elasticQuery = $repository->searchByScientificNameQuery($query, $page);
         $nbResults = $this->get('fos_elastica.index.app.species')->count($elasticQuery);
         $finder = $this->get('fos_elastica.finder.app.species');
         $speciesList = $finder->find($elasticQuery);
 
-        $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
+        $nbPages = ceil($nbResults / Species::NUM_ITEMS);
 
         return $this->render('species/_list.html.twig', [
             'speciesList' => $speciesList,

@@ -2,12 +2,13 @@
 
 namespace AppBundle\SearchRepository;
 
+use AppBundle\Entity\Box;
 use AppBundle\Entity\User;
 use FOS\ElasticaBundle\Repository;
 
 class BoxRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, $hpp, User $user)
+    public function searchByNameQuery($q, $p, User $user)
     {
         $projectsId = $user->getProjectsId();
 
@@ -48,8 +49,8 @@ class BoxRepository extends Repository
         $query->setPostFilter($projectFilter);
 
         $query
-            ->setFrom(($p - 1) * $hpp)
-            ->setSize($hpp);
+            ->setFrom(($p - 1) * Box::NUM_ITEMS)
+            ->setSize(Box::NUM_ITEMS);
 
         // build $query with Elastica objects
         return $query;

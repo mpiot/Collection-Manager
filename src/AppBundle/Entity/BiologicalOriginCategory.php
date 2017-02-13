@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class BiologicalOriginCategory
 {
+    const NUM_ITEMS = 10;
+
     /**
      * @var int
      *

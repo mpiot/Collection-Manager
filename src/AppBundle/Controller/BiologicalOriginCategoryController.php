@@ -20,8 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BiologicalOriginCategoryController extends Controller
 {
-    const HIT_PER_PAGE = 10;
-
     /**
      * @Route(
      *     "/",
@@ -56,12 +54,12 @@ class BiologicalOriginCategoryController extends Controller
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, self::HIT_PER_PAGE);
+        $elasticQuery = $repository->searchByNameQuery($query, $page);
         $nbResults = $this->get('fos_elastica.index.app.biologicalorigincategory')->count($elasticQuery);
         $finder = $this->get('fos_elastica.finder.app.biologicalorigincategory');
         $categoryList = $finder->find($elasticQuery);
 
-        $nbPages = ceil($nbResults / self::HIT_PER_PAGE);
+        $nbPages = ceil($nbResults / BiologicalOriginCategory::NUM_ITEMS);
 
         return $this->render('biological_origin_category/_list.html.twig', [
             'categoryList' => $categoryList,
