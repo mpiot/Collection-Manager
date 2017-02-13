@@ -15,7 +15,7 @@ class BoxRepository extends Repository
             $administeredTeams = $user->getAdministeredTeams();
             $teamsProjects = [];
 
-            foreach($administeredTeams as $team) {
+            foreach ($administeredTeams as $team) {
                 $teamsProjects = array_merge($teamsProjects, $team->getProjects()->toArray());
             }
 
