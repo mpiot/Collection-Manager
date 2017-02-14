@@ -222,7 +222,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'team' => $this->getReference('team-Team 1'),
                 'administrators' => [$this->getReference('user-team1project')],
                 'members' => [$this->getReference('user-team1user')],
-                'private' => false,
             ],
             [
                 'name' => 'Team2 Project',
@@ -231,7 +230,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'team' => $this->getReference('team-Team 2'),
                 'administrators' => [$this->getReference('user-team2project')],
                 'members' => [$this->getReference('user-team2user')],
-                'private' => false,
             ],
         ];
 
@@ -241,7 +239,8 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             $project->setPrefix($projectData['prefix']);
             $project->setDescription($projectData['description']);
             $project->setTeam($projectData['team']);
-            $project->setPrivate($projectData['private']);
+            $project->setPrivate(false);
+            $project->setValid(true);
 
             // Foreach on Administrators
             foreach ($projectData['administrators'] as $administrator) {

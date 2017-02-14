@@ -72,7 +72,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="box_view")
+     * @Route("/{id}", name="box_view", requirements={"id": "\d+"})
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findOneWithProjectTypeTubesStrains"
      * })

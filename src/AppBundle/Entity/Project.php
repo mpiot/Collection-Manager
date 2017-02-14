@@ -57,7 +57,7 @@ class Project
     private $boxes;
 
     /**
-     * @var ArrayCollection
+     * @var Team
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
@@ -86,6 +86,11 @@ class Project
      * @ORM\Column(name="private", type="boolean")
      */
     private $private;
+
+    /**
+     * @ORM\Column(name="valid", type="boolean")
+     */
+    private $valid = false;
 
     /**
      * Project constructor.
@@ -387,5 +392,38 @@ class Project
     public function isPrivate()
     {
         return $this->getPrivate();
+    }
+
+    /**
+     * Set valid.
+     *
+     * @param boolean $valid
+     *
+     * @return Project
+     */
+    public function setValid($valid)
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
+    /**
+     * Get valid.
+     *
+     * @return boolean
+     */
+    public function getValid()
+    {
+        return $this->valid;
+    }
+
+    /**
+     * Is valid ?
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->valid;
     }
 }

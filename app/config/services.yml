@@ -108,9 +108,10 @@ services:
             - { name: doctrine.event_listener, event: onFlush }
 
     app.event_listener.project:
-        class: AppBundle\EventListener\ProjectListener
+        class: AppBundle\EventListener\ProjectSubscriber
+        arguments: ["@security.token_storage"]
         tags:
-            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_subscriber }
 
     app.event_listener.plasmid:
         class: AppBundle\EventListener\PlasmidSubscriber

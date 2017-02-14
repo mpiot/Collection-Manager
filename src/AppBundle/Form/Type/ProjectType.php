@@ -46,6 +46,7 @@ class ProjectType extends AbstractType
                 ],
             ])
             ->add('private', CheckboxType::class, [
+                'required' => false,
                 'attr' => [
                     'data-help' => 'If private only members can see the project presentation page.',
                 ],

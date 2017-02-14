@@ -69,7 +69,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="project_view")
+     * @Route("/{id}", name="project_view", requirements={"id": "\d+"})
      * @ParamConverter("project", class="AppBundle:Project", options={
      *     "repository_method" = "findOneWithAdminsMembers"
      * })
@@ -84,7 +84,7 @@ class ProjectController extends Controller
 
     /**
      * @Route("/add", name="project_add")
-     * @Security("user.isTeamAdministrator() or is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function addAction(Request $request)
     {
@@ -118,11 +118,15 @@ class ProjectController extends Controller
             $em->persist($project);
             $em->flush();
 
-            $this->addFlash('success', 'The project has been added successfully. Now you may create one or more boxe(s).');
+            if ($project->isValid()) {
+                $this->addFlash('success', 'The project has been added successfully. Now you may create one or more boxe(s).');
+            } else {
+                $this->addFlash('warning', 'The project has been added successfully, but a team admin must valid it.');
+            }
 
             if ($form->get('saveAndAdd')->isClicked()) {
                 return $this->redirectToRoute('project_add');
-            } elseif ($form->get('saveAndAddBox')->isClicked()) {
+            } elseif ($form->get('saveAndAddBox')->isClicked() && $project->isValid()) {
                 return $this->redirectToRoute('box_add_4_project', ['id' => $project->getId()]);
             } else {
                 return $this->redirectToRoute('project_index');
@@ -132,6 +136,33 @@ class ProjectController extends Controller
         return $this->render('project/add.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/validate", name="project_validate")
+     * @Security("is_granted('PROJECT_VALIDATE', project)")
+     */
+    public function validateAction(Project $project, Request $request)
+    {
+        if ($project->isValid()) {
+            $this->addFlash('warning', 'The project is already valid !');
+
+            return $this->redirectToRoute('project_index');
+        }
+
+        if (!$this->isCsrfTokenValid('project_validate', $request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid !');
+
+            return $this->redirectToRoute('project_view', ['id' => $project->getId()]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $project->setValid(true);
+        $em->flush();
+
+        $this->addFlash('success', 'The project has been successfully validated.');
+
+        return $this->redirectToRoute('project_index');
     }
 
     /**

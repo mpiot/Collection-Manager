@@ -35,6 +35,8 @@
                         My projects
                         {% if app.user.isTeamAdministrator() %}
                             <a class="pull-right" href="{{ path('project_add') }}">Create a new project</a>
+                        {% else %}
+                            <a class="pull-right" href="{{ path('project_add') }}">Suggest a new project</a>
                         {% endif %}
                     </div>
                     {% if projects is empty %}
@@ -44,14 +46,9 @@
                     {% else %}
                         <ul class="list-group">
                             {% for project in projects %}
-                                <li class="list-group-item">
-                                    {% if project.administrators.contains(app.user) %}
-                                        <a href="{{ path('project_edit', { 'id': project.id }) }}">{{ project.name }}</a> (admin)
-                                    {% elseif is_granted('PROJECT_EDIT', project) %}
-                                        <a href="{{ path('project_edit', { 'id': project.id }) }}">{{ project.name }}</a>
-                                    {% else %}
-                                        {{ project.name }}
-                                    {% endif %}
+                                <li class="list-group-item {{ (not project.isValid) ? 'list-group-item-warning' }}">
+                                    <a href="{{ path('project_view', { 'id': project.id }) }}">{{ project.name }}</a>
+                                    {{ project.administrators.contains(app.user) ? '(admin)' }}
                                 </li>
                             {% endfor %}
                         </ul>

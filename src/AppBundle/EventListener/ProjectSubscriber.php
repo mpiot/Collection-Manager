@@ -3,10 +3,45 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Entity\Project;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class ProjectListener
+class ProjectSubscriber implements EventSubscriber
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorage $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
+    public function getSubscribedEvents()
+    {
+        return [
+            'prePersist',
+            'onFlush',
+        ];
+    }
+
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+
+        // If the entity is not a Project, return
+        if (!$entity instanceof Project) {
+            return;
+        }
+
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        // If the user is administrator of the selected Team, automatically validate the project
+        if ($user->isAdministratorOf($entity->getTeam())) {
+            $entity->setValid(true);
+        }
+    }
+
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getEntityManager();

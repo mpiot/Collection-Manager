@@ -13,6 +13,7 @@ class ProjectVoter extends Voter
     const VIEW = 'PROJECT_VIEW';
     const EDIT = 'PROJECT_EDIT';
     const DELETE = 'PROJECT_DELETE';
+    const VALIDATE = 'PROJECT_VALIDATE';
 
     private $decisionManager;
 
@@ -24,7 +25,7 @@ class ProjectVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::VIEW, self::EDIT, self::DELETE])) {
+        if (!in_array($attribute, [self::VIEW, self::EDIT, self::DELETE, self::VALIDATE])) {
             return false;
         }
 
@@ -61,6 +62,8 @@ class ProjectVoter extends Voter
                 return $this->canEdit($project, $user);
             case self::DELETE:
                 return $this->canDelete($project, $user);
+            case self::VALIDATE:
+                return $this->canValidate($project, $user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -99,6 +102,16 @@ class ProjectVoter extends Voter
     private function canDelete(Project $project, User $user)
     {
         // Only the team administrators of the project can delete it
+        if ($project->getTeam()->isAdministrator($user)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function canValidate(Project $project, User $user)
+    {
+        // Only the team administrators of the project can validate it
         if ($project->getTeam()->isAdministrator($user)) {
             return true;
         }

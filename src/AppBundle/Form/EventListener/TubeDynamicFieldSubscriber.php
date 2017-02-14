@@ -45,6 +45,7 @@ class TubeDynamicFieldSubscriber implements EventSubscriberInterface
                     ->leftJoin('project.members', 'members')
                     ->where('members = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                    ->andWhere('project.valid = true')
                     ->orderBy('project.name', 'ASC');
             },
             'choice_label' => 'name',

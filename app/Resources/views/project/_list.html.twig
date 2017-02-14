@@ -13,7 +13,7 @@
             <tbody>
             {% if projectList is not empty %}
                 {% for project in projectList %}
-                    <tr>
+                    <tr {{ (not project.isValid) ? 'class="warning"' }}>
                         <td>{{ loop.index }}</td>
                         <td>
                             <a href="{{ path('project_view', { id: project.id }) }}">

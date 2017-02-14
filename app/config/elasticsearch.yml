@@ -169,7 +169,9 @@ fos_elastica:
                             type:             string
                             index:            not_analyzed
                             property_path:    name
-                        members:
+                        team_id:
+                            property_path:    team.id
+                        members_id:
                             property_path:    membersId
                     persistence:
                       driver:                 orm

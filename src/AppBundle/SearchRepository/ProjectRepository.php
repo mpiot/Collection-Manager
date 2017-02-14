@@ -10,7 +10,18 @@ class ProjectRepository extends Repository
 {
     public function searchByNameQuery($q, $p, User $user)
     {
+        $teamFilter = new \Elastica\Query\Term();
+        $teamFilter->setTerm('team_id', $user->getTeamsId()[0]);
+
+        $memberFilter = new \Elastica\Query\Term();
+        $memberFilter->setTerm('members', $user->getId());
+
         $query = new \Elastica\Query();
+        $boolQuery = new \Elastica\Query\BoolQuery();
+
+        $boolQuery->setMinimumNumberShouldMatch(1);
+        $boolQuery->addShould($teamFilter);
+        $boolQuery->addShould($memberFilter);
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();
@@ -18,18 +29,15 @@ class ProjectRepository extends Repository
             $queryString->setDefaultOperator('AND');
             $queryString->setQuery($q);
 
-            $query->setQuery($queryString);
+            $boolQuery->addMust($queryString);
+            $query->setQuery($boolQuery);
         } else {
             $matchAllQuery = new \Elastica\Query\MatchAll();
 
-            $query->setQuery($matchAllQuery);
+            $boolQuery->addMust($matchAllQuery);
+            $query->setQuery($boolQuery);
             $query->setSort(['name_raw' => 'asc']);
         }
-
-        $memberFilter = new \Elastica\Query\Term();
-        $memberFilter->setTerm('members', $user->getId());
-
-        $query->setPostFilter($memberFilter);
 
         $query
             ->setFrom(($p - 1) * Project::NUM_ITEMS)
