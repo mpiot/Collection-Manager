@@ -34,7 +34,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="team_view")
+     * @Route("/{id}", name="team_view", requirements={"id": "\d+"})
      * @ParamConverter("team", class="AppBundle:Team", options={
      *      "repository_method" = "findOneWithMembers"
      * })

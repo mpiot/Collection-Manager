@@ -72,7 +72,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="species_view")
+     * @Route("/{id}", name="species_view", requirements={"id": "\d+"})
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenusAndSynonyms"
      * })
