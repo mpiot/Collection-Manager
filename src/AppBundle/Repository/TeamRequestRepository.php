@@ -15,8 +15,8 @@ class TeamRequestRepository extends \Doctrine\ORM\EntityRepository
     public function findAdministredBy(User $user)
     {
         $query = $this->createQueryBuilder('request')
-            ->leftJoin('request.team', 'team')
-            ->leftJoin('team.administrators', 'administrators')
+            ->innerJoin('request.team', 'team')
+            ->innerJoin('team.administrators', 'administrators')
             ->where('administrators = :user')
             ->andWhere('request.answer = :answer')
             ->setParameters([
@@ -34,8 +34,8 @@ class TeamRequestRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->createQueryBuilder('requests')
             ->select('COUNT(requests)')
-            ->leftJoin('requests.team', 'team')
-            ->leftJoin('team.administrators', 'administrators')
+            ->innerJoin('requests.team', 'team')
+            ->innerJoin('team.administrators', 'administrators')
             ->where('administrators = :user')
             ->andWhere('requests.answer = :answer')
             ->setParameters([

@@ -24,7 +24,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
     public function findOneWithGenus($species)
     {
         $query = $this->createQueryBuilder('species')
-            ->leftJoin('species.genus', 'genus')
+            ->innerJoin('species.genus', 'genus')
                 ->addSelect('genus')
             ->where('species = :species')
             ->setParameter('species', $species)
@@ -36,9 +36,9 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
     public function findOneWithGenusAndSynonyms($species)
     {
         $query = $this->createQueryBuilder('species')
-            ->leftJoin('species.genus', 'genus')
+            ->innerJoin('species.genus', 'genus')
                 ->addSelect('genus')
-            ->leftJoin('species.synonyms', 'synonyms')
+            ->innerJoin('species.synonyms', 'synonyms')
                 ->addSelect('synonyms')
             ->where('species = :species')
                 ->setParameter('species', $species)

@@ -15,8 +15,8 @@ class PlasmidRepository extends \Doctrine\ORM\EntityRepository
     public function findAllForUser(User $user)
     {
         $query = $this->createQueryBuilder('plasmid')
-            ->leftJoin('plasmid.team', 'team')
-            ->leftJoin('team.members', 'members')
+            ->innerJoin('plasmid.team', 'team')
+            ->innerJoin('team.members', 'members')
             ->where('members = :user')
                 ->setParameter('user', $user)
             ->getQuery();
