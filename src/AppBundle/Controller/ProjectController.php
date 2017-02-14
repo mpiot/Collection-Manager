@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,6 +25,7 @@ class ProjectController extends Controller
      *     options={"expose"=true},
      *     name="project_index"
      * )
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction(Request $request)
     {
@@ -64,6 +66,20 @@ class ProjectController extends Controller
             'page' => $page,
             'nbPages' => $nbPages,
         ]);
+    }
+
+    /**
+     * @Route("/{id}", name="project_view")
+     * @ParamConverter("project", class="AppBundle:Project", options={
+     *     "repository_method" = "findOneWithAdminsMembers"
+     * })
+     * @Security("is_granted('PROJECT_VIEW', project)")
+     */
+    public function viewAction(Project $project)
+    {
+        return $this->render('project/view.html.twig', array(
+            'project' => $project,
+        ));
     }
 
     /**

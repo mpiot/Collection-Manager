@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,6 +43,11 @@ class ProjectType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'A description about the project',
+                ],
+            ])
+            ->add('private', CheckboxType::class, [
+                'attr' => [
+                    'data-help' => 'If private only members can see the project presentation page.',
                 ],
             ])
             ->add('team', EntityType::class, [

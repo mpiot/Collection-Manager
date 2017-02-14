@@ -1,0 +1,58 @@
+{% extends "project/base.html.twig" %}
+
+{% block title %}Project: {{ project.name }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('project_index') }}">Projects list</a></li>
+    <li class="active">{{ project.name }}</li>
+{% endblock %}
+
+{% block project_body %}
+
+    <div class="row">
+        <div class="col-md-10">
+            <h2 class="sub-header">{{ project.name }}</h2>
+        </div>
+
+        <div class="col-md-2">
+            {{ include('project/_delete_form.html.twig', { project: project }, with_context = false) }}
+        </div>
+    </div>
+
+    <div class="row">
+        {{ project.description }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Administrators</div>
+                <ul class="list-group">
+                    {% for admin in project.administrators %}
+                        <li class="list-group-item">
+                            {{ admin.fullName }}
+                            <a href="mailto:{{ admin.email }}"><span class="glyphicon glyphicon-envelope pull-right"></span></a>
+                        </li>
+                    {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Members</div>
+                    <ul class="list-group">
+                        {% for member in project.members %}
+                            <li class="list-group-item">
+                                {{ member.fullName }}
+                                <a href="mailto:{{ member.email }}"><span class="glyphicon glyphicon-envelope pull-right"></span></a>
+                            </li>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

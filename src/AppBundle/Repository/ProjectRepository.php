@@ -27,4 +27,17 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    public function findOneWithAdminsMembers($id) {
+        $query = $this->createQueryBuilder('p')
+            ->innerJoin('p.members', 'm')
+                ->addSelect('m')
+            ->innerJoin('p.administrators', 'a')
+                ->addSelect('a')
+            ->where('p.id = :id')
+                ->setParameter('id', $id)
+            ->getQuery();
+
+        return $query->getSingleResult();
+    }
 }

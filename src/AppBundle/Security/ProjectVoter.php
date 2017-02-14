@@ -68,6 +68,10 @@ class ProjectVoter extends Voter
 
     private function canView(Project $project, User $user)
     {
+        if (!$project->isPrivate()) {
+            return true;
+        }
+
         if ($this->canEdit($project, $user)) {
             return true;
         }

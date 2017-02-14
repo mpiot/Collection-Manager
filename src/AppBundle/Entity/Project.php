@@ -83,6 +83,11 @@ class Project
     private $members;
 
     /**
+     * @ORM\Column(name="private", type="boolean")
+     */
+    private $private;
+
+    /**
      * Project constructor.
      */
     public function __construct()
@@ -348,5 +353,39 @@ class Project
     public function isMember(User $user)
     {
         return $this->members->contains($user);
+    }
+
+    /**
+     * Set private
+     *
+     * @param boolean $private
+     *
+     * @return Project
+     */
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return boolean
+     */
+    public function getPrivate()
+    {
+        return $this->private;
+    }
+
+    /**
+     * Is private ?
+     *
+     * @return bool
+     */
+    public function isPrivate()
+    {
+        return $this->getPrivate();
     }
 }

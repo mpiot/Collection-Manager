@@ -3,18 +3,10 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-2">Name</th>
-                    <th class="col-md-2">Prefix</th>
-                    <th class="col-md-5">Description</th>
-                    <th class="col-md-2">Actions</th>
-                {% else %}
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-2">Name</th>
-                    <th class="col-md-2">Prefix</th>
-                    <th class="col-md-7">Description</th>
-                {% endif %}
+                <th class="col-md-1">#</th>
+                <th class="col-md-2">Name</th>
+                <th class="col-md-1">Prefix</th>
+                <th class="col-md-8">Description</th>
             </tr>
             </thead>
 
@@ -23,16 +15,13 @@
                 {% for project in projectList %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ project.name }}</td>
+                        <td>
+                            <a href="{{ path('project_view', { id: project.id }) }}">
+                                {{ project.name }}
+                            </a>
+                        </td>
                         <td>{{ project.prefix }}</td>
                         <td>{{ project.description|truncate(100, true) }}</td>
-                        {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or is_granted('ROLE_ADMIN') %}
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group">
-                                    {{ include('project/_delete_form.html.twig', { project: project }, with_context = false) }}
-                                </div>
-                            </td>
-                        {% endif %}
                     </tr>
                 {% endfor %}
             {% else %}
