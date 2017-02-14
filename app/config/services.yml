@@ -16,24 +16,27 @@ services:
 # Twig extensions
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
-        public:    false
         tags:
             - { name: twig.extension }
+        public:    false
 
     app.twig.country_extension:
         class: AppBundle\Twig\CountryExtension
         tags:
             - { name: twig.extension }
+        public:    false
 
     app.twig.plasmid_extension:
         class: AppBundle\Twig\PlasmidExtension
         tags:
             - { name: twig.extension }
+        public:    false
 
     app.twig.instanceOf_extension:
         class: AppBundle\Twig\InstanceOfExtension
         tags:
             - { name: twig.extension }
+        public:    false
 
 # Form type
     app.type.genus_selector:
