@@ -131,6 +131,8 @@ fos_elastica:
                             type:             string
                             index:            not_analyzed
                             property_path:    name
+                        team_id:
+                            property_path:    team.id
                     persistence:
                       driver:                 orm
                       model:                  AppBundle\Entity\Type
@@ -148,6 +150,8 @@ fos_elastica:
                             type:             string
                             index:            not_analyzed
                             property_path:    name
+                        team_id:
+                            property_path:    team.id
                     persistence:
                       driver:                 orm
                       model:                  AppBundle\Entity\BiologicalOriginCategory

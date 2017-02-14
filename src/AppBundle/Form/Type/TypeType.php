@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,6 +22,9 @@ class TypeType extends AbstractType
                     'placeholder' => 'Yeast, E. coli, Plasmid',
                     'data-help' => 'The name of the organism type.',
                 ],
+            ])
+            ->add('team', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
             ])
         ;
     }

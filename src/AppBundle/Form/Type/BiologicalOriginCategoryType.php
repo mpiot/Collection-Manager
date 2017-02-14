@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,6 +22,9 @@ class BiologicalOriginCategoryType extends AbstractType
                     'placeholder' => 'Soil, Insect, ...',
                     'data-help' => 'Name of the biological origin category.',
                 ],
+            ])
+            ->add('team', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
             ])
         ;
     }

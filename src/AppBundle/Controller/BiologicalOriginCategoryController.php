@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\BiologicalOriginCategory;
+use AppBundle\Form\Type\BiologicalOriginCategoryEditType;
 use AppBundle\Form\Type\BiologicalOriginCategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -54,7 +55,7 @@ class BiologicalOriginCategoryController extends Controller
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
-        $elasticQuery = $repository->searchByNameQuery($query, $page);
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
         $nbResults = $this->get('fos_elastica.index.app.biologicalorigincategory')->count($elasticQuery);
         $finder = $this->get('fos_elastica.finder.app.biologicalorigincategory');
         $categoryList = $finder->find($elasticQuery);
@@ -146,11 +147,11 @@ class BiologicalOriginCategoryController extends Controller
 
     /**
      * @Route("/{id}/edit", name="category_edit")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('CATEGORY_EDIT', category)")
      */
     public function editAction(BiologicalOriginCategory $category, Request $request)
     {
-        $form = $this->createForm(BiologicalOriginCategoryType::class, $category);
+        $form = $this->createForm(BiologicalOriginCategoryEditType::class, $category);
 
         $form->handleRequest($request);
 
@@ -172,7 +173,7 @@ class BiologicalOriginCategoryController extends Controller
     /**
      * @Route("/{id}/delete", name="category_delete")
      * @Method("POST")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('CATEGORY_DELETE', category)")
      */
     public function deleteAction(BiologicalOriginCategory $category, Request $request)
     {

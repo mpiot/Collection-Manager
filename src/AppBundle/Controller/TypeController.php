@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Type;
+use AppBundle\Form\Type\TypeEditType;
 use AppBundle\Form\Type\TypeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -54,7 +55,7 @@ class TypeController extends Controller
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Type');
-        $elasticQuery = $repository->searchByNameQuery($query, $page);
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
         $nbResults = $this->get('fos_elastica.index.app.type')->count($elasticQuery);
         $finder = $this->get('fos_elastica.finder.app.type');
         $typesList = $finder->find($elasticQuery);
@@ -146,11 +147,11 @@ class TypeController extends Controller
 
     /**
      * @Route("/{id}/edit", name="type_edit")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('TYPE_EDIT', type)")
      */
     public function editAction(Type $type, Request $request)
     {
-        $form = $this->createForm(TypeType::class, $type);
+        $form = $this->createForm(TypeEditType::class, $type);
 
         $form->handleRequest($request);
 
@@ -172,7 +173,7 @@ class TypeController extends Controller
     /**
      * @Route("/{id}/delete", name="type_delete")
      * @Method("POST")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('TYPE_DELETE', type)")
      */
     public function deleteAction(Type $type, Request $request)
     {

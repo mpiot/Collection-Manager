@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="biological_origin_category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BiologicalOriginCategoryRepository")
- * @UniqueEntity("name", message="A category already exist with the name: {{ value }}.")
+ * @UniqueEntity({"team", "name"}, message="A category already exist with the name: {{ value }}.")
  */
 class BiologicalOriginCategory
 {
@@ -30,10 +30,16 @@ class BiologicalOriginCategory
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank()
      */
     private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="biologicalOriginCategories")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $team;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="biologicalOriginCategory")
@@ -82,5 +88,29 @@ class BiologicalOriginCategory
     public function getWildStrains()
     {
         return $this->wildStrains;
+    }
+
+    /**
+     * Set team
+     *
+     * @param Team $team
+     *
+     * @return BiologicalOriginCategory
+     */
+    public function setTeam(Team $team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team
+     *
+     * @return Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
     }
 }

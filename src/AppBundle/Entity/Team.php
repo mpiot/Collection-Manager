@@ -54,6 +54,16 @@ class Team
     private $projects;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Type", mappedBy="team")
+     */
+    private $types;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\BiologicalOriginCategory", mappedBy="team")
+     */
+    private $biologicalOriginCategories;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeamRequest", mappedBy="team")
      */
     private $teamRequests;
@@ -86,6 +96,8 @@ class Team
         $this->members = new ArrayCollection();
         $this->administrators = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->types = new ArrayCollection();
+        $this->biologicalOriginCategories = new ArrayCollection();
         $this->teamRequests = new ArrayCollection();
         $this->plasmids = new ArrayCollection();
         $this->lastPlasmidNumber = 0;
@@ -280,6 +292,22 @@ class Team
         }
 
         return $projects;
+    }
+
+    /*
+     * Get types.
+     */
+    public function getTypes()
+    {
+        return $this->types;
+    }
+
+    /*
+     * Get Biological origin categories.
+     */
+    public function getBiologicalOriginCategories()
+    {
+        return $this->biologicalOriginCategories;
     }
 
     /**

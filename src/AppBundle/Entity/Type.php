@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TypeRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity("name", message="A type already exist with the name: {{ value }}.")
+ * @UniqueEntity({"team", "name"}, message="A type already exist with the name: {{ value }}.")
  */
 class Type
 {
@@ -31,10 +31,16 @@ class Type
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank()
      */
     private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="types")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $team;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="type")
@@ -94,5 +100,29 @@ class Type
     public function getWildStrains()
     {
         return $this->wildStrains;
+    }
+
+    /**
+     * Set team
+     *
+     * @param Team $team
+     *
+     * @return Type
+     */
+    public function setTeam(Team $team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team
+     *
+     * @return Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
     }
 }

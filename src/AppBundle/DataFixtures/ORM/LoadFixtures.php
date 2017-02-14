@@ -4,6 +4,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\BiologicalOriginCategory;
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Project;
 use AppBundle\Entity\Team;
@@ -172,9 +173,42 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         foreach ($typesData as $typeData) {
             $type = new Type();
             $type->setName($typeData['name']);
+            $type->setTeam($this->getReference('team-Team 1'));
 
             $manager->persist($type);
-            $this->setReference('type-'.$typeData['name'], $type);
+        }
+
+        foreach ($typesData as $typeData) {
+            $type = new Type();
+            $type->setName($typeData['name']);
+            $type->setTeam($this->getReference('team-Team 2'));
+
+            $manager->persist($type);
+        }
+
+        //----------------------------//
+        // Biological Origin Category //
+        //----------------------------//
+        $categoriesData = [
+            ['name' => 'Soil'],
+            ['name' => 'Sea'],
+            ['name' => 'Tree'],
+        ];
+
+        foreach ($categoriesData as $categoryData) {
+            $category = new BiologicalOriginCategory();
+            $category->setName($categoryData['name']);
+            $category->setTeam($this->getReference('team-Team 1'));
+
+            $manager->persist($category);
+        }
+
+        foreach ($categoriesData as $categoryData) {
+            $category = new BiologicalOriginCategory();
+            $category->setName($categoryData['name']);
+            $category->setTeam($this->getReference('team-Team 2'));
+
+            $manager->persist($category);
         }
 
         //---------//
@@ -188,6 +222,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'team' => $this->getReference('team-Team 1'),
                 'administrators' => [$this->getReference('user-team1project')],
                 'members' => [$this->getReference('user-team1user')],
+                'private' => false,
             ],
             [
                 'name' => 'Team2 Project',
@@ -196,6 +231,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'team' => $this->getReference('team-Team 2'),
                 'administrators' => [$this->getReference('user-team2project')],
                 'members' => [$this->getReference('user-team2user')],
+                'private' => false,
             ],
         ];
 
@@ -205,6 +241,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
             $project->setPrefix($projectData['prefix']);
             $project->setDescription($projectData['description']);
             $project->setTeam($projectData['team']);
+            $project->setPrivate($projectData['private']);
 
             // Foreach on Administrators
             foreach ($projectData['administrators'] as $administrator) {
