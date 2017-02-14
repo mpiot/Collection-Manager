@@ -31,4 +31,4 @@ monolog:
         #    level:  info
 
 swiftmailer:
-    delivery_address: mathieu.piot@inra.fr
+    disable_delivery:  true

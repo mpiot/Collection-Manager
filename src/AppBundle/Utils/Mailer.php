@@ -4,6 +4,7 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\Project;
 use AppBundle\Entity\TeamRequest;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
@@ -17,7 +18,7 @@ class Mailer
     private $from;
     private $name;
 
-    public function __construct($mailer, EngineInterface $templating, $mailer_from, $mailer_name)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, $mailer_from, $mailer_name)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
@@ -32,13 +33,12 @@ class Mailer
      * @param string $subject
      * @param string $body
      */
-    protected function sendEmailMessage($to, $from, $subject, $body)
+    protected function sendEmailMessage($from, $to, $subject, $body)
     {
         $message = \Swift_Message::newInstance();
         $message
             ->setFrom($from)
             ->setTo($to)
-            ->setFrom($from)
             ->setSubject($subject)
             ->setBody($body)
             ->setCharset('utf-8')
@@ -54,12 +54,12 @@ class Mailer
      */
     public function sendTeamRequestConfirmation(TeamRequest $teamRequest)
     {
-        $to = $teamRequest->getUser()->getEmail();
         $from = [$this->from => $this->name];
+        $to = $teamRequest->getUser()->getEmail();
         $subject = 'Confirmation of your team request';
         $body = $this->templating->render('mail/confirmationTeamRequest.html.twig', array('teamRequest' => $teamRequest));
 
-        $this->sendEmailMessage($to, $from, $subject, $body);
+        $this->sendEmailMessage($from, $to, $subject, $body);
     }
 
     /**
@@ -69,17 +69,16 @@ class Mailer
      */
     public function sendTeamRequestNotification(TeamRequest $teamRequest)
     {
-        $teamAdministratorsEmail = [];
-        foreach ($teamRequest->getTeam()->getAdministrators() as $teamAdministrator) {
-            $teamAdministratorsEmail[] = $teamAdministrator->getEmail();
-        }
-
-        $to = $teamAdministratorsEmail;
         $from = [$this->from => $this->name];
         $subject = 'Team request notification';
-        $body = $this->templating->render('mail/teamRequestNotification.html.twig', array('teamRequest' => $teamRequest));
 
-        $this->sendEmailMessage($to, $from, $subject, $body);
+        foreach ($teamRequest->getTeam()->getAdministrators() as $teamAdmin) {
+            $body = $this->templating->render('mail/teamRequestNotification.html.twig', array(
+                'teamRequest' => $teamRequest,
+                'teamAdmin' => $teamAdmin,
+            ));
+            $this->sendEmailMessage($from, $teamAdmin->getEmail(), $subject, $body);
+        }
     }
 
     /**
@@ -89,11 +88,28 @@ class Mailer
      */
     public function sendTeamRequestAnswer(TeamRequest $teamRequest)
     {
-        $to = $teamRequest->getUser()->getEmail();
         $from = [$this->from => $this->name];
+        $to = $teamRequest->getUser()->getEmail();
         $subject = 'Team request answer';
         $body = $this->templating->render('mail/teamRequestAnswer.html.twig', array('teamRequest' => $teamRequest));
 
-        $this->sendEmailMessage($to, $from, $subject, $body);
+        $this->sendEmailMessage($from, $to, $subject, $body);
+    }
+
+    /**
+     * Send an email to inform user about his project admin role.
+     *
+     * @param Project $project
+     */
+    public function sendProjectAdminNotification(Project $project, $changeset)
+    {
+        $from = [$this->from => $this->name];
+        $to = '';
+        $subject = 'Project administration notification';
+        $body = $this->templating->render('mail/projectAdminNotification.html.twig', array(
+            'project' => $project
+        ));
+
+        $this->sendEmailMessage($from, $to, $subject, $body);
     }
 }

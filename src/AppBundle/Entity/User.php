@@ -143,6 +143,11 @@ class User extends BaseUser
         return $this->lastName;
     }
 
+    public function getFullName()
+    {
+        return $this->firstName .' '. $this->lastName;
+    }
+
     /**
      * Add administered team.
      *
