@@ -14,10 +14,14 @@
                         <ul  class="list-group">
                             {% for team in teams %}
                                 <li  class="list-group-item">
-                                    {% if team.administrators.contains(app.user) %}
-                                        <a href="{{ path('team_edit', { 'id': team.id }) }}">{{ team.name }}</a> (admin)
+                                    <a href="{{ path('team_view', { 'id': team.id }) }}">{{ team.name }}</a>
+                                    {{ team.administrators.contains(app.user) ? '(admin)' }}
+                                    {% if app.user.isFavoriteTeam(team) %}
+                                        <span class="favorite-team glyphicon glyphicon-star pull-right"></span>
                                     {% else %}
-                                        {{ team.name }}
+                                        <a href="{{ path('team_favorite', { id: team.id }) }}">
+                                            <span class="glyphicon glyphicon-star-empty pull-right"></span>
+                                        </a>
                                     {% endif %}
                                 </li>
                             {% endfor %}

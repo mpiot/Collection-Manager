@@ -59,6 +59,11 @@ class User extends BaseUser
     private $teams;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team")
+     */
+    private $favoriteTeam;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeamRequest", mappedBy="user")
      */
     private $teamRequests;
@@ -244,6 +249,47 @@ class User extends BaseUser
     public function hasTeam(Team $team)
     {
         return $this->teams->contains($team);
+    }
+
+    /**
+     * Set favorite team.
+     *
+     * @param Team $team
+     *
+     * @return $this
+     */
+    public function setFavoriteTeam(Team $team)
+    {
+        $this->favoriteTeam = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get favorite team.
+     *
+     * @return Team
+     */
+    public function getFavoriteTeam()
+    {
+        // If the user have no set a favorite Team, the first match team is the favorite
+        if (null === $this->favoriteTeam) {
+            return $this->teams->first();
+        }
+
+        return $this->favoriteTeam;
+    }
+
+    /**
+     * Is favorite team ?
+     *
+     * @param Team $team
+     *
+     * @return bool
+     */
+    public function isFavoriteTeam(Team $team)
+    {
+        return $team === $this->getFavoriteTeam();
     }
 
     /**
