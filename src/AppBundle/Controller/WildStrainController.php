@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class WildStrainController extends Controller
 {
     /**
-     * @Route("/wild/{id}", name="strain_wild_view")
+     * @Route("/wild/{id}", name="strain_wild_view", requirements={"id": "\d+"})
      * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -34,7 +34,7 @@ class WildStrainController extends Controller
     }
 
     /**
-     * @Route("/add/wild", name="strain_wild_add")
+     * @Route("/wild/add", name="strain_wild_add", requirements={"id": "\d+"})
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
      */
     public function addWildAction(Request $request)
@@ -71,7 +71,7 @@ class WildStrainController extends Controller
 
             $nextAction = $form->get('saveAndAdd')->isClicked()
                 ? 'strain_wild_add'
-                : 'strain_wild_index';
+                : 'strain_index';
 
             return $this->redirectToRoute($nextAction);
         }
@@ -83,7 +83,7 @@ class WildStrainController extends Controller
     }
 
     /**
-     * @Route("/wild/{id}/edit", name="strain_wild_edit")
+     * @Route("/wild/{id}/edit", name="strain_wild_edit", requirements={"id": "\d+"})
      * @ParamConverter("WildStrain", class="AppBundle:WildStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -125,7 +125,7 @@ class WildStrainController extends Controller
     }
 
     /**
-     * @Route("/wild/{id}/delete", name="strain_wild_delete")
+     * @Route("/wild/{id}/delete", name="strain_wild_delete", requirements={"id": "\d+"})
      * @Security("is_granted('STRAIN_DELETE', strain)")
      */
     public function deleteWildAction(WildStrain $strain, Request $request)

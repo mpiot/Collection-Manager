@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 class GmoStrainController extends Controller
 {
     /**
-     * @Route("/gmo/{id}", name="strain_gmo_view")
+     * @Route("/gmo/{id}", name="strain_gmo_view", requirements={"id": "\d+"})
      * @ParamConverter("GmoStrain", class="AppBundle:GmoStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -35,7 +35,7 @@ class GmoStrainController extends Controller
     }
 
     /**
-     * @Route("/add/gmo", name="strain_gmo_add")
+     * @Route("/gmo/add", name="strain_gmo_add")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
      */
     public function addGmoAction(Request $request)
@@ -72,7 +72,7 @@ class GmoStrainController extends Controller
 
             $nextAction = $form->get('saveAndAdd')->isClicked()
                 ? 'strain_gmo_add'
-                : 'strain_gmo_index';
+                : 'strain_index';
 
             return $this->redirectToRoute($nextAction);
         }
@@ -84,7 +84,7 @@ class GmoStrainController extends Controller
     }
 
     /**
-     * @Route("/gmo/{id}/edit", name="strain_gmo_edit")
+     * @Route("/gmo/{id}/edit", name="strain_gmo_edit", requirements={"id": "\d+"})
      * @ParamConverter("gmoStrain", class="AppBundle:GmoStrain", options={
      *      "repository_method" = "findOneWithAll"
      * })
@@ -126,7 +126,7 @@ class GmoStrainController extends Controller
     }
 
     /**
-     * @Route("/gmo/{id}/delete", name="strain_gmo_delete")
+     * @Route("/gmo/{id}/delete", name="strain_gmo_delete", requirements={"id": "\d+"})
      * @Security("is_granted('STRAIN_DELETE', strain)")
      */
     public function deleteGmoAction(GmoStrain $strain, Request $request)
@@ -157,7 +157,7 @@ class GmoStrainController extends Controller
     }
 
     /**
-     * @Route("/parental/parents/{id}", name="strain_parental_parents")
+     * @Route("/parental/parents/{id}", name="strain_parental_parents", requirements={"id": "\d+"})
      */
     public function parentalParentsStrainsAction(GmoStrain $gmoStrain)
     {
@@ -184,7 +184,7 @@ class GmoStrainController extends Controller
     }
 
     /**
-     * @Route("/parental/children/{id}", name="strain_parental_children")
+     * @Route("/parental/children/{id}", name="strain_parental_children", requirements={"id": "\d+"})
      */
     public function parentalChildrenStrainsAction(GmoStrain $gmoStrain)
     {
