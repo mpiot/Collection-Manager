@@ -10,9 +10,17 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class WildStrainType extends AbstractType
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorage $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array
@@ -24,6 +32,10 @@ class WildStrainType extends AbstractType
                 'class' => 'AppBundle\Entity\BiologicalOriginCategory',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('category')
+                        ->leftJoin('category.team', 'team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('category.name', 'ASC');
                 },
                 'choice_label' => 'name',
