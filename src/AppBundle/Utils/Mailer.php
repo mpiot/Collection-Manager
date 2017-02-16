@@ -107,7 +107,7 @@ class Mailer
         $to = '';
         $subject = 'Project administration notification';
         $body = $this->templating->render('mail/projectAdminNotification.html.twig', array(
-            'project' => $project
+            'project' => $project,
         ));
 
         $this->sendEmailMessage($from, $to, $subject, $body);

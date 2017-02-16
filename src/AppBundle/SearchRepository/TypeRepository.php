@@ -41,7 +41,6 @@ class TypeRepository extends Repository
             ->setFrom(($p - 1) * Type::NUM_ITEMS)
             ->setSize(Type::NUM_ITEMS);
 
-
         // build $query with Elastica objects
         return $query;
     }

@@ -28,7 +28,8 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function findOneWithAdminsMembers($id) {
+    public function findOneWithAdminsMembers($id)
+    {
         $query = $this->createQueryBuilder('p')
             ->leftJoin('p.members', 'm')
                 ->addSelect('m')
