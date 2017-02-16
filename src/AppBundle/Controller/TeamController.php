@@ -142,4 +142,26 @@ class TeamController extends Controller
             'team' => $team,
         ]);
     }
+
+    /**
+     * @Route("/{id}/favorite", name="team_favorite")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function favoriteAction(Team $team)
+    {
+        // The member need to be in the team, to set this team as his favorite
+        if (!$this->getUser()->hasTeam($team)) {
+            $this->addFlash('warning', 'You\'re not in this team.');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $this->getUser()->setFavoriteTeam($team);
+        $em->flush();
+
+        $this->addFlash('success', 'The team has been set as favorite successfully.');
+
+        return $this->redirectToRoute('homepage');
+    }
 }
