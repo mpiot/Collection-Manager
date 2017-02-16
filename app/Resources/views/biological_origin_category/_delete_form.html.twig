@@ -2,9 +2,9 @@
 <form action="{{ url('category_delete', { id: category.id }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('biological_origin_category_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
-        <a class="btn btn-warning" href="{{ path('category_edit', { 'id': category.id}) }}">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-        </a>
+        {% block btn %}
+        {% endblock %}
+
         <button type="submit" class="btn btn-danger">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
         </button>

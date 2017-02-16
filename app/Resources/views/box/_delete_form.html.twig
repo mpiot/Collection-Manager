@@ -2,11 +2,8 @@
 <form action="{{ url('box_delete', { id: box.id }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('box_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
-        {% if is_granted('BOX_EDIT', box) %}
-            <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-            </a>
-        {% endif %}
+        {% block btn %}
+        {% endblock %}
 
         {% if is_granted('BOX_DELETE', box) %}
             <button type="submit" class="btn btn-danger" {{ box.isDeleted ? 'disabled' }}>

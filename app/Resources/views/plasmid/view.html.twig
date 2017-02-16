@@ -23,7 +23,15 @@
         </div>
 
         <div class="col-md-2">
-            {{ include('plasmid/_delete_form.html.twig', { plasmid: plasmid }, with_context = false) }}
+            {% embed "plasmid/_delete_form.html.twig" with { plasmid: plasmid } only %}
+                {% block btn %}
+                    {% if is_granted('PLASMID_EDIT', plasmid) %}
+                        <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id}) }}">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                        </a>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
         </div>
     </div>
 
