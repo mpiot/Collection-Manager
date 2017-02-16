@@ -221,7 +221,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'description' => 'The first Team 1 project',
                 'team' => $this->getReference('team-Team 1'),
                 'administrators' => [$this->getReference('user-team1project')],
-                'members' => [$this->getReference('user-team1user')],
+                'members' => [$this->getReference('user-team1user'), $this->getReference('user-team1project')],
             ],
             [
                 'name' => 'Team2 Project',
@@ -229,7 +229,7 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
                 'description' => 'The first Team 2 project',
                 'team' => $this->getReference('team-Team 2'),
                 'administrators' => [$this->getReference('user-team2project')],
-                'members' => [$this->getReference('user-team2user')],
+                'members' => [$this->getReference('user-team2user'), $this->getReference('user-team2project')],
             ],
         ];
 

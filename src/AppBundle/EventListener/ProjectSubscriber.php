@@ -27,10 +27,15 @@ class ProjectSubscriber implements EventSubscriber
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $entity = $args->getEntity();
+        $entity = $args->getObject();
 
         // If the entity is not a Project, return
         if (!$entity instanceof Project) {
+            return;
+        }
+
+        // If the token is null (DataFixtures, return)
+        if (null === $this->tokenStorage->getToken()) {
             return;
         }
 
