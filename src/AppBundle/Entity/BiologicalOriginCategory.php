@@ -91,7 +91,7 @@ class BiologicalOriginCategory
     }
 
     /**
-     * Set team
+     * Set team.
      *
      * @param Team $team
      *
@@ -105,7 +105,7 @@ class BiologicalOriginCategory
     }
 
     /**
-     * Get team
+     * Get team.
      *
      * @return Team
      */

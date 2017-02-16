@@ -47,8 +47,9 @@ class TubeType extends AbstractType
         $box = null === $data ? null : $data->getBox();
         $cell = null === $data ? null : $data->getCell();
 
-        if (null !== $data)
+        if (null !== $data) {
             $this->previousTubes[] = $data;
+        }
 
         $disabled = 1 === count($this->previousTubes) ? true : false;
 
@@ -111,7 +112,7 @@ class TubeType extends AbstractType
             },
             'choice_label' => 'name',
             'auto_initialize' => false,
-            'disabled' => $disabled
+            'disabled' => $disabled,
         ]);
     }
 
@@ -123,7 +124,7 @@ class TubeType extends AbstractType
             'choices' => $cells,
             'placeholder' => '-- select a cell --',
             'auto_initialize' => false,
-            'disabled' => $disabled
+            'disabled' => $disabled,
         ]);
     }
 

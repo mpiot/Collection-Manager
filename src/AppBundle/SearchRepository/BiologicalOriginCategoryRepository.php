@@ -37,7 +37,6 @@ class BiologicalOriginCategoryRepository extends Repository
             ->setFrom(($p - 1) * BiologicalOriginCategory::NUM_ITEMS)
             ->setSize(BiologicalOriginCategory::NUM_ITEMS);
 
-
         // build $query with Elastica objects
         return $query;
     }

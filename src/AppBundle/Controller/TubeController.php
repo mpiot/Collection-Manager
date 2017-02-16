@@ -24,7 +24,7 @@ class TubeController extends Controller
     {
         if (!$this->isCsrfTokenValid('restoreTube', $request->get('token'))) {
             $this->addFlash('warning', 'The token is not valid !');
-        }elseif (false === $tube->getDeleted()) {
+        } elseif (false === $tube->getDeleted()) {
             $this->addFlash('warning', 'The tube is not deleted.');
         } else {
             $tube->setDeleted(false);
@@ -51,7 +51,7 @@ class TubeController extends Controller
     {
         if (!$this->isCsrfTokenValid('deleteTube', $request->get('token'))) {
             $this->addFlash('warning', 'The token is not valid !');
-        }elseif (true === $tube->getDeleted()) {
+        } elseif (true === $tube->getDeleted()) {
             $this->addFlash('warning', 'The tube is already deleted.');
         } else {
             $tube->setDeleted(true);
