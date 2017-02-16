@@ -47,6 +47,7 @@ $(document).ready(function() {
 
             // On ajoute la gestion du onChange sur Project
             onProjectChange($prototype);
+            onBoxChange($prototype);
 
             // On ajoute le prototype modifié à la fin de la balise <div>
             $('#add_tube').before($prototype);
@@ -99,6 +100,11 @@ $(document).ready(function() {
                     data: data,
                     success: function (html) {
                         // Replace current position field ...
+                        $(container).find('[name$="[project]"]').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('[name$="[project]"]')
+                        );
+
                         $(container).find('[name$="[box]"]').replaceWith(
                             // ... with the returned one from the AJAX response.
                             $(html).find('[name$="[box]"]')
@@ -123,6 +129,7 @@ $(document).ready(function() {
             var $type = $('[name$="[type]"]');
             var $species = $('[name$="[species]"]');
 
+            var $project = $(container).find('[name$="[project]"]');
             var $box = $(container).find('[name$="[box]"]');
 
             // When box gets selected ...
@@ -133,6 +140,7 @@ $(document).ready(function() {
                 var data = {};
                 data[$type.attr('name')] = $type.val();
                 data[$species.attr('name')] = $species.val();
+                data[$project.attr('name')] = $project.val();
                 data[$box.attr('name')] = $box.val();
 
                 // Submit data via AJAX to the form's action path.

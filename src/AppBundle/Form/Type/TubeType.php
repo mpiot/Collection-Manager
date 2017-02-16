@@ -2,10 +2,17 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Form\EventListener\TubeDynamicFieldSubscriber;
+use AppBundle\Entity\Box;
+use AppBundle\Entity\Project;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -13,6 +20,7 @@ class TubeType extends AbstractType
 {
     private $em;
     private $tokenStorage;
+    private $previousTubes;
 
     public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage)
     {
@@ -26,7 +34,97 @@ class TubeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new TubeDynamicFieldSubscriber($this->em, $this->tokenStorage));
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
+    }
+
+    public function onPreSetData(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $data = $event->getData();
+
+        $project = null === $data ? null : $data->getProject();
+        $box = null === $data ? null : $data->getBox();
+        $cell = null === $data ? null : $data->getCell();
+
+        if (null !== $data)
+            $this->previousTubes[] = $data;
+
+        $disabled = 1 === count($this->previousTubes) ? true : false;
+
+        // Add forms
+        $this->addProjectForm($form, $disabled);
+        $this->addBoxForm($form, $project, $disabled);
+        $this->addCellForm($form, $box, $cell, $disabled);
+    }
+
+    public function onPreSubmit(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $data = $event->getData();
+        $persistedTube = $event->getForm()->getData();
+
+        $project = null === $data['project'] ? null : $this->em->getRepository('AppBundle:Project')->findOneById($data['project']);
+        $box = null === $data['box'] ? null : $this->em->getRepository('AppBundle:Box')->findOneById($data['box']);
+        $cell = null;
+
+        if ($key = array_search($persistedTube, $this->previousTubes, 1)) {
+            $previousTube = $this->previousTubes[$key];
+
+            if ($box === $previousTube->getBox()) {
+                $cell = $previousTube->getCell();
+            }
+        }
+
+        $this->addProjectForm($form);
+        $this->addBoxForm($form, $project);
+        $this->addCellForm($form, $box, $cell);
+    }
+
+    protected function addProjectForm(FormInterface $form, $disabled = false)
+    {
+        $form->add('project', EntityType::class, [
+            'class' => 'AppBundle\Entity\Project',
+            'query_builder' => function (EntityRepository $pr) {
+                return $pr->createQueryBuilder('project')
+                    ->leftJoin('project.members', 'members')
+                    ->where('members = :user')
+                    ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                    ->andWhere('project.valid = true')
+                    ->orderBy('project.name', 'ASC');
+            },
+            'choice_label' => 'name',
+            'placeholder' => '-- select a project --',
+            'disabled' => $disabled,
+        ]);
+    }
+
+    protected function addBoxForm(FormInterface $form, Project $project = null, $disabled = false)
+    {
+        $form->add('box', EntityType::class, [
+            'class' => 'AppBundle:Box',
+            'placeholder' => '-- select a box --',
+            'query_builder' => function (EntityRepository $er) use ($project) {
+                return $er->createQueryBuilder('b')
+                    ->where('b.project = :project')
+                        ->setParameter('project', $project);
+            },
+            'choice_label' => 'name',
+            'auto_initialize' => false,
+            'disabled' => $disabled
+        ]);
+    }
+
+    protected function addCellForm(FormInterface $form, Box $box = null, $previousCell = null, $disabled = false)
+    {
+        $cells = null === $box ? null : $box->getEmptyCells($previousCell);
+
+        $form->add('cell', ChoiceType::class, [
+            'choices' => $cells,
+            'placeholder' => '-- select a cell --',
+            'auto_initialize' => false,
+            'disabled' => $disabled
+        ]);
     }
 
     /**
