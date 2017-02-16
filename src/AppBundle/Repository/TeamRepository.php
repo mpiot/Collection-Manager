@@ -15,9 +15,9 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
     public function findAllWithMembers()
     {
         $query = $this->createQueryBuilder('team')
-            ->innerJoin('team.administrators', 'administrators')
+            ->leftJoin('team.administrators', 'administrators')
                 ->addSelect('administrators')
-            ->innerJoin('team.members', 'members')
+            ->leftJoin('team.members', 'members')
                 ->addSelect('members')
             ->orderBy('team.name', 'ASC')
             ->getQuery();
@@ -28,9 +28,9 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
     public function findOneWithMembers($team)
     {
         $query = $this->createQueryBuilder('team')
-            ->innerJoin('team.administrators', 'administrators')
+            ->leftJoin('team.administrators', 'administrators')
                 ->addSelect('administrators')
-            ->innerJoin('team.members', 'members')
+            ->leftJoin('team.members', 'members')
                 ->addSelect('members')
             ->where('team = :team')
                 ->setParameter('team', $team)
@@ -42,8 +42,8 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
     public function findAllForUser(User $user)
     {
         $query = $this->createQueryBuilder('team')
-            ->innerJoin('team.members', 'members')
-            ->innerJoin('team.administrators', 'administrators')
+            ->leftJoin('team.members', 'members')
+            ->leftJoin('team.administrators', 'administrators')
                 ->addSelect('administrators')
             ->where('members = :user')
                 ->setParameter('user', $user)

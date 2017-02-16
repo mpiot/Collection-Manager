@@ -15,8 +15,8 @@ class PrimerRepository extends \Doctrine\ORM\EntityRepository
     public function findAllForUser(User $user)
     {
         $query = $this->createQueryBuilder('primer')
-            ->innerJoin('primer.team', 'team')
-            ->innerJoin('team.members', 'members')
+            ->leftJoin('primer.team', 'team')
+            ->leftJoin('team.members', 'members')
             ->where('members = :user')
             ->setParameter('user', $user)
             ->getQuery();

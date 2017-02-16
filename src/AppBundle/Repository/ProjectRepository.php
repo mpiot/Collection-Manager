@@ -15,11 +15,11 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
     public function findAllAuthorizedForCurrentUser(User $user)
     {
         $query = $this->createQueryBuilder('project')
-            ->innerJoin('project.members', 'members')
-            ->innerJoin('project.administrators', 'administrators')
+            ->leftJoin('project.members', 'members')
+            ->leftJoin('project.administrators', 'administrators')
                 ->addSelect('administrators')
-            ->innerJoin('project.team', 'team')
-            ->innerJoin('team.administrators', 'teamadministrators')
+            ->leftJoin('project.team', 'team')
+            ->leftJoin('team.administrators', 'teamadministrators')
             ->where('members = :user')
             ->orWhere('teamadministrators = :user')
                 ->setParameter('user', $user)
@@ -30,9 +30,9 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
 
     public function findOneWithAdminsMembers($id) {
         $query = $this->createQueryBuilder('p')
-            ->innerJoin('p.members', 'm')
+            ->leftJoin('p.members', 'm')
                 ->addSelect('m')
-            ->innerJoin('p.administrators', 'a')
+            ->leftJoin('p.administrators', 'a')
                 ->addSelect('a')
             ->where('p.id = :id')
                 ->setParameter('id', $id)
