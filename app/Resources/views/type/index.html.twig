@@ -20,15 +20,22 @@
 
     <div class="row">
         <form id="type-search-form" method="get">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" id="type-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
-                    <span class="input-group-btn">
-                            <button id="type-search-button" class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </button>
-                        </span>
-                </div>
+            <div class="col-md-3">
+                <input type="text" id="type-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
+
+            <div class="col-md-2">
+                <select id ="type-team-field" name="team" class="form-control col-md-3">
+                    {% for team in app.user.teams %}
+                        <option value="{{ team.id }}"{{ app.user.isFavoriteTeam(team) ? 'selected="selected"' }}>{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button id="type-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
             </div>
         </form>
     </div>
@@ -42,15 +49,16 @@
     <script>
         $(document).ready(function(){
             var processing = false;
-            $('#type-search-field').keyup(function() {
-                var field = $('#type-search-field');
+            var search = $('#type-search-field');
+            var team = $('#type-team-field');
 
-                history.replaceState('', '', Routing.generate('type_index', { q: field.val(), p: 1 }));
+            search.keyup(function() {
+                history.replaceState('', '', Routing.generate('type_index', { q: search.val(), team: team.val(), p: 1 }));
 
                 delay(function(){
                     $.ajax({
                         type: 'GET',
-                        url: Routing.generate('type_index_ajax', { q: field.val(), p: 1 }),
+                        url: Routing.generate('type_index_ajax', { q: search.val(), team: team.val(), p: 1 }),
                         dataType: 'html',
                         delay: 400,
                         beforeSend: function() {
@@ -66,6 +74,27 @@
                         }
                     });
                 }, 400 );
+            });
+
+            team.change(function() {
+                history.replaceState('', '', Routing.generate('type_index', { q: search.val(), team: team.val(), p: 1 }));
+                $.ajax({
+                    type: 'GET',
+                    url: Routing.generate('type_index_ajax', { q: search.val(), team: team.val(), p: 1 }),
+                    dataType: 'html',
+                    delay: 400,
+                    beforeSend: function() {
+                        if (processing) {
+                            return false;
+                        } else {
+                            processing = true;
+                        }
+                    },
+                    success: function (html) {
+                        $('#type-list').replaceWith(html);
+                        processing = false;
+                    }
+                });
             });
         });
     </script>
