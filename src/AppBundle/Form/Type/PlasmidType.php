@@ -68,6 +68,9 @@ class PlasmidType extends AbstractType
                                 ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                             ->orderBy('primer.name', 'ASC');
                     },
+                    'group_by' => function ($val) {
+                        return $val->getTeam()->getName();
+                    },
                 ],
                 'by_reference' => false,
                 'allow_add' => true,
