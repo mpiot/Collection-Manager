@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Plasmid;
+use AppBundle\Form\Type\PlasmidEditType;
 use AppBundle\Form\Type\PlasmidType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -139,7 +140,7 @@ class PlasmidController extends Controller
      */
     public function editAction(Plasmid $plasmid, Request $request)
     {
-        $form = $this->createForm(PlasmidType::class, $plasmid)
+        $form = $this->createForm(PlasmidEditType::class, $plasmid)
             ->add('save', SubmitType::class, [
                 'label' => 'Edit',
             ]);

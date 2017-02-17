@@ -1,5 +1,7 @@
 {{ form_start(form) }}
-    {{ form_row(form.team) }}
+    {% if form.team is defined %}
+        {{ form_row(form.team) }}
+    {% endif %}
     {{ form_row(form.name) }}
 
     {{ form_row(form.addGenBankFile) }}
