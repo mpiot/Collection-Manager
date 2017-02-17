@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Plasmid
 {
+    const NUM_ITEMS = 10;
+
     /**
      * @var int
      *

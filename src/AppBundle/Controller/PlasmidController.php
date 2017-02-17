@@ -21,16 +21,51 @@ use AppBundle\Utils\PlasmidGenBank;
 class PlasmidController extends Controller
 {
     /**
-     * @Route("/", name="plasmid_index")
+     * @Route("/",
+     *     options={"expose"=true},
+     *     name="plasmid_index"
+     * )
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $plasmids = $em->getRepository('AppBundle:Plasmid')->findAllForUser($this->getUser());
+        $list = $this->listAction($request);
 
         return $this->render('plasmid/index.html.twig', [
-            'plasmids' => $plasmids,
+            'list' => $list,
+            'query' => $request->get('q'),
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/list",
+     *     options={"expose"=true},
+     *     condition="request.isXmlHttpRequest()",
+     *     name="plasmid_index_ajax"
+     * )
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function listAction(Request $request)
+    {
+        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
+        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
+
+        $repositoryManager = $this->get('fos_elastica.manager.orm');
+        $repository = $repositoryManager->getRepository('AppBundle:Plasmid');
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
+        $nbResults = $this->get('fos_elastica.index.app.plasmid')->count($elasticQuery);
+        $finder = $this->get('fos_elastica.finder.app.plasmid');
+        $plasmidsList = $finder->find($elasticQuery);
+
+        $nbPages = ceil($nbResults / Plasmid::NUM_ITEMS);
+
+        return $this->render('plasmid/_list.html.twig', [
+            'plasmidsList' => $plasmidsList,
+            'query' => $query,
+            'page' => $page,
+            'nbPages' => $nbPages,
         ]);
     }
 

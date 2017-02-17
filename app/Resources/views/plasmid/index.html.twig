@@ -18,41 +18,84 @@
 
     <h2 class="sub-header">Plasmids list</h2>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-8">Name</th>
-                <th class="col-md-2">File</th>
-                <th class="col-md-1">Auto name</th>
-            </tr>
-            </thead>
-                {% if plasmids is not empty %}
-                    {% for plasmid in plasmids %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
+    <div class="row">
+        <form id="plasmid-search-form" method="get">
+            <div class="col-md-3">
+                <input type="text" id="plasmid-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
 
-                            <td>{{ plasmid.name }}</td>
-                            <td>
-                                {% if plasmid.genBankFile is not null %}
-                                    <a href="{{ asset(plasmid.genBankFile.webPath) }}">
-                                        <span class=" glyphicon glyphicon-download" aria-hidden="true"></span> GenBank file
-                                    </a>
-                                {% else %}
-                                    No GenBank file
-                                {% endif %}
-                            </td>
-                            <td><a href="{{ path('plasmid_view', { 'id': plasmid.id }) }}">{{ plasmid.autoName }}</a></td>
-                        </tr>
+            <div class="col-md-2">
+                <select id="plasmid-team-field" name="team" class="form-control col-md-3">
+                    {% for team in app.user.teams %}
+                        <option value="{{ team.id }}"{{ app.user.isFavoriteTeam(team) ? 'selected="selected"' }}>{{ team.name }}</option>
                     {% endfor %}
-                {% else %}
-                    <tr>
-                        <td colspan="5"  style="text-align:center;">There is no plasmids.</td>
-                    </tr>
-                {% endif %}
-            <tbody>
-            </tbody>
-        </table>
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button id="plasmid-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </div>
+        </form>
     </div>
+
+    {{ list.content|raw }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            var processing = false;
+            var search = $('#plasmid-search-field');
+            var team = $('#plasmid-team-field');
+
+            search.keyup(function() {
+                history.replaceState('', '', Routing.generate('plasmid_index', { q: search.val(), team: team.val(), p: 1 }));
+
+                delay(function(){
+                    $.ajax({
+                        type: 'GET',
+                        url: Routing.generate('plasmid_index_ajax', { q: search.val(), team: team.val(), p: 1 }),
+                        dataType: 'html',
+                        delay: 400,
+                        beforeSend: function() {
+                            if (processing) {
+                                return false;
+                            } else {
+                                processing = true;
+                            }
+                        },
+                        success: function (html) {
+                            $('#plasmid-list').replaceWith(html);
+                            processing = false;
+                        }
+                    });
+                }, 400 );
+            });
+
+            team.change(function() {
+                history.replaceState('', '', Routing.generate('plasmid_index', { q: search.val(), team: team.val(), p: 1 }));
+                $.ajax({
+                    type: 'GET',
+                    url: Routing.generate('plasmid_index_ajax', { q: search.val(), team: team.val(), p: 1 }),
+                    dataType: 'html',
+                    delay: 400,
+                    beforeSend: function() {
+                        if (processing) {
+                            return false;
+                        } else {
+                            processing = true;
+                        }
+                    },
+                    success: function (html) {
+                        $('#plasmid-list').replaceWith(html);
+                        processing = false;
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

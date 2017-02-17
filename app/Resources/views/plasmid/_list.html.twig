@@ -1,0 +1,53 @@
+<div id="plasmid-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-8">Name</th>
+                <th class="col-md-2">File</th>
+                <th class="col-md-1">Auto name</th>
+            </tr>
+            </thead>
+            {% if plasmidsList is not empty %}
+                {% for plasmid in plasmidsList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ plasmid.name }}</td>
+                        <td>
+                            {% if plasmid.genBankFile is not null %}
+                                <a href="{{ asset(plasmid.genBankFile.webPath) }}">
+                                    <span class=" glyphicon glyphicon-download" aria-hidden="true"></span> GenBank file
+                                </a>
+                            {% else %}
+                                No GenBank file
+                            {% endif %}
+                        </td>
+                        <td><a href="{{ path('plasmid_view', { 'id': plasmid.id }) }}">{{ plasmid.autoName }}</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5"  style="text-align:center;">There is no plasmids.</td>
+                </tr>
+            {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% if nbPages > 0 %}
+            {% for p in range(1, nbPages) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('plasmid_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="active">
+                <a href="{{ path('plasmid_index', {'q': query, 'p': 1}) }}">1</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
