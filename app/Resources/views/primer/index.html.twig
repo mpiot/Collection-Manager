@@ -18,33 +18,84 @@
 
     <h2 class="sub-header">Primers list</h2>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-2">Name</th>
-                    <th class="col-md-7">Sequence</th>
-                    <th class="col-md-1">Orientation</th>
-                    <th class="col-md-1">AutoName</th>
-                </tr>
-            </thead>
-                {% if primers is not empty %}
-                    {% for primer in primers %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
+    <div class="row">
+        <form id="primer-search-form" method="get">
+            <div class="col-md-3">
+                <input type="text" id="primer-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
 
-                            <td>{{ primer.name }}</td>
-                            <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
-                            <td>{{ primer.orientation|capitalize }}</td>
-                            <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
-                        </tr>
+            <div class="col-md-2">
+                <select id="primer-team-field" name="team" class="form-control col-md-3">
+                    {% for team in app.user.teams %}
+                        <option value="{{ team.id }}"{{ app.user.isFavoriteTeam(team) ? 'selected="selected"' }}>{{ team.name }}</option>
                     {% endfor %}
-                {% else %}
-                    <td class="text-center" colspan="6">There is no primers.</td>
-                {% endif %}
-            <tbody>
-            </tbody>
-        </table>
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button id="primer-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </div>
+        </form>
     </div>
+
+    {{ list.content|raw }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            var processing = false;
+            var search = $('#primer-search-field');
+            var team = $('#primer-team-field');
+
+            search.keyup(function() {
+                history.replaceState('', '', Routing.generate('primer_index', { q: search.val(), team: team.val(), p: 1 }));
+
+                delay(function(){
+                    $.ajax({
+                        type: 'GET',
+                        url: Routing.generate('primer_index_ajax', { q: search.val(), team: team.val(), p: 1 }),
+                        dataType: 'html',
+                        delay: 400,
+                        beforeSend: function() {
+                            if (processing) {
+                                return false;
+                            } else {
+                                processing = true;
+                            }
+                        },
+                        success: function (html) {
+                            $('#primer-list').replaceWith(html);
+                            processing = false;
+                        }
+                    });
+                }, 400 );
+            });
+
+            team.change(function() {
+                history.replaceState('', '', Routing.generate('primer_index', { q: search.val(), team: team.val(), p: 1 }));
+                $.ajax({
+                    type: 'GET',
+                    url: Routing.generate('primer_index_ajax', { q: search.val(), team: team.val(), p: 1 }),
+                    dataType: 'html',
+                    delay: 400,
+                    beforeSend: function() {
+                        if (processing) {
+                            return false;
+                        } else {
+                            processing = true;
+                        }
+                    },
+                    success: function (html) {
+                        $('#primer-list').replaceWith(html);
+                        processing = false;
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

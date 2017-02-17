@@ -21,16 +21,51 @@ use Symfony\Component\HttpFoundation\Request;
 class PrimerController extends Controller
 {
     /**
-     * @Route("/", name="primer_index")
+     * @Route("/",
+     *     options={"expose"=true},
+     *     name="primer_index"
+     * )
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $primers = $em->getRepository('AppBundle:Primer')->findAllForUser($this->getUser());
+        $list = $this->listAction($request);
 
         return $this->render('primer/index.html.twig', [
-            'primers' => $primers,
+            'list' => $list,
+            'query' => $request->get('q'),
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/list",
+     *     options={"expose"=true},
+     *     condition="request.isXmlHttpRequest()",
+     *     name="primer_index_ajax"
+     * )
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function listAction(Request $request)
+    {
+        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
+        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
+
+        $repositoryManager = $this->get('fos_elastica.manager.orm');
+        $repository = $repositoryManager->getRepository('AppBundle:Primer');
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
+        $nbResults = $this->get('fos_elastica.index.app.primer')->count($elasticQuery);
+        $finder = $this->get('fos_elastica.finder.app.primer');
+        $primersList = $finder->find($elasticQuery);
+
+        $nbPages = ceil($nbResults / Primer::NUM_ITEMS);
+
+        return $this->render('primer/_list.html.twig', [
+            'primersList' => $primersList,
+            'query' => $query,
+            'page' => $page,
+            'nbPages' => $nbPages,
         ]);
     }
 

@@ -1,0 +1,45 @@
+<div id="primer-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-2">Name</th>
+                <th class="col-md-7">Sequence</th>
+                <th class="col-md-1">Orientation</th>
+                <th class="col-md-1">AutoName</th>
+            </tr>
+            </thead>
+            {% if primersList is not empty %}
+                {% for primer in primersList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ primer.name }}</td>
+                        <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
+                        <td>{{ primer.orientation|capitalize }}</td>
+                        <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td class="text-center" colspan="6">There is no primers.</td>
+            {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% if nbPages > 0 %}
+            {% for p in range(1, nbPages) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('plasmid_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="active">
+                <a href="{{ path('plasmid_index', {'q': query, 'p': 1}) }}">1</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

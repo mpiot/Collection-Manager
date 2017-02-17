@@ -94,9 +94,13 @@ fos_elastica:
                         name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
-                        team:
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        team_id:
                             property_path:    team.id
-                        author:
+                        author_id:
                             property_path:    author.id
                         sequence:
                     persistence:
@@ -105,7 +109,7 @@ fos_elastica:
                       provider:               ~
                       listener:               ~
                       finder:                 ~
-                      repository:             ~
+                      repository:             AppBundle\SearchRepository\PrimerRepository
                 species:
                     mappings:
                         name:

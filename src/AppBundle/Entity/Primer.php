@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Primer
 {
+    const NUM_ITEMS = 10;
+
     /**
      * @var int
      *
