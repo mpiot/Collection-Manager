@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Utils\PlasmidGenBank;
@@ -72,6 +73,9 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/{id}", name="plasmid_view", requirements={"id": "\d+"})
+     * @ParamConverter("plasmid", class="AppBundle:Plasmid", options={
+     *     "repository_method" = "findOneWithAll"
+     * })
      * @Security("is_granted('PLASMID_VIEW', plasmid)")
      */
     public function viewAction(Plasmid $plasmid)

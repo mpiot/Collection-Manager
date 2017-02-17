@@ -94,7 +94,7 @@
         <div class="panel-heading">Parents</div>
         <div class="panel-body" id="tree1"></div>
         <ul class="list-group">
-            {% for parent in strain.parents %}
+            {% for parent in strain.parents if is_granted('STRAIN_VIEW', parent) %}
                 <li class="list-group-item"><a href="{{ path('strain_gmo_view', { 'id': parent.id }) }}">{{ parent.fullName }}</a></li>
             {% endfor %}
         </ul>
@@ -104,7 +104,7 @@
         <div class="panel-heading">Children</div>
         <div class="panel-body" id="tree2"></div>
         <ul class="list-group">
-            {% for child in strain.children %}
+            {% for child in strain.children if is_granted('STRAIN_VIEW', child) %}
                 <li class="list-group-item"><a href="{{ path('strain_gmo_view', { 'id': child.id }) }}">{{ child.fullName }}</a></li>
             {% endfor %}
         </ul>

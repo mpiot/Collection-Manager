@@ -23,4 +23,25 @@ class PlasmidRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getResult();
     }
+
+    public function findOneWithAll($id) {
+        $query = $this->createQueryBuilder('plasmid')
+            ->leftJoin('plasmid.strainPlasmids', 'strainPlasmids')
+                ->addSelect('strainPlasmids')
+            ->leftJoin('strainPlasmids.gmoStrain', 'gmoStrain')
+                ->addSelect('gmoStrain')
+            ->leftJoin('gmoStrain.tubes', 'tubes')
+                ->addSelect('tubes')
+            ->leftJoin('tubes.project', 'project')
+                ->addSelect('project')
+            ->leftJoin('project.members', 'members')
+                ->addSelect('members')
+            ->leftJoin('plasmid.primers', 'primers')
+                ->addSelect('primers')
+            ->where('plasmid.id = :id')
+                ->setParameter('id', $id)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

@@ -90,7 +90,7 @@
     <div class="row">
         <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading">Plasmid used in this strains</div>
+            <div class="panel-heading">This plasmid is used in</div>
 
             <!-- Table -->
             <table class="table">
@@ -99,7 +99,7 @@
                     <th>Strain</th>
                 </tr>
                 {% if plasmid.strainPlasmids is not empty %}
-                    {% for strainPlasmid in plasmid.strainPlasmids  %}
+                    {% for strainPlasmid in plasmid.strainPlasmids if is_granted('STRAIN_VIEW', strainPlasmid.gmoStrain) %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>
