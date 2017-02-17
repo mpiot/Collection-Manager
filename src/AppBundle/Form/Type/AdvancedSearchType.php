@@ -62,7 +62,7 @@ class AdvancedSearchType extends AbstractType
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('project.name', 'ASC');
                 },
-                'group_by' => function($val) {
+                'group_by' => function ($val) {
                     return $val->getTeam()->getName();
                 },
                 'choice_label' => 'name',
@@ -75,7 +75,7 @@ class AdvancedSearchType extends AbstractType
                     return $er->createQueryBuilder('type')
                         ->orderBy('type.name', 'ASC');
                 },
-                'group_by' => function($val) {
+                'group_by' => function ($val) {
                     return $val->getTeam()->getName();
                 },
                 'choice_label' => 'name',

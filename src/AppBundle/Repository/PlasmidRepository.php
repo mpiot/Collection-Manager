@@ -24,7 +24,8 @@ class PlasmidRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function findOneWithAll($id) {
+    public function findOneWithAll($id)
+    {
         $query = $this->createQueryBuilder('plasmid')
             ->leftJoin('plasmid.strainPlasmids', 'strainPlasmids')
                 ->addSelect('strainPlasmids')
