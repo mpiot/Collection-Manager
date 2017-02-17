@@ -8,26 +8,14 @@ use FOS\ElasticaBundle\Repository;
 
 class BoxRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, User $user)
+    public function searchByNameQuery($q, $p, $projectId, User $user)
     {
-        $projectsId = $user->getProjectsId();
-
-        if ($user->isTeamAdministrator()) {
-            $administeredTeams = $user->getAdministeredTeams();
-            $teamsProjects = [];
-
-            foreach ($administeredTeams as $team) {
-                $teamsProjects = array_merge($teamsProjects, $team->getProjects()->toArray());
-            }
-
-            foreach ($teamsProjects as $project) {
-                if (!in_array($id = $project->getId(), $projectsId)) {
-                    $projectsId[] = $id;
-                }
-            }
-        }
-
         $query = new \Elastica\Query();
+        $boolQuery = new \Elastica\Query\BoolQuery();
+
+        $projectSecureQuery = new \Elastica\Query\Terms();
+        $projectSecureQuery->setTerms('project_id', $user->getProjectsId());
+        $boolQuery->addFilter($projectSecureQuery);
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();
@@ -35,18 +23,21 @@ class BoxRepository extends Repository
             $queryString->setDefaultOperator('AND');
             $queryString->setQuery($q);
 
-            $query->setQuery($queryString);
+            $boolQuery->addMust($queryString);
+            $query->setQuery($boolQuery);
         } else {
             $matchAllQuery = new \Elastica\Query\MatchAll();
 
-            $query->setQuery($matchAllQuery);
+            $boolQuery->addMust($matchAllQuery);
+            $query->setQuery($boolQuery);
             $query->setSort(['name_raw' => 'asc']);
         }
 
-        $projectFilter = new \Elastica\Query\Terms();
-        $projectFilter->setTerms('project_id', $projectsId);
-
-        $query->setPostFilter($projectFilter);
+        if (null !== $projectId) {
+            $projectQuery = new \Elastica\Query\Term();
+            $projectQuery->setTerm('project_id', $projectId);
+            $boolQuery->addFilter($projectQuery);
+        }
 
         $query
             ->setFrom(($p - 1) * Box::NUM_ITEMS)

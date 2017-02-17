@@ -20,15 +20,23 @@
 
     <div class="row">
         <form id="box-search-form" method="get">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" id="box-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
-                    <span class="input-group-btn">
-                        <button id="box-search-button" class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                        </button>
-                    </span>
-                </div>
+            <div class="col-md-3">
+                <input type="text" id="box-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
+
+            <div class="col-md-2">
+                <select id ="box-project-field" name="team" class="form-control col-md-3">
+                        <option value="">All projects</option>
+                    {% for project in app.user.projects %}
+                        <option value="{{ project.id }}">{{ project.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button id="box-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
             </div>
         </form>
     </div>
@@ -43,15 +51,18 @@
     <script>
         $(document).ready(function(){
             var processing = false;
-            $('#box-search-field').keyup(function() {
+            var search = $('#box-search-field');
+            var project = $('#box-project-field');
+
+            search.keyup(function() {
                 var field = $('#box-search-field');
 
-                history.replaceState('', '', Routing.generate('box_index', { q: field.val(), p: 1 }));
+                history.replaceState('', '', Routing.generate('box_index', { q: field.val(), project: project.val(), p: 1 }));
 
                 delay(function(){
                     $.ajax({
                         type: 'GET',
-                        url: Routing.generate('box_index_ajax', { q: field.val(), p: 1 }),
+                        url: Routing.generate('box_index_ajax', { q: field.val(), project: project.val(), p: 1 }),
                         dataType: 'html',
                         delay: 400,
                         beforeSend: function() {
@@ -67,6 +78,27 @@
                         }
                     });
                 }, 400 );
+            });
+
+            project.change(function() {
+                history.replaceState('', '', Routing.generate('box_index', { q: search.val(), project: project.val(), p: 1 }));
+                $.ajax({
+                    type: 'GET',
+                    url: Routing.generate('box_index_ajax', { q: search.val(), project: project.val(), p: 1 }),
+                    dataType: 'html',
+                    delay: 400,
+                    beforeSend: function() {
+                        if (processing) {
+                            return false;
+                        } else {
+                            processing = true;
+                        }
+                    },
+                    success: function (html) {
+                        $('#box-list').replaceWith(html);
+                        processing = false;
+                    }
+                });
             });
         });
     </script>
