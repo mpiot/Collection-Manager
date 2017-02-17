@@ -103,7 +103,7 @@ class Type
     }
 
     /**
-     * Set team
+     * Set team.
      *
      * @param Team $team
      *
@@ -117,7 +117,7 @@ class Type
     }
 
     /**
-     * Get team
+     * Get team.
      *
      * @return Team
      */

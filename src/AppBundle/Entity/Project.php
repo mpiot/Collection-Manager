@@ -361,9 +361,9 @@ class Project
     }
 
     /**
-     * Set private
+     * Set private.
      *
-     * @param boolean $private
+     * @param bool $private
      *
      * @return Project
      */
@@ -375,9 +375,9 @@ class Project
     }
 
     /**
-     * Get private
+     * Get private.
      *
-     * @return boolean
+     * @return bool
      */
     public function getPrivate()
     {
@@ -397,7 +397,7 @@ class Project
     /**
      * Set valid.
      *
-     * @param boolean $valid
+     * @param bool $valid
      *
      * @return Project
      */
@@ -411,7 +411,7 @@ class Project
     /**
      * Get valid.
      *
-     * @return boolean
+     * @return bool
      */
     public function getValid()
     {
@@ -420,6 +420,7 @@ class Project
 
     /**
      * Is valid ?
+     *
      * @return bool
      */
     public function isValid()
