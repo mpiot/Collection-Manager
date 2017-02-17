@@ -38,11 +38,11 @@ class TypeType extends AbstractType
                     return $er->createQueryBuilder('team')
                         ->innerJoin('team.members', 'members')
                         ->where('members = :user')
-                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('team.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => '-- select a team --',
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
             ])
         ;
     }
