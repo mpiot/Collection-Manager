@@ -8,10 +8,10 @@ use FOS\ElasticaBundle\Repository;
 
 class BiologicalOriginCategoryRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, User $user)
+    public function searchByNameQuery($q, $p, $teamId, User $user)
     {
-        $teamSecureQuery = new \Elastica\Query\Term();
-        $teamSecureQuery->setTerm('team_id', $user->getTeamsId()[0]);
+        $teamSecureQuery = new \Elastica\Query\Terms();
+        $teamSecureQuery->setTerms('team_id', $user->getTeamsId());
 
         $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();
@@ -32,6 +32,10 @@ class BiologicalOriginCategoryRepository extends Repository
             $query->setQuery($boolQuery);
             $query->setSort(['name_raw' => 'asc']);
         }
+
+        $teamQuery = new \Elastica\Query\Term();
+        $teamQuery->setTerm('team_id', $teamId);
+        $boolQuery->addFilter($teamQuery);
 
         $query
             ->setFrom(($p - 1) * BiologicalOriginCategory::NUM_ITEMS)

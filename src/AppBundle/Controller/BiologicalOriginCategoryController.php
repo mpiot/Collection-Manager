@@ -51,11 +51,12 @@ class BiologicalOriginCategoryController extends Controller
     public function listAction(Request $request)
     {
         $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
+        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
         $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
 
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
         $nbResults = $this->get('fos_elastica.index.app.biologicalorigincategory')->count($elasticQuery);
         $finder = $this->get('fos_elastica.finder.app.biologicalorigincategory');
         $categoryList = $finder->find($elasticQuery);

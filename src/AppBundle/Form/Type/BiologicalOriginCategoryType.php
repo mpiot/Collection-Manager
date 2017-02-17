@@ -42,7 +42,7 @@ class BiologicalOriginCategoryType extends AbstractType
                         ->orderBy('team.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => '-- select a team --',
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
             ])
         ;
     }
