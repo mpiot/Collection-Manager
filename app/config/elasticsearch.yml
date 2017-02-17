@@ -17,11 +17,19 @@ fos_elastica:
                             ngram_index_analyzer:
                                 type: custom
                                 tokenizer: standard
-                                filter: [standard, lowercase, asciifolding, custom_filter]
+                                filter: [standard, lowercase, asciifolding, edge_ngram]
+                            ngram_sequence_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [standard, lowercase, asciifolding, sequence_ngram]
                         filter:
-                            custom_filter:
+                            edge_ngram:
                                 type: edgeNGram
                                 side: front
+                                min_gram: 1
+                                max_gram: 20
+                            sequence_ngram:
+                                type: nGram
                                 min_gram: 1
                                 max_gram: 20
             types:
@@ -103,6 +111,8 @@ fos_elastica:
                         author_id:
                             property_path:    author.id
                         sequence:
+                            analyzer :        ngram_sequence_analyzer
+                            search_analyzer : search_analyzer
                     persistence:
                       driver:                 orm
                       model:                  AppBundle\Entity\Primer
