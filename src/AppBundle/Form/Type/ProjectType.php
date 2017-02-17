@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -50,19 +52,6 @@ class ProjectType extends AbstractType
                 'attr' => [
                     'data-help' => 'If private only members can see the project presentation page.',
                 ],
-            ])
-            ->add('team', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->leftJoin('team.members', 'members')
-                        ->where('members = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('team.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'placeholder' => '-- Select a team --',
-                'multiple' => false,
             ])
             ->add('team_filter', EntityType::class, [
                 'class' => 'AppBundle\Entity\Team',
@@ -124,6 +113,27 @@ class ProjectType extends AbstractType
                 },
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            $defaultTeam = null !== $data->getTeam() ? $data->getTeam() : $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+
+            $form->add('team', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('team.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'multiple' => false,
+                'data' => $defaultTeam,
+            ]);
+        });
     }
 
     /**
