@@ -1,4 +1,11 @@
 {{ form_start(form) }}
+    <div class="alert alert-info" role="alert">
+        <h4><span class="glyphicon glyphicon-info-sign"></span> Notice on the team rights </h4>
+        <p>In this form, you can link some team ressources: Type, Category, Plasmids, Parental Strains.<br>
+            Keep in mind that ressourses are private in your team. If in the Tube section, you add your strain in a project shared by other teams, they can access in "read only" mode to the linked shared ressources.
+        </p>
+    </div>
+
     <fieldset>
         <legend>General informations</legend>
         {{ form_row(form.genus) }}

@@ -43,6 +43,9 @@ class StrainType extends AbstractType
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('types.name', 'ASC');
                 },
+                'group_by' => function ($val) {
+                    return $val->getTeam()->getName();
+                },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a type --',
                 'attr' => [

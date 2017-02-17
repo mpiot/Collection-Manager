@@ -20,7 +20,7 @@ class TubeType extends AbstractType
 {
     private $em;
     private $tokenStorage;
-    private $previousTubes;
+    private $previousTubes = array();
 
     public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage)
     {
@@ -93,6 +93,9 @@ class TubeType extends AbstractType
                     ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                     ->andWhere('project.valid = true')
                     ->orderBy('project.name', 'ASC');
+            },
+            'group_by' => function ($val) {
+                return $val->getTeam()->getName();
             },
             'choice_label' => 'name',
             'placeholder' => '-- select a project --',
