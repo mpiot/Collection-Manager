@@ -39,6 +39,7 @@ class PrimerType extends AbstractType
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('team.name', 'ASC');
                 },
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
             ])
             ->add('name', TextType::class, [
                 'attr' => [
