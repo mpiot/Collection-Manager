@@ -20,15 +20,14 @@
 
     <div class="row">
         <form id="project-search-form" method="get">
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" id="project-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
-                    <span class="input-group-btn">
-                            <button id="project-search-button" class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </button>
-                        </span>
-                </div>
+            <div class="col-md-3">
+                <input type="text" id="project-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
+
+            <div class="col-md-1">
+                <button id="project-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
             </div>
         </form>
     </div>

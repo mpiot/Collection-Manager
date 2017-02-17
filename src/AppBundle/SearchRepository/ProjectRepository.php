@@ -10,18 +10,18 @@ class ProjectRepository extends Repository
 {
     public function searchByNameQuery($q, $p, User $user)
     {
-        $teamFilter = new \Elastica\Query\Term();
-        $teamFilter->setTerm('team_id', $user->getTeamsId()[0]);
+        $memberSecureQuery = new \Elastica\Query\Term();
+        $memberSecureQuery->setTerm('members_id', $user->getId());
 
-        $memberFilter = new \Elastica\Query\Term();
-        $memberFilter->setTerm('members', $user->getId());
+        $teamsSecureQuery = new \Elastica\Query\Terms();
+        $teamsSecureQuery->setTerms('team_id', $user->getAdministeredTeamsId());
 
         $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();
 
         $boolQuery->setMinimumNumberShouldMatch(1);
-        $boolQuery->addShould($teamFilter);
-        $boolQuery->addShould($memberFilter);
+        $boolQuery->addShould($memberSecureQuery);
+        $boolQuery->addShould($teamsSecureQuery);
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();

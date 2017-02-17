@@ -172,6 +172,22 @@ class User extends BaseUser
     }
 
     /**
+     * Get administered teams Ids.
+     *
+     * @return array
+     */
+    public function getAdministeredTeamsId()
+    {
+        $administeredTeamsId = [];
+
+        foreach ($this->administeredTeams as $administeredTeam) {
+            $administeredTeamsId[] = $administeredTeam->getId();
+        }
+
+        return $administeredTeamsId;
+    }
+
+    /**
      * Is a team administrator ?
      *
      * @return bool
