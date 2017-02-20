@@ -64,7 +64,7 @@ class TypeVoter extends Voter
             return true;
         }
 
-        if($this->canDelete($type, $user)) {
+        if ($this->canDelete($type, $user)) {
             return true;
         }
 
