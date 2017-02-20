@@ -968,12 +968,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "1422ae8ce8f6e1a4947d1cc6f88668a6f63c649a"
+                "reference": "2664d46f7039cbd77cbd0b6b06d782596ea69bde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/1422ae8ce8f6e1a4947d1cc6f88668a6f63c649a",
-                "reference": "1422ae8ce8f6e1a4947d1cc6f88668a6f63c649a",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/2664d46f7039cbd77cbd0b6b06d782596ea69bde",
+                "reference": "2664d46f7039cbd77cbd0b6b06d782596ea69bde",
                 "shasum": ""
             },
             "require": {
@@ -1037,7 +1037,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-02-16 11:13:37"
+            "time": "2017-02-17 15:49:11"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1617,16 +1617,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.0.0",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "116027b57b568ed61b7b1c80eeb4f6ee9e8c599c"
+                "reference": "f2ce0035fc512287978510ca1740cd111d60f89f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/116027b57b568ed61b7b1c80eeb4f6ee9e8c599c",
-                "reference": "116027b57b568ed61b7b1c80eeb4f6ee9e8c599c",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/f2ce0035fc512287978510ca1740cd111d60f89f",
+                "reference": "f2ce0035fc512287978510ca1740cd111d60f89f",
                 "shasum": ""
             },
             "require": {
@@ -1657,7 +1657,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2016-09-23T18:09:57+00:00"
+            "time": "2017-02-18T17:53:25+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
