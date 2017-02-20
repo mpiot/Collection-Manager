@@ -17,6 +17,7 @@ class StrainController extends Controller
 {
     /**
      * @Route("/", name="strain_index")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
@@ -37,6 +38,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/name-suggest/{keyword}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain-name-suggest")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function nameSuggestAction($keyword)
     {

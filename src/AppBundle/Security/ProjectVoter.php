@@ -47,11 +47,6 @@ class ProjectVoter extends Voter
             return false;
         }
 
-        // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-            return true;
-        }
-
         // In all other case
         $project = $subject;
 
@@ -75,11 +70,11 @@ class ProjectVoter extends Voter
             return true;
         }
 
-        if ($this->canEdit($project, $user)) {
+        if ($project->isMember($user)) {
             return true;
         }
 
-        if ($project->isMember($user)) {
+        if ($this->canDelete($project, $user)) {
             return true;
         }
 
@@ -88,11 +83,11 @@ class ProjectVoter extends Voter
 
     private function canEdit(Project $project, User $user)
     {
-        if ($this->canDelete($project, $user)) {
+        if ($project->isAdministrator($user)) {
             return true;
         }
 
-        if ($project->isAdministrator($user)) {
+        if ($this->canDelete($project, $user)) {
             return true;
         }
 

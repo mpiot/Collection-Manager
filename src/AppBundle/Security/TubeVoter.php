@@ -46,11 +46,6 @@ class TubeVoter extends Voter
             return false;
         }
 
-        // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-            return true;
-        }
-
         // In all other case
         $tube = $subject;
 
@@ -68,13 +63,13 @@ class TubeVoter extends Voter
 
     private function canView(Tube $tube, User $user)
     {
-        // If the user can restore, he can view
-        if ($this->canRestore($tube, $user)) {
+        // If the user is member of the project
+        if ($tube->getProject()->isMember($user)) {
             return true;
         }
 
-        // If the user is member of the project
-        if ($tube->getProject()->isMember($user)) {
+        // If the user can restore, he can view
+        if ($this->canRestore($tube, $user)) {
             return true;
         }
 

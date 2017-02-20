@@ -36,7 +36,7 @@ class GmoStrainController extends Controller
 
     /**
      * @Route("/gmo/add", name="strain_gmo_add")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectMember()")
      */
     public function addGmoAction(Request $request)
     {
@@ -158,6 +158,7 @@ class GmoStrainController extends Controller
 
     /**
      * @Route("/parental/parents/{id}", name="strain_parental_parents", requirements={"id": "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function parentalParentsStrainsAction(GmoStrain $gmoStrain)
     {
@@ -185,6 +186,7 @@ class GmoStrainController extends Controller
 
     /**
      * @Route("/parental/children/{id}", name="strain_parental_children", requirements={"id": "\d+"})
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function parentalChildrenStrainsAction(GmoStrain $gmoStrain)
     {

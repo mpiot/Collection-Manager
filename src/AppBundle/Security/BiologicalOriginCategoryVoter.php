@@ -45,11 +45,6 @@ class BiologicalOriginCategoryVoter extends Voter
             return false;
         }
 
-        // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-            return true;
-        }
-
         // In all other case
         $category = $subject;
 
@@ -65,10 +60,6 @@ class BiologicalOriginCategoryVoter extends Voter
 
     private function canEdit(BiologicalOriginCategory $category, User $user)
     {
-        if ($this->canDelete($category, $user)) {
-            return true;
-        }
-
         if ($category->getTeam()->isMember($user)) {
             return true;
         }

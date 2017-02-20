@@ -48,11 +48,6 @@ class StrainVoter extends Voter
             return false;
         }
 
-        // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-            return true;
-        }
-
         // In all other case
         $strain = $subject;
 
@@ -70,13 +65,13 @@ class StrainVoter extends Voter
 
     private function canView(Strain $strain, User $user)
     {
-        // If the user can edit, he can view
-        if ($this->canEdit($strain, $user)) {
+        // If the user is member of the project
+        if ($strain->isAllowedUser($user)) {
             return true;
         }
 
-        // If the user is member of the project
-        if ($strain->isAllowedUser($user)) {
+        // If the user can edit, he can view
+        if ($this->canEdit($strain, $user)) {
             return true;
         }
 

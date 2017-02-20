@@ -46,11 +46,6 @@ class BoxVoter extends Voter
             return false;
         }
 
-        // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-            return true;
-        }
-
         // In all other case
         $box = $subject;
 
@@ -68,11 +63,11 @@ class BoxVoter extends Voter
 
     private function canView(Box $box, User $user)
     {
-        if ($this->canEdit($box, $user)) {
+        if ($box->getProject()->isMember($user)) {
             return true;
         }
 
-        if ($box->getProject()->isMember($user)) {
+        if ($this->canEdit($box, $user)) {
             return true;
         }
 
@@ -90,13 +85,13 @@ class BoxVoter extends Voter
 
     private function canDelete(Box $box, User $user)
     {
-        // A team administrator of the project can delete it
-        if ($box->getProject()->getTeam()->isAdministrator($user)) {
+        // The Project administrator can delete a box
+        if ($box->getProject()->isAdministrator($user)) {
             return true;
         }
 
-        // The Project administrator can delete a box
-        if ($box->getProject()->isAdministrator($user)) {
+        // A team administrator of the project can delete it
+        if ($box->getProject()->getTeam()->isAdministrator($user)) {
             return true;
         }
 

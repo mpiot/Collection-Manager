@@ -35,7 +35,7 @@ class WildStrainController extends Controller
 
     /**
      * @Route("/wild/add", name="strain_wild_add", requirements={"id": "\d+"})
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectMember()")
      */
     public function addWildAction(Request $request)
     {

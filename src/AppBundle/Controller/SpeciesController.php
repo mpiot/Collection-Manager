@@ -76,6 +76,7 @@ class SpeciesController extends Controller
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenusAndSynonyms"
      * })
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function viewAction(Species $species)
     {
@@ -92,7 +93,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/add", name="species_add")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function addAction(Request $request)
     {
@@ -139,7 +140,7 @@ class SpeciesController extends Controller
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenus"
      * })
-     * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN'))")
+     * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator() or user.isProjectAdministrator())")
      */
     public function editAction(Species $species, Request $request)
     {
@@ -168,7 +169,7 @@ class SpeciesController extends Controller
      * @ParamConverter("species", class="AppBundle:Species", options={
      *     "repository_method" = "findOneWithGenus"
      * })
-     * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator() or user.isProjectAdministrator() or is_granted('ROLE_ADMIN'))")
+     * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator() or user.isProjectAdministrator())")
      */
     public function deleteAction(Species $species, Request $request)
     {
@@ -205,6 +206,7 @@ class SpeciesController extends Controller
      * @return JsonResponse
      *
      * @Route("/json/{taxid}", name="species_getjson", condition="request.isXmlHttpRequest()")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function getJsonAction($taxid)
     {

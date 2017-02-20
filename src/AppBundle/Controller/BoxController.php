@@ -98,7 +98,7 @@ class BoxController extends Controller
      * @Route("/add", name="box_add")
      * @Route("/add/{id}", name="box_add_4_project")
      * @ParamConverter("project", class="AppBundle:Project")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator() or user.isProjectMember() or is_granted('ROLE_ADMIN')")
+     * @Security("user.isTeamAdministrator() or user.isProjectMember()")
      */
     public function addAction(Request $request, Project $project = null)
     {

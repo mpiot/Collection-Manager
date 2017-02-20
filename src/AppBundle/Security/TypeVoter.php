@@ -45,11 +45,6 @@ class TypeVoter extends Voter
             return false;
         }
 
-        // If user is a SuperAdmin user
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
-            return true;
-        }
-
         // In all other case
         $type = $subject;
 
@@ -65,11 +60,11 @@ class TypeVoter extends Voter
 
     private function canEdit(Type $type, User $user)
     {
-        if ($this->canDelete($type, $user)) {
+        if ($type->getTeam()->isMember($user)) {
             return true;
         }
 
-        if ($type->getTeam()->isMember($user)) {
+        if($this->canDelete($type, $user)) {
             return true;
         }
 

@@ -29,6 +29,7 @@ class SearchController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/search/{keyword}", options={"expose"=true}, name="quick-search")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function quickSearchAction($keyword)
     {
@@ -58,6 +59,7 @@ class SearchController extends Controller
      * @param Request $request
      *
      * @Route("/advanced-search", name="advanced-search")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function advancedSearchAction(Request $request)
     {
@@ -97,6 +99,7 @@ class SearchController extends Controller
 
     /**
      * @Route("/suggest-search", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="suggest-search")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function suggestAction(Request $request)
     {
