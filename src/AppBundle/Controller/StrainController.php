@@ -2,10 +2,18 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Strain;
+use AppBundle\Form\Type\StrainGmoType;
+use AppBundle\Form\Type\StrainWildType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class StrainController.
@@ -22,8 +30,7 @@ class StrainController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $gmoStrains = $em->getRepository('AppBundle:GmoStrain')->findAllForUser($this->getUser());
-        $wildStrains = $em->getRepository('AppBundle:WildStrain')->findAllForUser($this->getUser());
+        $strains = $em->getRepository('AppBundle:Strain')->findAllForUser($this->getUser());
 
         // If the user have no projects
         if (!$this->getUser()->isProjectMember()) {
@@ -31,13 +38,248 @@ class StrainController extends Controller
         }
 
         return $this->render('strain/index.html.twig', [
-            'gmoStrains' => $gmoStrains,
-            'wildStrains' => $wildStrains,
+            'strains' => $strains,
         ]);
     }
 
     /**
-     * @Route("/name-suggest/{keyword}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain-name-suggest")
+     * @Route("/{id}", name="strain_view", requirements={"id": "\d+"})
+     * @ParamConverter("strain", class="AppBundle:Strain", options={
+     *      "repository_method" = "findOneWithAll"
+     * })
+     * @Security("is_granted('STRAIN_VIEW', strain)")
+     */
+    public function viewAction(Strain $strain)
+    {
+        return $this->render('strain/view.html.twig', [
+            'strain' => $strain,
+        ]);
+    }
+
+    /**
+     * @Route("/add/gmo", name="strain_add_gmo")
+     * @Security("user.isTeamAdministrator() or user.isProjectMember()")
+     */
+    public function addGmoAction(Request $request)
+    {
+        $strain = new Strain();
+        $strain->setDiscriminator('gmo');
+
+        $form = $this->createForm(StrainGmoType::class, $strain)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ],
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ],
+            ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $strain->setAuthor($this->getUser());
+            $em->persist($strain);
+            $em->flush();
+
+            $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
+
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'strain_add_gmo'
+                : 'strain_index';
+
+            return $this->redirectToRoute($nextAction);
+        }
+
+        return $this->render('strain/add.html.twig', [
+            'form' => $form->createView(),
+            'strain' => $strain,
+        ]);
+    }
+
+    /**
+     * @Route("/add/wild", name="strain_add_wild")
+     * @Security("user.isTeamAdministrator() or user.isProjectMember()")
+     */
+    public function addWildAction(Request $request)
+    {
+        $strain = new Strain();
+        $strain->setDiscriminator('wild');
+
+        $form = $this->createForm(StrainWildType::class, $strain)
+            ->add('save', SubmitType::class, [
+                'label' => 'Create',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ],
+            ])
+            ->add('saveAndAdd', SubmitType::class, [
+                'label' => 'Create and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-last',
+                ],
+            ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $strain->setAuthor($this->getUser());
+            $em->persist($strain);
+            $em->flush();
+
+            $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
+
+            $nextAction = $form->get('saveAndAdd')->isClicked()
+                ? 'strain_add_wild'
+                : 'strain_index';
+
+            return $this->redirectToRoute($nextAction);
+        }
+
+        return $this->render('strain/add.html.twig', [
+            'form' => $form->createView(),
+            'strain' => $strain,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="strain_edit", requirements={"id": "\d+"})
+     * @ParamConverter("strain", class="AppBundle:Strain", options={
+     *      "repository_method" = "findOneWithAll"
+     * })
+     * @Security("is_granted('STRAIN_EDIT', strain)")
+     */
+    public function editAction(Strain $strain, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $strainNames = $em->getRepository('AppBundle:Strain')->findAllName($this->getUser());
+
+        if ('gmo' === $strain->getDiscriminator()) {
+            $form = $this->createForm(StrainGmoType::class, $strain);
+        } else {
+            $form = $this->createForm(StrainWildType::class, $strain);
+        }
+
+        $form->add('edit', SubmitType::class, [
+            'label' => 'Edit',
+            'attr' => [
+                'data-btn-group' => 'btn-group',
+                'data-btn-position' => 'btn-first',
+            ],
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->container->get('fos_elastica.object_persister.app.strain')->replaceOne($strain);
+
+            $this->addFlash('success', 'The strain has been edited successfully.');
+
+            return $this->redirectToRoute('strain_view', ['id' => $strain->getId()]);
+        }
+
+        return $this->render('strain/edit.html.twig', [
+            'form' => $form->createView(),
+            'strain' => $strain,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/delete", name="strain_delete")
+     * @Method("POST")
+     * @Security("is_granted('STRAIN_DELETE', strain)")
+     */
+    public function deleteAction(Strain $strain, Request $request)
+    {
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('strain_delete', $request->request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
+
+            return $this->redirectToRoute('strain_view', ['id' => $strain->getId()]);
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($strain);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The strain has been deleted successfully.');
+
+        return $this->redirectToRoute('strain_index');
+    }
+
+    /**
+     * @Route("/{id}/parents", name="strain_parents", requirements={"id": "\d+"}, condition="request.isXmlHttpRequest()")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function parentalParentsStrainsAction(Strain $strain)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $strain = $em->getRepository('AppBundle:Strain')->findParents($strain);
+
+        $array['name'] = $strain->getFullName();
+
+        $c = 0;
+        foreach ($strain->getParents() as $parent) {
+            $array['children'][$c]['name'] = $parent->getFullName();
+
+            foreach ($parent->getParents() as $parent2) {
+                $array['children'][$c]['children'][]['name'] = $parent2->getFullName();
+            }
+
+            ++$c;
+        }
+
+        $response = new Response(json_encode($array));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/{id}/children", name="strain_children", requirements={"id": "\d+"}, condition="request.isXmlHttpRequest()")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function parentalChildrenStrainsAction(Strain $strain)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $strain = $em->getRepository('AppBundle:Strain')->findChildren($strain);
+
+        $array['name'] = $strain->getFullName();
+
+        $c = 0;
+        foreach ($strain->getChildren() as $child) {
+            $array['children'][$c]['name'] = $child->getFullName();
+
+            foreach ($child->getChildren() as $child2) {
+                $array['children'][$c]['children'][]['name'] = $child2->getFullName();
+            }
+
+            ++$c;
+        }
+
+        $response = new Response(json_encode($array));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    /**
+     * @Route("/name-suggest/{keyword}", name="strain-name-suggest", options={"expose"=true}, condition="request.isXmlHttpRequest()")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function nameSuggestAction($keyword)

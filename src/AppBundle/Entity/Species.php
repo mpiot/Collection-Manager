@@ -65,22 +65,15 @@ class Species
     /**
      * @var Strain|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="species")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="species")
      */
-    private $gmoStrains;
+    private $strains;
 
-    /**
-     * @var Strain|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="species")
-     */
-    private $wildStrains;
 
     public function __construct()
     {
         $this->synonyms = new ArrayCollection();
-        $this->gmoStrains = new ArrayCollection();
-        $this->wildStrains = new ArrayCollection();
+        $this->strains = new ArrayCollection();
     }
 
     /**
@@ -231,17 +224,9 @@ class Species
     /**
      * Get gmo strains.
      */
-    public function getGmoStrains()
+    public function getStrains()
     {
-        return $this->gmoStrains;
-    }
-
-    /**
-     * Get wild strains.
-     */
-    public function getWildStrains()
-    {
-        return $this->wildStrains;
+        return $this->strains;
     }
 
     /**

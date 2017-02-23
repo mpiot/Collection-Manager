@@ -23,14 +23,9 @@ class Tube
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GmoStrain", inversedBy="tubes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="tubes")
      */
-    private $gmoStrain;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\WildStrain", inversedBy="tubes")
-     */
-    private $wildStrain;
+    private $strain;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project")
@@ -93,37 +88,16 @@ class Tube
         return $this->id;
     }
 
-    public function setGmoStrain(GmoStrain $strain)
+    public function setStrain(Strain $strain)
     {
-        $this->gmoStrain = $strain;
+        $this->strain = $strain;
 
         return $this;
-    }
-
-    public function getGmoStrain()
-    {
-        return $this->gmoStrain;
-    }
-
-    public function setWildStrain(WildStrain $strain)
-    {
-        $this->wildStrain = $strain;
-
-        return $this;
-    }
-
-    public function getWildStrain()
-    {
-        return $this->wildStrain;
     }
 
     public function getStrain()
     {
-        if (null !== $this->gmoStrain) {
-            return $this->getGmoStrain();
-        } else {
-            return $this->getWildStrain();
-        }
+        return $this->strain;
     }
 
     public function setProject(Project $project)

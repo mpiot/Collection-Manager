@@ -110,13 +110,7 @@
                         <tr>
                             <td>{{ tube.cellName }}</td>
                             <td>
-                                {% if tube.strain.latitude is not defined %}
-                                    <a href="{{ path('strain_gmo_view', { id: tube.strain.id }) }}">
-                                {% else %}
-                                    <a href="{{ path('strain_wild_view', { id: tube.strain.id }) }}">
-                                {% endif %}
-                                    {{ tube.strain.autoName }}
-                                </a>
+                                <a href="{{ path('strain_view', { id: tube.strain.id }) }}">{{ tube.strain.autoName }}</a>
                             </td>
                             <td>{{ tube.strain.name }}</td>
                             <td>{{ tube.box.project.name }}</td>

@@ -42,8 +42,7 @@ class SearchController extends Controller
         $search = $mngr->getIndex('app')->createSearch();
         $search->addType('plasmid');
         $search->addType('primer');
-        $search->addType('gmoStrain');
-        $search->addType('wildStrain');
+        $search->addType('strain');
         $resultSet = $search->search($query, self::HITS_PER_PAGE);
         $transformer = $this->get('fos_elastica.elastica_to_model_transformer.collection.app');
         $results = $transformer->transform($resultSet->getResults());
@@ -79,8 +78,7 @@ class SearchController extends Controller
             $search = $mngr->getIndex('app')->createSearch();
             $search->addType('plasmid');
             $search->addType('primer');
-            $search->addType('gmoStrain');
-            $search->addType('wildStrain');
+            $search->addType('strain');
             $resultSet = $search->search($query, self::HITS_PER_PAGE);
             $transformer = $this->get('fos_elastica.elastica_to_model_transformer.collection.app');
             $results = $transformer->transform($resultSet->getResults());
@@ -114,8 +112,7 @@ class SearchController extends Controller
         $search = $mngr->getIndex('app')->createSearch();
         $search->addType('plasmid');
         $search->addType('primer');
-        $search->addType('gmoStrain');
-        $search->addType('wildStrain');
+        $search->addType('strain');
         $results = $search->search($query, self::SUGGEST_HITS);
 
         $data = [];

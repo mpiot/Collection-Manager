@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $("div[id='gmo_strain_parents']");
+    var $container = $("div[id$='_parents']");
 
     if (0 !== $container.length) {
         // On supprime les labels

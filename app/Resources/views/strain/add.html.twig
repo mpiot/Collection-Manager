@@ -1,0 +1,22 @@
+{% extends 'strain/base.html.twig' %}
+
+{% block title %}
+    Add a strain - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="active">Add a strain</li>
+{% endblock %}
+
+{% block strain_body %}
+    <h2>Add a strain</h2>
+
+    {{ include('strain/_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ include('strain/_form_js.html.twig') }}
+{% endblock %}

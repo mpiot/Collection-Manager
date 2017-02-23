@@ -36,10 +36,8 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('project')
             ->leftJoin('box.tubes', 'tubes')
                 ->addSelect('tubes')
-            ->leftJoin('tubes.gmoStrain', 'g')
-                ->addSelect('g')
-            ->leftJoin('tubes.wildStrain', 'w')
-                ->addSelect('w')
+            ->leftJoin('tubes.strain', 'strain')
+                ->addSelect('strain')
             ->where('box = :box')
             ->setParameter('box', $box)
             ->getQuery();

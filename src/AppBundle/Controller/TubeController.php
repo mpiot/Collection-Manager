@@ -35,12 +35,7 @@ class TubeController extends Controller
             $this->addFlash('success', 'The tube has been restored successfully.');
         }
 
-        // Is it a Gmo or Wild strain ?
-        if ($tube->getGmoStrain()) {
-            return $this->redirectToRoute('strain_gmo_view', ['id' => $tube->getGmoStrain()->getId()]);
-        } else {
-            return $this->redirectToRoute('strain_wild_view', ['id' => $tube->getWildStrain()->getId()]);
-        }
+        return $this->redirectToRoute('strain_view', ['id' => $tube->getStrain()->getId()]);
     }
 
     /**
@@ -62,11 +57,6 @@ class TubeController extends Controller
             $this->addFlash('success', 'The tube has been deleted successfully.');
         }
 
-        // Is it a Gmo or Wild strain ?
-        if ($tube->getGmoStrain()) {
-            return $this->redirectToRoute('strain_gmo_view', ['id' => $tube->getGmoStrain()->getId()]);
-        } else {
-            return $this->redirectToRoute('strain_wild_view', ['id' => $tube->getWildStrain()->getId()]);
-        }
+        return $this->redirectToRoute('strain_view', ['id' => $tube->getStrain()->getId()]);
     }
 }

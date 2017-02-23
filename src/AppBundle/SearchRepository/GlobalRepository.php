@@ -128,8 +128,12 @@ class GlobalRepository
         // For Gmo Strain
         if (null === $category || in_array('gmo', $category)) {
             // Set a specific filter, for this type
-            $gmoTypeQuery = new \Elastica\Query\Type();
-            $gmoTypeQuery->setType('gmoStrain');
+            $strainTypeQuery = new \Elastica\Query\Type();
+            $strainTypeQuery->setType('strain');
+
+            // Filter on discriminator
+            $dicriminatorFilter = new \Elastica\Query\Term();
+            $dicriminatorFilter->setTerm('discriminator', 'gmo');
 
             // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
             $gmoStrainBoolQuery = new \Elastica\Query\BoolQuery();
@@ -137,7 +141,8 @@ class GlobalRepository
 
             // First, define required queries like: type, security
             $gmoStrainBoolQuery->addFilter($projectsSecureQuery);
-            $gmoStrainBoolQuery->addFilter($gmoTypeQuery);
+            $gmoStrainBoolQuery->addFilter($strainTypeQuery);
+            $gmoStrainBoolQuery->addFilter($dicriminatorFilter);
 
             // Then, all conditional queries
             if (null !== $keyword) {
@@ -163,7 +168,11 @@ class GlobalRepository
         if (null === $category || in_array('wild', $category)) {
             // Set a specific filter, for this type
             $wildTypeQuery = new \Elastica\Query\Type();
-            $wildTypeQuery->setType('wildStrain');
+            $wildTypeQuery->setType('strain');
+
+            // Filter on discriminator
+            $dicriminatorFilter = new \Elastica\Query\Term();
+            $dicriminatorFilter->setTerm('discriminator', 'wild');
 
             // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
             $wildStrainBoolQuery = new \Elastica\Query\BoolQuery();
@@ -172,6 +181,7 @@ class GlobalRepository
             // First, define required queries like: type, security
             $wildStrainBoolQuery->addFilter($projectsSecureQuery);
             $wildStrainBoolQuery->addFilter($wildTypeQuery);
+            $wildStrainBoolQuery->addFilter($dicriminatorFilter);
 
             // Then, all conditional queries
             if (null !== $keyword) {

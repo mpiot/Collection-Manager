@@ -8,23 +8,21 @@
 {% endblock %}
 
 {% block strain_body %}
-    {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or app.user.isProjectMember or is_granted('ROLE_ADMIN') %}
+    {% if app.user.isTeamAdministrator or app.user.isProjectAdministrator or app.user.isProjectMember %}
     <!-- Single button -->
     <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a strain
         </button>
         <ul class="dropdown-menu">
-            <li><a href="{{ path('strain_gmo_add') }}">GMO</a></li>
-            <li><a href="{{ path('strain_wild_add') }}">Wild</a></li>
+            <li><a href="{{ path('strain_add_gmo') }}">GMO</a></li>
+            <li><a href="{{ path('strain_add_wild') }}">Wild</a></li>
         </ul>
     </div>
     {% endif %}
 
     <h2 class="sub-header">Strains list</h2>
 
-    <h3 class="sub-header">GMO strains</h3>
-
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -34,12 +32,12 @@
                 <th class="col-md-1">Auto name</th>
             </tr>
             <tbody>
-            {% if gmoStrains is not empty %}
-                {% for strain in gmoStrains %}
+            {% if strains is not empty %}
+                {% for strain in strains %}
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ strain.name }}</td>
-                        <td><a href="{{ path('strain_gmo_view', { 'id': strain.id }) }}">{{ strain.autoName }}</a></td>
+                        <td><a href="{{ path('strain_view', { 'id': strain.id }) }}">{{ strain.autoName }}</a></td>
                     </tr>
                 {% endfor %}
             {% else %}
@@ -50,33 +48,4 @@
             </tbody>
         </table>
     </div>
-
-    <h3 class="sub-header">Wild strains</h3>
-
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-10">Name</th>
-                <th class="col-md-1">Auto name</th>
-            </tr>
-            <tbody>
-            {% if wildStrains is not empty %}
-                {% for strain in wildStrains %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ strain.name }}</td>
-                        <td><a href="{{ path('strain_wild_view', { 'id': strain.id }) }}">{{ strain.autoName }}</a></td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td class="text-center" colspan="5">There are no strains.</td>
-                </tr>
-            {% endif %}
-            </tbody>
-        </table>
-    </div>
-
 {% endblock %}

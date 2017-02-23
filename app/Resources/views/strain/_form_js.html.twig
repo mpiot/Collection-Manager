@@ -1,11 +1,11 @@
-{% extends 'strain/skeleton/strainFormDisplay.html.twig' %}
+<script>
+    $( function() {
+        handleForm($('select[name$="_strain[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
+        handleForm($('select[name$="_strain[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
+    } );
+</script>
 
-{% block form %}
-    {% include 'strain/wild/strainForm.html.twig' %}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
+{% if 'wild' == strain.discriminator %}
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&language=en&callback=initMap"></script>
     <script>
         $( function() {
@@ -83,4 +83,4 @@
             });
         }
     </script>
-{% endblock %}
+{% endif %}

@@ -33,26 +33,9 @@ fos_elastica:
                                 min_gram: 1
                                 max_gram: 20
             types:
-                gmoStrain:
+                strain:
                     mappings:
-                        autoName:
-                            analyzer :        ngram_index_analyzer
-                            search_analyzer : search_analyzer
-                        name:
-                            analyzer :        ngram_index_analyzer
-                            search_analyzer : search_analyzer
-                        author:
-                            property_path:    author.id
-                        deleted:
-                    persistence:
-                      driver:                 orm
-                      model:                  AppBundle\Entity\GmoStrain
-                      provider:               ~
-                      listener:               ~
-                      finder:                 ~
-                      repository:             ~
-                wildStrain:
-                    mappings:
+                        discriminator:
                         autoName:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
@@ -65,7 +48,7 @@ fos_elastica:
                         deleted:
                     persistence:
                       driver:                 orm
-                      model:                  AppBundle\Entity\WildStrain
+                      model:                  AppBundle\Entity\Strain
                       provider:               ~
                       listener:               ~
                       finder:                 ~

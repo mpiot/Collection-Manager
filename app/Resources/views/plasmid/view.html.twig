@@ -99,11 +99,11 @@
                     <th>Strain</th>
                 </tr>
                 {% if plasmid.strainPlasmids is not empty %}
-                    {% for strainPlasmid in plasmid.strainPlasmids if is_granted('STRAIN_VIEW', strainPlasmid.gmoStrain) %}
+                    {% for strainPlasmid in plasmid.strainPlasmids if is_granted('STRAIN_VIEW', strainPlasmid.strain) %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>
-                                <a href="{{ path('strain_gmo_view', { 'id': strainPlasmid.gmoStrain.id }) }}">{{ strainPlasmid.gmoStrain.autoName }}</a>
+                                <a href="{{ path('strain_view', { 'id': strainPlasmid.strain.id }) }}">{{ strainPlasmid.strain.autoName }}</a>
                             </td>
                         </tr>
                     {% endfor %}

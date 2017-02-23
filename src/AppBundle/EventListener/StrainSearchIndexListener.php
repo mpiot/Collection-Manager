@@ -2,8 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\Entity\GmoStrain;
-use AppBundle\Entity\WildStrain;
+use AppBundle\Entity\Strain;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use FOS\ElasticaBundle\Event\TransformEvent;
 
@@ -20,7 +19,7 @@ class StrainSearchIndexListener implements EventSubscriberInterface
         $document = $event->getDocument();
         $strain = $event->getObject();
 
-        if (!$strain instanceof GmoStrain && !$strain instanceof WildStrain) {
+        if (!$strain instanceof Strain) {
             return;
         }
 
@@ -41,7 +40,7 @@ class StrainSearchIndexListener implements EventSubscriberInterface
         $document = $event->getDocument();
         $strain = $event->getObject();
 
-        if (!$strain instanceof GmoStrain && !$strain instanceof WildStrain) {
+        if (!$strain instanceof Strain) {
             return;
         }
 

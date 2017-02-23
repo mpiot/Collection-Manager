@@ -69,14 +69,9 @@ class User extends BaseUser
     private $teamRequests;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\GmoStrain", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="author")
      */
-    private $gmoStrains;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="author")
-     */
-    private $wildStrains;
+    private $strains;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="administrators")
@@ -94,8 +89,7 @@ class User extends BaseUser
         $this->teams = new ArrayCollection();
         $this->administeredTeams = new ArrayCollection();
         $this->teamRequests = new ArrayCollection();
-        $this->gmoStrains = new ArrayCollection();
-        $this->wildStrains = new ArrayCollection();
+        $this->strains = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->administeredProjects = new ArrayCollection();
     }
@@ -428,22 +422,12 @@ class User extends BaseUser
     }
 
     /**
-     * Get wild strains.
+     * Get strains.
      *
      * @return ArrayCollection
      */
-    public function getWildStrains()
+    public function getStrains()
     {
-        return $this->wildStrains;
-    }
-
-    /**
-     * Get gmo strains.
-     *
-     * @return ArrayCollection
-     */
-    public function getGmoStrains()
-    {
-        return $this->gmoStrains;
+        return $this->strains;
     }
 }

@@ -2,10 +2,8 @@
 
 namespace AppBundle\Security;
 
-use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\Strain;
 use AppBundle\Entity\User;
-use AppBundle\Entity\WildStrain;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -31,7 +29,7 @@ class StrainVoter extends Voter
         }
 
         // Only vote for Strain object
-        if (!$subject instanceof GmoStrain && !$subject instanceof WildStrain) {
+        if (!$subject instanceof Strain) {
             return false;
         }
 

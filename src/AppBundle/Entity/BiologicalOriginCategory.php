@@ -42,13 +42,13 @@ class BiologicalOriginCategory
     private $team;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WildStrain", mappedBy="biologicalOriginCategory")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="biologicalOriginCategory")
      */
-    private $wildStrains;
+    private $strains;
 
     public function __construct()
     {
-        $this->wildStrains = new ArrayCollection();
+        $this->strains = new ArrayCollection();
     }
 
     /**
@@ -85,9 +85,9 @@ class BiologicalOriginCategory
         return $this->name;
     }
 
-    public function getWildStrains()
+    public function getStrains()
     {
-        return $this->wildStrains;
+        return $this->strains;
     }
 
     /**

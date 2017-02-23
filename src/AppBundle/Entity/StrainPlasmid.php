@@ -22,12 +22,12 @@ class StrainPlasmid
     private $id;
 
     /**
-     * @var GmoStrain
+     * @var Strain
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\GmoStrain", inversedBy="strainPlasmids")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="strainPlasmids")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $gmoStrain;
+    private $strain;
 
     /**
      * @var Plasmid
@@ -57,13 +57,13 @@ class StrainPlasmid
     /**
      * Set strain.
      *
-     * @param GmoStrain $gmoStrain
+     * @param Strain $strain
      *
      * @return StrainPlasmid
      */
-    public function setGmoStrain(GmoStrain $gmoStrain)
+    public function setStrain(Strain $strain)
     {
-        $this->gmoStrain = $gmoStrain;
+        $this->strain = $strain;
 
         return $this;
     }
@@ -71,11 +71,11 @@ class StrainPlasmid
     /**
      * Get strain.
      *
-     * @return GmoStrain
+     * @return Strain
      */
-    public function getGmoStrain()
+    public function getStrain()
     {
-        return $this->gmoStrain;
+        return $this->strain;
     }
 
     /**

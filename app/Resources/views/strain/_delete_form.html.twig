@@ -1,0 +1,14 @@
+{{ include('strain/_delete_confirmation.html.twig') }}
+<form action="{{ url('strain_delete', { id: strain.id }) }}" method="post" data-confirmation="true">
+    <input type="hidden" name="token" value="{{ csrf_token('strain_delete') }}" />
+    <div class="btn-group btn-group-xs" role="group">
+        {% block btn %}
+        {% endblock %}
+
+        {% if is_granted('STRAIN_DELETE', strain) %}
+            <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+            </button>
+        {% endif %}
+    </div>
+</form>

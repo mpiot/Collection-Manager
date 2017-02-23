@@ -6,11 +6,12 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GmoStrainType extends AbstractType
+class StrainGmoType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -35,7 +36,7 @@ class GmoStrainType extends AbstractType
             ->add('parents', CollectionType::class, [
                 'entry_type' => EntityType::class,
                 'entry_options' => [
-                    'class' => 'AppBundle\Entity\GmoStrain',
+                    'class' => 'AppBundle\Entity\Strain',
                     'choice_label' => 'fullName',
                     'placeholder' => '-- select a parent --',
                     'query_builder' => function (EntityRepository $er) {
@@ -57,7 +58,7 @@ class GmoStrainType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\GmoStrain',
+            'data_class' => 'AppBundle\Entity\Strain',
         ]);
     }
 

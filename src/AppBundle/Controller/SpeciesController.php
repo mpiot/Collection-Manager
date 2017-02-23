@@ -174,7 +174,7 @@ class SpeciesController extends Controller
     public function deleteAction(Species $species, Request $request)
     {
         // Check if the species is used in strains, else redirect user
-        if (!$species->getGmoStrains()->isEmpty() || !$species->getWildStrains()->isEmpty()) {
+        if (!$species->getStrains()->isEmpty()) {
             $this->addFlash('warning', 'The species cannot be deleted, it\'s used in strain(s).');
 
             return $this->redirectToRoute('species_index');

@@ -1,0 +1,343 @@
+{% extends "strain/base.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        .node {
+            font: 10px sans-serif;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Strain {{ strain.autoName }} - {{ strain.name }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="active">{{ strain.autoName }} - {{ strain.name }}</li>
+{% endblock %}
+
+{% block strain_body %}
+
+    <div class="row">
+        <div class="col-md-10">
+            <h2 class="sub-header">{{ strain.fullName }}</h2>
+        </div>
+
+        <div class="col-md-2">
+            {% embed "strain/_delete_form.html.twig" with { strain: strain } only %}
+                {% block btn %}
+                    {% if is_granted('STRAIN_EDIT', strain) %}
+                        <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id }) }}">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                        </a>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Registration informations</div>
+                <ul class="list-group">
+                    <li class="list-group-item">Name: {{ strain.name }}</li>
+                    <li class="list-group-item">Auto name: {{ strain.autoName }}</li>
+                    <li class="list-group-item">Created on: {{ strain.creationDate|date("Y/m/d") }}</li>
+                    <li class="list-group-item">
+                        Deleted:
+                        {% if strain.deleted %}
+                            <span style="color: red;">Yes</span> on {{ strain.deletionDate|date("Y/m/d") }}
+                        {% else %}
+                            <span style="color: green">No</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Tubes</div>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Project</th>
+                        <th>Box</th>
+                        <th>Cell</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for tube in strain.tubes %}
+                        {% if is_granted('TUBE_VIEW', tube) %}
+                            <tr>
+                                <td>{{ tube.box.project.name }}</td>
+                                <td>{{ tube.box.name }}</td>
+                                <td>{{ tube.cellName }}</td>
+                                <td>
+                                    {% if tube.deleted %}
+                                        <span style="color: red;">Deleted</span> on {{ tube.deletionDate|date('Y/m/d') }}
+                                    {% else %}
+                                        <span style="color: green;">Present</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                {% if is_granted('TUBE_RESTORE', tube) or is_granted('TUBE_DELETE', tube) %}
+                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                        {% if tube.deleted == true and is_granted('TUBE_RESTORE', tube) %}
+                                            <a class="btn btn-success" value="Delete" href="{{ path('tube_restore', { 'id': tube.id, 'token': csrf_token('restoreTube') }) }}">
+                                                <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                                            </a>
+                                        {% endif %}
+
+                                        {% if tube.deleted == false and is_granted('TUBE_DELETE', tube) %}
+                                        <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id, 'token': csrf_token('deleteTube') }) }}">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    -
+                                {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Biological informations</div>
+                <ul class="list-group">
+                    <li class="list-group-item">Type: {{ strain.type.name }}</li>
+                    <li class="list-group-item">Species: {{ strain.species.genus.name }} {{ strain.species.name }}</li>
+                    <li class="list-group-item">Sequenced: {{ strain.sequenced ? 'yes' : 'no' }}</li>
+
+                    {% if 'wild' == strain.discriminator %}
+                        <li class="list-group-item">Biological origin: {{ strain.biologicalOrigin }}</li>
+                        <li class="list-group-item">Source: {{ strain.source }}</li>
+                    {% endif %}
+                </ul>
+
+                <div class="panel-body">
+                    <p><u>Genotype:</u></p>
+                    <p>{{ strain.genotype }}</p>
+                </div>
+
+                <div class="panel-body">
+                    <p><u>Description:</u></p>
+                    <p>{{ strain.description }}</p>
+                </div>
+
+                <div class="panel-body">
+                    <p><u>Comment:</u></p>
+                    <p>{{ strain.comment }}</p>
+                </div>
+            </div>
+        </div>
+
+        {% if 'gmo' == strain.discriminator %}
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Used plasmids</div>
+                    <table class="table">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Name</th>
+                            <th>State</th>
+                        </tr>
+                        {% if strain.strainPlasmids is not empty%}
+                            {% for strainPlasmid in strain.strainPlasmids %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td><a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id}) }}">{{ strainPlasmid.plasmid.autoName }}</a></td>
+                                    <td>{{ strainPlasmid.plasmid.name }}</td>
+                                    <td>{{ strainPlasmid.state }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" style="text-align:center;">There is no plasmids.</td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if 'wild' == strain.discriminator %}
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Map</div>
+                    <div class="panel-body">
+                        Address: {{ strain.address }}<br>
+                        Country: {{ strain.country|country(app.request.locale) }}<br>
+                    </div>
+                    <div id ="map" class="panel-body" style="height:400px;">
+                    </div>
+                    <div class="panel-footer">
+                        Latitude: {{ strain.latitude }}  -  Longitude: {{ strain.longitude }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Parents</div>
+                <div class="panel-body" id="tree1"></div>
+                <ul class="list-group">
+                    {% for parent in strain.parents if is_granted('STRAIN_VIEW', parent) %}
+                        <li class="list-group-item"><a href="{{ path('strain_view', { 'id': parent.id }) }}">{{ parent.fullName }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Children</div>
+                <div class="panel-body" id="tree2"></div>
+                <ul class="list-group">
+                    {% for child in strain.children if is_granted('STRAIN_VIEW', child) %}
+                        <li class="list-group-item"><a href="{{ path('strain_view', { 'id': child.id }) }}">{{ child.fullName }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="//d3js.org/d3.v3.min.js"></script>
+
+    <script>
+        var width = 800,
+            height = 400;
+
+        var tree = d3.layout.tree()
+            .size([height, width - 300]);
+
+        var diagonal = d3.svg.diagonal()
+            .projection(function(d) { return [d.y, d.x]; });
+
+        var svgParents = d3.select("#tree1").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(150,0)");
+
+        var svgChildren = d3.select("#tree2").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(150,0)");
+
+        d3.json("{{ path('strain_parents', {'id': strain.id}) }}", function(error, json) {
+            if (error) throw error;
+
+            var nodes = tree.nodes(json),
+                links = tree.links(nodes);
+
+            var link = svgParents.selectAll("path.link")
+                .data(links)
+                .enter().append("path")
+                .attr("class", "link")
+                .attr("d", diagonal);
+
+            var node = svgParents.selectAll("g.node")
+                .data(nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+            node.append("circle")
+                .attr("r", 4.5);
+
+            node.append("text")
+                .attr("dx", function(d) { return d.children ? -8 : 8; })
+                .attr("dy", 3)
+                .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
+                .text(function(d) { return d.name; });
+        });
+
+        d3.json("{{ path('strain_children', {'id': strain.id}) }}", function(error, json) {
+            if (error) throw error;
+
+            var nodes = tree.nodes(json),
+                links = tree.links(nodes);
+
+            var link = svgChildren.selectAll("path.link")
+                .data(links)
+                .enter().append("path")
+                .attr("class", "link")
+                .attr("d", diagonal);
+
+            var node = svgChildren.selectAll("g.node")
+                .data(nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+
+            node.append("circle")
+                .attr("r", 4.5);
+
+            node.append("text")
+                .attr("dx", function(d) { return d.children ? -8 : 8; })
+                .attr("dy", 3)
+                .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
+                .text(function(d) { return d.name; });
+        });
+
+        d3.select(self.frameElement).style("height", height + "px");
+    </script>
+
+    {% if 'wild' == strain.discriminator and strain.latitude is defined and strain.longitude is defined %}
+        <script type="text/javascript">
+
+            var map;
+            function initMap() {
+                var myLatLng = {lat: {{ strain.latitude }}, lng: {{ strain.longitude}}};
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 5
+                });
+
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: '{{ strain.autoName }}'
+                });
+            }
+
+        </script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&callback=initMap">
+        </script>
+    {% endif %}
+{% endblock %}

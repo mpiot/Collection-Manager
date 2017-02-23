@@ -2,10 +2,9 @@
 
 namespace AppBundle\Twig;
 
-use AppBundle\Entity\GmoStrain;
 use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Primer;
-use AppBundle\Entity\WildStrain;
+use AppBundle\Entity\Strain;
 
 class InstanceOfExtension extends \Twig_Extension
 {
@@ -18,11 +17,8 @@ class InstanceOfExtension extends \Twig_Extension
             new \Twig_SimpleTest('plasmid', function ($event) {
                 return $event instanceof Plasmid;
             }),
-            new \Twig_SimpleTest('gmoStrain', function ($event) {
-                return $event instanceof GmoStrain;
-            }),
-            new \Twig_SimpleTest('wildStrain', function ($event) {
-                return $event instanceof WildStrain;
+            new \Twig_SimpleTest('strain', function ($event) {
+                return $event instanceof Strain;
             }),
         ];
     }

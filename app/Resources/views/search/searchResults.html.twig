@@ -4,19 +4,12 @@
 
         {% for result in results %}
             <div class="search-result">
-                {% if result is gmoStrain %}
-                    <h4><a href="{{ path('strain_gmo_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                {% if result is strain %}
+                    <h4><a href="{{ path('strain_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
-                        GMO Strain<br />
+                        Strain<br />
                         Type: {{ result.type.name }}<br />
                         Species: {{ result.species.scientificName }}
-
-                    </p>
-                {% elseif result is wildStrain %}
-                    <h4><a href="{{ path('strain_wild_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
-                    <p>
-                        Wild Strain<br />
-                        Type: {{ result.type.name }}<br />
 
                     </p>
                 {% elseif result is plasmid %}

@@ -238,7 +238,7 @@ class Plasmid
         $strains = new ArrayCollection();
 
         foreach ($this->strainPlasmids as $strainPlasmid) {
-            $strains->add($strainPlasmid->getGmoStrain());
+            $strains->add($strainPlasmid->getStrain());
         }
 
         return $strains;
