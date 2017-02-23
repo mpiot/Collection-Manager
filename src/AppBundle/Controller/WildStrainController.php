@@ -64,6 +64,7 @@ class WildStrainController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $strain->setAuthor($this->getUser());
             $em->persist($strain);
             $em->flush();
 
