@@ -57,13 +57,6 @@ class Tube
     private $cellName;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
-     */
-    private $name;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="creationDate", type="datetime")
@@ -190,16 +183,6 @@ class Tube
         return $this->cellName;
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
     public function setCreationDate(\DateTime $date)
     {
         $this->creationDate = $date;
@@ -234,40 +217,6 @@ class Tube
     public function getDeleted()
     {
         return $this->deleted;
-    }
-
-    /**
-     * Before persist.
-     *
-     * @ORM\PrePersist()
-     */
-    public function prePersist()
-    {
-        // Give a name to the tube
-        // The name is composed like this:
-        // ProjectPrefix_BoxLetter_xxxType
-
-        // ProjectPrefix (The prefix of the first Tube)
-        $projectPrefix = $this->getBox()->getProject()->getPrefix();
-
-        // BoxLetter (idem, the first tube)
-        $boxLetter = $this->getBox()->getBoxLetter();
-
-        // In array the first cell is 0, in real box, it's 1
-        $cell = $this->cell + 1;
-
-        // Determine how many 0 put before the number
-        $nbDigit = 3;
-        $numberOf0 = $nbDigit - floor(log10($cell) + 1);
-
-        if ($numberOf0 < 0) {
-            $numberOf0 = 0;
-        }
-
-        $boxCell = str_repeat('0', $numberOf0).$cell;
-
-        // Generate the tube name
-        $this->name = $projectPrefix.'_'.$boxLetter.$boxCell;
     }
 
     /**

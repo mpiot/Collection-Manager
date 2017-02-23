@@ -93,6 +93,11 @@ class Project
     private $valid = false;
 
     /**
+     * @ORM\Column(name="last_strain_number", type="integer", nullable=false)
+     */
+    private $lastStrainNumber = 0;
+
+    /**
      * Project constructor.
      */
     public function __construct()
@@ -426,5 +431,29 @@ class Project
     public function isValid()
     {
         return $this->valid;
+    }
+
+    /**
+     * Set last strain number.
+     *
+     * @param int $number
+     *
+     * @return $this
+     */
+    public function setLastStrainNumber(int $number)
+    {
+        $this->lastStrainNumber = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get last strain number.
+     *
+     * @return int
+     */
+    public function getLastStrainNumber()
+    {
+        return $this->lastStrainNumber;
     }
 }

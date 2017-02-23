@@ -34,15 +34,15 @@ class StrainSubscriber implements EventSubscriber
             return;
         }
 
-        $em = $args->getEntityManager();
+        $strainProject = $entity->getTubes()->first()->getProject();
+        $strainNumber = $strainProject->getLastStrainNumber() + 1;
+        $strainPrefix = $strainProject->getPrefix();
 
-        // Persist tubes
-        foreach ($entity->getTubes() as $tube) {
-            $em->persist($tube);
-        }
+        $autoName = $strainPrefix.'_'.str_pad($strainNumber, 4, '0', STR_PAD_LEFT);
 
-        // After tubes persisted, generate AutoName
-        $entity->generateAutoName();
+        // Set autoName
+        $entity->setAutoName($autoName);
+        $strainProject->setLastStrainNumber($strainNumber);
 
         // Define the author
         $entity->setAuthor($this->tokenStorage->getToken()->getUser());
