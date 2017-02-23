@@ -32,7 +32,7 @@ class StrainSearchIndexListener implements EventSubscriberInterface
             }
         }
 
-        $document->set('projects', $projects);
+        $document->set('project_id', $projects);
     }
 
     protected function addStrainType(TransformEvent $event)

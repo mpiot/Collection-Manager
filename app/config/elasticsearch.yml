@@ -43,7 +43,7 @@ fos_elastica:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
                         country:
-                        author:
+                        author_id:
                             property_path:    author.id
                         deleted:
                     persistence:

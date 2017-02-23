@@ -40,7 +40,7 @@ class GlobalRepository
         // Set the project filter
         if (null !== $project && '' !== $project) {
             $projectQuery = new \Elastica\Query\Term();
-            $projectQuery->setTerm('projects', $project->getId());
+            $projectQuery->setTerm('project_id', $project->getId());
         }
 
         // Set the type filter
@@ -52,7 +52,7 @@ class GlobalRepository
         // Set the author filter
         if (null !== $author && '' !== $author) {
             $authorQuery = new \Elastica\Query\Term();
-            $authorQuery->setTerm('author', $author->getId());
+            $authorQuery->setTerm('author_id', $author->getId());
         }
 
         //----------------------------------------//
@@ -61,11 +61,11 @@ class GlobalRepository
 
         // Set a team filter
         $teamsSecureQuery = new \Elastica\Query\Terms();
-        $teamsSecureQuery->setTerms('team', $user->getTeamsId());
+        $teamsSecureQuery->setTerms('team_id', $user->getTeamsId());
 
         // Set a project filter
         $projectsSecureQuery = new \Elastica\Query\Terms();
-        $projectsSecureQuery->setTerms('projects', $user->getProjectsId());
+        $projectsSecureQuery->setTerms('project_id', $user->getProjectsId());
 
         //-------------------------------------------//
         // Assign previous queries to each BoolQuery //
