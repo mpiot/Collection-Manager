@@ -31,27 +31,16 @@ class PlasmidSubscriber implements EventSubscriber
         // If the entity is not a Plasmid return
         if (!$entity instanceof Plasmid) {
             return;
-        } else {
-            $plasmid = $entity;
         }
 
-        $plasmidNumber = $plasmid->getTeam()->getLastPlasmidNumber() + 1;
-
-        // Determine how many 0 put before the number
-        $nbDigit = 4;
-        $numberOf0 = $nbDigit - floor(log10($plasmidNumber) + 1);
-
-        if ($numberOf0 < 0) {
-            $numberOf0 = 0;
-        }
-
-        $autoName = 'p'.str_repeat('0', $numberOf0).$plasmidNumber;
+        $plasmidNumber = $entity->getTeam()->getLastPlasmidNumber() + 1;
+        $autoName = 'p'.str_pad($plasmidNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
-        $plasmid->setAutoName($autoName);
-        $plasmid->getTeam()->setLastPlasmidNumber($plasmidNumber);
+        $entity->setAutoName($autoName);
+        $entity->getTeam()->setLastPlasmidNumber($plasmidNumber);
 
-        $plasmid->setAuthor($this->tokenStorage->getToken()->getUser());
+        $entity->setAuthor($this->tokenStorage->getToken()->getUser());
     }
 
     public function preUpdate(LifecycleEventArgs $args)
@@ -61,11 +50,9 @@ class PlasmidSubscriber implements EventSubscriber
         // If the entity is not a Plasmid return
         if (!$entity instanceof Plasmid) {
             return;
-        } else {
-            $plasmid = $entity;
         }
 
-        $plasmid->setLastEditor($this->tokenStorage->getToken()->getUser());
-        $plasmid->setLastEdit(new \DateTime());
+        $entity->setLastEditor($this->tokenStorage->getToken()->getUser());
+        $entity->setLastEdit(new \DateTime());
     }
 }

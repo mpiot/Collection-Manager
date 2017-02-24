@@ -117,6 +117,13 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postRemove }
 
+    app.event_listener.strain:
+        class: AppBundle\EventListener\StrainSubscriber
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+
     app.event_listener.team:
         class: AppBundle\EventListener\TeamListener
         tags:

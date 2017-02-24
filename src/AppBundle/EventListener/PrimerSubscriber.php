@@ -31,27 +31,16 @@ class PrimerSubscriber implements EventSubscriber
         // If the entity is not a Primer return
         if (!$entity instanceof Primer) {
             return;
-        } else {
-            $primer = $entity;
         }
 
-        $primerNumber = $primer->getTeam()->getLastPrimerNumber() + 1;
-
-        // Determine how many 0 put before the number
-        $nbDigit = 4;
-        $numberOf0 = $nbDigit - floor(log10($primerNumber) + 1);
-
-        if ($numberOf0 < 0) {
-            $numberOf0 = 0;
-        }
-
-        $autoName = 'primer'.str_repeat('0', $numberOf0).$primerNumber;
+        $primerNumber = $entity->getTeam()->getLastPrimerNumber() + 1;
+        $autoName = 'primer'.str_pad($primerNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
-        $primer->setAutoName($autoName);
-        $primer->getTeam()->setLastPrimerNumber($primerNumber);
+        $entity->setAutoName($autoName);
+        $entity->getTeam()->setLastPrimerNumber($primerNumber);
 
-        $primer->setAuthor($this->tokenStorage->getToken()->getUser());
+        $entity->setAuthor($this->tokenStorage->getToken()->getUser());
     }
 
     public function preUpdate(LifecycleEventArgs $args)
@@ -61,11 +50,9 @@ class PrimerSubscriber implements EventSubscriber
         // If the entity is not a Primer return
         if (!$entity instanceof Primer) {
             return;
-        } else {
-            $primer = $entity;
         }
 
-        $primer->setLastEditor($this->tokenStorage->getToken()->getUser());
-        $primer->setLastEdit(new \DateTime());
+        $entity->setLastEditor($this->tokenStorage->getToken()->getUser());
+        $entity->setLastEdit(new \DateTime());
     }
 }

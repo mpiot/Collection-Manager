@@ -11,7 +11,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="strain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StrainRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Strain
 {
@@ -942,40 +941,5 @@ class Strain
     public function isAuthor(User $user)
     {
         return $user === $this->getAuthor();
-    }
-
-    /**
-     * Set main Species.
-     *
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function lifeCycleMainSpecies()
-    {
-        // Define the main Species
-        $species = $this->getSpecies();
-
-        if (!$species->isMainSpecies()) {
-            $this->setSpecies($species->getMainSpecies());
-        }
-    }
-
-    /**
-     * Set autoName.
-     *
-     * @ORM\PrePersist()
-     */
-    public function plifeCycleAutoName()
-    {
-        $project = $this->getTubes()->first()->getProject();
-        $projectStrainNumber = $project->getLastStrainNumber() + 1;
-        $projectPrefix = $project->getPrefix();
-
-        $autoName = $projectPrefix.'_'.str_pad($projectStrainNumber, 4, '0', STR_PAD_LEFT);
-
-        // Set autoName
-        $this->setAutoName($autoName);
-        $project->setLastStrainNumber($projectStrainNumber);
-
     }
 }

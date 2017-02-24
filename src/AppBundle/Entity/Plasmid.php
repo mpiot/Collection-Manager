@@ -13,7 +13,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="plasmid")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PlasmidRepository")
- * @ORM\HasLifeCycleCallbacks()
  * @UniqueEntity({"name", "team"}, message="This name is already used by another plasmid.")
  */
 class Plasmid

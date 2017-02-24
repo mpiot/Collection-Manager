@@ -13,7 +13,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="primer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrimerRepository")
- * @ORM\HasLifeCycleCallbacks()
  * @UniqueEntity({"name", "team"}, message="This name is already used by another primer.")
  */
 class Primer
