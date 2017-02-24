@@ -50,7 +50,6 @@ class StrainController extends Controller
     {
         $strain = new Strain();
         $strain->setDiscriminator('gmo');
-        $strain->setAuthor($this->getUser());
 
         $form = $this->createForm(StrainGmoType::class, $strain)
             ->add('save', SubmitType::class, [
@@ -119,7 +118,6 @@ class StrainController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $strain->setAuthor($this->getUser());
             $em->persist($strain);
             $em->flush();
 
@@ -174,7 +172,6 @@ class StrainController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 

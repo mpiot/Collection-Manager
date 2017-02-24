@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="primer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrimerRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity({"name", "team"}, message="This name is already used by another primer.")
  */
 class Primer
@@ -66,7 +67,7 @@ class Primer
      * @var string
      *
      * @ORM\Column(name="sequence", type="string", length=255)
-     * @Assert\Regex("/[ACGTNUKSYMWRBDHV-]+/i", message="Please, see as the allowed letters in the table on the bottom of the page.")
+     * @Assert\Regex("/^[ACGTNUKSYMWRBDHV-]+$/i", message="Please, see as the allowed letters in the table on the bottom of the page.")
      */
     private $sequence;
 
@@ -74,7 +75,7 @@ class Primer
      * @var string
      *
      * @ORM\Column(name="fivePrimeExtension", type="string", length=255, nullable=true)
-     * @Assert\Regex("/[ACGTNUKSYMWRBDHV-]+/i", message="Please, see as the allowed letters in the table on the bottom of the page.")
+     * @Assert\Regex("/^[ACGTNUKSYMWRBDHV-]+$/i", message="Please, see as the allowed letters in the table on the bottom of the page.")
      */
     private $fivePrimeExtension;
 
@@ -103,20 +104,38 @@ class Primer
     private $hybridationTemp;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
      */
-    private $author;
+    private $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     * @ORM\JoinColumn(name="last_editor", nullable=true)
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
      */
-    private $lastEditor;
+    private $updated;
 
     /**
-     * @ORM\Column(name="last_edit", type="datetime", nullable=true)
+     * @var User $createdBy
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      */
-    private $lastEdit;
+    private $createdBy;
+
+    /**
+     * @var User $updatedBy
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     */
+    private $updatedBy;
 
     /**
      * Primer constructor.
@@ -393,74 +412,57 @@ class Primer
     }
 
     /**
-     * Set author.
+     * Get created.
      *
-     * @param User $user
-     *
-     * @return $this
+     * @return \DateTime
      */
-    public function setAuthor(User $user)
+    public function getCreated()
     {
-        $this->author = $user;
-
-        return $this;
+        return $this->created;
     }
 
     /**
-     * Get author.
+     * Get updated.
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Get created by.
      *
      * @return User
      */
-    public function getAuthor()
+    public function getCreatedBy()
     {
-        return $this->author;
+        return $this->createdBy;
     }
 
     /**
-     * Set lastEditor.
-     *
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function setLastEditor(User $user)
-    {
-        $this->lastEditor = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get lastEditor.
+     * Get updated by.
      *
      * @return User
      */
-    public function getLastEditor()
+    public function getUpdatedBy()
     {
-        return $this->lastEditor;
+        return $this->updatedBy;
     }
 
     /**
-     * Set lastEdit.
+     * Before persist.
      *
-     * @param \DateTime $lastEdit
-     *
-     * @return $this
+     * @ORM\PrePersist()
      */
-    public function setLastEdit(\DateTime $lastEdit)
+    public function prePersist()
     {
-        $this->lastEdit = $lastEdit;
+        $primerNumber = $this->getTeam()->getLastPrimerNumber() + 1;
+        $autoName = 'primer'.str_pad($primerNumber, 4, '0', STR_PAD_LEFT);
 
-        return $this;
-    }
-
-    /**
-     * Get lastEdit.
-     *
-     * @return mixed
-     */
-    public function getLastEdit()
-    {
-        return $this->lastEdit;
+        // Set autoName
+        $this->setAutoName($autoName);
+        $this->getTeam()->setLastPrimerNumber($primerNumber);
     }
 }

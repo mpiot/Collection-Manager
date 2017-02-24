@@ -69,7 +69,7 @@ class User extends BaseUser
     private $teamRequests;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="author")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="createdBy")
      */
     private $strains;
 

@@ -121,13 +121,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postRemove }
 
-    app.event_listener.strain:
-        class: AppBundle\EventListener\StrainSubscriber
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: doctrine.event_subscriber }
-
-
     app.event_listener.team:
         class: AppBundle\EventListener\TeamListener
         tags:
@@ -135,18 +128,6 @@ services:
 
     app.event_listener.project:
         class: AppBundle\EventListener\ProjectSubscriber
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: doctrine.event_subscriber }
-
-    app.event_listener.plasmid:
-        class: AppBundle\EventListener\PlasmidSubscriber
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: doctrine.event_subscriber }
-
-    app.event_listener.primer:
-        class: AppBundle\EventListener\PrimerSubscriber
         arguments: ["@security.token_storage"]
         tags:
             - { name: doctrine.event_subscriber }

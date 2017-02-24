@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="strain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StrainRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Strain
 {
@@ -174,13 +175,6 @@ class Strain
     private $longitude;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="creationDate", type="datetime")
-     */
-    private $creationDate;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="deleted", type="boolean")
@@ -195,12 +189,38 @@ class Strain
     private $deletionDate;
 
     /**
-     * @var User
+     * @var \DateTime $created
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="strains")
-     * @ORM\JoinColumn(name="author")
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
      */
-    private $author;
+    private $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var User $createdBy
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="strains")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     */
+    private $createdBy;
+
+    /**
+     * @var User $updatedBy
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     */
+    private $updatedBy;
 
 
     public function __construct()
@@ -823,30 +843,6 @@ class Strain
     }
 
     /**
-     * Set creationDate.
-     *
-     * @param \DateTime $creationDate
-     *
-     * @return Strain
-     */
-    public function setCreationDate($creationDate)
-    {
-        $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
-    /**
-     * Get creationDate.
-     *
-     * @return \DateTime
-     */
-    public function getCreationDate()
-    {
-        return $this->creationDate;
-    }
-
-    /**
      * Set deleted.
      *
      * @param bool $deleted
@@ -908,27 +904,13 @@ class Strain
     }
 
     /**
-     * Set author.
+     * Get created.
      *
-     * @param User $user
-     *
-     * @return $this
+     * @return \DateTime
      */
-    public function setAuthor(User $user)
+    public function getCreated()
     {
-        $this->author = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get author.
-     *
-     * @return mixed
-     */
-    public function getAuthor()
-    {
-        return $this->author;
+        return $this->created;
     }
 
     /**
@@ -940,6 +922,71 @@ class Strain
      */
     public function isAuthor(User $user)
     {
-        return $user === $this->getAuthor();
+        return $user === $this->created;
+    }
+
+    /**
+     * Get updated.
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Get created by.
+     *
+     * @return User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Get updated by.
+     *
+     * @return User
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+    /**
+     * Set main Species.
+     *
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function lifeCycleMainSpecies()
+    {
+        // Define the main Species
+        $species = $this->getSpecies();
+
+        if (!$species->isMainSpecies()) {
+            $this->setSpecies($species->getMainSpecies());
+        }
+    }
+
+    /**
+     * Set autoName.
+     *
+     * @ORM\PrePersist()
+     */
+    public function lifeCycleAutoName()
+    {
+        $project = $this->getTubes()->first()->getProject();
+        $projectStrainNumber = $project->getLastStrainNumber() + 1;
+        $projectPrefix = $project->getPrefix();
+
+        $autoName = $projectPrefix.'_'.str_pad($projectStrainNumber, 4, '0', STR_PAD_LEFT);
+
+        // Set autoName
+        $this->setAutoName($autoName);
+        $project->setLastStrainNumber($projectStrainNumber);
+
     }
 }

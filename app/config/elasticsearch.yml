@@ -44,7 +44,7 @@ fos_elastica:
                             search_analyzer : search_analyzer
                         country:
                         author_id:
-                            property_path:    author.id
+                            property_path:    createdBy.id
                         deleted:
                     persistence:
                       driver:                 orm
@@ -69,7 +69,7 @@ fos_elastica:
                         team_id:
                             property_path:    team.id
                         author_id:
-                            property_path:    author.id
+                            property_path:    createdBy.id
                     persistence:
                       driver:                 orm
                       model:                  AppBundle\Entity\Plasmid
@@ -92,7 +92,7 @@ fos_elastica:
                         team_id:
                             property_path:    team.id
                         author_id:
-                            property_path:    author.id
+                            property_path:    createdBy.id
                         sequence:
                             analyzer :        ngram_sequence_analyzer
                             search_analyzer : search_analyzer
