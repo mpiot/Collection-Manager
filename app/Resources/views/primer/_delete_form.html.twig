@@ -1,5 +1,5 @@
 {{ include('primer/_delete_confirmation.html.twig') }}
-<form action="{{ url('primer_delete', { id: primer.id }) }}" method="post" data-confirmation="true">
+<form action="{{ url('primer_delete', { 'id': primer.id, 'slug': primer.slug }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('primer_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
         {% block btn %}

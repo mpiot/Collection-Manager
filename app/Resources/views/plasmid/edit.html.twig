@@ -5,7 +5,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('plasmid_index') }}">Plasmids list</a></li>
-    <li><a href="{{ path('plasmid_view', { id: plasmid.id }) }}">{{ plasmid.autoName }} - {{ plasmid.name }}</a></li>
+    <li><a href="{{ path('plasmid_view', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">{{ plasmid.autoName }} - {{ plasmid.name }}</a></li>
     <li class="active">Edit</li>
 {% endblock %}
 

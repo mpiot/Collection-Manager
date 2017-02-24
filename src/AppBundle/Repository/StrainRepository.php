@@ -48,7 +48,7 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function findOneWithAll($strain)
+    public function findOneBySlug($id)
     {
         $query = $this->createQueryBuilder('strain')
             ->leftJoin('strain.strainPlasmids', 'strainPlasmids')
@@ -81,8 +81,8 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('childrenproject')
             ->leftJoin('childrenproject.members', 'childremembers')
                 ->addSelect('childremembers')
-            ->where('strain = :strain')
-                ->setParameter('strain', $strain)
+            ->where('strain.id = :id')
+                ->setParameter('id', $id)
             ->getQuery();
 
         return $query->getOneOrNullResult();

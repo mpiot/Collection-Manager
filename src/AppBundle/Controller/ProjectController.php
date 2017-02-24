@@ -69,20 +69,6 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="project_view", requirements={"id": "\d+"})
-     * @ParamConverter("project", class="AppBundle:Project", options={
-     *     "repository_method" = "findOneWithAdminsMembers"
-     * })
-     * @Security("is_granted('PROJECT_VIEW', project)")
-     */
-    public function viewAction(Project $project)
-    {
-        return $this->render('project/view.html.twig', array(
-            'project' => $project,
-        ));
-    }
-
-    /**
      * @Route("/add", name="project_add")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
@@ -139,7 +125,19 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/{id}/validate", name="project_validate")
+     * @Route("/{slug}", name="project_view")
+     * @ParamConverter("project", options={"repository_method" = "findOneWithAdminsMembers"})
+     * @Security("is_granted('PROJECT_VIEW', project)")
+     */
+    public function viewAction(Project $project)
+    {
+        return $this->render('project/view.html.twig', array(
+            'project' => $project,
+        ));
+    }
+
+    /**
+     * @Route("/{id}/validate", name="project_validate", requirements={"id": "\d+"})
      * @Security("is_granted('PROJECT_VALIDATE', project)")
      */
     public function validateAction(Project $project, Request $request)
@@ -147,13 +145,13 @@ class ProjectController extends Controller
         if ($project->isValid()) {
             $this->addFlash('warning', 'The project is already valid !');
 
-            return $this->redirectToRoute('project_index');
+            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
         }
 
         if (!$this->isCsrfTokenValid('project_validate', $request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid !');
 
-            return $this->redirectToRoute('project_view', ['id' => $project->getId()]);
+            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -162,11 +160,12 @@ class ProjectController extends Controller
 
         $this->addFlash('success', 'The project has been successfully validated.');
 
-        return $this->redirectToRoute('project_index');
+        return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
     }
 
     /**
-     * @Route("/{id}/edit", name="project_edit")
+     * @Route("/{slug}/edit", name="project_edit")
+     * @ParamConverter("project", options={"repository_method" = "findOneWithAdminsMembers"})
      * @Security("is_granted('PROJECT_EDIT', project)")
      */
     public function editAction(Project $project, Request $request)
@@ -181,7 +180,7 @@ class ProjectController extends Controller
 
             $this->addFlash('success', 'The project has been edited unsuccessfully.');
 
-            return $this->redirectToRoute('project_index');
+            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
         }
 
         return $this->render('project/edit.html.twig', [
@@ -191,7 +190,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="project_delete")
+     * @Route("/{slug}/delete", name="project_delete")
      * @Method("POST")
      * @Security("is_granted('PROJECT_DELETE', project)")
      */
@@ -201,14 +200,14 @@ class ProjectController extends Controller
         if (!$project->getBoxes()->isEmpty()) {
             $this->addFlash('warning', 'The project cannot be deleted, there are boxes attached.');
 
-            return $this->redirectToRoute('type_index');
+            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
         }
 
         // If the CSRF token is invalid, redirect user
         if (!$this->isCsrfTokenValid('project_delete', $request->request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
-            return $this->redirectToRoute('project_index');
+            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
         }
 
         $entityManager = $this->getDoctrine()->getManager();

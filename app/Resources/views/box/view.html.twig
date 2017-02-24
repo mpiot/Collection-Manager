@@ -110,7 +110,7 @@
                         <tr>
                             <td>{{ tube.cellName }}</td>
                             <td>
-                                <a href="{{ path('strain_view', { id: tube.strain.id }) }}">{{ tube.strain.autoName }}</a>
+                                <a href="{{ path('strain_view', { 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
                             </td>
                             <td>{{ tube.strain.name }}</td>
                             <td>{{ tube.box.project.name }}</td>

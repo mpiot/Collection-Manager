@@ -22,26 +22,14 @@
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-                {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
-                    <tr>
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Name</th>
-                        <th class="col-md-4">Administrators</th>
-                        <th class="col-md-1">Members</th>
-                        <th class="col-md-1">Request</th>
-                        <th class="col-md-1">User status</th>
-                        <th class="col-md-2">Actions</th>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Name</th>
-                        <th class="col-md-6">Administrators</th>
-                        <th class="col-md-1">Members</th>
-                        <th class="col-md-1">Request</th>
-                        <th class="col-md-1">User status</th>
-                    </tr>
-                {% endif %}
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-2">Name</th>
+                    <th class="col-md-6">Administrators</th>
+                    <th class="col-md-1">Members</th>
+                    <th class="col-md-1">Request</th>
+                    <th class="col-md-1">User status</th>
+                </tr>
             </thead>
 
             <tbody>
@@ -49,11 +37,9 @@
                 {% for team in teams %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('team_view', { 'id': team.id }) }}">{{ team.name }}</a></td>
+                        <td><a href="{{ path('team_view', { 'slug': team.slug }) }}">{{ team.name }}</a></td>
                         <td>
-                            {% for administrator in team.administrators %}
-                                {{ administrator.firstName }} {{ administrator.lastName }}{{ (not loop.last) ? ',' }}
-                            {% endfor %}
+                            {{ team.administrators|join(', ') }}
                         </td>
                         <td>{{ team.members|length }}</td>
                         <td>
@@ -83,19 +69,6 @@
                                 <span class="label label-default">Not member</span>
                             {% endif %}
                         </td>
-                        {% if app.user.isTeamAdministrator or is_granted('ROLE_ADMIN') %}
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    {% if app.user.isAdministratorOf(team) or is_granted('ROLE_ADMIN') %}
-                                        <a class="btn btn-warning" href="{{ path('team_edit', { 'id': team.id}) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit</a>
-                                    {% endif %}
-
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <a class="btn btn-danger" href="{{ path('team_delete', { 'id': team.id }) }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
-                                    {% endif %}
-                                </div>
-                            </td>
-                        {% endif %}
                     </tr>
                 {% endfor %}
             {% else %}

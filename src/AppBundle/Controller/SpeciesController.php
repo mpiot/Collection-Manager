@@ -72,26 +72,6 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="species_view", requirements={"id": "\d+"})
-     * @ParamConverter("species", class="AppBundle:Species", options={
-     *     "repository_method" = "findOneWithGenusAndSynonyms"
-     * })
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
-     */
-    public function viewAction(Species $species)
-    {
-        if (!$species->isMainSpecies()) {
-            $this->addFlash('warning', 'This is not a main species.');
-
-            return $this->redirectToRoute('species_index');
-        }
-
-        return $this->render('species/view.html.twig', [
-            'species' => $species,
-        ]);
-    }
-
-    /**
      * @Route("/add", name="species_add")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
@@ -136,10 +116,24 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="species_edit")
-     * @ParamConverter("species", class="AppBundle:Species", options={
-     *     "repository_method" = "findOneWithGenus"
-     * })
+     * @Route("/{slug}", name="species_view")
+     * @ParamConverter("species", options={"repository_method" = "findOneWithGenusAndSynonyms"})
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function viewAction(Species $species)
+    {
+        if (!$species->isMainSpecies()) {
+            return $this->redirectToRoute('species_view', ['slug' => $species->getMainSpecies()->getSlug()]);
+        }
+
+        return $this->render('species/view.html.twig', [
+            'species' => $species,
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}/edit", name="species_edit")
+     * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
      * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator() or user.isProjectAdministrator())")
      */
     public function editAction(Species $species, Request $request)
@@ -154,7 +148,7 @@ class SpeciesController extends Controller
 
             $this->addFlash('success', 'The species has been edited successfully.');
 
-            return $this->redirectToRoute('species_index');
+            return $this->redirectToRoute('species_view', ['slug' => $species->getSlug()]);
         }
 
         return $this->render('species/edit.html.twig', [
@@ -164,11 +158,9 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="species_delete")
+     * @Route("/{slug}/delete", name="species_delete")
      * @Method("POST")
-     * @ParamConverter("species", class="AppBundle:Species", options={
-     *     "repository_method" = "findOneWithGenus"
-     * })
+     * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
      * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator() or user.isProjectAdministrator())")
      */
     public function deleteAction(Species $species, Request $request)
@@ -177,14 +169,14 @@ class SpeciesController extends Controller
         if (!$species->getStrains()->isEmpty()) {
             $this->addFlash('warning', 'The species cannot be deleted, it\'s used in strain(s).');
 
-            return $this->redirectToRoute('species_index');
+            return $this->redirectToRoute('species_view', ['slug' => $species->getSlug()]);
         }
 
         // If the CSRF token is invalid, redirect user
         if (!$this->isCsrfTokenValid('species_delete', $request->request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
-            return $this->redirectToRoute('species_index');
+            return $this->redirectToRoute('species_view', ['slug' => $species->getSlug()]);
         }
 
         $entityManager = $this->getDoctrine()->getManager();

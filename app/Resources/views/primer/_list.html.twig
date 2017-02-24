@@ -18,7 +18,7 @@
                         <td>{{ primer.name }}</td>
                         <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
                         <td>{{ primer.orientation|capitalize }}</td>
-                        <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
+                        <td><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.autoName }}</a></td>
                     </tr>
                 {% endfor %}
             {% else %}

@@ -14,12 +14,12 @@
                         <ul  class="list-group">
                             {% for team in teams %}
                                 <li  class="list-group-item">
-                                    <a href="{{ path('team_view', { 'id': team.id }) }}">{{ team.name }}</a>
+                                    <a href="{{ path('team_view', { 'slug': team.slug }) }}">{{ team.name }}</a>
                                     {{ team.administrators.contains(app.user) ? '(admin)' }}
                                     {% if app.user.isFavoriteTeam(team) %}
                                         <span class="favorite-team glyphicon glyphicon-star pull-right"></span>
                                     {% else %}
-                                        <a href="{{ path('team_favorite', { id: team.id }) }}">
+                                        <a href="{{ path('team_favorite', { 'slug': team.slug }) }}">
                                             <span class="glyphicon glyphicon-star-empty pull-right"></span>
                                         </a>
                                     {% endif %}
@@ -37,11 +37,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         My projects
-                        {% if app.user.isTeamAdministrator() %}
-                            <a class="pull-right" href="{{ path('project_add') }}">Create a new project</a>
-                        {% else %}
-                            <a class="pull-right" href="{{ path('project_add') }}">Suggest a new project</a>
-                        {% endif %}
+                            <a class="pull-right" href="{{ path('project_add') }}">{{ app.user.isTeamAdministrator() ? 'Create a new project' : 'Suggest a new project' }}</a>
                     </div>
                     {% if projects is empty %}
                         <div class="panel-body">
@@ -51,7 +47,7 @@
                         <ul class="list-group">
                             {% for project in projects %}
                                 <li class="list-group-item {{ (not project.isValid) ? 'list-group-item-warning' }}">
-                                    <a href="{{ path('project_view', { 'id': project.id }) }}">{{ project.name }}</a>
+                                    <a href="{{ path('project_view', { 'slug': project.slug }) }}">{{ project.name }}</a>
                                     {{ project.administrators.contains(app.user) ? '(admin)' }}
                                 </li>
                             {% endfor %}

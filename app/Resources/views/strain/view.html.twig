@@ -40,7 +40,7 @@
             {% embed "strain/_delete_form.html.twig" with { strain: strain } only %}
                 {% block btn %}
                     {% if is_granted('STRAIN_EDIT', strain) %}
-                        <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id }) }}">
+                        <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id, 'slug': strain.slug }) }}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                         </a>
                     {% endif %}
@@ -168,7 +168,7 @@
                             {% for strainPlasmid in strain.strainPlasmids %}
                                 <tr>
                                     <td>{{ loop.index }}</td>
-                                    <td><a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id}) }}">{{ strainPlasmid.plasmid.autoName }}</a></td>
+                                    <td><a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id, 'slug': strainPlasmid.plasmid.slug }) }}">{{ strainPlasmid.plasmid.autoName }}</a></td>
                                     <td>{{ strainPlasmid.plasmid.name }}</td>
                                     <td>{{ strainPlasmid.state }}</td>
                                 </tr>
@@ -208,7 +208,7 @@
                 <div class="panel-body" id="tree1"></div>
                 <ul class="list-group">
                     {% for parent in strain.parents if is_granted('STRAIN_VIEW', parent) %}
-                        <li class="list-group-item"><a href="{{ path('strain_view', { 'id': parent.id }) }}">{{ parent.fullName }}</a></li>
+                        <li class="list-group-item"><a href="{{ path('strain_view', { 'id': parent.id, 'slug': parent.slug }) }}">{{ parent.fullName }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -222,7 +222,7 @@
                 <div class="panel-body" id="tree2"></div>
                 <ul class="list-group">
                     {% for child in strain.children if is_granted('STRAIN_VIEW', child) %}
-                        <li class="list-group-item"><a href="{{ path('strain_view', { 'id': child.id }) }}">{{ child.fullName }}</a></li>
+                        <li class="list-group-item"><a href="{{ path('strain_view', { 'id': child.id, 'slug': child.slug }) }}">{{ child.fullName }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

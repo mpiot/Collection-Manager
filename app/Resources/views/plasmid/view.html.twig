@@ -26,7 +26,7 @@
             {% embed "plasmid/_delete_form.html.twig" with { plasmid: plasmid } only %}
                 {% block btn %}
                     {% if is_granted('PLASMID_EDIT', plasmid) %}
-                        <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id}) }}">
+                        <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                         </a>
                     {% endif %}
@@ -103,7 +103,7 @@
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>
-                                <a href="{{ path('strain_view', { 'id': strainPlasmid.strain.id }) }}">{{ strainPlasmid.strain.autoName }}</a>
+                                <a href="{{ path('strain_view', { 'id': strainPlasmid.strain.id, 'slug': strainPlasmid.strain.slug }) }}">{{ strainPlasmid.strain.autoName }}</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -133,7 +133,7 @@
                     {% for primer in plasmid.primers %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td><a href="{{ path('primer_view', { 'id': primer.id }) }}">{{ primer.autoName }}</a></td>
+                            <td><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.autoName }}</a></td>
                             <td>{{ primer.name }}</td>
                             <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
                         </tr>

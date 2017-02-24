@@ -70,17 +70,6 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="primer_view", requirements={"id": "\d+"})
-     * @Security("is_granted('PRIMER_VIEW', primer)")
-     */
-    public function viewAction(Primer $primer)
-    {
-        return $this->render('primer/view.html.twig', [
-            'primer' => $primer,
-        ]);
-    }
-
-    /**
      * @Route("/add", name="primer_add")
      * @Security("user.isInTeam()")
      */
@@ -125,7 +114,18 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="primer_edit")
+     * @Route("/{id}-{slug}", name="primer_view", requirements={"id": "\d+"})
+     * @Security("is_granted('PRIMER_VIEW', primer)")
+     */
+    public function viewAction(Primer $primer)
+    {
+        return $this->render('primer/view.html.twig', [
+            'primer' => $primer,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}-{slug}/edit", name="primer_edit", requirements={"id": "\d+"})
      * @Security("is_granted('PRIMER_EDIT', primer)")
      */
     public function editAction(Primer $primer, Request $request)
@@ -140,7 +140,10 @@ class PrimerController extends Controller
 
             $this->addFlash('success', 'The primer has been edited successfully.');
 
-            return $this->redirectToRoute('primer_index');
+            return $this->redirectToRoute('primer_view', [
+                'id' => $primer->getId(),
+                'slug' => $primer->getSlug(),
+            ]);
         }
 
         return $this->render('primer/edit.html.twig', [
@@ -150,7 +153,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="primer_delete")
+     * @Route("/{id}-{slug}/delete", name="primer_delete", requirements={"id": "\d+"})
      * @Method("POST")
      * @Security("is_granted('PRIMER_DELETE', primer)")
      */
@@ -160,7 +163,10 @@ class PrimerController extends Controller
         if (!$this->isCsrfTokenValid('primer_delete', $request->request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
-            return $this->redirectToRoute('plasmid_index');
+            return $this->redirectToRoute('primer_view', [
+                'id' => $primer->getId(),
+                'slug' => $primer->getSlug(),
+            ]);
         }
 
         $entityManager = $this->getDoctrine()->getManager();

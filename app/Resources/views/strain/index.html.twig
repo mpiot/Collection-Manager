@@ -37,7 +37,7 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ strain.name }}</td>
-                        <td><a href="{{ path('strain_view', { 'id': strain.id }) }}">{{ strain.autoName }}</a></td>
+                        <td><a href="{{ path('strain_view', { 'id': strain.id, 'slug': strain.slug }) }}">{{ strain.autoName }}</a></td>
                     </tr>
                 {% endfor %}
             {% else %}

@@ -24,7 +24,7 @@
                                 No GenBank file
                             {% endif %}
                         </td>
-                        <td><a href="{{ path('plasmid_view', { 'id': plasmid.id }) }}">{{ plasmid.autoName }}</a></td>
+                        <td><a href="{{ path('plasmid_view', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">{{ plasmid.autoName }}</a></td>
                     </tr>
                 {% endfor %}
             {% else %}

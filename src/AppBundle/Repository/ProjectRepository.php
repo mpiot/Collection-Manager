@@ -28,15 +28,15 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function findOneWithAdminsMembers($id)
+    public function findOneWithAdminsMembers($param)
     {
         $query = $this->createQueryBuilder('p')
             ->leftJoin('p.members', 'm')
                 ->addSelect('m')
             ->leftJoin('p.administrators', 'a')
                 ->addSelect('a')
-            ->where('p.id = :id')
-                ->setParameter('id', $id)
+            ->where('p.slug = :slug')
+                ->setParameter('slug', $param['slug'])
             ->getQuery();
 
         return $query->getSingleResult();

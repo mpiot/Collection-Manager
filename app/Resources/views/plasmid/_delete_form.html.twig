@@ -1,5 +1,5 @@
 {{ include('plasmid/_delete_confirmation.html.twig') }}
-<form action="{{ url('plasmid_delete', { id: plasmid.id }) }}" method="post" data-confirmation="true">
+<form action="{{ url('plasmid_delete', { 'id': plasmid.id, 'slug': plasmid.slug }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('plasmid_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
         {% block btn %}

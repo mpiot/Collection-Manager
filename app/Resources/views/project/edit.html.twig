@@ -5,7 +5,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('project_index') }}">Projects list</a></li>
-    <li><a href="{{ path('project_view', { id: project.id }) }}">{{ project.name }}</a></li>
+    <li><a href="{{ path('project_view', { 'slug': project.slug }) }}">{{ project.name }}</a></li>
     <li class="active">Edit</li>
 {% endblock %}
 

@@ -34,20 +34,6 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="team_view", requirements={"id": "\d+"})
-     * @ParamConverter("team", class="AppBundle:Team", options={
-     *      "repository_method" = "findOneWithMembers"
-     * })
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
-     */
-    public function viewAction(Team $team)
-    {
-        return $this->render('team/view.html.twig', [
-            'team' => $team,
-        ]);
-    }
-
-    /**
      * @Route("/add", name="team_add")
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -92,10 +78,20 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="team_edit")
-     * @ParamConverter("team", class="AppBundle:Team", options={
-     *      "repository_method" = "findOneWithMembers"
-     * })
+     * @Route("/{slug}", name="team_view")
+     * @ParamConverter("team", options={"repository_method" = "findOneWithMembers"})
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function viewAction(Team $team)
+    {
+        return $this->render('team/view.html.twig', [
+            'team' => $team,
+        ]);
+    }
+
+    /**
+     * @Route("/{slug}/edit", name="team_edit")
+     * @ParamConverter("team", options={"repository_method" = "findOneWithMembers"})
      * @Security("user.isAdministratorOf(team) or is_granted('ROLE_ADMIN')")
      */
     public function editAction(Team $team, Request $request)
@@ -109,7 +105,7 @@ class TeamController extends Controller
 
             $this->addFlash('success', 'The team has been edited successfully.');
 
-            return $this->redirectToRoute('team_view', ['id' => $team->getId()]);
+            return $this->redirectToRoute('team_view', ['slug' => $team->getSlug()]);
         }
 
         return $this->render('team/edit.html.twig', [
@@ -119,7 +115,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="team_delete")
+     * @Route("/{slug}/delete", name="team_delete")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Team $team, Request $request)
@@ -144,7 +140,7 @@ class TeamController extends Controller
     }
 
     /**
-     * @Route("/{id}/favorite", name="team_favorite")
+     * @Route("/{slug}/favorite", name="team_favorite")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function favoriteAction(Team $team)

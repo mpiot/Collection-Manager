@@ -5,7 +5,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('primer_index') }}">Primers list</a></li>
-    <li><a href="{{ path('primer_view', { id: primer.id }) }}">{{ primer.autoName }} - {{ primer.name }}</a></li>
+    <li><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.autoName }} - {{ primer.name }}</a></li>
     <li class="active">Edit</li>
 {% endblock %}
 

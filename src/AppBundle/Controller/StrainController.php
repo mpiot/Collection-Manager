@@ -43,20 +43,6 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="strain_view", requirements={"id": "\d+"})
-     * @ParamConverter("strain", class="AppBundle:Strain", options={
-     *      "repository_method" = "findOneWithAll"
-     * })
-     * @Security("is_granted('STRAIN_VIEW', strain)")
-     */
-    public function viewAction(Strain $strain)
-    {
-        return $this->render('strain/view.html.twig', [
-            'strain' => $strain,
-        ]);
-    }
-
-    /**
      * @Route("/add/gmo", name="strain_add_gmo")
      * @Security("user.isTeamAdministrator() or user.isProjectMember()")
      */
@@ -153,18 +139,24 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="strain_edit", requirements={"id": "\d+"})
-     * @ParamConverter("strain", class="AppBundle:Strain", options={
-     *      "repository_method" = "findOneWithAll"
-     * })
+     * @Route("/{id}-{slug}", name="strain_view", requirements={"id": "\d+"})
+     * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
+     * @Security("is_granted('STRAIN_VIEW', strain)")
+     */
+    public function viewAction(Strain $strain)
+    {
+        return $this->render('strain/view.html.twig', [
+            'strain' => $strain,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}-{slug}/edit", name="strain_edit", requirements={"id": "\d+"})
+     * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
      * @Security("is_granted('STRAIN_EDIT', strain)")
      */
     public function editAction(Strain $strain, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $strainNames = $em->getRepository('AppBundle:Strain')->findAllName($this->getUser());
-
         if ('gmo' === $strain->getDiscriminator()) {
             $form = $this->createForm(StrainGmoType::class, $strain);
         } else {
@@ -183,13 +175,17 @@ class StrainController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
 
             $this->container->get('fos_elastica.object_persister.app.strain')->replaceOne($strain);
 
             $this->addFlash('success', 'The strain has been edited successfully.');
 
-            return $this->redirectToRoute('strain_view', ['id' => $strain->getId()]);
+            return $this->redirectToRoute('strain_view', [
+                'id'=> $strain->getId(),
+                'slug' => $strain->getSlug()
+            ]);
         }
 
         return $this->render('strain/edit.html.twig', [
@@ -199,7 +195,8 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="strain_delete")
+     * @Route("/{id}-{slug}/delete", name="strain_delete", requirements={"id": "\d+"})
+     * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
      * @Method("POST")
      * @Security("is_granted('STRAIN_DELETE', strain)")
      */
@@ -209,7 +206,10 @@ class StrainController extends Controller
         if (!$this->isCsrfTokenValid('strain_delete', $request->request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
-            return $this->redirectToRoute('strain_view', ['id' => $strain->getId()]);
+            return $this->redirectToRoute('strain_view', [
+                'id'=> $strain->getId(),
+                'slug' => $strain->getSlug()
+            ]);
         }
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -223,7 +223,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}/parents", name="strain_parents", requirements={"id": "\d+"}, condition="request.isXmlHttpRequest()")
+     * @Route("/{id}/parents", name="strain_parents", requirements={"id": "\d+"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function parentalParentsStrainsAction(Strain $strain)
@@ -251,7 +251,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}/children", name="strain_children", requirements={"id": "\d+"}, condition="request.isXmlHttpRequest()")
+     * @Route("/{id}/children", name="strain_children", requirements={"id": "\d+"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function parentalChildrenStrainsAction(Strain $strain)

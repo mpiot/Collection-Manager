@@ -72,24 +72,6 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="plasmid_view", requirements={"id": "\d+"})
-     * @ParamConverter("plasmid", class="AppBundle:Plasmid", options={
-     *     "repository_method" = "findOneWithAll"
-     * })
-     * @Security("is_granted('PLASMID_VIEW', plasmid)")
-     */
-    public function viewAction(Plasmid $plasmid)
-    {
-        $gbk = new PlasmidGenBank($plasmid);
-
-        return $this->render('plasmid/view.html.twig', [
-            'plasmid' => $plasmid,
-            'gbkFile' => $gbk->getFile(),
-            'gbk' => $gbk->getArray(),
-        ]);
-    }
-
-    /**
      * @Route("/add", name="plasmid_add")
      * @Security("user.isInTeam()")
      */
@@ -139,7 +121,23 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="plasmid_edit")
+     * @Route("/{id}-{slug}", name="plasmid_view", requirements={"id": "\d+"})
+     * @ParamConverter("plasmid", options={"repository_method" = "findOneWithAll"})
+     * @Security("is_granted('PLASMID_VIEW', plasmid)")
+     */
+    public function viewAction(Plasmid $plasmid)
+    {
+        $gbk = new PlasmidGenBank($plasmid);
+
+        return $this->render('plasmid/view.html.twig', [
+            'plasmid' => $plasmid,
+            'gbkFile' => $gbk->getFile(),
+            'gbk' => $gbk->getArray(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}-{slug}/edit", name="plasmid_edit", requirements={"id": "\d+"})
      * @Security("is_granted('PLASMID_EDIT', plasmid)")
      */
     public function editAction(Plasmid $plasmid, Request $request)
@@ -163,7 +161,10 @@ class PlasmidController extends Controller
 
             $this->addFlash('success', 'The plasmid has been successfully edited.');
 
-            return $this->redirectToRoute('plasmid_index');
+            return $this->redirectToRoute('plasmid_view', [
+                'id' => $plasmid->getId(),
+                'slug' => $plasmid->getSlug()
+            ]);
         }
 
         return $this->render('plasmid/edit.html.twig', [
@@ -173,7 +174,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="plasmid_delete")
+     * @Route("/{id}-{slug}/delete", name="plasmid_delete", requirements={"id": "\d+"})
      * @Method("POST")
      * @Security("is_granted('PLASMID_DELETE', plasmid)")
      */
@@ -183,14 +184,20 @@ class PlasmidController extends Controller
         if (!$plasmid->getStrains()->isEmpty()) {
             $this->addFlash('warning', 'The plasmid cannot be deleted, it\'s used in strain(s).');
 
-            return $this->redirectToRoute('plasmid_index');
+            return $this->redirectToRoute('plasmid_view', [
+                'id' => $plasmid->getId(),
+                'slug' => $plasmid->getSlug()
+            ]);
         }
 
         // If the CSRF token is invalid, redirect user
         if (!$this->isCsrfTokenValid('plasmid_delete', $request->request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
-            return $this->redirectToRoute('plasmid_index');
+            return $this->redirectToRoute('plasmid_view', [
+                'id' => $plasmid->getId(),
+                'slug' => $plasmid->getSlug()
+            ]);
         }
 
         $entityManager = $this->getDoctrine()->getManager();

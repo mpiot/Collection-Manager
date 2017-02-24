@@ -5,7 +5,7 @@
         {% for result in results %}
             <div class="search-result">
                 {% if result is strain %}
-                    <h4><a href="{{ path('strain_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <h4><a href="{{ path('strain_view', { 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
                         Strain<br />
                         Type: {{ result.type.name }}<br />

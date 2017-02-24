@@ -15,11 +15,11 @@
                         <td>{{ loop.index }}</td>
                         <td>
                             {% if species.isMainSpecies %}
-                                <a href="{{ path('species_view', { id: species.id }) }}">
+                                <a href="{{ path('species_view', { 'slug': species.slug }) }}">
                                     {{ species.scientificName }}
                                 </a>
                             {% else %}
-                                <a href="{{ path('species_view', { id: species.mainSpecies.id }) }}">
+                                <a href="{{ path('species_view', { 'slug': species.mainSpecies.slug }) }}">
                                     {{ species.scientificName }}
                                 </a>
                             {% endif %}

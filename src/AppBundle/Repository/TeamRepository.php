@@ -25,15 +25,15 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function findOneWithMembers($team)
+    public function findOneWithMembers($param)
     {
         $query = $this->createQueryBuilder('team')
             ->leftJoin('team.administrators', 'administrators')
                 ->addSelect('administrators')
             ->leftJoin('team.members', 'members')
                 ->addSelect('members')
-            ->where('team = :team')
-                ->setParameter('team', $team)
+            ->where('team.slug = :slug')
+                ->setParameter('slug', $param['slug'])
             ->getQuery();
 
         return $query->getOneOrNullResult();
