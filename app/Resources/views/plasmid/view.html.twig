@@ -10,7 +10,7 @@
 
 {% block plasmid_body %}
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h2>
                 Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}
                 {% if plasmid.hasGenBankFile %}
@@ -22,16 +22,23 @@
             </h2>
         </div>
 
-        <div class="col-md-2">
-            {% embed "plasmid/_delete_form.html.twig" with { plasmid: plasmid } only %}
-                {% block btn %}
-                    {% if is_granted('PLASMID_EDIT', plasmid) %}
-                        <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                        </a>
-                    {% endif %}
-                {% endblock %}
-            {% endembed %}
+        <div class="col-md-4">
+            <div class="text-right">
+                {% embed "plasmid/_delete_form.html.twig" with { plasmid: plasmid } only %}
+                    {% block btn %}
+                        {% if is_granted('PLASMID_EDIT', plasmid) %}
+                            <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                            </a>
+                        {% endif %}
+                    {% endblock %}
+                {% endembed %}
+            </div>
+
+            <p class="text-right">
+                Created the {{ plasmid.created|date("m/d/Y") }} by {{ plasmid.createdBy.fullName }}<br>
+                Edited the {{ plasmid.updated|date("m/d/Y") }} by {{ plasmid.updatedBy.fullName }}
+            </p>
         </div>
     </div>
 

@@ -10,20 +10,27 @@
 
 {% block primer_body %}
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h2 class="sub-header">Primer: {{ primer.autoName }} - {{ primer.name }}</h2>
         </div>
 
-        <div class="col-md-2">
-            {% embed "primer/_delete_form.html.twig" with { primer: primer } only %}
-                {% block btn %}
-                    {% if is_granted('PRIMER_EDIT', primer) %}
-                        <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id, 'slug': primer.slug }) }}">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                        </a>
-                    {% endif %}
-                {% endblock %}
-            {% endembed %}
+        <div class="col-md-4">
+            <div class="text-right">
+                {% embed "primer/_delete_form.html.twig" with { primer: primer } only %}
+                    {% block btn %}
+                        {% if is_granted('PRIMER_EDIT', primer) %}
+                            <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id, 'slug': primer.slug }) }}">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                            </a>
+                        {% endif %}
+                    {% endblock %}
+                {% endembed %}
+            </div>
+
+            <p class="text-right">
+                Created the {{ primer.created|date("m/d/Y") }} by {{ primer.createdBy.fullName }}<br>
+                Edited the {{ primer.updated|date("m/d/Y") }} by {{ primer.updatedBy.fullName }}
+            </p>
         </div>
     </div>
 

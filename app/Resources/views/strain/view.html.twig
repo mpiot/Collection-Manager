@@ -32,20 +32,27 @@
 {% block strain_body %}
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h2 class="sub-header">{{ strain.fullName }}</h2>
         </div>
 
-        <div class="col-md-2">
-            {% embed "strain/_delete_form.html.twig" with { strain: strain } only %}
-                {% block btn %}
-                    {% if is_granted('STRAIN_EDIT', strain) %}
-                        <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id, 'slug': strain.slug }) }}">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                        </a>
-                    {% endif %}
-                {% endblock %}
-            {% endembed %}
+        <div class="col-md-4">
+            <div class="text-right">
+                {% embed "strain/_delete_form.html.twig" with { strain: strain } only %}
+                    {% block btn %}
+                        {% if is_granted('STRAIN_EDIT', strain) %}
+                            <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id, 'slug': strain.slug }) }}">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                            </a>
+                        {% endif %}
+                    {% endblock %}
+                {% endembed %}
+            </div>
+
+        <p class="text-right">
+            Created the {{ strain.created|date("m/d/Y") }} by {{ strain.createdBy.fullName }}<br>
+            Edited the {{ strain.updated|date("m/d/Y") }} by {{ strain.updatedBy.fullName }}
+        </p>
         </div>
     </div>
 
@@ -57,7 +64,6 @@
                 <ul class="list-group">
                     <li class="list-group-item">Name: {{ strain.name }}</li>
                     <li class="list-group-item">Auto name: {{ strain.autoName }}</li>
-                    <li class="list-group-item">Created on: {{ strain.creationDate|date("Y/m/d") }}</li>
                     <li class="list-group-item">
                         Deleted:
                         {% if strain.deleted %}
@@ -183,19 +189,28 @@
             </div>
         {% endif %}
 
-        {% if 'wild' == strain.discriminator %}
+        {% if
+            'wild' == strain.discriminator
+            and (strain.address or strain.country or (strain.latitude and strain.longitude))
+        %}
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">Map</div>
-                    <div class="panel-body">
-                        Address: {{ strain.address }}<br>
-                        Country: {{ strain.country|country(app.request.locale) }}<br>
-                    </div>
-                    <div id ="map" class="panel-body" style="height:400px;">
-                    </div>
-                    <div class="panel-footer">
-                        Latitude: {{ strain.latitude }}  -  Longitude: {{ strain.longitude }}
-                    </div>
+                    {% if strain.address or strain.country %}
+                        <div class="panel-body">
+                            Address: {{ strain.address }}<br>
+                            Country: {{ strain.country|country(app.request.locale) }}<br>
+                        </div>
+                    {% endif %}
+
+                    {% if strain.latitude and strain.longitude %}
+                        <div id ="map" class="panel-body" style="height:400px;">
+                        </div>
+
+                        <div class="panel-footer">
+                            Latitude: {{ strain.latitude }}  -  Longitude: {{ strain.longitude }}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
