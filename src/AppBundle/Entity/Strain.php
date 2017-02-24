@@ -105,7 +105,7 @@ class Strain
     /**
      * @var ArrayCollection|StrainPlasmid
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="strain", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="strain", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $strainPlasmids;
 

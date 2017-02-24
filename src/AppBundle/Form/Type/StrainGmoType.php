@@ -19,6 +19,8 @@ class StrainGmoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $strainId = $builder->getData()->getId() ? $builder->getData()->getId() : 0;
+
         $builder
             ->add('description', TextareaType::class, [
                 'required' => false,
@@ -39,14 +41,16 @@ class StrainGmoType extends AbstractType
                     'class' => 'AppBundle\Entity\Strain',
                     'choice_label' => 'fullName',
                     'placeholder' => '-- select a parent --',
-                    'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) use ($strainId) {
                         return $er->createQueryBuilder('strain')
+                            ->where('strain.id <> :id')
+                                ->setParameter('id', $strainId)
                             ->orderBy('strain.autoName', 'ASC');
                     },
                 ],
-                'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false,
                 'required' => false,
             ])
         ;

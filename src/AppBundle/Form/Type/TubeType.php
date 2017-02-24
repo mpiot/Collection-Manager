@@ -51,12 +51,10 @@ class TubeType extends AbstractType
             $this->previousTubes[] = $data;
         }
 
-        $disabled = 1 === count($this->previousTubes) ? true : false;
-
         // Add forms
-        $this->addProjectForm($form, $disabled);
-        $this->addBoxForm($form, $project, $disabled);
-        $this->addCellForm($form, $box, $cell, $disabled);
+        $this->addProjectForm($form);
+        $this->addBoxForm($form, $project);
+        $this->addCellForm($form, $box, $cell);
     }
 
     public function onPreSubmit(FormEvent $event)
@@ -69,7 +67,7 @@ class TubeType extends AbstractType
         $box = null === $data['box'] ? null : $this->em->getRepository('AppBundle:Box')->findOneById($data['box']);
         $cell = null;
 
-        if ($key = array_search($persistedTube, $this->previousTubes, 1)) {
+        if (false !== $key = array_search($persistedTube, $this->previousTubes, 1)) {
             $previousTube = $this->previousTubes[$key];
 
             if ($box === $previousTube->getBox()) {
@@ -82,7 +80,7 @@ class TubeType extends AbstractType
         $this->addCellForm($form, $box, $cell);
     }
 
-    protected function addProjectForm(FormInterface $form, $disabled = false)
+    protected function addProjectForm(FormInterface $form)
     {
         $form->add('project', EntityType::class, [
             'class' => 'AppBundle\Entity\Project',
@@ -99,11 +97,10 @@ class TubeType extends AbstractType
             },
             'choice_label' => 'name',
             'placeholder' => '-- select a project --',
-            'disabled' => $disabled,
         ]);
     }
 
-    protected function addBoxForm(FormInterface $form, Project $project = null, $disabled = false)
+    protected function addBoxForm(FormInterface $form, Project $project = null)
     {
         $form->add('box', EntityType::class, [
             'class' => 'AppBundle:Box',
@@ -115,11 +112,10 @@ class TubeType extends AbstractType
             },
             'choice_label' => 'name',
             'auto_initialize' => false,
-            'disabled' => $disabled,
         ]);
     }
 
-    protected function addCellForm(FormInterface $form, Box $box = null, $previousCell = null, $disabled = false)
+    protected function addCellForm(FormInterface $form, Box $box = null, $previousCell = null)
     {
         $cells = null === $box ? null : $box->getEmptyCells($previousCell);
 
@@ -127,7 +123,6 @@ class TubeType extends AbstractType
             'choices' => $cells,
             'placeholder' => '-- select a cell --',
             'auto_initialize' => false,
-            'disabled' => $disabled,
         ]);
     }
 

@@ -19,11 +19,17 @@ $(document).ready(function() {
         });
 
         // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-        var index = $container.find("div[id^='gmo_strain_strainPlasmids_']").length;
+        var index = $container.find("div[id*='_strainPlasmids_']").length;
 
         // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
         if (index == 0) {
             addTube($container);
+        }
+        // Sinon, on ajoute un lien de suppression pour les champs existants
+        else {
+            $container.find("div[id*='_strainPlasmids_']").each(function(){
+                addDeleteLink($( this ).closest('.form-group'));
+            });
         }
 
         // La fonction qui ajoute un formulaire Categorie
