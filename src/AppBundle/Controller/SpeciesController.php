@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Species;
+use AppBundle\Form\Type\SpeciesLimitedType;
 use AppBundle\Form\Type\SpeciesType;
 use AppBundle\Utils\TaxId;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,9 +11,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class SpeciesController.
@@ -73,41 +77,87 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/add", name="species_add")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function addAction(Request $request)
     {
-        $species = new Species();
-        $form = $this->createForm(SpeciesType::class, $species)
-            ->add('save', SubmitType::class, [
-                'label' => 'Create',
-                'attr' => [
-                    'data-btn-group' => 'btn-group',
-                    'data-btn-position' => 'btn-first',
-                ],
-            ])
-            ->add('saveAndAdd', SubmitType::class, [
-                'label' => 'Create and Add',
-                'attr' => [
-                    'data-btn-group' => 'btn-group',
-                    'data-btn-position' => 'btn-last',
-                ],
-            ]);
+        if ($this->getUser()->isTeamAdministrator() || $this->getUser()->isProjectAdministrator()) {
+            $species = new Species();
+            $form = $this->createForm(SpeciesType::class, $species)
+                ->add('save', SubmitType::class, [
+                    'label' => 'Create',
+                    'attr' => [
+                        'data-btn-group' => 'btn-group',
+                        'data-btn-position' => 'btn-first',
+                    ],
+                ])
+                ->add('saveAndAdd', SubmitType::class, [
+                    'label' => 'Create and Add',
+                    'attr' => [
+                        'data-btn-group' => 'btn-group',
+                        'data-btn-position' => 'btn-last',
+                    ],
+                ]);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($species);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($species);
+                $em->flush();
 
-            $this->addFlash('success', 'The species has been added successfully.');
+                $this->addFlash('success', 'The species has been added successfully.');
 
-            $nextAction = $form->get('saveAndAdd')->isClicked()
-                ? 'species_add'
-                : 'species_index';
+                $nextAction = $form->get('saveAndAdd')->isClicked()
+                    ? 'species_add'
+                    : 'species_index';
 
-            return $this->redirectToRoute($nextAction);
+                return $this->redirectToRoute($nextAction);
+            }
+        } else {
+            $form = $this->createForm(SpeciesLimitedType::class)
+                ->add('save', SubmitType::class, [
+                    'label' => 'Create',
+                    'attr' => [
+                        'data-btn-group' => 'btn-group',
+                        'data-btn-position' => 'btn-first',
+                    ],
+                ]);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
+                $species = $this->get('app.taxid')->getSpecies((int) $data['taxId']);
+
+                if (!$species instanceof Species) {
+                    $form->get('taxId')->addError(new FormError($species));
+
+                    return $this->render('species/add.html.twig', [
+                        'form' => $form->createView(),
+                    ]);
+                }
+
+                // Is the species valid ?
+                $validator = $this->get('validator');
+                $errors = $validator->validate($species);
+
+                if (count($errors) > 0) {
+                    $form->addError(new FormError('This taxId refers to already existant species.'));
+
+                    return $this->render('species/add.html.twig', [
+                        'form' => $form->createView(),
+                    ]);
+                }
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($species);
+                $em->flush();
+
+                $this->addFlash('success', 'The species has been added successfully.');
+
+                return $this->redirectToRoute('species_index');
+            }
         }
 
         return $this->render('species/add.html.twig', [
@@ -202,8 +252,7 @@ class SpeciesController extends Controller
      */
     public function getJsonAction($taxid)
     {
-        $taxIdChecker = new TaxId();
-        $data = $taxIdChecker->getArray((int) $taxid);
+        $data = $this->get('app.taxid')->getArray((int) $taxid);
 
         return new JsonResponse($data);
     }

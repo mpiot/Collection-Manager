@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="species")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SpeciesRepository")
- * @UniqueEntity({"genus", "name"}, message="This name is already used by another species.")
+ * @UniqueEntity({"name", "genus"}, message="This name is already used by another species.")
  */
 class Species
 {
@@ -44,7 +44,7 @@ class Species
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Genus", inversedBy="species")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Genus", inversedBy="species", cascade={"persist"})
      * @Assert\Valid
      */
     private $genus;

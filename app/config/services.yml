@@ -13,6 +13,10 @@ services:
         class: AppBundle\Utils\Mailer
         arguments: ["@mailer", "@templating", '%mailer_from%', '%mailer_name%']
 
+    app.taxid:
+        class: AppBundle\Utils\TaxId
+        arguments: ["@doctrine.orm.entity_manager"]
+
 # Twig extensions
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
