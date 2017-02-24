@@ -163,7 +163,7 @@ class PlasmidController extends Controller
 
             return $this->redirectToRoute('plasmid_view', [
                 'id' => $plasmid->getId(),
-                'slug' => $plasmid->getSlug()
+                'slug' => $plasmid->getSlug(),
             ]);
         }
 
@@ -186,7 +186,7 @@ class PlasmidController extends Controller
 
             return $this->redirectToRoute('plasmid_view', [
                 'id' => $plasmid->getId(),
-                'slug' => $plasmid->getSlug()
+                'slug' => $plasmid->getSlug(),
             ]);
         }
 
@@ -196,7 +196,7 @@ class PlasmidController extends Controller
 
             return $this->redirectToRoute('plasmid_view', [
                 'id' => $plasmid->getId(),
-                'slug' => $plasmid->getSlug()
+                'slug' => $plasmid->getSlug(),
             ]);
         }
 

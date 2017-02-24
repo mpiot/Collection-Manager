@@ -78,7 +78,7 @@ class TaxId
     {
         $array = $this->getArray($taxid);
 
-        if (array_key_exists('error', $array )) {
+        if (array_key_exists('error', $array)) {
             return $array['error'];
         }
 
@@ -86,7 +86,7 @@ class TaxId
         $mainSpecies = $this->setSpecies($array['genus'], $array['name'], $taxid, null);
 
         // Set the synonyms
-        if (array_key_exists('synonyms', $array )) {
+        if (array_key_exists('synonyms', $array)) {
             foreach ($array['synonyms'] as $synonym) {
                 $species = $this->setSpecies($synonym['genus'], $synonym['name'], null, $mainSpecies);
                 $mainSpecies->addSynonym($species);
@@ -110,8 +110,9 @@ class TaxId
         $species->setGenus($genus);
         $species->setName($speciesName);
         $species->setTaxId($taxid);
-        if ($mainSpecies)
+        if ($mainSpecies) {
             $species->setMainSpecies($mainSpecies);
+        }
 
         return $species;
     }

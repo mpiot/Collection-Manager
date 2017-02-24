@@ -74,7 +74,7 @@ class Plasmid
     private $primers;
 
     /**
-     * @var \DateTime $created
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -82,7 +82,7 @@ class Plasmid
     private $created;
 
     /**
-     * @var \DateTime $updated
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
@@ -90,7 +90,7 @@ class Plasmid
     private $updated;
 
     /**
-     * @var User $createdBy
+     * @var User
      *
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -99,7 +99,7 @@ class Plasmid
     private $createdBy;
 
     /**
-     * @var User $updatedBy
+     * @var User
      *
      * @Gedmo\Blameable(on="update")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")

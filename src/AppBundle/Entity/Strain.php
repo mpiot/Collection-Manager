@@ -189,7 +189,7 @@ class Strain
     private $deletionDate;
 
     /**
-     * @var \DateTime $created
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -197,7 +197,7 @@ class Strain
     private $created;
 
     /**
-     * @var \DateTime $updated
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
@@ -205,7 +205,7 @@ class Strain
     private $updated;
 
     /**
-     * @var User $createdBy
+     * @var User
      *
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="strains")
@@ -214,14 +214,13 @@ class Strain
     private $createdBy;
 
     /**
-     * @var User $updatedBy
+     * @var User
      *
      * @Gedmo\Blameable(on="update")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
      */
     private $updatedBy;
-
 
     public function __construct()
     {
@@ -987,6 +986,5 @@ class Strain
         // Set autoName
         $this->setAutoName($autoName);
         $project->setLastStrainNumber($projectStrainNumber);
-
     }
 }
