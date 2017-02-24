@@ -180,8 +180,8 @@ class StrainController extends Controller
             $this->addFlash('success', 'The strain has been edited successfully.');
 
             return $this->redirectToRoute('strain_view', [
-                'id'=> $strain->getId(),
-                'slug' => $strain->getSlug()
+                'id' => $strain->getId(),
+                'slug' => $strain->getSlug(),
             ]);
         }
 
@@ -204,8 +204,8 @@ class StrainController extends Controller
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $this->redirectToRoute('strain_view', [
-                'id'=> $strain->getId(),
-                'slug' => $strain->getSlug()
+                'id' => $strain->getId(),
+                'slug' => $strain->getSlug(),
             ]);
         }
 

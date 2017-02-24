@@ -83,7 +83,6 @@ class Species
      */
     private $strains;
 
-
     public function __construct()
     {
         $this->synonyms = new ArrayCollection();
