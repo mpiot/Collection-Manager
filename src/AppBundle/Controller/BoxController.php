@@ -189,10 +189,10 @@ class BoxController extends Controller
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        // If the box is empty and is the last of a project, delete it of the database
-        if (!$box->getTubes()->isEmpty() || !$box->isLastBox()) {
+        // If the box is not empty, soft delete it of the database
+        if (!$box->getTubes()->isEmpty()) {
             $box->setDeleted(true);
-        } else { // Else, softDelete it
+        } else { // Else, delete it
             $entityManager->remove($box);
         }
 

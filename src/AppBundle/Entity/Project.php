@@ -105,6 +105,11 @@ class Project
     private $lastStrainNumber = 0;
 
     /**
+     * @ORM\Column(name="last_box_number", type="integer", nullable=false)
+     */
+    private $lastBoxNumber = 0;
+
+    /**
      * Project constructor.
      */
     public function __construct()
@@ -472,5 +477,29 @@ class Project
     public function getLastStrainNumber()
     {
         return $this->lastStrainNumber;
+    }
+
+    /**
+     * Set last box number.
+     *
+     * @param int $number
+     *
+     * @return $this
+     */
+    public function setLastBoxNumber(int $number)
+    {
+        $this->lastBoxNumber = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get last box number.
+     *
+     * @return int
+     */
+    public function getLastBoxNumber()
+    {
+        return $this->lastBoxNumber;
     }
 }

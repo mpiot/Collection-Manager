@@ -63,13 +63,6 @@ class Box
     private $location;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="boxLetter", type="string", length=255)
-     */
-    private $boxLetter;
-
-    /**
      * @var int
      *
      * @ORM\Column(name="colNumber", type="integer")
@@ -233,30 +226,6 @@ class Box
     public function getLocation()
     {
         return $this->location;
-    }
-
-    /**
-     * Set boxLetter.
-     *
-     * @param string $boxLetter
-     *
-     * @return Box
-     */
-    public function setBoxLetter($boxLetter)
-    {
-        $this->boxLetter = $boxLetter;
-
-        return $this;
-    }
-
-    /**
-     * Get boxLetter.
-     *
-     * @return string
-     */
-    public function getBoxLetter()
-    {
-        return $this->boxLetter;
     }
 
     /**
@@ -458,40 +427,20 @@ class Box
     }
 
     /**
-     * Is it the last box in the project ?
-     *
-     * @return bool
-     */
-    public function isLastBox()
-    {
-        // How many boxes in the project
-        $projectBoxesNumber = $this->project->getBoxes()->count();
-        $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-        // Get the box number
-        $boxNumber = array_search($this->boxLetter, $availableLetters) + 1;
-
-        return $boxNumber === $projectBoxesNumber;
-    }
-
-    /**
      * Before persist.
      *
      * @ORM\PrePersist()
      */
     public function prePersist()
     {
-        // Give a letter to the box
-        $projectBoxes = $this->project->getBoxes();
-
-        // Define the new letter for the box
-        $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-        $this->boxLetter = $availableLetters[$projectBoxes->count()];
+        // Give a number to the box
+        $projectPrefix = $this->getProject()->getPrefix();
+        $boxNumber = $this->getProject()->getLastBoxNumber() + 1;
+        $this->project->setLastBoxNumber($boxNumber);
+        $autoName = $projectPrefix.'_Box'.str_pad($boxNumber, 2, '0', STR_PAD_LEFT);
+        $this->autoName = $autoName;
 
         // Determine the freeSpace
         $this->freeSpace = $this->colNumber * $this->rowNumber;
-
-        $this->autoName = $this->project->getPrefix().'_Box'.$this->boxLetter;
     }
 }
