@@ -16,9 +16,8 @@
 /web/bundles/
 /web/css/compiled/*
 /web/js/compiled/*
-/web/files/*
-!/web/files/genBankFiles
-/web/files/genBankFiles/*
-!/web/files/various
-/web/files/various/*
+/web/uploads/*
+!/web/uploads/plasmids
+/web/uploads/plasmids/*
+!/web/uploads/plasmids/.gitkeep
 docker-compose.yml
