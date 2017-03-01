@@ -42,6 +42,8 @@ fos_elastica:
                         name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
+                        type_id:
+                            property_path:    type.id
                         country:
                         author_id:
                             property_path:    createdBy.id
@@ -52,7 +54,7 @@ fos_elastica:
                       provider:               ~
                       listener:               ~
                       finder:                 ~
-                      repository:             ~
+                      repository:             AppBundle\SearchRepository\StrainRepository
                 plasmid:
                     properties:
                         autoName:

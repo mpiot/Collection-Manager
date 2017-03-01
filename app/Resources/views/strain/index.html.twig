@@ -23,29 +23,87 @@
 
     <h2 class="sub-header">Strains list</h2>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-10">Name</th>
-                <th class="col-md-1">Auto name</th>
-            </tr>
-            <tbody>
-            {% if strains is not empty %}
-                {% for strain in strains %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ strain.name }}</td>
-                        <td><a href="{{ path('strain_view', { 'id': strain.id, 'slug': strain.slug }) }}">{{ strain.autoName }}</a></td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td class="text-center" colspan="5">There are no strains.</td>
-                </tr>
-            {% endif %}
-            </tbody>
-        </table>
+    <div class="row">
+        <form id="strain-search-form" method="get">
+            <div class="col-md-3">
+                <input type="text" id="strain-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
+
+            <div class="col-md-2">
+                <select id ="strain-project-field" name="team" class="form-control col-md-3">
+                    <option value="">All projects</option>
+                    {% for project in app.user.projects %}
+                        <option value="{{ project.id }}" {{ projectRequest == project.id ? 'selected' }}>{{ project.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button id="strain-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </div>
+        </form>
     </div>
+
+    {{ list.content|raw }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            var processing = false;
+            var search = $('#strain-search-field');
+            var project = $('#strain-project-field');
+
+            search.keyup(function() {
+                var field = $('#strain-search-field');
+
+                history.replaceState('', '', Routing.generate('strain_index', { q: field.val(), project: project.val(), p: 1 }));
+
+                delay(function(){
+                    $.ajax({
+                        type: 'GET',
+                        url: Routing.generate('strain_index_ajax', { q: field.val(), project: project.val(), p: 1 }),
+                        dataType: 'html',
+                        delay: 400,
+                        beforeSend: function() {
+                            if (processing) {
+                                return false;
+                            } else {
+                                processing = true;
+                            }
+                        },
+                        success: function (html) {
+                            $('#strain-list').replaceWith(html);
+                            processing = false;
+                        }
+                    });
+                }, 400 );
+            });
+
+            project.change(function() {
+                history.replaceState('', '', Routing.generate('strain_index', { q: search.val(), project: project.val(), p: 1 }));
+                $.ajax({
+                    type: 'GET',
+                    url: Routing.generate('strain_index_ajax', { q: search.val(), project: project.val(), p: 1 }),
+                    dataType: 'html',
+                    delay: 400,
+                    beforeSend: function() {
+                        if (processing) {
+                            return false;
+                        } else {
+                            processing = true;
+                        }
+                    },
+                    success: function (html) {
+                        $('#strain-list').replaceWith(html);
+                        processing = false;
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

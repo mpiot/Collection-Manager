@@ -24,21 +24,52 @@ use Symfony\Component\HttpFoundation\Response;
 class StrainController extends Controller
 {
     /**
-     * @Route("/", name="strain_index")
+     * @Route("/",
+     *     options={"expose"=true},
+     *     name="strain_index"
+     * )
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $strains = $em->getRepository('AppBundle:Strain')->findAllForUser($this->getUser());
-
-        // If the user have no projects
-        if (!$this->getUser()->isProjectMember()) {
-            $this->addFlash('warning', 'You must be a member of a project to submit a strain.');
-        }
+        $list = $this->listAction($request);
 
         return $this->render('strain/index.html.twig', [
-            'strains' => $strains,
+            'list' => $list,
+            'query' => $request->get('q'),
+            'projectRequest' => $request->get('project'),
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/list",
+     *     options={"expose"=true},
+     *     condition="request.isXmlHttpRequest()",
+     *     name="strain_index_ajax"
+     * )
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function listAction(Request $request)
+    {
+        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
+        $projectId = ('' !== $request->get('project') && null !== $request->get('project')) ? $request->get('project') : null;
+        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
+
+        $repositoryManager = $this->get('fos_elastica.manager.orm');
+        $repository = $repositoryManager->getRepository('AppBundle:Strain');
+        $elasticQuery = $repository->searchByNameQuery($query, $page, $projectId, $this->getUser());
+        $strainList = $this->get('fos_elastica.finder.app.strain')->find($elasticQuery);
+        $nbResults = $this->get('fos_elastica.index.app.strain')->count($elasticQuery);
+
+        $nbPages = ceil($nbResults / Strain::NUM_ITEMS);
+
+        return $this->render('strain/_list.html.twig', [
+            'strainList' => $strainList,
+            'query' => $query,
+            'page' => $page,
+            'nbPages' => $nbPages,
+            'project' => $request->get('project'),
         ]);
     }
 

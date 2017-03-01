@@ -15,6 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Strain
 {
+    const NUM_ITEMS = 10;
+
     /**
      * @var int
      *

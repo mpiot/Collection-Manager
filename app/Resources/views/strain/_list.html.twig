@@ -1,0 +1,41 @@
+<div id="strain-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-10">Name</th>
+                <th class="col-md-1">Auto name</th>
+            </tr>
+            <tbody>
+            {% if strainList is not empty %}
+                {% for strain in strainList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ strain.name }}</td>
+                        <td><a href="{{ path('strain_view', { 'id': strain.id, 'slug': strain.slug }) }}">{{ strain.autoName }}</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td class="text-center" colspan="5">There are no strains.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% if nbPages > 0 %}
+            {% for p in range(1, nbPages) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('strain_index', {'q': query, 'project': project, 'p': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="active">
+                <a href="{{ path('strain_index', {'q': query, 'project': project, 'p': 1}) }}">1</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
