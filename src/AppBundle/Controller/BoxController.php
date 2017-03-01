@@ -58,9 +58,8 @@ class BoxController extends Controller
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Box');
         $elasticQuery = $repository->searchByNameQuery($query, $page, $projectId, $this->getUser());
+        $boxList = $this->get('fos_elastica.finder.app.box')->find($elasticQuery);
         $nbResults = $this->get('fos_elastica.index.app.box')->count($elasticQuery);
-        $finder = $this->get('fos_elastica.finder.app.box');
-        $boxList = $finder->find($elasticQuery);
 
         $nbPages = ceil($nbResults / Box::NUM_ITEMS);
 

@@ -56,12 +56,11 @@ class SpeciesController extends Controller
         $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
         $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
 
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
+        $repositoryManager = $this->get('fos_elastica.manager');
         $repository = $repositoryManager->getRepository('AppBundle:Species');
         $elasticQuery = $repository->searchByScientificNameQuery($query, $page);
+        $speciesList = $this->get('fos_elastica.finder.app.species')->find($elasticQuery);
         $nbResults = $this->get('fos_elastica.index.app.species')->count($elasticQuery);
-        $finder = $this->get('fos_elastica.finder.app.species');
-        $speciesList = $finder->find($elasticQuery);
 
         $nbPages = ceil($nbResults / Species::NUM_ITEMS);
 

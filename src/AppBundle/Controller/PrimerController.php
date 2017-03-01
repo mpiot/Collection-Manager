@@ -55,9 +55,8 @@ class PrimerController extends Controller
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Primer');
         $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
+        $primersList = $this->get('fos_elastica.finder.app.primer')->find($elasticQuery);
         $nbResults = $this->get('fos_elastica.index.app.primer')->count($elasticQuery);
-        $finder = $this->get('fos_elastica.finder.app.primer');
-        $primersList = $finder->find($elasticQuery);
 
         $nbPages = ceil($nbResults / Primer::NUM_ITEMS);
 

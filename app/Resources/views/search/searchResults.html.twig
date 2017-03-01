@@ -5,22 +5,22 @@
         {% for result in results %}
             <div class="search-result">
                 {% if result is strain %}
-                    <h4><a href="{{ path('strain_view', { 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <h4><a href="{{ path('strain_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
-                        Strain<br />
+                        <span class="category">{{ 'gmo' == result.discriminator ? 'GMO' : 'Wild' }} strain</span><br />
                         Type: {{ result.type.name }}<br />
                         Species: {{ result.species.scientificName }}
 
                     </p>
                 {% elseif result is plasmid %}
-                    <h4><a href="{{ path('plasmid_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <h4><a href="{{ path('plasmid_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
-                        Plasmid<br />
+                        <span class="category">Plasmid</span><br />
                     </p>
                 {% elseif result is primer %}
-                    <h4><a href="{{ path('primer_view', { id: result.id }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
+                    <h4><a href="{{ path('primer_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
-                        Primer<br />
+                        <span class="category">Primer</span><br />
                         Sequence: {{ result.sequence }}
                     </p>
                 {% endif %}

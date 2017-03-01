@@ -57,9 +57,8 @@ class PlasmidController extends Controller
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Plasmid');
         $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
+        $plasmidsList = $this->get('fos_elastica.finder.app.plasmid')->find($elasticQuery);
         $nbResults = $this->get('fos_elastica.index.app.plasmid')->count($elasticQuery);
-        $finder = $this->get('fos_elastica.finder.app.plasmid');
-        $plasmidsList = $finder->find($elasticQuery);
 
         $nbPages = ceil($nbResults / Plasmid::NUM_ITEMS);
 

@@ -57,9 +57,8 @@ class TypeController extends Controller
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Type');
         $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
+        $typesList = $this->get('fos_elastica.finder.app.type')->find($elasticQuery);
         $nbResults = $this->get('fos_elastica.index.app.type')->count($elasticQuery);
-        $finder = $this->get('fos_elastica.finder.app.type');
-        $typesList = $finder->find($elasticQuery);
 
         $nbPages = ceil($nbResults / Type::NUM_ITEMS);
 

@@ -158,6 +158,10 @@ table tr[data-href] {
     margin-bottom: 2px;
 }
 
+.search-result .category {
+    color: #236b2a;
+}
+
 /*
  * Favorite team
  */

@@ -34,7 +34,7 @@ fos_elastica:
                                 max_gram: 20
             types:
                 strain:
-                    mappings:
+                    properties:
                         discriminator:
                         autoName:
                             analyzer :        ngram_index_analyzer
@@ -54,7 +54,7 @@ fos_elastica:
                       finder:                 ~
                       repository:             ~
                 plasmid:
-                    mappings:
+                    properties:
                         autoName:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
@@ -78,7 +78,7 @@ fos_elastica:
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\PlasmidRepository
                 primer:
-                    mappings:
+                    properties:
                         autoName:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
@@ -104,7 +104,7 @@ fos_elastica:
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\PrimerRepository
                 species:
-                    mappings:
+                    properties:
                         name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
@@ -123,7 +123,7 @@ fos_elastica:
                       elastica_to_model_transformer:
                         query_builder_method: createSearchQueryBuilder
                 type:
-                    mappings:
+                    properties:
                         name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
@@ -142,7 +142,7 @@ fos_elastica:
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\TypeRepository
                 biologicalOriginCategory:
-                    mappings:
+                    properties:
                         name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
@@ -161,7 +161,7 @@ fos_elastica:
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\BiologicalOriginCategoryRepository
                 project:
-                    mappings:
+                    properties:
                         name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
@@ -182,7 +182,7 @@ fos_elastica:
                       finder:                 ~
                       repository:             AppBundle\SearchRepository\ProjectRepository
                 box:
-                    mappings:
+                    properties:
                         autoName:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer

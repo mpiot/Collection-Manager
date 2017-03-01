@@ -57,9 +57,8 @@ class BiologicalOriginCategoryController extends Controller
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
         $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
+        $categoryList = $this->get('fos_elastica.finder.app.biologicalorigincategory')->find($elasticQuery);
         $nbResults = $this->get('fos_elastica.index.app.biologicalorigincategory')->count($elasticQuery);
-        $finder = $this->get('fos_elastica.finder.app.biologicalorigincategory');
-        $categoryList = $finder->find($elasticQuery);
 
         $nbPages = ceil($nbResults / BiologicalOriginCategory::NUM_ITEMS);
 

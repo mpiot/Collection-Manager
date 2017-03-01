@@ -79,7 +79,6 @@ class GlobalRepository
 
             // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
             $plasmidBoolQuery = new \Elastica\Query\BoolQuery();
-            $plasmidBoolQuery->setMinimumNumberShouldMatch(1);
 
             // First, define required queries like: type, security
             $plasmidBoolQuery->addFilter($teamsSecureQuery);
@@ -88,6 +87,7 @@ class GlobalRepository
             // Then, all conditional queries
             if (null !== $keyword) {
                 $plasmidBoolQuery->addShould($keywordQuery);
+                $plasmidBoolQuery->setMinimumShouldMatch(1);
             }
             if (null !== $author && '' !== $author) {
                 $plasmidBoolQuery->addFilter($authorQuery);
@@ -106,7 +106,6 @@ class GlobalRepository
 
             // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
             $primerBoolQuery = new \Elastica\Query\BoolQuery();
-            $primerBoolQuery->setMinimumNumberShouldMatch(1);
 
             // First, define required queries like: type, security
             $primerBoolQuery->addFilter($teamsSecureQuery);
@@ -115,6 +114,7 @@ class GlobalRepository
             // Then, all conditional queries
             if (null !== $keyword) {
                 $primerBoolQuery->addShould($keywordQuery);
+                $primerBoolQuery->setMinimumShouldMatch(1);
             }
             if (null !== $author && '' !== $author) {
                 $primerBoolQuery->addFilter($authorQuery);
@@ -137,7 +137,6 @@ class GlobalRepository
 
             // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
             $gmoStrainBoolQuery = new \Elastica\Query\BoolQuery();
-            $gmoStrainBoolQuery->setMinimumNumberShouldMatch(1);
 
             // First, define required queries like: type, security
             $gmoStrainBoolQuery->addFilter($projectsSecureQuery);
@@ -147,6 +146,7 @@ class GlobalRepository
             // Then, all conditional queries
             if (null !== $keyword) {
                 $gmoStrainBoolQuery->addShould($keywordQuery);
+                $gmoStrainBoolQuery->setMinimumShouldMatch(1);
             }
             $gmoStrainBoolQuery->addFilter($deletedQuery);
             if (null !== $author && '' !== $author) {
@@ -176,7 +176,6 @@ class GlobalRepository
 
             // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
             $wildStrainBoolQuery = new \Elastica\Query\BoolQuery();
-            $wildStrainBoolQuery->setMinimumNumberShouldMatch(1);
 
             // First, define required queries like: type, security
             $wildStrainBoolQuery->addFilter($projectsSecureQuery);
@@ -186,6 +185,7 @@ class GlobalRepository
             // Then, all conditional queries
             if (null !== $keyword) {
                 $wildStrainBoolQuery->addShould($keywordQuery);
+                $wildStrainBoolQuery->setMinimumShouldMatch(1);
             }
             $wildStrainBoolQuery->addFilter($deletedQuery);
             if (null !== $author && '' !== $author) {

@@ -54,9 +54,8 @@ class ProjectController extends Controller
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Project');
         $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
+        $projectList = $this->get('fos_elastica.finder.app.project')->find($elasticQuery);
         $nbResults = $this->get('fos_elastica.index.app.project')->count($elasticQuery);
-        $finder = $this->get('fos_elastica.finder.app.project');
-        $projectList = $finder->find($elasticQuery);
 
         $nbPages = ceil($nbResults / Project::NUM_ITEMS);
 
