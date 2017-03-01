@@ -64,11 +64,19 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="circular">
-                                {{ gbk|circularPlasmid }}
+                                {% if gbk.fasta is defined %}
+                                    {{ gbk|circularPlasmid }}
+                                {% else %}
+                                    <div class="alert alert-warning" role="alert">The file can't be read.</div>
+                                {% endif %}
                             </div>
 
                             <div role="tabpanel" class="tab-pane" id="linear">
-                                {{ gbk|linearPlasmid }}
+                                {% if gbk.fasta is defined %}
+                                    {{ gbk|linearPlasmid }}
+                                {% else %}
+                                    <div class="alert alert-warning" role="alert">The file can't be read.</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -81,8 +89,12 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane fasta" id="fasta">
-                        >>{{ plasmid.name }}<br>
-                        {{ gbk.fasta|upper }}
+                        {% if gbk.fasta is defined %}
+                            >>{{ plasmid.name }}<br>
+                            {{ gbk.fasta|upper }}
+                        {% else %}
+                            <div class="alert alert-warning" role="alert">The file can't be read.</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

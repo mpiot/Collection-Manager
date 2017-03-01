@@ -164,3 +164,7 @@ table tr[data-href] {
 .favorite-team {
     color: gold;
 }
+
+#genBank-file-field {
+    margin-bottom: 10px;
+}

@@ -21,7 +21,7 @@ class PlasmidGenBank
         $file = null;
 
         if (null !== $this->plasmid->getGenBankFile()) {
-            $this->finder->in('files/genBankFiles')->files()->name($this->plasmid->getGenBankFile()->getPath());
+            $this->finder->in('uploads/plasmids')->files()->name($this->plasmid->getGenBankFile()->getPath());
 
             foreach ($this->finder as $file) {
                 $file = $file->getContents();
@@ -96,7 +96,7 @@ class PlasmidGenBank
             }
         }
 
-        $array['length'] = strlen($array['fasta']);
+        $array['length'] = array_key_exists('fasta', $array) ? strlen($array['fasta']) : null;
 
         return $array;
     }

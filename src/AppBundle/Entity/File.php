@@ -123,7 +123,7 @@ class File
     protected function getUploadDir()
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on récupère le fichier
-        return 'files/various';
+        return 'uploads';
     }
 
     /**
