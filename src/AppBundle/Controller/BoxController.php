@@ -37,6 +37,7 @@ class BoxController extends Controller
         return $this->render('box/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
+            'projectRequest' => $request->get('project'),
         ]);
     }
 
@@ -68,6 +69,7 @@ class BoxController extends Controller
             'query' => $query,
             'page' => $page,
             'nbPages' => $nbPages,
+            'project' => $request->get('project'),
         ]);
     }
 
