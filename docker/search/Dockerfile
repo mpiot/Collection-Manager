@@ -1,4 +1,3 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:5.2.2
 
-#RUN /usr/share/elasticsearch/bin/plugin install mobz/elasticsearch-head
-#RUN /usr/share/elasticsearch/bin/plugin install royrusso/elasticsearch-HQ
+COPY elasticsearch.yml /usr/share/elasticsearch/config/elasticsearch.yml
