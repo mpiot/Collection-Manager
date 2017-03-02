@@ -1,0 +1,80 @@
+// The bipbip deploy file
+//https://github.com/baptistedonaux/bipbip.js
+exports.config = {
+    default: {
+        workspace: "/home/mpiot/Développement/collection-manager-deploy",
+        requirements: {
+            local: [],
+            remote: []
+        },
+        servers: [{
+            user: "user",
+            host: "host",
+            to: "/path/on/dist/server"
+        }],
+        repository: {
+            url: "git@github.com:you/repository-name.git",
+
+            // branch and tag should not be sets simultaneously
+            branch: "master",
+            //tag: null,
+
+            options: {
+                // clone submodule
+                submodules: false
+            }
+        },
+        commands:  {
+            local: [
+                // local commands to run (before send to remote server)
+            ],
+            remote: [
+                // remote commands to run (after project send to remote server)
+                // Just touch something in directory to change the date
+                "touch update_last_edit_hour && rm update_last_edit_hour",
+                // We need to override the symlink do by bipbip, because we want symlink in the container, delete previous folder, or symlink and do the new one
+                "docker exec collection-manager-php ln -s -f /home/docker/shared/app/config/parameters.yml /home/docker/releases/`pwd | grep -oE '[0-9]{14}'`/app/config/parameters.yml",
+                //"rm -R var/sessions",
+                "docker exec collection-manager-php ln -s -f  /home/docker/shared/var/sessions /home/docker/releases/`pwd | grep -oE '[0-9]{14}'`/var/sessions",
+                //"rm -R web/uploads",
+                "docker exec collection-manager-php ln -s -f  /home/docker/shared/web/uploads /home/docker/releases/`pwd | grep -oE '[0-9]{14}'`/web/uploads",
+                // Set the ACL
+                // EDIT the UID by your UID on the server
+                "docker exec collection-manager-php setfacl -R -m u:www-data:rwX -m u:UID:rwX releases/`pwd | grep -oE '[0-9]{14}'`/var/cache releases/`pwd | grep -oE '[0-9]{14}'`/var/logs",
+                "docker exec collection-manager-php setfacl -dR -m u:www-data:rwX -m u:UID:rwX releases/`pwd | grep -oE '[0-9]{14}'`/var/cache releases/`pwd | grep -oE '[0-9]{14}'`/var/logs",
+                // Install vendor
+                "docker exec collection-manager-php composer --no-progress --no-suggest --working-dir=releases/`pwd | grep -oE '[0-9]{14}'` install",
+                // // Dump assets, clean & warmup cache
+                "docker exec collection-manager-php releases/`pwd | grep -oE '[0-9]{14}'`/bin/console assetic:dump --env=prod",
+                "docker exec collection-manager-php releases/`pwd | grep -oE '[0-9]{14}'`/bin/console cache:clear --env=prod",
+                "docker exec collection-manager-php releases/`pwd | grep -oE '[0-9]{14}'`/bin/console cache:warmup --env=prod",
+                // // Set owner
+                "docker exec collection-manager-php chown -R 1002:1002 /home/docker/releases/`pwd | grep -oE '[0-9]{14}'`"
+            ],
+            postDeploy: [
+                // remote commands to run (after new release deployed)
+                // Create the current symlinc
+                "docker exec collection-manager-php ln -s -f /home/docker/releases/`pwd | grep -oE '[0-9]{14}'` /home/docker/current"
+            ]
+        },
+        ignores: [
+            "deploy.js",
+            "deploy.js.dist",
+            "docker",
+            "docker-compose.yml.dist",
+            ".git",
+            ".gitignore",
+            "README.md",
+        ],
+        shared: {
+            files: [
+                "app/config/parameters.yml"
+            ],
+            folders: [
+                "var/sessions",
+                "web/uploads"
+            ]
+        },
+        releases: 3
+    },
+};
