@@ -16,7 +16,6 @@
     {{ form_end(form) }}
 
     {% if errors is defined and errors is not empty %}
-        {{ dump(errors) }}
         {% for error in errors %}
             <p>{{ error.message }}</p>
         {% endfor %}
