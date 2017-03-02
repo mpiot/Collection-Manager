@@ -19,7 +19,7 @@ class ProjectRepository extends Repository
         $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();
 
-        $boolQuery->setMinimumNumberShouldMatch(1);
+        $boolQuery->setMinimumShouldMatch(1);
         $boolQuery->addShould($memberSecureQuery);
         $boolQuery->addShould($teamsSecureQuery);
 
