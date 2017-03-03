@@ -128,11 +128,11 @@ class StrainController extends Controller
 
             $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
 
-            $nextAction = $form->get('saveAndAdd')->isClicked()
-                ? 'strain_add_'.$discriminator
-                : 'strain_index';
-
-            return $this->redirectToRoute($nextAction);
+            if ($form->get('saveAndAdd')->isClicked()) {
+                return $this->redirectToRoute('strain_add_'.$discriminator);
+            } else {
+                return $this->redirectToRoute('strain_view', ['id' => $strain->getId(), 'slug' => $strain->getSlug()]);
+            }
         }
 
         return $this->render('strain/add.html.twig', [
