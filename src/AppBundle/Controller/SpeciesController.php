@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Species;
 use AppBundle\Form\Type\SpeciesLimitedType;
 use AppBundle\Form\Type\SpeciesType;
-use AppBundle\Utils\TaxId;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
