@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Primer;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -58,7 +59,6 @@ class PlasmidType extends AbstractType
                 'entry_type' => EntityType::class,
                 'entry_options' => [
                     'class' => 'AppBundle\Entity\Primer',
-                    'choice_label' => 'autoName',
                     'placeholder' => '-- select a primer --',
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('primer')
@@ -67,6 +67,9 @@ class PlasmidType extends AbstractType
                             ->where('members = :user')
                                 ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                             ->orderBy('primer.name', 'ASC');
+                    },
+                    'choice_label' => function (Primer $primer) {
+                        return $primer->getAutoName().' - '.$primer->getName();
                     },
                     'group_by' => function ($val) {
                         return $val->getTeam()->getName();
