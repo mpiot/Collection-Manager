@@ -13,3 +13,13 @@
 
     {{ include('plasmid/form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $( function() {
+            charMap($('#plasmid_name'));
+        } );
+    </script>
+{% endblock %}

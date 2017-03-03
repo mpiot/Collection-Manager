@@ -2,6 +2,8 @@
     $( function() {
         handleForm($('select[name="strain_gmo[type]"], select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
         handleForm($('select[name="strain_gmo[biologicalOriginCategory]"], select[name="strain_wild[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
+        charMap($('#strain_gmo_name, #strain_wild_name'));
+        charMap($('#strain_gmo_genotype'));
     } );
 </script>
 

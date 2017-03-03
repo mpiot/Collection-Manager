@@ -25,3 +25,13 @@
         {% include 'primer/sequence_letters_table.html.twig' %}
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $( function() {
+            charMap($('#primer_edit_name'));
+        } );
+    </script>
+{% endblock %}

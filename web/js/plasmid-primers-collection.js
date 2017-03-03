@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $("div[id='plasmid_primers'], div[id='plasmid_edit_primers']");
+    var $container = $("div #plasmid_primers, div #plasmid_edit_primers");
 
     if (0 !== $container.length) {
         // On supprime les labels
@@ -19,7 +19,7 @@ $(document).ready(function() {
         });
 
         // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-        var index = $container.find("select[id^='plasmid_primers_', select[id^='plasmid_edit_primers_']").length;
+        var index = $container.find("select[id^='plasmid_primers_'], select [id^='plasmid_edit_primers_']").length;
 
         // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
         if (index == 0) {
