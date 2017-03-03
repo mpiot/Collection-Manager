@@ -61,6 +61,12 @@ services:
         tags:
             - { name: form.type }
 
+    app.form_type.gmoStrain:
+        class: AppBundle\Form\Type\StrainGmoType
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
     app.form_type.wildStrain:
         class: AppBundle\Form\Type\StrainWildType
         arguments: ["@security.token_storage"]

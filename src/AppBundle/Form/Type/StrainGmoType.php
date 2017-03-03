@@ -9,9 +9,17 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class StrainGmoType extends AbstractType
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorage $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array
@@ -42,7 +50,12 @@ class StrainGmoType extends AbstractType
                     'placeholder' => '-- select a parent --',
                     'query_builder' => function (EntityRepository $er) use ($strainId) {
                         return $er->createQueryBuilder('strain')
-                            ->where('strain.id <> :id')
+                            ->leftJoin('strain.tubes', 'tubes')
+                            ->leftJoin('tubes.project', 'project')
+                            ->leftJoin('project.members', 'members')
+                            ->where('members = :user')
+                                ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                            ->andWhere('strain.id <> :id')
                                 ->setParameter('id', $strainId)
                             ->orderBy('strain.autoName', 'ASC');
                     },

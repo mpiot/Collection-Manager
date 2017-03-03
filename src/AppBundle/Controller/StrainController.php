@@ -77,7 +77,6 @@ class StrainController extends Controller
      * @Route("/add/gmo", name="strain_add_gmo")
      * @Route("/add/gmo/{id}-{slug}", name="strain_add_gmo_from_model", requirements={"id": "\d+"})
      * @Route("/add/wild", name="strain_add_wild")
-     * @Security("(user.isTeamAdministrator() or user.isProjectMember()) and (null === strainModel or is_granted('STRAIN_VIEW', strainModel))")
      */
     public function addAction(Request $request, Strain $strainModel = null)
     {
