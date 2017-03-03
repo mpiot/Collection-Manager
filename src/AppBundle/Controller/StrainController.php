@@ -92,7 +92,7 @@ class StrainController extends Controller
         return $this->add($request, 'wild', StrainWildType::class);
     }
 
-    public function add(Request $request, $discriminator, $formType, $strainModel = null)
+    public function addAction(Request $request, $discriminator, $formType, $strainModel = null)
     {
         if ($strainModel) {
             $strain = clone $strainModel;
@@ -227,7 +227,7 @@ class StrainController extends Controller
      * @Route("/{id}/parents", name="strain_parents", requirements={"id": "\d+"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function parentalParentsStrainsAjax(Strain $strain)
+    public function parentalParentsStrainsAction(Strain $strain)
     {
         $em = $this->getDoctrine()->getManager();
         $strain = $em->getRepository('AppBundle:Strain')->findParents($strain);
@@ -255,7 +255,7 @@ class StrainController extends Controller
      * @Route("/{id}/children", name="strain_children", requirements={"id": "\d+"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function parentalChildrenStrainsAjax(Strain $strain)
+    public function parentalChildrenStrainsAction(Strain $strain)
     {
         $em = $this->getDoctrine()->getManager();
         $strain = $em->getRepository('AppBundle:Strain')->findChildren($strain);
@@ -283,7 +283,7 @@ class StrainController extends Controller
      * @Route("/name-suggest/{keyword}", name="strain-name-suggest", options={"expose"=true}, condition="request.isXmlHttpRequest()")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function nameSuggestAjax($keyword)
+    public function nameSuggestAction($keyword)
     {
         // Set a project filter
         $projectsSecureQuery = new \Elastica\Query\Terms();
