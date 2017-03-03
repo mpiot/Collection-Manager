@@ -1,20 +1,20 @@
 function charMap(fieldHandler)
 {
     // Create the chars array
-    let chars = ['αβγδεζ', 'ηθικλμ', 'νξοπρσ', 'τυφχψω'];
-    let charsArray = [];
+    var chars = ['αβγδεζ', 'ηθικλμ', 'νξοπρσ', 'τυφχψω'];
+    var charsArray = [];
 
-    for (let i = 0; i < chars.length; i++) {
+    for (var i = 0; i < chars.length; i++) {
         charsArray[i] = chars[i].split('');
     }
 
     // Create the table object
-    let table = $('<table class="table table-bordered text-center">');
+    var table = $('<table class="table table-bordered text-center">');
 
-    for (let i = 0; i < charsArray.length; i++) {
-        let tr = '<tr>';
-        for (let j = 0; j < charsArray[i].length; j++) {
-            let td = '<td>';
+    for (var i = 0; i < charsArray.length; i++) {
+        var tr = '<tr>';
+        for (var j = 0; j < charsArray[i].length; j++) {
+            var td = '<td>';
             td += charsArray[i][j];
             td += '</td>';
 
