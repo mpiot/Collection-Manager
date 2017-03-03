@@ -923,7 +923,7 @@ class Strain
      */
     public function isAuthor(User $user)
     {
-        return $user === $this->created;
+        return $user === $this->createdBy;
     }
 
     /**
