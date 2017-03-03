@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,45 +80,7 @@ class StrainController extends Controller
      */
     public function addGmoAction(Request $request)
     {
-        $strain = new Strain();
-        $strain->setDiscriminator('gmo');
-
-        $form = $this->createForm(StrainGmoType::class, $strain)
-            ->add('save', SubmitType::class, [
-                'label' => 'Create',
-                'attr' => [
-                    'data-btn-group' => 'btn-group',
-                    'data-btn-position' => 'btn-first',
-                ],
-            ])
-            ->add('saveAndAdd', SubmitType::class, [
-                'label' => 'Create and Add',
-                'attr' => [
-                    'data-btn-group' => 'btn-group',
-                    'data-btn-position' => 'btn-last',
-                ],
-            ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($strain);
-            $em->flush();
-
-            $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
-
-            $nextAction = $form->get('saveAndAdd')->isClicked()
-                ? 'strain_add_gmo'
-                : 'strain_index';
-
-            return $this->redirectToRoute($nextAction);
-        }
-
-        return $this->render('strain/add.html.twig', [
-            'form' => $form->createView(),
-            'strain' => $strain,
-        ]);
+        return $this->addAction($request, 'gmo', StrainGmoType::class);
     }
 
     /**
@@ -126,10 +89,15 @@ class StrainController extends Controller
      */
     public function addWildAction(Request $request)
     {
-        $strain = new Strain();
-        $strain->setDiscriminator('wild');
+        return $this->addAction($request, 'wild', StrainWildType::class);
+    }
 
-        $form = $this->createForm(StrainWildType::class, $strain)
+    public function addAction(Request $request, $discriminator, $formType)
+    {
+        $strain = new Strain();
+        $strain->setDiscriminator($discriminator);
+
+        $form = $this->createForm($formType, $strain)
             ->add('save', SubmitType::class, [
                 'label' => 'Create',
                 'attr' => [
@@ -155,7 +123,7 @@ class StrainController extends Controller
             $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
 
             $nextAction = $form->get('saveAndAdd')->isClicked()
-                ? 'strain_add_wild'
+                ? 'strain_add_'.$discriminator
                 : 'strain_index';
 
             return $this->redirectToRoute($nextAction);
