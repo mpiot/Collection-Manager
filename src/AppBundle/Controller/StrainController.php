@@ -80,7 +80,7 @@ class StrainController extends Controller
      */
     public function addGmoAction(Strain $strain = null, Request $request)
     {
-        return $this->addAction($request, 'gmo', StrainGmoType::class, $strain);
+        return $this->add($request, 'gmo', StrainGmoType::class, $strain);
     }
 
     /**
@@ -89,10 +89,10 @@ class StrainController extends Controller
      */
     public function addWildAction(Request $request)
     {
-        return $this->addAction($request, 'wild', StrainWildType::class);
+        return $this->add($request, 'wild', StrainWildType::class);
     }
 
-    public function addAction(Request $request, $discriminator, $formType, $strainModel = null)
+    public function add(Request $request, $discriminator, $formType, $strainModel = null)
     {
         if ($strainModel) {
             $strain = clone $strainModel;
@@ -227,7 +227,7 @@ class StrainController extends Controller
      * @Route("/{id}/parents", name="strain_parents", requirements={"id": "\d+"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function parentalParentsStrainsAction(Strain $strain)
+    public function parentalParentsStrainsAjax(Strain $strain)
     {
         $em = $this->getDoctrine()->getManager();
         $strain = $em->getRepository('AppBundle:Strain')->findParents($strain);
@@ -255,7 +255,7 @@ class StrainController extends Controller
      * @Route("/{id}/children", name="strain_children", requirements={"id": "\d+"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function parentalChildrenStrainsAction(Strain $strain)
+    public function parentalChildrenStrainsAjax(Strain $strain)
     {
         $em = $this->getDoctrine()->getManager();
         $strain = $em->getRepository('AppBundle:Strain')->findChildren($strain);
@@ -283,7 +283,7 @@ class StrainController extends Controller
      * @Route("/name-suggest/{keyword}", name="strain-name-suggest", options={"expose"=true}, condition="request.isXmlHttpRequest()")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function nameSuggestAction($keyword)
+    public function nameSuggestAjax($keyword)
     {
         // Set a project filter
         $projectsSecureQuery = new \Elastica\Query\Terms();
