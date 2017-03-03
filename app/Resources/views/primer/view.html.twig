@@ -61,7 +61,7 @@
                 <div class="panel-heading">Sequence</div>
                 <!-- List group -->
                 <div class="panel-body">
-                    {{ primer.formatedSequenceWithExtensions|raw }}
+                    <span class="five-prime-extension">{{ primer.fivePrimeExtension }}</span>{{ primer.sequence }}
                 </div>
             </div>
         </div>

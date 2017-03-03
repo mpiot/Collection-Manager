@@ -80,7 +80,6 @@ a.navbar-brand > small {
     background-color: #428bca;
 }
 
-
 /*
  * Main content
  */
@@ -97,7 +96,6 @@ a.navbar-brand > small {
 .main .page-header {
     margin-top: 0;
 }
-
 
 /*
  * Placeholder dashboard ideas
@@ -169,6 +167,16 @@ table tr[data-href] {
     color: gold;
 }
 
+/*
+ * Genbank upload button margin
+ */
 #genBank-file-field {
     margin-bottom: 10px;
+}
+
+/*
+ * 5' extension coloration
+ */
+.five-prime-extension {
+    color: #4077b5;
 }

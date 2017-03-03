@@ -358,26 +358,6 @@ class Primer
     }
 
     /**
-     * Get SequenceWithExtensions.
-     *
-     * @return string
-     */
-    public function getSequenceWithExtensions()
-    {
-        return $this->fivePrimeExtension.$this->sequence;
-    }
-
-    /**
-     * Get FormatedSequenceWithExtensions.
-     *
-     * @return string
-     */
-    public function getFormatedSequenceWithExtensions()
-    {
-        return '<b>'.$this->fivePrimeExtension.'</b>'.$this->sequence;
-    }
-
-    /**
      * Set team.
      *
      * @param Team $team
