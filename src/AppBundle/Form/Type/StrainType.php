@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Genus;
+use AppBundle\Entity\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -43,8 +44,8 @@ class StrainType extends AbstractType
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('types.name', 'ASC');
                 },
-                'group_by' => function ($val) {
-                    return $val->getTeam()->getName();
+                'group_by' => function (Type $type) {
+                    return $type->getTeam()->getName();
                 },
                 'choice_label' => 'name',
                 'placeholder' => '-- select a type --',

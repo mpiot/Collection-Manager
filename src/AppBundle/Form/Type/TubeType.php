@@ -92,8 +92,8 @@ class TubeType extends AbstractType
                     ->andWhere('project.valid = true')
                     ->orderBy('project.name', 'ASC');
             },
-            'group_by' => function ($val) {
-                return $val->getTeam()->getName();
+            'group_by' => function (Project $project) {
+                return $project->getTeam()->getName();
             },
             'choice_label' => 'name',
             'placeholder' => '-- select a project --',

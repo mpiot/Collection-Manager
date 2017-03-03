@@ -71,8 +71,8 @@ class PlasmidType extends AbstractType
                     'choice_label' => function (Primer $primer) {
                         return $primer->getAutoName().' - '.$primer->getName();
                     },
-                    'group_by' => function ($val) {
-                        return $val->getTeam()->getName();
+                    'group_by' => function (Primer $primer) {
+                        return $primer->getTeam()->getName();
                     },
                 ],
                 'by_reference' => false,

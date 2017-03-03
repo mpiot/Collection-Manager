@@ -38,8 +38,8 @@ class StrainPlasmidType extends AbstractType
                         ->orderBy('p.autoName', 'ASC')
                     ;
                 },
-                'group_by' => function ($val) {
-                    return $val->getTeam()->getName();
+                'group_by' => function (Plasmid $plasmid) {
+                    return $plasmid->getTeam()->getName();
                 },
                 'choice_label' => function (Plasmid $plasmid) {
                     return $plasmid->getAutoName().' - '.$plasmid->getName();
