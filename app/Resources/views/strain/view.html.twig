@@ -137,6 +137,7 @@
                     <li class="list-group-item">Sequenced: {{ strain.sequenced ? 'yes' : 'no' }}</li>
 
                     {% if 'wild' == strain.discriminator %}
+                        <li class="list-group-item">Biological origin category: {{ strain.biologicalOriginCategory.name }}</li>
                         <li class="list-group-item">Biological origin: {{ strain.biologicalOrigin }}</li>
                         <li class="list-group-item">Source: {{ strain.source }}</li>
                     {% endif %}
