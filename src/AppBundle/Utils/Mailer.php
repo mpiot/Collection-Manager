@@ -101,7 +101,7 @@ class Mailer
      *
      * @param Project $project
      */
-    public function sendProjectAdminNotification(Project $project, $changeset)
+    public function sendProjectAdminNotification(Project $project)
     {
         $from = [$this->from => $this->name];
         $to = '';

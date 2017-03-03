@@ -13,13 +13,6 @@ class TypeVoter extends Voter
     const EDIT = 'TYPE_EDIT';
     const DELETE = 'TYPE_DELETE';
 
-    private $decisionManager;
-
-    public function __construct(AccessDecisionManagerInterface $decisionManager)
-    {
-        $this->decisionManager = $decisionManager;
-    }
-
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false

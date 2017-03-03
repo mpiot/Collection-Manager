@@ -15,13 +15,6 @@ class ProjectVoter extends Voter
     const DELETE = 'PROJECT_DELETE';
     const VALIDATE = 'PROJECT_VALIDATE';
 
-    private $decisionManager;
-
-    public function __construct(AccessDecisionManagerInterface $decisionManager)
-    {
-        $this->decisionManager = $decisionManager;
-    }
-
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false

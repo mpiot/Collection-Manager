@@ -14,13 +14,6 @@ class TubeVoter extends Voter
     const RESTORE = 'TUBE_RESTORE';
     const DELETE = 'TUBE_DELETE';
 
-    private $decisionManager;
-
-    public function __construct(AccessDecisionManagerInterface $decisionManager)
-    {
-        $this->decisionManager = $decisionManager;
-    }
-
     protected function supports($attribute, $subject)
     {
         // If the attribute isn't one we support, return false

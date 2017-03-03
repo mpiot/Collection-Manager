@@ -139,30 +139,14 @@ services:
             - { name: kernel.event_subscriber }
 
 # Voters
-    app.voter.project:
-        class: AppBundle\Security\ProjectVoter
-        arguments: ["@security.access.decision_manager"]
+    app.voter.category:
+        class: AppBundle\Security\BiologicalOriginCategoryVoter
         tags:
             - { name: security.voter }
         public: false
 
     app.voter.box:
         class: AppBundle\Security\BoxVoter
-        arguments: ["@security.access.decision_manager"]
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.strain:
-        class: AppBundle\Security\StrainVoter
-        arguments: ["@security.access.decision_manager"]
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.tube:
-        class: AppBundle\Security\TubeVoter
-        arguments: ["@security.access.decision_manager"]
         tags:
             - { name: security.voter }
         public: false
@@ -181,16 +165,26 @@ services:
             - { name: security.voter }
         public: false
 
-    app.voter.category:
-        class: AppBundle\Security\BiologicalOriginCategoryVoter
-        arguments: ["@security.access.decision_manager"]
+    app.voter.project:
+        class: AppBundle\Security\ProjectVoter
+        tags:
+            - { name: security.voter }
+        public: false
+
+    app.voter.strain:
+        class: AppBundle\Security\StrainVoter
+        tags:
+            - { name: security.voter }
+        public: false
+
+    app.voter.tube:
+        class: AppBundle\Security\TubeVoter
         tags:
             - { name: security.voter }
         public: false
 
     app.voter.type:
         class: AppBundle\Security\TypeVoter
-        arguments: ["@security.access.decision_manager"]
         tags:
             - { name: security.voter }
         public: false
