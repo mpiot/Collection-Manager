@@ -1,7 +1,7 @@
 <script>
     $( function() {
-        handleForm($('select[name$="_strain[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
-        handleForm($('select[name$="_strain[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
+        handleForm($('select[name="strain_gmo[type]"], select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
+        handleForm($('select[name="strain_gmo[biologicalOriginCategory]"], select[name="strain_wild[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
     } );
 </script>
 
