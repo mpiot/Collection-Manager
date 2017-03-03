@@ -80,7 +80,7 @@ class StrainController extends Controller
      */
     public function addGmoAction(Strain $strain = null, Request $request)
     {
-        return $this->add($request, 'gmo', StrainGmoType::class, $strain);
+        return $this->addAction($request, 'gmo', StrainGmoType::class, $strain);
     }
 
     /**
@@ -89,7 +89,7 @@ class StrainController extends Controller
      */
     public function addWildAction(Request $request)
     {
-        return $this->add($request, 'wild', StrainWildType::class);
+        return $this->addAction($request, 'wild', StrainWildType::class);
     }
 
     public function addAction(Request $request, $discriminator, $formType, $strainModel = null)
