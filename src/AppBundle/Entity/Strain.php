@@ -230,7 +230,30 @@ class Strain
         $this->strainPlasmids = new ArrayCollection();
         $this->parents = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->creationDate = new \DateTime();
+    }
+
+    /**
+     * Clone.
+     *
+     * Used to create a new Strain on an other strain base.
+     */
+    public function __clone()
+    {
+        $this->id = null;
+        $this->slug = null;
+        $this->autoName = null;
+        $this->tubes = new ArrayCollection();
+        $this->biologicalOriginCategory = null;
+        $this->biologicalOrigin = null;
+        $this->source = null;
+        $this->latitude = null;
+        $this->longitude = null;
+        $this->address = null;
+        $this->country = null;
+        $this->createdBy = null;
+        $this->created = null;
+        $this->updatedBy = null;
+        $this->updated = null;
     }
 
     /**

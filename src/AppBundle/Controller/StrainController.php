@@ -76,11 +76,12 @@ class StrainController extends Controller
 
     /**
      * @Route("/add/gmo", name="strain_add_gmo")
-     * @Security("user.isTeamAdministrator() or user.isProjectMember()")
+     * @Route("/add/gmo/{id}-{slug}", name="strain_add_gmo_from_model", requirements={"id": "\d+"})
+     * @Security("(user.isTeamAdministrator() or user.isProjectMember()) and (null == strain or is_granted('STRAIN_VIEW', strain))")
      */
-    public function addGmoAction(Request $request)
+    public function addGmoAction(Strain $strain = null, Request $request)
     {
-        return $this->addAction($request, 'gmo', StrainGmoType::class);
+        return $this->addAction($request, 'gmo', StrainGmoType::class, $strain);
     }
 
     /**
@@ -92,9 +93,14 @@ class StrainController extends Controller
         return $this->addAction($request, 'wild', StrainWildType::class);
     }
 
-    public function addAction(Request $request, $discriminator, $formType)
+    public function addAction(Request $request, $discriminator, $formType, $strainModel = null)
     {
-        $strain = new Strain();
+        if ($strainModel) {
+            $strain = clone $strainModel;
+        } else {
+            $strain = new Strain();
+        }
+
         $strain->setDiscriminator($discriminator);
 
         $form = $this->createForm($formType, $strain)
