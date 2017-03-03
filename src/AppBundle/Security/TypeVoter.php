@@ -5,7 +5,6 @@ namespace AppBundle\Security;
 use AppBundle\Entity\Type;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class TypeVoter extends Voter

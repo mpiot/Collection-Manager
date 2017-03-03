@@ -5,7 +5,6 @@ namespace AppBundle\Security;
 use AppBundle\Entity\Box;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class BoxVoter extends Voter
