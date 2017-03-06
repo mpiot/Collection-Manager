@@ -14,20 +14,14 @@
         <div class="form-group">
             {{ form_label(form.type) }}
 
-            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() %}
-                <div class="col-sm-9">
-                    {{ form_widget(form.type) }}
-                </div>
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addTypeModal">
-                        Add a type
-                    </button>
-                </div>
-            {% else %}
-                <div class="col-sm-10">
-                    {{ form_widget(form.type) }}
-                </div>
-            {% endif %}
+            <div class="col-sm-9">
+                {{ form_widget(form.type) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addTypeModal">
+                    Add a type
+                </button>
+            </div>
         </div>
 
         {{ form_row(form.name) }}
@@ -67,20 +61,14 @@
             <div class="form-group">
                 {{ form_label(form.biologicalOriginCategory) }}
 
-                {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() %}
-                    <div class="col-sm-9">
-                        {{ form_widget(form.biologicalOriginCategory) }}
-                    </div>
-                    <div class="col-sm-1">
-                        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addBioCategoryModal">
-                            Add a category
-                        </button>
-                    </div>
-                {% else %}
-                    <div class="col-sm-10">
-                        {{ form_widget(form.biologicalOriginCategory) }}
-                    </div>
-                {% endif %}
+                <div class="col-sm-9">
+                    {{ form_widget(form.biologicalOriginCategory) }}
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addBioCategoryModal">
+                        Add a category
+                    </button>
+                </div>
             </div>
 
             {{ form_row(form.biologicalOrigin) }}
@@ -111,33 +99,31 @@
     </div>
 {% endif %}
 
-{% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() %}
-    <!-- Modal -->
-    <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="addTypeModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="addTypeModalLabel">Add a type</h4>
-                </div>
-                <div class="modal-body">
-                    {{ render(controller('AppBundle:Type:embdedAdd')) }}
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="addTypeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addTypeModalLabel">Add a type</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('AppBundle:Type:embdedAdd')) }}
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="addBioCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addBioCategoryModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="addBioCategoryModalLabel">Add a category</h4>
-                </div>
-                <div class="modal-body">
-                    {{ render(controller('AppBundle:BiologicalOriginCategory:embdedAdd')) }}
-                </div>
+<div class="modal fade" id="addBioCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addBioCategoryModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addBioCategoryModalLabel">Add a category</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('AppBundle:BiologicalOriginCategory:embdedAdd')) }}
             </div>
         </div>
     </div>
-{% endif %}
+</div>

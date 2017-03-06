@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block type_body %}
-    {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
+    {% if app.user.isInTeam() %}
         <div>
             <a class="btn btn-default" href="{{ path('type_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a type

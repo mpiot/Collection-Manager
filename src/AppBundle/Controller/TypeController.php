@@ -72,7 +72,7 @@ class TypeController extends Controller
 
     /**
      * @Route("/add", name="type_add")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isInTeam()")
      */
     public function addAction(Request $request)
     {
@@ -116,7 +116,7 @@ class TypeController extends Controller
 
     /**
      * @Route("/embdedAdd", name="type_embded_add", condition="request.isXmlHttpRequest()")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isInTeam()")
      */
     public function embdedAddAction(Request $request)
     {
