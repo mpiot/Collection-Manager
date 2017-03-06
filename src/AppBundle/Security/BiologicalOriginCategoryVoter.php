@@ -52,7 +52,7 @@ class BiologicalOriginCategoryVoter extends Voter
 
     private function canEdit(BiologicalOriginCategory $category, User $user)
     {
-        if ($category->getTeam()->isMember($user)) {
+        if ($this->canDelete($category, $user)) {
             return true;
         }
 
@@ -61,8 +61,7 @@ class BiologicalOriginCategoryVoter extends Voter
 
     private function canDelete(BiologicalOriginCategory $category, User $user)
     {
-        // team administrators can delete it
-        if ($category->getTeam()->isAdministrator($user)) {
+        if ($category->getTeam()->isMember($user)) {
             return true;
         }
 

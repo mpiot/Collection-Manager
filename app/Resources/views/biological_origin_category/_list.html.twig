@@ -2,35 +2,26 @@
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-            {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
                 <tr>
                     <th class="col-md-1">#</th>
                     <th class="col-md-9">Category name</th>
                     <th class="col-md-2">Actions</th>
                 </tr>
-            {% else %}
-                <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-11">Category name</th>
-                </tr>
-            {% endif %}
             </thead>
             {% if categoryList is not empty %}
                 {% for category in categoryList %}
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ category.name }}</td>
-                        {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() or is_granted('ROLE_ADMIN') %}
-                            <td>
-                                {% embed "biological_origin_category/_delete_form.html.twig" with { category: category } only %}
-                                    {% block btn %}
-                                        <a class="btn btn-warning" href="{{ path('category_edit', { 'id': category.id}) }}">
-                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                                        </a>
-                                    {% endblock %}
-                                {% endembed %}
-                            </td>
-                        {% endif %}
+                        <td>
+                            {% embed "biological_origin_category/_delete_form.html.twig" with { category: category } only %}
+                                {% block btn %}
+                                    <a class="btn btn-warning" href="{{ path('category_edit', { 'id': category.id}) }}">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                    </a>
+                                {% endblock %}
+                            {% endembed %}
+                        </td>
                     </tr>
                 {% endfor %}
             {% else %}

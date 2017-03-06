@@ -178,7 +178,7 @@ class BiologicalOriginCategoryController extends Controller
     public function deleteAction(BiologicalOriginCategory $category, Request $request)
     {
         // If the type is used by strains, redirect user
-        if (!$category->getWildStrains()->isEmpty()) {
+        if (!$category->getStrains()->isEmpty()) {
             $this->addFlash('warning', 'The category cannot be deleted, it\'s used in strain(s).');
 
             return $this->redirectToRoute('type_index');
