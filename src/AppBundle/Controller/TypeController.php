@@ -178,7 +178,7 @@ class TypeController extends Controller
     public function deleteAction(Type $type, Request $request)
     {
         // If the type is used by strains, redirect user
-        if (!$type->getGmoStrains()->isEmpty() || !$type->getWildStrains()->isEmpty()) {
+        if (!$type->getStrains()->isEmpty()) {
             $this->addFlash('warning', 'The type cannot be deleted, it\'s used in strain(s).');
 
             return $this->redirectToRoute('type_index');

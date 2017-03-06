@@ -52,10 +52,6 @@ class TypeVoter extends Voter
 
     private function canEdit(Type $type, User $user)
     {
-        if ($type->getTeam()->isMember($user)) {
-            return true;
-        }
-
         if ($this->canDelete($type, $user)) {
             return true;
         }
@@ -65,8 +61,7 @@ class TypeVoter extends Voter
 
     private function canDelete(Type $type, User $user)
     {
-        // team administrators can delete it
-        if ($type->getTeam()->isAdministrator($user)) {
+        if ($type->getTeam()->isMember($user)) {
             return true;
         }
 
