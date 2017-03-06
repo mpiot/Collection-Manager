@@ -1,0 +1,21 @@
+{# app/Ressources/views/Exception/error404.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Error 500 - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">500 error</li>
+{% endblock %}
+
+{% block body %}
+    <div class="text-center row">
+        <img src="{{ asset('images/500.png') }}" alt="Broken window" width="200" />
+        <h1 style="font-size: 10em">500<small>error</small></h1>
+        <h2 style="font-size: 4em">Oops! I've broken something!</h2>
+        <h3>The server returned a "500 Internal Server Error"</h3>
+    </div>
+{% endblock %}
