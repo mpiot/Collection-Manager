@@ -15,15 +15,17 @@
             <h2 class="sub-header">{{ species.scientificName }}</h2>
         </div>
 
-        <div class="col-md-2">
-            {% embed "species/_delete_form.html.twig" with { species: species } only %}
-                {% block btn %}
-                    <a class="btn btn-warning" href="{{ path('species_edit', { 'slug': species.slug}) }}">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                    </a>
-                {% endblock %}
-            {% endembed %}
-        </div>
+        {% if app.user.isTeamAdministrator() or app.user.isProjectAdministrator() %}
+            <div class="col-md-2">
+                {% embed "species/_delete_form.html.twig" with { species: species } only %}
+                    {% block btn %}
+                        <a class="btn btn-warning" href="{{ path('species_edit', { 'slug': species.slug}) }}">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                        </a>
+                    {% endblock %}
+                {% endembed %}
+            </div>
+        {% endif %}
     </div>
 
     <div class="row">
