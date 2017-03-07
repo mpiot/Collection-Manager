@@ -181,7 +181,7 @@ class BiologicalOriginCategoryController extends Controller
         if (!$category->getStrains()->isEmpty()) {
             $this->addFlash('warning', 'The category cannot be deleted, it\'s used in strain(s).');
 
-            return $this->redirectToRoute('type_index');
+            return $this->redirectToRoute('category_index');
         }
 
         // If the CSRF token is invalid, redirect user
