@@ -65,7 +65,10 @@ Enter in the docker container `docker exec -it collection-manager-php bash` to e
     ```
     bin/console assetic:dump
     ```
+
 6. Clear the cache
     ```
     bin/console cache:clear
     ```
+
+Any files and folders created by PHP or in the container are root on the host machine. You have to do a chown command each time you want edit files (eg: with the bin/console doctrine:entity).
