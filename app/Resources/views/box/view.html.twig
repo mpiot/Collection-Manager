@@ -5,14 +5,14 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('box_index') }}">Boxes list</a></li>
-    <li class="active">{{ box.autoName }} ({{ box.name }})</li>
+    <li class="active">{{ box.name }} ({{ box.autoName }})</li>
 {% endblock %}
 
 {% block box_body %}
 
     <div class="row">
         <div class="col-md-10">
-            <h2 class="sub-header">Box: {{ box.autoName }} ({{ box.name }})</h2>
+            <h2 class="sub-header">{{ box.name }} ({{ box.autoName }})</h2>
 
         </div>
 
@@ -20,7 +20,7 @@
             {% embed "box/_delete_form.html.twig" with { box: box } only %}
                 {% block btn %}
                     {% if is_granted('BOX_EDIT', box) %}
-                        <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id}) }}">
+                        <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id, 'slug': box.slug}) }}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                         </a>
                     {% endif %}

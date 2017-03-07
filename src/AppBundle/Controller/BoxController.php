@@ -74,7 +74,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="box_view", requirements={"id": "\d+"})
+     * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"})
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findOneWithProjectTypeTubesStrains"
      * })
@@ -143,7 +143,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="box_edit")
+     * @Route("/{id}-{slug}/edit", name="box_edit")
      * @Security("is_granted('BOX_EDIT', box)")
      */
     public function editAction(Box $box, Request $request)
@@ -168,7 +168,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="box_delete")
+     * @Route("/{id}-{slug}/delete", name="box_delete")
      * @Method("POST")
      * @Security("is_granted('BOX_DELETE', box)")
      */

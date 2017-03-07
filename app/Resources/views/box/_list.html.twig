@@ -21,7 +21,7 @@
                         <td>{{ box.description|truncate(50, true) }}</td>
                         <td>{{ box.project.name }}</td>
                         <td>{{ box.freeSpace }} / {{ box.cellNumber }}</td>
-                        <td><a href="{{ path('box_view', { 'id': box.id }) }}">{{ box.autoName }}</a></td>
+                        <td><a href="{{ path('box_view', { 'id': box.id, 'slug': box.slug }) }}">{{ box.autoName }}</a></td>
                     </tr>
                 {% endfor %}
             {% else %}

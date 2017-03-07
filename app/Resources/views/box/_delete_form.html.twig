@@ -1,5 +1,5 @@
 {{ include('box/_delete_confirmation.html.twig') }}
-<form action="{{ url('box_delete', { id: box.id }) }}" method="post" data-confirmation="true">
+<form action="{{ url('box_delete', { 'id': box.id, 'slug': box.slug }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('box_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
         {% block btn %}
