@@ -100,11 +100,6 @@ $(document).ready(function() {
                     data: data,
                     success: function (html) {
                         // Replace current position field ...
-                        $(container).find('[name$="[project]"]').replaceWith(
-                            // ... with the returned one from the AJAX response.
-                            $(html).find('[name$="[project]"]')
-                        );
-
                         $(container).find('[name$="[box]"]').replaceWith(
                             // ... with the returned one from the AJAX response.
                             $(html).find('[name$="[box]"]')
