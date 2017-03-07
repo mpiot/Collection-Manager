@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Box.
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="box")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BoxRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity({"project", "name"}, message="A box already exist with the name: {{ value }}.")
+ * @UniqueEntity({"name", "project"}, message="A box already exist with the name: {{ value }}.")
  */
 class Box
 {
@@ -66,6 +67,12 @@ class Box
      * @var int
      *
      * @ORM\Column(name="colNumber", type="integer")
+     * @Assert\Range(
+     *   min = 4,
+     *   max = 20,
+     *   minMessage = "The box must have at least {{ limit }} columns.",
+     *   maxMessage = "The box can't have more than {{ limit }} columns."
+     * )
      */
     private $colNumber;
 
@@ -73,6 +80,12 @@ class Box
      * @var int
      *
      * @ORM\Column(name="rowNumber", type="integer")
+     * @Assert\Range(
+     *   min = 4,
+     *   max = 20,
+     *   minMessage = "The box must have at least {{ limit }} rows.",
+     *   maxMessage = "The box can't have more than {{ limit }} rows."
+     * )
      */
     private $rowNumber;
 
