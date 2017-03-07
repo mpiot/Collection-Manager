@@ -8,6 +8,9 @@ parameters:
     database_user:     collectionManager
     database_password: collectionManager
 
+    elasticsearch_host: search
+    elasticsearch_port: ~
+
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~
