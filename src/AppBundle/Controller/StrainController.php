@@ -208,8 +208,8 @@ class StrainController extends Controller
         }
 
         $entityManager = $this->getDoctrine()->getManager();
-
-        $entityManager->remove($strain);
+        $strain->setDeleted(true);
+        $entityManager->persist($strain);
         $entityManager->flush();
 
         $this->addFlash('success', 'The strain has been deleted successfully.');
