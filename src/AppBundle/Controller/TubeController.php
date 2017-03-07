@@ -35,7 +35,10 @@ class TubeController extends Controller
             $this->addFlash('success', 'The tube has been restored successfully.');
         }
 
-        return $this->redirectToRoute('strain_view', ['id' => $tube->getStrain()->getId()]);
+        return $this->redirectToRoute('strain_view', [
+            'id' => $tube->getStrain()->getId(),
+            'slug' => $tube->getStrain()->getSlug()
+        ]);
     }
 
     /**
@@ -57,6 +60,9 @@ class TubeController extends Controller
             $this->addFlash('success', 'The tube has been deleted successfully.');
         }
 
-        return $this->redirectToRoute('strain_view', ['id' => $tube->getStrain()->getId()]);
+        return $this->redirectToRoute('strain_view', [
+            'id' => $tube->getStrain()->getId(),
+            'slug' => $tube->getStrain()->getSlug()
+        ]);
     }
 }
