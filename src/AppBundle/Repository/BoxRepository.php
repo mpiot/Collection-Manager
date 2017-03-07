@@ -39,7 +39,8 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('tubes.strain', 'strain')
                 ->addSelect('strain')
             ->where('box = :box')
-            ->setParameter('box', $box)
+                ->setParameter('box', $box)
+            ->orderBy('tubes.cell', 'ASC')
             ->getQuery();
 
         return $query->getOneOrNullResult();

@@ -40,7 +40,7 @@
 
                 <!-- List group -->
                 <ul class="list-group">
-                    <li class="list-group-item">Projet: {{ box.project.name }}</li>
+                    <li class="list-group-item">Projet: <a href="{{ path('project_view', { 'slug': box.project.slug }) }}">{{ box.project.name }}</a></li>
                     <li class="list-group-item">Congélateur: {{ box.freezer }}</li>
                     <li class="list-group-item">Emplacement dans le congélateur: {{ box.location }}</li>
                 </ul>
@@ -101,19 +101,17 @@
                 <table class="table table-striped">
                     <tr>
                         <th>Cell</th>
-                        <th>Auto Name</th>
                         <th>Name</th>
-                        <th>Project</th>
+                        <th>Auto Name</th>
                     </tr>
 
                     {% for tube in box.tubes %}
                         <tr>
                             <td>{{ tube.cellName }}</td>
+                            <td>{{ tube.strain.name }}</td>
                             <td>
                                 <a href="{{ path('strain_view', { 'id': tube.strain.id, 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
                             </td>
-                            <td>{{ tube.strain.name }}</td>
-                            <td>{{ tube.box.project.name }}</td>
                         </tr>
                     {% endfor %}
                 </table>
