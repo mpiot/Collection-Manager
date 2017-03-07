@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Strain.
@@ -100,7 +101,8 @@ class Strain
     /**
      * @var ArrayCollection|Tube
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="strain", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="strain", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid
      */
     private $tubes;
 

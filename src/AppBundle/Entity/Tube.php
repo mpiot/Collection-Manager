@@ -3,6 +3,10 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Type.
@@ -10,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tube")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TubeRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity({"cell", "box"}, message="You can't have many tubes in the same cell.")
  */
 class Tube
 {
@@ -55,6 +60,7 @@ class Tube
      * @var \DateTime
      *
      * @ORM\Column(name="creationDate", type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $creationDate;
 
@@ -75,7 +81,6 @@ class Tube
     public function __construct()
     {
         $this->deleted = false;
-        $this->creationDate = new \DateTime();
     }
 
     /**
@@ -191,6 +196,20 @@ class Tube
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        $tubes = $this->strain->getTubes();
+
+        if (count(array_keys($tubes->toArray(), $this)) > 1) {
+            $context->buildViolation('You can\'t have many tubes in the same cell.')
+                ->atPath('cell')
+                ->addViolation();
+        }
     }
 
     /**
