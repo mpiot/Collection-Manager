@@ -1,5 +1,5 @@
 {{ include('project/_delete_confirmation.html.twig') }}
-<form action="{{ url('project_delete', { 'slug': project.slug }) }}" method="post" data-confirmation="true">
+<form action="{{ url('project_delete', { 'id': project.id, 'slug': project.slug }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('project_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
         {% block btn %}

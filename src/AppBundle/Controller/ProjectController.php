@@ -124,7 +124,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/{slug}", name="project_view")
+     * @Route("/{id}-{slug}", name="project_view")
      * @ParamConverter("project", options={"repository_method" = "findOneWithAdminsMembers"})
      * @Security("is_granted('PROJECT_VIEW', project)")
      */
@@ -144,13 +144,19 @@ class ProjectController extends Controller
         if ($project->isValid()) {
             $this->addFlash('warning', 'The project is already valid !');
 
-            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
+            return $this->redirectToRoute('project_view', [
+                'id' => $project->getId(),
+                'slug' => $project->getSlug(),
+            ]);
         }
 
         if (!$this->isCsrfTokenValid('project_validate', $request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid !');
 
-            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
+            return $this->redirectToRoute('project_view', [
+                'id' => $project->getId(),
+                'slug' => $project->getSlug(),
+            ]);
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -159,11 +165,14 @@ class ProjectController extends Controller
 
         $this->addFlash('success', 'The project has been successfully validated.');
 
-        return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
+        return $this->redirectToRoute('project_view', [
+            'id' => $project->getId(),
+            'slug' => $project->getSlug(),
+        ]);
     }
 
     /**
-     * @Route("/{slug}/edit", name="project_edit")
+     * @Route("/{id]-{slug}/edit", name="project_edit")
      * @ParamConverter("project", options={"repository_method" = "findOneWithAdminsMembers"})
      * @Security("is_granted('PROJECT_EDIT', project)")
      */
@@ -179,7 +188,10 @@ class ProjectController extends Controller
 
             $this->addFlash('success', 'The project has been edited unsuccessfully.');
 
-            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
+            return $this->redirectToRoute('project_view', [
+                'id' => $project->getId(),
+                'slug' => $project->getSlug(),
+            ]);
         }
 
         return $this->render('project/edit.html.twig', [
@@ -189,7 +201,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/{slug}/delete", name="project_delete")
+     * @Route("/{id}-{slug}/delete", name="project_delete")
      * @Method("POST")
      * @Security("is_granted('PROJECT_DELETE', project)")
      */
@@ -199,14 +211,20 @@ class ProjectController extends Controller
         if (!$project->getBoxes()->isEmpty()) {
             $this->addFlash('warning', 'The project cannot be deleted, there are boxes attached.');
 
-            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
+            return $this->redirectToRoute('project_view', [
+                'id' => $project->getId(),
+                'slug' => $project->getSlug(),
+            ]);
         }
 
         // If the CSRF token is invalid, redirect user
         if (!$this->isCsrfTokenValid('project_delete', $request->request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
-            return $this->redirectToRoute('project_view', ['slug' => $project->getSlug()]);
+            return $this->redirectToRoute('project_view', [
+                'id' => $project->getId(),
+                'slug' => $project->getSlug(),
+            ]);
         }
 
         $entityManager = $this->getDoctrine()->getManager();

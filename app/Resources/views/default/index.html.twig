@@ -47,7 +47,7 @@
                         <ul class="list-group">
                             {% for project in projects %}
                                 <li class="list-group-item {{ (not project.isValid) ? 'list-group-item-warning' }}">
-                                    <a href="{{ path('project_view', { 'slug': project.slug }) }}">{{ project.name }}</a>
+                                    <a href="{{ path('project_view', { 'id': project.id, 'slug': project.slug }) }}">{{ project.name }}</a>
                                     {{ project.administrators.contains(app.user) ? '(admin)' }}
                                 </li>
                             {% endfor %}

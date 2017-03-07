@@ -25,7 +25,7 @@
                     {% endif %}
 
                     {% if is_granted('PROJECT_EDIT', project) %}
-                        <a class="btn btn-warning" href="{{ path('project_edit', { 'slug': project.slug}) }}">
+                        <a class="btn btn-warning" href="{{ path('project_edit', { 'id': project.id, 'slug': project.slug}) }}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                         </a>
                     {% endif %}
