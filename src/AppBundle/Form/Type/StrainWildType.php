@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\BiologicalOriginCategory;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -37,6 +38,9 @@ class StrainWildType extends AbstractType
                         ->where('members = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                         ->orderBy('category.name', 'ASC');
+                },
+                'group_by' => function (BiologicalOriginCategory $category) {
+                    return $category->getTeam()->getName();
                 },
                 'choice_label' => 'name',
                 'placeholder' => '-- Choose a category --',
