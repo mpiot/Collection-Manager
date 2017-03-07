@@ -37,7 +37,7 @@ class TubeController extends Controller
 
         return $this->redirectToRoute('strain_view', [
             'id' => $tube->getStrain()->getId(),
-            'slug' => $tube->getStrain()->getSlug()
+            'slug' => $tube->getStrain()->getSlug(),
         ]);
     }
 
@@ -62,7 +62,7 @@ class TubeController extends Controller
 
         return $this->redirectToRoute('strain_view', [
             'id' => $tube->getStrain()->getId(),
-            'slug' => $tube->getStrain()->getSlug()
+            'slug' => $tube->getStrain()->getSlug(),
         ]);
     }
 }
