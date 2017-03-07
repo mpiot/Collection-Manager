@@ -302,7 +302,7 @@ class Team
 
         foreach ($this->members as $member) {
             foreach ($member->getProjects() as $project) {
-                if (!$this->projects->contains($project) && !in_array($project, $projects)) {
+                if (!$project->isPrivate() && !$this->projects->contains($project) && !in_array($project, $projects)) {
                     $projects[] = $project;
                 }
             }

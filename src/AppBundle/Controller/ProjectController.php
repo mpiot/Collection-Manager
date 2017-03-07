@@ -172,7 +172,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/{id]-{slug}/edit", name="project_edit")
+     * @Route("/{id}-{slug}/edit", name="project_edit")
      * @ParamConverter("project", options={"repository_method" = "findOneWithAdminsMembers"})
      * @Security("is_granted('PROJECT_EDIT', project)")
      */

@@ -39,6 +39,25 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
+    public function findOneWithMembersProjects($param)
+    {
+        $query = $this->createQueryBuilder('team')
+            ->leftJoin('team.administrators', 'administrators')
+            ->addSelect('administrators')
+            ->leftJoin('team.members', 'members')
+            ->addSelect('members')
+            ->leftJoin('members.projects', 'membersProjects')
+            ->addSelect('membersProjects')
+            ->leftJoin('team.projects', 'teamProjects')
+            ->addSelect('teamProjects')
+            ->where('team.slug = :slug')
+                ->setParameter('slug', $param['slug'])
+            ->andWhere('teamProjects.private = false')
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
     public function findAllForUser(User $user)
     {
         $query = $this->createQueryBuilder('team')
