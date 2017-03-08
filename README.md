@@ -24,36 +24,46 @@ These explanations are for install the project under Docker.
 The previous steps install nginx, PHP, MariaDb, Elasticsearch in docker containers.
     
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
-    ```
+    ```bash
     setfacl -R -m u:33:rwX -m u:`whoami`:rwX var/ web/uploads/
     setfacl -dR -m u:33:rwX -m u:`whoami`:rwX var/ web/uploads/
     ```
-Enter in the docker container `docker exec -it collection-manager-php bash` to execute commands:
-2. Install Vendors
+
+3. Next command, must be execute in the container, execute it to go in the PHP container:
+    ```bash
+    docker exec -it collection-manager-php bash
     ```
+    
+2. Install Vendors
+    ```bash
     composer install
     ```
+
     Answer to questions in console, all per default, just change secret, and reCaptcha
       * The secret is a 40 random string, you can generate key here: http://nux.net/secret
       * Get Google ReCaptcha keys here: https://www.google.com/recaptcha (Set the correct domaine name when you register)
 3. Generate the schema in the Database
-    ```
+    ```bash
     bin/console doctrine:schema:update --force
     ```
+
 4. Load DataFixtures (example data)
-    ```
+    ```bash
     bin/console doctrine:fixtures:load
     ```
+
 5. Populate Elasticsearch
-    ```
+    ```bash
     bin/console fos:elastica:populate
     ```
+
 6. Dump the Assets (CSS/JS)
-    ```
+    ```bash
     bin/console assetic:dump
     ```
+
 7. Clear the cache
-    ```
+    ```bash
     bin/console cache:clear
     ```
 
