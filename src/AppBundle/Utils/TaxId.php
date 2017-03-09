@@ -29,6 +29,7 @@ class TaxId
         // Retrieve the page content (xml code)
         if (!$xmlString = @file_get_contents(self::NCBI_TAXONOMY_API_LINK.$taxid)) {
             $response['error'] = 'An error occured';
+
             return $response;
         }
 
