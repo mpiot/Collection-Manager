@@ -10,18 +10,20 @@ it provides the management of:
 These explanations are for install the project under Docker.
 
 1. Install Docker and Docker compose on your computer (see the doc)
-2. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
+2. Get mpiot/symfony-docker
+3. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
     ```
     $ grep vm.max_map_count /etc/sysctl.conf
     vm.max_map_count=262144
     ```
     To apply the setting on a live system type: `sysctl -w vm.max_map_count=262144`
-3. `cp docker-compose.yml.dist docker-compose.yml`
-4. `docker-compose build`
-5. `docker-compose create`
-8. The first time, you need to use `docker-compose up -d` to create the Network and Volumes. Next, just use `docker-compose start`
+4. Set your params in the .env file (copy .env.dist to .env)
+5. `docker-compose build`
+6. `docker-compose up -d`
+7. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
+
  
-The previous steps install nginx, PHP, MariaDb, Elasticsearch in docker containers.
+Now you have containers with nginx, php, mariadb and elasticsearch, config the app to work with the containers, and init the app:
     
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
     ```bash
@@ -29,12 +31,12 @@ The previous steps install nginx, PHP, MariaDb, Elasticsearch in docker containe
     setfacl -dR -m u:33:rwX -m u:`whoami`:rwX var/ web/uploads/
     ```
 
-3. Next command, must be execute in the container, execute it to go in the PHP container:
+2. Next command, must be execute in the container, execute it to go in the PHP container:
     ```bash
     docker exec -it collection-manager-php bash
     ```
     
-2. Install Vendors
+3. Install Vendors
     ```bash
     composer install
     ```
@@ -42,27 +44,27 @@ The previous steps install nginx, PHP, MariaDb, Elasticsearch in docker containe
     Answer to questions in console, all per default, just change secret, and reCaptcha
       * The secret is a 40 random string, you can generate key here: http://nux.net/secret
       * Get Google ReCaptcha keys here: https://www.google.com/recaptcha (Set the correct domaine name when you register)
-3. Generate the schema in the Database
+4. Generate the schema in the Database
     ```bash
     bin/console doctrine:schema:update --force
     ```
 
-4. Load DataFixtures (example data)
+5. Load DataFixtures (example data)
     ```bash
     bin/console doctrine:fixtures:load
     ```
 
-5. Populate Elasticsearch
+6. Populate Elasticsearch
     ```bash
     bin/console fos:elastica:populate
     ```
 
-6. Dump the Assets (CSS/JS)
+7. Dump the Assets (CSS/JS)
     ```bash
     bin/console assetic:dump
     ```
 
-7. Clear the cache
+8. Clear the cache
     ```bash
     bin/console cache:clear
     ```
