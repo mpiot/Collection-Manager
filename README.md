@@ -6,7 +6,12 @@ it provides the management of:
 * Plasmids
 * Primers
 
-##How to install to develop the app (no adapted for production) ?
+### Summary
+1. How to install the project ?
+2. How to control your code syntax ?
+3. Follow the best practice
+
+## 1. How to install to develop the app (no adapted for production) ?
 These explanations are for install the project under Docker.
 
 1. Install Docker and Docker compose on your computer (see the doc)
@@ -70,3 +75,21 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
     ```
 
 Any files and folders created by PHP or in the container are root on the host machine. You have to do a chown command each time you want edit files (eg: with the bin/console doctrine:entity).
+
+## 2. Follow the best practice
+There is a **beautiful** guide about the best practice :) You can find it on the [Symfony Documentation - Best Practice](http://symfony.com/doc/current/best_practices/index.html).
+
+## 3. How to control your code syntax ?
+For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
+You can found some informations on [the synfony documentation page](http://symfony.com/doc/current/contributing/code/standards.html).
+
+There is a usefull program named php-cs-fixer, that permit you to control your code. You can install it by following [the program's documentation](https://github.com/FriendsOfPHP/PHP-CS-Fixer).
+
+Some usefull command:
+List files with mistakes
+
+    php-cs-fixer fix src --dry-run
+    
+View difference beetween your code and the corected code
+
+    cat src/file.php | php-cs-fixer fix --diff -
