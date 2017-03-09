@@ -23,14 +23,17 @@ class TaxId
 
     public function getArray(int $taxid)
     {
+        // Initialise the response
+        $response = [];
+
         // Retrieve the page content (xml code)
-        $xmlString = file_get_contents(self::NCBI_TAXONOMY_API_LINK.$taxid);
+        if (!$xmlString = @file_get_contents(self::NCBI_TAXONOMY_API_LINK.$taxid)) {
+            $response['error'] = 'An error occured';
+            return $response;
+        }
 
         // Create a crawler and give the xml code to it
         $crawler = new Crawler($xmlString);
-
-        // Initialise the response
-        $response = [];
 
         // Count the number of taxon tag, if different of 0 there are contents, else the document is empty, it's because the Taxon Id doesn't exists
         if (0 !== $crawler->filterXPath('//TaxaSet/Taxon')->count()) {
