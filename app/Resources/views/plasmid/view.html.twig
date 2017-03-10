@@ -154,7 +154,7 @@
                             <td>{{ loop.index }}</td>
                             <td><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.autoName }}</a></td>
                             <td>{{ primer.name }}</td>
-                            <td>{{ primer.formatedSequenceWithExtensions|raw }}</td>
+                            <td><span class="five-prime-extension">{{ primer.fivePrimeExtension }}</span>{{ primer.sequence }}</td>
                         </tr>
                     {% endfor %}
                 {% else %}
