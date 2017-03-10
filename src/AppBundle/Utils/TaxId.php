@@ -26,11 +26,21 @@ class TaxId
         // Initialise the response
         $response = [];
 
-        // Retrieve the page content (xml code)
-        if (!$xmlString = @file_get_contents(self::NCBI_TAXONOMY_API_LINK.$taxid)) {
-            $response['error'] = 'An error occured';
+        // Check the URL, and get the file
+        $url = self::NCBI_TAXONOMY_API_LINK.$taxid;
+        $headers = get_headers($url);
+        // If the header have more than 10 keys, that mean we are behind a proxy
+        if (count($headers) === 10) {
+            $statusCode = substr($headers[0], 9, 3);
+        } else {
+            $statusCode = substr($headers[11], 9, 3);
+        }
 
+        if ($statusCode != "200"){
+            $response['error'] = 'The page return a not 200 status code (Status: '.$statusCode.' error)';
             return $response;
+        } else{
+            $xmlString = file_get_contents($url);
         }
 
         // Create a crawler and give the xml code to it
