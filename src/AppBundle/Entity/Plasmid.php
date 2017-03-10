@@ -5,8 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Plasmid.
@@ -286,7 +286,9 @@ class Plasmid
      */
     public function addPrimer(Primer $primer)
     {
-        $this->primers->add($primer);
+        if (!$this->primers->contains($primer)) {
+            $this->primers->add($primer);
+        }
     }
 
     /**
@@ -296,7 +298,9 @@ class Plasmid
      */
     public function removePrimer(Primer $primer)
     {
-        $this->primers->removeElement($primer);
+        if ($this->primers->contains($primer)) {
+            $this->primers->removeElement($primer);
+        }
     }
 
     /**
