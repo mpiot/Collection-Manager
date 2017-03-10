@@ -36,10 +36,11 @@ class TaxId
             $statusCode = substr($headers[11], 9, 3);
         }
 
-        if ($statusCode != "200"){
+        if ($statusCode != '200') {
             $response['error'] = 'The page return a not 200 status code (Status: '.$statusCode.' error)';
+
             return $response;
-        } else{
+        } else {
             $xmlString = file_get_contents($url);
         }
 
