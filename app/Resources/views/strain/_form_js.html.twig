@@ -1,9 +1,16 @@
 <script>
     $( function() {
-        handleForm($('select[name="strain_gmo[type]"], select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
-        handleForm($('select[name="strain_gmo[biologicalOriginCategory]"], select[name="strain_wild[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
+        collectionType($('div#strain_gmo_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
         charMap($('#strain_gmo_name, #strain_wild_name'));
-        charMap($('#strain_gmo_genotype'));
+        handleForm($('select[name="strain_gmo[type]"], select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
+
+        {% if 'gmo' == strain.discriminator %}
+            collectionType($('div#strain_gmo_parents'), 'Add a plasmid');
+            collectionType($('div#strain_gmo_strainPlasmids'), 'Add a parent');
+            charMap($('#strain_gmo_genotype'));
+        {% elseif 'wild' == strain.discriminator %}
+            handleForm($('select[name="strain_gmo[biologicalOriginCategory]"], select[name="strain_wild[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
+        {% endif %}
     } );
 </script>
 

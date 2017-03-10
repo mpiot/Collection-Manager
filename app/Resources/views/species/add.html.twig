@@ -26,6 +26,8 @@
     {{ parent() }}
 
     <script>
+        collectionType($('div#species_synonyms'), 'Add a synonym', 'add_synonym');
+
         $(document).ready(function() {
             // Set the taxid div
             var taxidDiv = $('#species_taxId').closest(".form-group");
@@ -52,7 +54,7 @@
                     url = url.replace('taxid-change', taxid);
 
                     $.ajax({
-                        url: url,
+                        url: Routing.generate('species_getjson', { taxid: taxid }),
                         dataType: 'json',
                         beforeSend: function () {
                             // Replace the button by a loader
@@ -85,7 +87,7 @@
             function populate(data) {
                 // A while on each value of the json
                 $.each(data, function(key, value){
-                    // If this is a lineages or synonymes array, create fields before
+                    // If this is a synonyms array, create fields before
                     if (key == 'synonyms') {
                         // Create fields
                         for(i = 0; i < value.length; i++) {

@@ -18,3 +18,11 @@
         <input type="submit" class="btn btn-default pull-right" value="Edit"/>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        collectionType($('div#species_synonyms'), 'Add a synonym');
+    </script>
+{% endblock %}

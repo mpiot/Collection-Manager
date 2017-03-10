@@ -243,7 +243,12 @@ class SpeciesController extends Controller
      *
      * @return JsonResponse
      *
-     * @Route("/json/{taxid}", name="species_getjson", condition="request.isXmlHttpRequest()")
+     * @Route(
+     *     "/json/{taxid}",
+     *     options={"expose"=true},
+     *     condition="request.isXmlHttpRequest()",
+     *     name="species_getjson"
+     * )
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function getJsonAction($taxid)
