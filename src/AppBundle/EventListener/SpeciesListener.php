@@ -16,12 +16,12 @@ class SpeciesListener
             return;
         }
 
-        // Get the genus
         $genus = $entity->getGenus();
 
-        // If genus doen't have children, delete the genus
-        if ($genus->getSpecies()->isEmpty()) {
-            $em = $args->getEntityManager();
+        $em = $args->getEntityManager();
+        $speciesList = $em->getRepository('AppBundle:Species')->findByGenus($genus->getId());
+
+        if (0 === count($speciesList)) {
             $em->remove($genus);
         }
     }

@@ -71,7 +71,7 @@ class Species
     private $mainSpecies;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="mainSpecies", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Species", mappedBy="mainSpecies", cascade={"persist"}, orphanRemoval=true)
      * @Assert\Valid
      */
     private $synonyms;
