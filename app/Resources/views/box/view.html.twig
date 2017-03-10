@@ -105,15 +105,21 @@
                         <th>Auto Name</th>
                     </tr>
 
-                    {% for tube in box.tubes %}
+                    {% if box.tubes is not empty %}
+                        {% for tube in box.tubes %}
+                            <tr>
+                                <td>{{ tube.cellName }}</td>
+                                <td>{{ tube.strain.name }}</td>
+                                <td>
+                                    <a href="{{ path('strain_view', { 'id': tube.strain.id, 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
                         <tr>
-                            <td>{{ tube.cellName }}</td>
-                            <td>{{ tube.strain.name }}</td>
-                            <td>
-                                <a href="{{ path('strain_view', { 'id': tube.strain.id, 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
-                            </td>
+                            <td colspan="3" class="text-center">There is no tube.</td>
                         </tr>
-                    {% endfor %}
+                    {% endif %}
                 </table>
             </div>
         </div>
