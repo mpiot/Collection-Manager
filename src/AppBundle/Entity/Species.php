@@ -214,6 +214,19 @@ class Species
      */
     public function addSynonym(Species $species)
     {
+        // A synonym can't have the same name than the main Species
+        if ($this->getScientificName() === $species->getScientificName()) {
+            return $this;
+        }
+
+        foreach ($this->synonyms as $synonym) {
+            // We don't want many identical synonyms
+            if ($synonym->getScientificName() === $species->getScientificName()) {
+                return $this;
+            }
+        }
+
+        // If the synonyme is unique and not the same than main, add it
         $species->setMainSpecies($this);
         $this->synonyms->add($species);
 
@@ -229,7 +242,9 @@ class Species
      */
     public function removeSynonym(Species $species)
     {
-        $this->synonyms->removeElement($species);
+        if ($this->synonyms->contains($species)) {
+            $this->synonyms->removeElement($species);
+        }
 
         return $this;
     }
