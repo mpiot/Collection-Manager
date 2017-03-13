@@ -18,7 +18,6 @@ use AppBundle\Utils\PlasmidGenBank;
  * Class plasmidController.
  *
  * @Route("/plasmid")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class PlasmidController extends Controller
 {
@@ -27,7 +26,7 @@ class PlasmidController extends Controller
      *     options={"expose"=true},
      *     name="plasmid_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
     {
@@ -46,7 +45,7 @@ class PlasmidController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="plasmid_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)
     {

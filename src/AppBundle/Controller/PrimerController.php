@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Class primerController.
  *
  * @Route("/primer")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class PrimerController extends Controller
 {
@@ -25,7 +24,7 @@ class PrimerController extends Controller
      *     options={"expose"=true},
      *     name="primer_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
     {
@@ -44,7 +43,7 @@ class PrimerController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="primer_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)
     {

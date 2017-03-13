@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Class typeController.
  *
  * @Route("/categories")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class BiologicalOriginCategoryController extends Controller
 {
@@ -27,7 +26,7 @@ class BiologicalOriginCategoryController extends Controller
      *     options={"expose"=true},
      *     name="category_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
     {
@@ -46,7 +45,7 @@ class BiologicalOriginCategoryController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="category_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)
     {

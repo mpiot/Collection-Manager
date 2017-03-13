@@ -37,7 +37,11 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         My projects
-                            <a class="pull-right" href="{{ path('project_add') }}">{{ app.user.isTeamAdministrator() ? 'Create a new project' : 'Suggest a new project' }}</a>
+                        {% if app.user.isInTeam() %}
+                            <a class="pull-right" href="{{ path('project_add') }}">
+                                {{ app.user.isTeamAdministrator() ? 'Create a new project' : 'Suggest a new project' }}
+                            </a>
+                        {% endif %}
                     </div>
                     {% if projects is empty %}
                         <div class="panel-body">

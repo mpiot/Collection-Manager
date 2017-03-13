@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Class SpeciesController.
  *
  * @Route("/species")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class SpeciesController extends Controller
 {
@@ -29,7 +28,6 @@ class SpeciesController extends Controller
      *     options={"expose"=true},
      *     name="species_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction(Request $request)
     {
@@ -48,7 +46,6 @@ class SpeciesController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="species_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function listAction(Request $request)
     {
@@ -73,7 +70,6 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/add", name="species_add")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function addAction(Request $request)
     {
@@ -164,7 +160,6 @@ class SpeciesController extends Controller
     /**
      * @Route("/{slug}", name="species_view")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenusAndSynonyms"})
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function viewAction(Species $species)
     {

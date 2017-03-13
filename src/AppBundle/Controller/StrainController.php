@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
  * Class StrainController.
  *
  * @Route("/strain")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class StrainController extends Controller
 {
@@ -28,7 +27,7 @@ class StrainController extends Controller
      *     options={"expose"=true},
      *     name="strain_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
     {
@@ -48,7 +47,7 @@ class StrainController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="strain_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)
     {
@@ -77,6 +76,7 @@ class StrainController extends Controller
      * @Route("/add/gmo", name="strain_add_gmo")
      * @Route("/add/gmo/{id}-{slug}", name="strain_add_gmo_from_model", requirements={"id": "\d+"})
      * @Route("/add/wild", name="strain_add_wild")
+     * @Security("user.isInTeam()")
      */
     public function addAction(Request $request, Strain $strainModel = null)
     {
@@ -220,7 +220,6 @@ class StrainController extends Controller
     /**
      * @Route("/{id}/parents", name="strain_parents", requirements={"id": "\d+"})
      * @Route("/{id}/children", name="strain_children", requirements={"id": "\d+"})
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function parentalStrainsAction(Strain $strain, Request $request)
     {
@@ -267,7 +266,6 @@ class StrainController extends Controller
 
     /**
      * @Route("/name-suggest/{keyword}", name="strain-name-suggest", options={"expose"=true}, condition="request.isXmlHttpRequest()")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function nameSuggestAction($keyword)
     {

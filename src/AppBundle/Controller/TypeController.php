@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Class typeController.
  *
  * @Route("/type")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class TypeController extends Controller
 {
@@ -27,7 +26,7 @@ class TypeController extends Controller
      *     options={"expose"=true},
      *     name="type_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
     {
@@ -46,7 +45,7 @@ class TypeController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="type_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)
     {

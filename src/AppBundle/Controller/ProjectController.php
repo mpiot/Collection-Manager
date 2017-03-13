@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Class ProjectController.
  *
  * @Route("/project")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class ProjectController extends Controller
 {
@@ -25,7 +24,6 @@ class ProjectController extends Controller
      *     options={"expose"=true},
      *     name="project_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction(Request $request)
     {
@@ -44,7 +42,6 @@ class ProjectController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="project_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function listAction(Request $request)
     {
@@ -69,7 +66,7 @@ class ProjectController extends Controller
 
     /**
      * @Route("/add", name="project_add")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("user.isInTeam()")
      */
     public function addAction(Request $request)
     {

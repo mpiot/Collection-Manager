@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Class BoxController.
  *
  * @Route("/box")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class BoxController extends Controller
 {
@@ -28,7 +27,6 @@ class BoxController extends Controller
      *     options={"expose"=true},
      *     name="box_index"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction(Request $request)
     {
@@ -48,7 +46,6 @@ class BoxController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="box_index_ajax"
      * )
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function listAction(Request $request)
     {
