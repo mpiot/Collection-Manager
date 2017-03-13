@@ -27,7 +27,7 @@ class StrainController extends Controller
      *     options={"expose"=true},
      *     name="strain_index"
      * )
-     * @Security("user.isInTeam()")
+     * @Security("user.isProjectMember()")
      */
     public function indexAction(Request $request)
     {
@@ -47,7 +47,7 @@ class StrainController extends Controller
      *     condition="request.isXmlHttpRequest()",
      *     name="strain_index_ajax"
      * )
-     * @Security("user.isInTeam()")
+     * @Security("user.isProjectMember()")
      */
     public function listAction(Request $request)
     {

@@ -10,7 +10,7 @@
     <li><a href="{{ path('box_index') }}">Boxes</a></li>
 </ul>
 
-{% if app.user.isInTeam %}
+{% if app.user.isProjectMember %}
     <ul class="nav nav-sidebar">
         <li><a href="{{ path('strain_index') }}">Strains</a></li>
     </ul>
