@@ -183,7 +183,7 @@ class ProjectController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash('success', 'The project has been edited unsuccessfully.');
+            $this->addFlash('success', 'The project has been edited successfully.');
 
             return $this->redirectToRoute('project_view', [
                 'id' => $project->getId(),
