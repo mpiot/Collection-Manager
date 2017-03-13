@@ -50,14 +50,14 @@ services:
             - { name: form.type }
 
     app.form_type.tube:
-        class: AppBundle\Form\Type\TubeType
+        class: AppBundle\Form\Type\StrainTubeType
         arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
         tags:
             - { name: form.type }
 
     app.form_type.strain:
         class: AppBundle\Form\Type\StrainType
-        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
+        arguments: ["@security.token_storage"]
         tags:
             - { name: form.type }
 
@@ -70,6 +70,12 @@ services:
     app.form_type.wildStrain:
         class: AppBundle\Form\Type\StrainWildType
         arguments: ["@security.token_storage"]
+        tags:
+            - { name: form.type }
+
+    app.form_type.strainSpecies:
+        class: AppBundle\Form\Type\StrainSpeciesType
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
 

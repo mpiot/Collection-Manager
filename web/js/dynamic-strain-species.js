@@ -1,9 +1,8 @@
 $(document).ready(function() {
     // Transmit Type and Species, because it correct a bug. The FormType bug if Type isn't send.
     var $type = $('[name$="[type]"]');
-    var $species = $('[name$="[species]"]');
-
-    var $genus = $('[name$="[genus]"]');
+    var $genus = $('[name$="[species][genus]"]');
+    var $species = $('[name$="[species][name]"]');
 
     // When genus gets selected ...
     $genus.change(function () {
@@ -22,9 +21,9 @@ $(document).ready(function() {
             data: data,
             success: function (html) {
                 // Replace current position field ...
-                $('[name$="[species]"]').replaceWith(
+                $('[name$="[species][name]"]').replaceWith(
                     // ... with the returned one from the AJAX response.
-                    $(html).find('[name$="[species]"]')
+                    $(html).find('[name$="[species][name]"]')
                 );
                 // Position field now displays the appropriate positions.
             }

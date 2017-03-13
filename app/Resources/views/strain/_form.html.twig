@@ -8,8 +8,8 @@
 
     <fieldset>
         <legend>General informations</legend>
-        {{ form_row(form.genus) }}
-        {{ form_row(form.species) }}
+        {{ form_row(form.species.genus) }}
+        {{ form_row(form.species.name) }}
 
         <div class="form-group">
             {{ form_label(form.type) }}
