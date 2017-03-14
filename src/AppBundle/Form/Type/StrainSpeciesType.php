@@ -69,7 +69,7 @@ class StrainSpeciesType extends AbstractType
             'data' => $genus,
         ]);
 
-        $form->add('name', EntityType::class, [
+        $form->add('species', EntityType::class, [
             'class' => 'AppBundle\Entity\Species',
             'query_builder' => function (EntityRepository $er) use ($genus) {
                 return $er->createQueryBuilder('species')
@@ -89,7 +89,8 @@ class StrainSpeciesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Species',
+            //'data_class' => 'AppBundle\Entity\Species',
+            'inherit_data' => true,
         ]);
     }
 }

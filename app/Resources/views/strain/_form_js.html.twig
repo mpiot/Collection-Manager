@@ -1,17 +1,70 @@
 <script>
     $( function() {
-        charMap($('#strain_gmo_name, #strain_wild_name'));
         handleForm($('select[name="strain_gmo[type]"], select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
 
         {% if 'gmo' == strain.discriminator %}
             collectionType($('div#strain_gmo_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
-            collectionType($('div#strain_gmo_parents'), 'Add a plasmid');
-            collectionType($('div#strain_gmo_strainPlasmids'), 'Add a parent');
+            collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid');
+            collectionType($('div#strain_gmo_parents'), 'Add a parent');
+            charMap($('#strain_gmo_name'));
             charMap($('#strain_gmo_genotype'));
         {% elseif 'wild' == strain.discriminator %}
             collectionType($('div#strain_wild_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
             handleForm($('select[name="strain_gmo[biologicalOriginCategory]"], select[name="strain_wild[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
+            charMap($('#strain_wild_name'));
         {% endif %}
+
+        strainFormLoad();
+        function strainFormLoad() {
+            var $team = $('[name$="[team]"]');
+
+            // When genus gets selected ...
+            $team.change(function () {
+                // ... retrieve the corresponding form.
+                var $form = $(this).closest('form');
+                // Simulate form data, but only include the selected genus value.
+                var data = {};
+                data[$team.attr('name')] = $team.val();
+
+                // Submit data via AJAX to the form's action path.
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: $form.attr('method'),
+                    data: data,
+                    success: function (html) {
+                        // Replace current position field ...
+                        $('select[name$="[type]"]').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('select[name$="[type]"]')
+                        );
+                        $('select[name$="[biologicalOriginCategory]"]').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('select[name$="[biologicalOriginCategory]"]')
+                        );
+                        $('div#strain_gmo_tubes, div#strain_wild_tubes').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('div#strain_gmo_tubes, div#strain_wild_tubes')
+
+                        );
+                        $('div#strain_gmo_strainPlasmids').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('div#strain_gmo_strainPlasmids')
+
+                        );
+                        $('div#strain_gmo_parents').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(html).find('#strain_gmo_parents')
+                        );
+
+                        collectionType($('div#strain_gmo_tubes, div#strain_wild_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
+                        collectionType($('div#strain_gmo_parents'), 'Add a parent');
+                        collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid');
+
+                        strainFormLoad();
+                    }
+                });
+            });
+        }
     } );
 </script>
 

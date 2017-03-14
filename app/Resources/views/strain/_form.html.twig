@@ -6,10 +6,13 @@
         </p>
     </div>
 
+    {% if form.team is defined %}
+        {{ form_row(form.team) }}
+    {% endif %}
+
     <fieldset>
         <legend>General informations</legend>
-        {{ form_row(form.species.genus) }}
-        {{ form_row(form.species.name) }}
+        {{ form_row(form.species) }}
 
         <div class="form-group">
             {{ form_label(form.type) }}

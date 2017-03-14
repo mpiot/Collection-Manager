@@ -52,7 +52,7 @@ class StrainTubeType extends AbstractType
         }
 
         // Add forms
-        $this->addProjectForm($form);
+        $this->addProjectForm($form, $form->getConfig()->getOptions());
         $this->addBoxForm($form, $project);
         $this->addCellForm($form, $box, $cell);
     }
@@ -75,25 +75,22 @@ class StrainTubeType extends AbstractType
             }
         }
 
-        $this->addProjectForm($form);
+        $this->addProjectForm($form, $form->getConfig()->getOptions());
         $this->addBoxForm($form, $project);
         $this->addCellForm($form, $box, $cell);
     }
 
-    protected function addProjectForm(FormInterface $form)
+    protected function addProjectForm(FormInterface $form, $options)
     {
         $form->add('project', EntityType::class, [
             'class' => 'AppBundle\Entity\Project',
-            'query_builder' => function (EntityRepository $pr) {
+            'query_builder' => function (EntityRepository $pr) use ($options) {
                 return $pr->createQueryBuilder('project')
-                    ->leftJoin('project.members', 'members')
-                    ->where('members = :user')
-                    ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                    ->leftJoin('project.team', 'team')
+                    ->where('team = :team')
+                    ->setParameter('team', $options['parent_data'])
                     ->andWhere('project.valid = true')
                     ->orderBy('project.name', 'ASC');
-            },
-            'group_by' => function (Project $project) {
-                return $project->getTeam()->getName();
             },
             'choice_label' => 'name',
             'placeholder' => '-- select a project --',
@@ -134,5 +131,7 @@ class StrainTubeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Tube',
         ]);
+
+        $resolver->setRequired(array('parent_data'));
     }
 }

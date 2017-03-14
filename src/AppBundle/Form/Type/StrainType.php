@@ -4,6 +4,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Genus;
 use AppBundle\Entity\Type;
+use AppBundle\Form\EventListener\StrainSubscriber;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -32,25 +33,34 @@ class StrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('species', StrainSpeciesType::class)
-            ->add('type', EntityType::class, [
-                'class' => 'AppBundle\Entity\Type',
+            ->add('team', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('types')
-                        ->leftJoin('types.team', 'team')
+                    return $er->createQueryBuilder('team')
                         ->leftJoin('team.members', 'members')
+                        ->leftJoin('team.projects', 'projects')
+                        ->leftJoin('projects.members', 'project_members')
                         ->where('members = :user')
-                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('types.name', 'ASC');
+                        ->orWhere('project_members = :user')
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'group_by' => function (Type $type) {
-                    return $type->getTeam()->getName();
-                },
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
                 'choice_label' => 'name',
-                'placeholder' => '-- select a type --',
-                'attr' => [
-                    'data-help' => 'Which type of organism is it ?',
-                ],
+                'placeholder' => '-- select a team --',
+                'mapped' => false,
+            ])
+            ->add('species', EntityType::class, [
+                'class' => 'AppBundle\Entity\Species',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('species')
+                        ->leftJoin('species.genus', 'genus')
+                        ->addSelect('genus')
+                        ->orderBy('genus.name', 'ASC')
+                        ->addOrderBy('species.name', 'ASC');
+                },
+                'placeholder' => '-- select a species --',
+                'choice_label' => 'scientificName',
+                'label' => 'Species',
             ])
             ->add('name', TextType::class, [
                 'attr' => [
@@ -60,13 +70,70 @@ class StrainType extends AbstractType
             ])
             ->add('comment')
             ->add('sequenced')
-            ->add('deleted')
-            ->add('tubes', CollectionType::class, [
+            ->add('deleted');
+
+        $formModifier = function (FormInterface $form, $team = null) {
+            $form->add('type', EntityType::class, [
+                'class' => 'AppBundle\Entity\Type',
+                'query_builder' => function (EntityRepository $er) use ($team) {
+                    return $er->createQueryBuilder('types')
+                        ->leftJoin('types.team', 'team')
+                        ->where('team = :team')
+                        ->setParameter('team', $team)
+                        ->orderBy('types.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'placeholder' => '-- select a type --',
+                'attr' => [
+                    'data-help' => 'Which type of organism is it ?',
+                ],
+            ]);
+
+            $form->add('tubes', CollectionType::class, [
                 'entry_type' => StrainTubeType::class,
+                'entry_options' => [
+                    'parent_data' => $team,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 // Use add and remove properties in the entity
                 'by_reference' => false,
             ]);
+        };
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $form = $event->getForm();
+                $strain = $event->getData();
+
+                // If it's a new strain, the default team is the FavoriteTeam of the user
+                // else, we retrieve the team from the type
+                if (null === $strain->getId()) {
+                    $team = $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+                } else {
+                    // We set the team
+                    $team = $strain->getType()->getTeam();
+
+                    //And, we remove the team field
+                    $form->remove('team');
+                }
+
+                $formModifier($form, $team);
+            }
+        );
+
+        $builder->get('team')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                // It's important here to fetch $event->getForm()->getData(), as
+                // $event->getData() will get you the client data (that is, the ID)
+                $team = $event->getForm()->getData();
+
+                // since we've added the listener to the child, we'll have to pass on
+                // the parent to the callback functions!
+                $formModifier($event->getForm()->getParent(), $team);
+            }
+        );
     }
 }
