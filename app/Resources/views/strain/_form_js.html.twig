@@ -2,14 +2,10 @@
     $( function() {
         handleForm($('select[name="strain_gmo[type]"], select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
 
-        $('#strain_gmo_species').select2({
-            theme: "bootstrap"
-        });
-
         {% if 'gmo' == strain.discriminator %}
-            collectionType($('div#strain_gmo_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
-            collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid');
-            collectionType($('div#strain_gmo_parents'), 'Add a parent');
+            collectionType($('div#strain_gmo_tubes'), 'Add a tube', null, true, false,[onProjectChange, onBoxChange]);
+            collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid', 'add-plasmid');
+            collectionType($('div#strain_gmo_parents'), 'Add a parent', 'add-parent');
             charMap($('#strain_gmo_name'));
             charMap($('#strain_gmo_genotype'));
         {% elseif 'wild' == strain.discriminator %}
@@ -69,6 +65,16 @@
                 });
             });
         }
+
+        $('#strain_gmo_species').select2();
+        $('[id^="strain_gmo_strainPlasmids_"][id$="plasmid"]').select2();
+        $('#add-plasmid').click(function() {
+            $('[id^="strain_gmo_strainPlasmids_"][id$="plasmid"]').select2();
+        });
+        $('[id^="strain_gmo_parents_"]').select2();
+        $('#add-parent').click(function() {
+            $('[id^="strain_gmo_parents_"]').select2();
+        });
     } );
 </script>
 
