@@ -53,21 +53,6 @@ class ProjectType extends AbstractType
                     'data-help' => 'If private only members can see the project presentation page.',
                 ],
             ])
-            ->add('team_filter', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->orderBy('team.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'mapped' => false,
-                'required' => false,
-                'placeholder' => 'All teams',
-                'attr' => [
-                    'data-filter-name' => 'team-filter',
-                    'data-help' => 'Use this list to filter Administrators and Members checkboxes.',
-                ],
-            ])
             ->add('administrators', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
@@ -131,6 +116,23 @@ class ProjectType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'multiple' => false,
+                'data' => $defaultTeam,
+            ]);
+
+            $form->add('team_filter', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('team')
+                        ->orderBy('team.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'mapped' => false,
+                'required' => false,
+                'placeholder' => 'Users without team',
+                'attr' => [
+                    'data-filter-name' => 'team-filter',
+                    'data-help' => 'Use this list to filter Administrators and Members checkboxes.',
+                ],
                 'data' => $defaultTeam,
             ]);
         });
