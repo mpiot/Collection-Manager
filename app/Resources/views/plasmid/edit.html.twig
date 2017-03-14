@@ -21,7 +21,12 @@
     <script>
         $( function() {
             charMap($('#plasmid_edit_name'));
-            collectionType($('div#plasmid_edit_primers'), 'Add a primer');
+            collectionType($('div#plasmid_edit_primers'), 'Add a primer', 'add-primer');
+
+            $('[id^="plasmid_edit_primers_"]').select2();
+            $('#add-primer').click(function() {
+                $('[id^="plasmid_edit_primers_"]').select2();
+            });
         } );
     </script>
 {% endblock %}

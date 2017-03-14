@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
@@ -55,47 +56,70 @@ class PlasmidType extends AbstractType
             ->add('genBankFile', GenBankFileType::class, [
                 'required' => false,
             ])
-            ->add('primers', CollectionType::class, [
+        ;
+
+        $formModifier = function (FormInterface $form, $team = null) {
+            $form->add('primers', CollectionType::class, [
                 'entry_type' => EntityType::class,
                 'entry_options' => [
                     'class' => 'AppBundle\Entity\Primer',
                     'placeholder' => '-- select a primer --',
-                    'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) use ($team) {
                         return $er->createQueryBuilder('primer')
                             ->leftJoin('primer.team', 'team')
-                            ->leftJoin('team.members', 'members')
-                            ->where('members = :user')
-                                ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                            ->where('team = :team')
+                            ->setParameter('team', $team)
                             ->orderBy('primer.name', 'ASC');
                     },
                     'choice_label' => function (Primer $primer) {
                         return $primer->getAutoName().' - '.$primer->getName();
-                    },
-                    'group_by' => function (Primer $primer) {
-                        return $primer->getTeam()->getName();
                     },
                 ],
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'required' => false,
-            ])
-        ;
+            ]);
+        };
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            function (FormEvent $event) use ($formModifier) {
                 $plasmid = $event->getData();
+                $form = $event->getForm();
 
-                if (null === $plasmid) {
-                    return;
-                }
-
-                if (null !== $plasmid->getGenBankFile()) {
+                if (null !== $plasmid && null !== $plasmid->getGenBankFile()) {
                     if (null !== $plasmid->getGenBankFile()->getPath()) {
                         $plasmid->setAddGenBankFile(true);
                     }
                 }
+
+                // If it's a new plasmid, the default team is the FavoriteTeam of the user
+                // else, we retrieve the team from the type
+                if (null === $plasmid->getId()) {
+                    $team = $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+                } else {
+                    // We set the team
+                    $team = $plasmid->getTeam();
+
+                    //And, we remove the team field
+                    $form->remove('team');
+                }
+
+                $formModifier($form, $team);
+            }
+        );
+
+        $builder->get('team')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                // It's important here to fetch $event->getForm()->getData(), as
+                // $event->getData() will get you the client data (that is, the ID)
+                $team = $event->getForm()->getData();
+
+                // since we've added the listener to the child, we'll have to pass on
+                // the parent to the callback functions!
+                $formModifier($event->getForm()->getParent(), $team);
             }
         );
     }
