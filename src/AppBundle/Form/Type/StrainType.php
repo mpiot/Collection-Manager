@@ -4,8 +4,6 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Genus;
 use AppBundle\Entity\Type;
-use AppBundle\Form\EventListener\StrainSubscriber;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
