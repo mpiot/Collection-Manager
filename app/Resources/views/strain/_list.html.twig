@@ -5,6 +5,7 @@
             <tr>
                 <th class="col-md-1">#</th>
                 <th class="col-md-10">Name</th>
+                <th class="col-md-1">GMO/Wild</th>
                 <th class="col-md-1">Auto name</th>
             </tr>
             <tbody>
@@ -13,6 +14,9 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ strain.name }}</td>
+                        <td>
+                            {{ 'gmo' == strain.discriminator ? 'GMO' : 'Wild'  }}
+                        </td>
                         <td><a href="{{ path('strain_view', { 'id': strain.id, 'slug': strain.slug }) }}">{{ strain.autoName }}</a></td>
                     </tr>
                 {% endfor %}
