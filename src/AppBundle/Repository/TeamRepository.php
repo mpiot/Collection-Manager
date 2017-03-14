@@ -43,16 +43,16 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->createQueryBuilder('team')
             ->leftJoin('team.administrators', 'administrators')
-            ->addSelect('administrators')
+                ->addSelect('administrators')
             ->leftJoin('team.members', 'members')
-            ->addSelect('members')
+                ->addSelect('members')
             ->leftJoin('members.projects', 'membersProjects')
-            ->addSelect('membersProjects')
+                ->addSelect('membersProjects')
             ->leftJoin('team.projects', 'teamProjects')
-            ->addSelect('teamProjects')
+                ->addSelect('teamProjects')
+                ->where('teamProjects.private = false')
             ->where('team.slug = :slug')
                 ->setParameter('slug', $param['slug'])
-            ->andWhere('teamProjects.private = false')
             ->getQuery();
 
         return $query->getOneOrNullResult();

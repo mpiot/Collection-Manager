@@ -68,7 +68,7 @@ class TeamController extends Controller
             if ($form->get('saveAndAdd')->isClicked()) {
                 return $this->redirectToRoute('team_add');
             } else {
-                return $this->redirectToRoute('team_view', ['id' => $team->getId()]);
+                return $this->redirectToRoute('team_view', ['slug' => $team->getSlug()]);
             }
         }
 
