@@ -1,4 +1,16 @@
-function collectionType(container, buttonText, buttonId = null, fieldStart = false, functions = []) {
+function collectionType(container, buttonText, buttonId, fieldStart, functions) {
+    if (buttonId === undefined) {
+        buttonId = null;
+    }
+
+    if (fieldStart === undefined) {
+        fieldStart = false;
+    }
+
+    if (functions === undefined) {
+        functions = [];
+    }
+
     // Delete the first label (the number of the field), and the required class
     container.children('div').find('label:first').text('');
     container.children('div').find('label:first').removeClass('required');
