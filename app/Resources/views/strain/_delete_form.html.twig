@@ -1,5 +1,5 @@
 {{ include('strain/_delete_confirmation.html.twig') }}
-<form action="{{ url('strain_delete', { 'id': strain.id, 'slug': strain.slug }) }}" method="post" data-confirmation="true">
+<form action="{{ path('strain_delete', { 'id': strain.id, 'slug': strain.slug }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('strain_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
         {% block btn %}

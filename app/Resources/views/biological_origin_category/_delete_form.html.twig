@@ -1,5 +1,5 @@
 {{ include('biological_origin_category/_delete_confirmation.html.twig') }}
-<form action="{{ url('category_delete', { id: category.id }) }}" method="post" data-confirmation="true">
+<form action="{{ path('category_delete', { id: category.id }) }}" method="post" data-confirmation="true">
     <input type="hidden" name="token" value="{{ csrf_token('biological_origin_category_delete') }}" />
     <div class="btn-group btn-group-xs" role="group">
         {% block btn %}
