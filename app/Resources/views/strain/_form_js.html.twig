@@ -2,6 +2,10 @@
     $( function() {
         handleForm($('select[name="strain_gmo[type]"], select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
 
+        $('#strain_gmo_species').select2({
+            theme: "bootstrap"
+        });
+
         {% if 'gmo' == strain.discriminator %}
             collectionType($('div#strain_gmo_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
             collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid');
