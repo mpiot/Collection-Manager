@@ -28,21 +28,31 @@ class TaxId
 
         // Check the URL, and get the file
         $url = self::NCBI_TAXONOMY_API_LINK.$taxid;
+
+        // Get the header array
         $headers = get_headers($url);
-        // If the header have more than 10 keys, that mean we are behind a proxy
-        if (count($headers) === 10) {
-            $statusCode = substr($headers[0], 9, 3);
-        } else {
-            $statusCode = substr($headers[11], 9, 3);
+
+        // Parse the header array to get the last HTTP status code
+        $statusCode = NULL;
+        foreach (array_reverse($headers) as $header) {
+            if ('HTTP/' === substr($header, 0, 5)) {
+                $httpStatus = explode(' ', $header, 3);
+                $statusCode = (int)$httpStatus[1];
+                break;
+            }
         }
 
-        if ($statusCode != '200') {
-            $response['error'] = 'The page return a not 200 status code (Status: '.$statusCode.' error)';
-
-            return $response;
-        } else {
-            $xmlString = file_get_contents($url);
+        // Check the status value
+        if (is_null($statusCode)) {
+          $response['error'] = 'No answer retrieved from the NCBI API';
+          return($response);
+        } elseif ($statusCode != 200) {
+          $response['error'] = 'The NCBI API returns a non-200 response (Status: '.(string)$statusCode.' error)';
+          return($response);
         }
+
+        // HTTP status is 200, get the page content
+        $xmlString = file_get_contents($url);
 
         // Create a crawler and give the xml code to it
         $crawler = new Crawler($xmlString);
