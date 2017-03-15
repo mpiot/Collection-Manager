@@ -1,0 +1,94 @@
+version: '3'
+
+services:
+    nginx:
+        container_name: collection-manager-nginx
+        build: ./docker/dev/nginx
+        ports:
+            - 80:80
+        volumes:
+            - .:/var/www/html:ro
+            - ./docker/dev/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+            - ./docker/dev/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        networks:
+            - default
+
+    php:
+        container_name: collection-manager-php
+        build: ./docker/dev/php
+        volumes:
+            - .:/var/www/html:rw
+            - ./docker/dev/php/php.ini:/usr/local/etc/php/php.ini:ro
+        networks:
+            - default
+
+    db:
+        container_name: collection-manager-db
+        image: mariadb:latest
+        environment:
+            - MYSQL_ROOT_PASSWORD=collectionManager
+            - MYSQL_USER=collectionManager
+            - MYSQL_PASSWORD=collectionManager
+            - MYSQL_DATABASE=collectionManager
+        ports:
+            - 3306:3306
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - default
+
+    es1:
+        container_name: collection-manager-elasticsearch-1
+        build: ./docker/dev/elasticsearch
+        environment:
+            - cluster.name=collection-manager-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        cap_add:
+            - IPC_LOCK
+        volumes:
+            - es1_data:/usr/share/elasticsearch/data
+            - ./docker/dev/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+        networks:
+            - default
+
+    es2:
+        container_name: collection-manager-elasticsearch-2
+        build: ./docker/dev/elasticsearch
+        environment:
+            - cluster.name=collection-manager-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "discovery.zen.ping.unicast.hosts=es1"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+        cap_add:
+            - IPC_LOCK
+        volumes:
+            - es2_data:/usr/share/elasticsearch/data
+            - ./docker/dev/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+        networks:
+            - default
+
+volumes:
+    db_data:
+        driver: local
+    es1_data:
+        driver: local
+    es2_data:
+        driver: local
+
+networks:
+    default:
