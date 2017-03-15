@@ -2,38 +2,40 @@ version: '3'
 
 services:
     nginx:
-        container_name: collection-manager-nginx-prod
+        container_name: collection-manager-nginx
         build: ./docker/prod/nginx
         ports:
-            - 8082:80
+            - 8081:80
         volumes:
-            - app_data:/var/www/html:ro
+            - app_data:/var/www/html
         networks:
             - default
 
-    php:
-        container_name: collection-manager-php-prod
-        build: ./docker/prod/php
+    app:
+        container_name: collection-manager-app
+        image: collection-manager:latest
         volumes:
-            - app_data:/var/www/html:rw
+            - app_data:/var/www/html
         networks:
             - default
 
     db:
-        container_name: collection-manager-db-prod
+        container_name: collection-manager-db
         image: mariadb:latest
         environment:
             - MYSQL_ROOT_PASSWORD=collectionManager
             - MYSQL_USER=collectionManager
             - MYSQL_PASSWORD=collectionManager
             - MYSQL_DATABASE=collectionManager
+        ports:
+            - 3307:3306
         volumes:
             - db_data:/var/lib/mysql
         networks:
             - default
 
     es1:
-        container_name: collection-manager-elasticsearch-1-prod
+        container_name: collection-manager-elasticsearch-1
         build: ./docker/prod/elasticsearch
         environment:
             - cluster.name=collection-manager-cluster
@@ -54,7 +56,7 @@ services:
             - default
 
     es2:
-        container_name: collection-manager-elasticsearch-2-prod
+        container_name: collection-manager-elasticsearch-2
         build: ./docker/prod/elasticsearch
         environment:
             - cluster.name=collection-manager-cluster

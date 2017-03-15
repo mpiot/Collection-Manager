@@ -1,0 +1,17 @@
+docker/
+docker-compose.yml
+docker-compose.yml.dist
+Dockerfile
+.dockerignore
+.git
+.gitignore
+.idea
+README.md
+var/cache/*
+var/logs/*
+var/sessions/*
+web/app_dev.php
+web/config.php
+web/css/compiled/*
+web/js/compiled/*
+web/uploads/*
