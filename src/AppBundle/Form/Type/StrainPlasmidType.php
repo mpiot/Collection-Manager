@@ -62,6 +62,6 @@ class StrainPlasmidType extends AbstractType
             'data_class' => 'AppBundle\Entity\StrainPlasmid',
         ]);
 
-        $resolver->setRequired(array('parent_data'));
+        $resolver->setRequired(['parent_data']);
     }
 }

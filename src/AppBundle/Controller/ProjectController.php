@@ -127,9 +127,9 @@ class ProjectController extends Controller
      */
     public function viewAction(Project $project)
     {
-        return $this->render('project/view.html.twig', array(
+        return $this->render('project/view.html.twig', [
             'project' => $project,
-        ));
+        ]);
     }
 
     /**

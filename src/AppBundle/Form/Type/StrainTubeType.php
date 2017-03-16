@@ -20,7 +20,7 @@ class StrainTubeType extends AbstractType
 {
     private $em;
     private $tokenStorage;
-    private $previousTubes = array();
+    private $previousTubes = [];
 
     public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage)
     {
@@ -132,6 +132,6 @@ class StrainTubeType extends AbstractType
             'data_class' => 'AppBundle\Entity\Tube',
         ]);
 
-        $resolver->setRequired(array('parent_data'));
+        $resolver->setRequired(['parent_data']);
     }
 }

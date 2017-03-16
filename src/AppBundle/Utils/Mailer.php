@@ -57,7 +57,7 @@ class Mailer
         $from = [$this->from => $this->name];
         $to = $teamRequest->getUser()->getEmail();
         $subject = 'Confirmation of your team request';
-        $body = $this->templating->render('mail/confirmationTeamRequest.html.twig', array('teamRequest' => $teamRequest));
+        $body = $this->templating->render('mail/confirmationTeamRequest.html.twig', ['teamRequest' => $teamRequest]);
 
         $this->sendEmailMessage($from, $to, $subject, $body);
     }
@@ -73,10 +73,10 @@ class Mailer
         $subject = 'Team request notification';
 
         foreach ($teamRequest->getTeam()->getAdministrators() as $teamAdmin) {
-            $body = $this->templating->render('mail/teamRequestNotification.html.twig', array(
+            $body = $this->templating->render('mail/teamRequestNotification.html.twig', [
                 'teamRequest' => $teamRequest,
                 'teamAdmin' => $teamAdmin,
-            ));
+            ]);
             $this->sendEmailMessage($from, $teamAdmin->getEmail(), $subject, $body);
         }
     }
@@ -91,7 +91,7 @@ class Mailer
         $from = [$this->from => $this->name];
         $to = $teamRequest->getUser()->getEmail();
         $subject = 'Team request answer';
-        $body = $this->templating->render('mail/teamRequestAnswer.html.twig', array('teamRequest' => $teamRequest));
+        $body = $this->templating->render('mail/teamRequestAnswer.html.twig', ['teamRequest' => $teamRequest]);
 
         $this->sendEmailMessage($from, $to, $subject, $body);
     }
@@ -106,9 +106,9 @@ class Mailer
         $from = [$this->from => $this->name];
         $to = '';
         $subject = 'Project administration notification';
-        $body = $this->templating->render('mail/projectAdminNotification.html.twig', array(
+        $body = $this->templating->render('mail/projectAdminNotification.html.twig', [
             'project' => $project,
-        ));
+        ]);
 
         $this->sendEmailMessage($from, $to, $subject, $body);
     }
