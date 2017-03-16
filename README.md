@@ -83,13 +83,36 @@ There is a **beautiful** guide about the best practice :) You can find it on the
 For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
 You can found some informations on [the synfony documentation page](http://symfony.com/doc/current/contributing/code/standards.html).
 
-There is a usefull program named php-cs-fixer, that permit you to control your code. You can install it by following [the program's documentation](https://github.com/FriendsOfPHP/PHP-CS-Fixer).
+In the project you have a php-cs-fixer.phar file, [the program's documentation](http://cs.sensiolabs.org/).
 
-Some usefull command:
-List files with mistakes
+Some commands:
+   * List files with mistakes
 
-    php-cs-fixer fix src --dry-run
-    
-View difference beetween your code and the corected code
+    php php-cs-fixer.phar fix --dry-run
 
-    cat src/file.php | php-cs-fixer fix --diff -
+   * Fix files:
+
+    php php-cs-fixer.phar fix
+
+   * View difference beetween your code and the corected code:
+
+    php php-cs-fixer.phar fix --diff --dry-run path/yo/file.php
+
+## 3. How to control your code syntax ?
+For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
+You can found some informations on [the synfony documentation page](http://symfony.com/doc/current/contributing/code/standards.html).
+
+To control your syntax, you can use a program called php-cs-fixer, you can install it by following [the program's documentation](http://cs.sensiolabs.org/).
+
+Some commands:
+   * List files with mistakes
+
+    php-cs-fixer fix --dry-run
+
+   * Fix files:
+
+    php-cs-fixer fix
+
+   * View difference beetween your code and the corected code:
+
+    php-cs-fixer fix --diff --dry-run path/yo/file.php
