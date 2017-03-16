@@ -33,22 +33,24 @@ class TaxId
         $headers = get_headers($url);
 
         // Parse the header array to get the last HTTP status code
-        $statusCode = NULL;
+        $statusCode = null;
         foreach (array_reverse($headers) as $header) {
             if ('HTTP/' === substr($header, 0, 5)) {
                 $httpStatus = explode(' ', $header, 3);
-                $statusCode = (int)$httpStatus[1];
+                $statusCode = (int) $httpStatus[1];
                 break;
             }
         }
 
         // Check the status value
         if (is_null($statusCode)) {
-          $response['error'] = 'No answer retrieved from the NCBI API';
-          return($response);
+            $response['error'] = 'No answer retrieved from the NCBI API';
+
+            return $response;
         } elseif ($statusCode != 200) {
-          $response['error'] = 'The NCBI API returns a non-200 response (Status: '.(string)$statusCode.' error)';
-          return($response);
+            $response['error'] = 'The NCBI API returns a non-200 response (Status: '.(string) $statusCode.' error)';
+
+            return $response;
         }
 
         // HTTP status is 200, get the page content
