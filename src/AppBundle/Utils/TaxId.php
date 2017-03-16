@@ -43,12 +43,12 @@ class TaxId
         }
 
         // Check the status value
-        if (is_null($statusCode)) {
+        if (null === $statusCode) {
             $response['error'] = 'No answer retrieved from the NCBI API';
 
             return $response;
-        } elseif ($statusCode != 200) {
-            $response['error'] = 'The NCBI API returns a non-200 response (Status: '.(string) $statusCode.' error)';
+        } elseif (200 !== $statusCode) {
+            $response['error'] = 'The NCBI API returns a non-200 response (Status: '. $statusCode.' error)';
 
             return $response;
         }
