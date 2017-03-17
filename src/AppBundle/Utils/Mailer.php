@@ -6,6 +6,7 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Project;
 use AppBundle\Entity\TeamRequest;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
@@ -45,6 +46,40 @@ class Mailer
             ->setContentType('text/html');
 
         $this->mailer->send($message);
+    }
+
+    /**
+     * Send an email to confirm a user registration.
+     *
+     * @param User $user
+     */
+    public function sendUserConfirmation(User $user)
+    {
+        $from = [$this->from => $this->name];
+        $to = $user->getEmail();
+        $subject = 'Registration confirmation';
+        $body = $this->templating->render('mail/userConfirmation.html.twig', [
+            'user' => $user,
+        ]);
+
+        $this->sendEmailMessage($from, $to, $subject, $body);
+    }
+
+    /**
+     * Send an email to reset the password.
+     *
+     * @param User $user
+     */
+    public function sendPasswordResetting(User $user)
+    {
+        $from = [$this->from => $this->name];
+        $to = $user->getEmail();
+        $subject = 'Password resetting';
+        $body = $this->templating->render('mail/passwordResetting.html.twig', [
+            'user' => $user,
+        ]);
+
+        $this->sendEmailMessage($from, $to, $subject, $body);
     }
 
     /**

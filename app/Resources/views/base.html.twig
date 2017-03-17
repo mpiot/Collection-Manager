@@ -98,13 +98,13 @@
                                         <li><a href="{{ path('team_request_index') }}">Manage team requests {{ render(controller("AppBundle:TeamRequest:numberRequests")) }}</a></li>
                                     {% endif %}
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="{{ path('fos_user_profile_show') }}">My profile</a></li>
-                                    <li><a href="{{ path('fos_user_security_logout') }}">Log out</a></li>
+                                    <li><a href="{{ path('user_profile') }}">My profile</a></li>
+                                    <li><a href="{{ path('logout') }}">Log out</a></li>
                                 </ul>
                             </li>
                         {% else %}
-                            <a type="button" class="btn btn-default navbar-btn" href="{{ path('fos_user_security_login') }}">Log in</a>
-                            <a type="button" class="btn btn-success navbar-btn sign-up-button" href="{{ path('fos_user_registration_register') }}">Register</a>
+                            <a type="button" class="btn btn-default navbar-btn" href="{{ path('login') }}">Log in</a>
+                            <a type="button" class="btn btn-success navbar-btn sign-up-button" href="{{ path('user_registration') }}">Register</a>
                         {% endif %}
                     </ul>
                     {% if app.user %}

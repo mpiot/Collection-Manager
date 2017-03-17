@@ -1,9 +1,0 @@
-# src/AppBundle/Resources/config/validation.yml
-
-AppBundle\Entity\User:
-    properties:
-        email:
-            - Regex:
-                pattern: '/.+@inra.fr/'
-                message: 'Your mail may be an @inra.fr address'
-                groups: [ Registration, Profile ]

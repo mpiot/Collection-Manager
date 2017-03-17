@@ -95,32 +95,6 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-# FOS User Configuration
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: AppBundle\Entity\User
-    use_username_form_type: false
-    from_email:
-        address:        noreply@collection-manager.dev
-        sender_name:    CollectionManager
-    registration:
-        form:
-            type: AppBundle\Form\Type\RegistrationType
-        confirmation:
-            enabled: true
-            from_email:
-                address:        noreply@collection-manager.dev
-                sender_name:    CollectionManager Registration
-    resetting:
-        email:
-            from_email:
-                address:        noreply@collection-manager.dev
-                sender_name:    CollectionManager Resetting
-    profile:
-        form:
-            type: AppBundle\Form\Type\ProfileType
-
 # ReCaptcha
 ewz_recaptcha:
     public_key:  "%recaptcha_public_key%"
