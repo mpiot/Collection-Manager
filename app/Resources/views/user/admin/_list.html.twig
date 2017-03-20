@@ -1,0 +1,51 @@
+<div id="user-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-3">Email</th>
+                <th class="col-md-3">Name</th>
+                <th class="col-md-4">Roles</th>
+                <th class="col-md-1">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% if usersList is not empty %}
+                    {% for user in usersList %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.fullName }}</td>
+                            <td>{{ user.roles|join(',') }}</td>
+                            <td>
+                                {% if app.user != user %}
+                                    <a href="{{ path('homepage', { '_switch_user': user.username }) }}">Impersonate</a>
+                                {% endif %}
+                                <a href="{{ path('user_roles', { 'id': user.id }) }}">Edit roles</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td class="text-center" colspan="5">There is no results.</td>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <ul class="pagination">
+        {% if nbPages > 0 %}
+            {% for p in range(1, nbPages) %}
+                <li{% if p == page %} class="active"{% endif %}>
+                    <a href="{{ path('user_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="active">
+                <a href="{{ path('user_index', {'q': query, 'p': 1}) }}">1</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

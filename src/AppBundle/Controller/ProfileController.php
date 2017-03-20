@@ -5,13 +5,15 @@ namespace AppBundle\Controller;
 use AppBundle\Form\Type\ChangePasswordType;
 use AppBundle\Form\Type\ProfileType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     /**
      * @Route("/my-profile", name="user_profile")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function profileAction()
     {
@@ -24,6 +26,7 @@ class UserController extends Controller
 
     /**
      * @Route("/my-profile/edit", name="user_profile_edit")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function profileEditAction(Request $request)
     {
@@ -47,6 +50,7 @@ class UserController extends Controller
 
     /**
      * @Route("/my-profile/password/edit", name="user_password_edit")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function editPasswordAction(Request $request)
     {

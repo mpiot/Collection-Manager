@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements AdvancedUserInterface, \Serializable
 {
     const ROLE_DEFAULT = 'ROLE_USER';
+    const NUM_ITEMS = 10;
 
     /**
      * @ORM\Id
