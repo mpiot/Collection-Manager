@@ -17,6 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements AdvancedUserInterface, \Serializable
 {
+    const ROLE_DEFAULT = 'ROLE_USER';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -123,6 +125,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function __construct()
     {
+        $this->roles = [];
         $this->isActive = false;
         $this->teams = new ArrayCollection();
         $this->administeredTeams = new ArrayCollection();
@@ -251,6 +254,11 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function addRole($role)
     {
+        $role = strtoupper($role);
+        if ($role === static::ROLE_DEFAULT) {
+            return $this;
+        }
+
         if (!in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
@@ -282,7 +290,10 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        $roles = $this->roles;
+        $roles[] = static::ROLE_DEFAULT;
+
+        return array_unique($roles);
     }
 
     /**

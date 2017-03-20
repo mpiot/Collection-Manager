@@ -25,44 +25,35 @@ security:
         main:
             pattern: ^/
             form_login:
-                # submit the login form here
+                # login and check paths
                 check_path: /login
-
-                # the user is redirected here when they need to log in
                 login_path: /login
 
-#                # if true, forward the user to the login form instead of redirecting
-#                use_forward: false
-#
-#                # login success redirecting options (read further below)
-#                always_use_default_target_path: false
-#                default_target_path:            /
-#                use_referer:                    true
-#
-#                # field names for the username and password fields
-#                username_parameter: username
-#                password_parameter: password
-#
+                # login success redirecting options (read further below)
+                always_use_default_target_path: false
+                default_target_path:            /
+                use_referer:                    true
+
                 # csrf token options
-#                csrf_parameter:       _csrf_token
-#                csrf_token_id:        authenticate
                 csrf_token_generator: security.csrf.token_manager
-#
-#                # by default, the login form *must* be a POST, not a GET
-#                post_only:      true
-#                remember_me:    true
-#
-#                # by default, a session must exist before submitting an authentication request
-#                # if false, then Request::hasPreviousSession is not called during authentication
-#                require_previous_session: true
+
+                # by default, the login form *must* be a POST, not a GET
+                post_only:      true
+                remember_me:    true
+
+                # by default, a session must exist before submitting an authentication request
+                # if false, then Request::hasPreviousSession is not called during authentication
+                require_previous_session: true
 
             remember_me:
                 secret: "%secret%"
                 lifetime: 604800
                 path:     /
+
             logout:
                 path:   /logout
                 target: /
+
             anonymous:    true
             switch_user:  true
 
