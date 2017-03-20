@@ -91,10 +91,11 @@ class AdvancedSearchType extends AbstractType
                         ->leftJoin('user.projects', 'projects')
                         ->leftJoin('projects.members', 'members')
                         ->where('members = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('user.username', 'ASC');
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('user.lastName', 'ASC')
+                        ->addOrderBy('user.firstName', 'ASC');
                 },
-                'choice_label' => 'username',
+                'choice_label' => 'fullName',
                 'placeholder' => 'All users',
                 'required' => false,
             ])
