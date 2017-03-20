@@ -39,7 +39,9 @@
                         <td>{{ loop.index }}</td>
                         <td><a href="{{ path('team_view', { 'slug': team.slug }) }}">{{ team.name }}</a></td>
                         <td>
-                            {{ team.administrators|join(', ') }}
+                            {% for admin in team.administrators %}
+                                {{ admin.fullName }}{{ not loop.last ? ',' }}
+                            {% endfor %}
                         </td>
                         <td>{{ team.members|length }}</td>
                         <td>
