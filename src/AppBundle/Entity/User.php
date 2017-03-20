@@ -46,6 +46,11 @@ class User implements AdvancedUserInterface, \Serializable
     private $password;
 
     /**
+     * @ORM\Column(name="roles", type="array")
+     */
+    private $roles;
+
+    /**
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
@@ -221,6 +226,53 @@ class User implements AdvancedUserInterface, \Serializable
     public function getSalt()
     {
         return null;
+    }
+
+    /**
+     * Set roles.
+     *
+     * @param $array
+     *
+     * @return $this
+     */
+    public function setRoles($array)
+    {
+        $this->roles = $array;
+
+        return $this;
+    }
+
+    /**
+     * Add role.
+     *
+     * @param $role
+     *
+     * @return $this
+     */
+    public function addRole($role)
+    {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove role.
+     *
+     * @param $role
+     *
+     * @return $this
+     */
+    public function removeRole($role)
+    {
+        if (false !== $key = array_search($role, $this->roles, true)) {
+            unset($this->roles[$key]);
+            $this->roles = array_values($this->roles);
+        }
+
+        return $this;
     }
 
     /**
