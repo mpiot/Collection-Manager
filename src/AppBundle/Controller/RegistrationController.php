@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Entity\User;
+use AppBundle\Util\TokenGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,8 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Generate a token, to activate account
-            $user->setConfirmationToken(base64_encode(random_bytes(10)));
+            $tokenGenerator = $this->get('app.token_generator');
+            $user->setConfirmationToken($tokenGenerator->generateToken());
 
             // Encode the password
             $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());

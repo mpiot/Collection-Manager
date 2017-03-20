@@ -17,6 +17,9 @@ services:
         class: AppBundle\Utils\TaxId
         arguments: ["@doctrine.orm.entity_manager"]
 
+    app.token_generator:
+        class: AppBundle\Utils\TokenGenerator
+
 # Twig extensions
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
