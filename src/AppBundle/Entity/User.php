@@ -739,7 +739,13 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function isProjectAdministrator()
     {
-        return !$this->administeredProjects->isEmpty();
+        foreach ($this->administeredProjects as $administeredProject) {
+            if ($administeredProject->isValid()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
