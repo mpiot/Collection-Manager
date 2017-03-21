@@ -3,8 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\RegistrationType;
-use AppBundle\Entity\User;
-use AppBundle\Util\TokenGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,23 +14,18 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $user = new User();
+        $userManager = $this->get('app.user_manager');
+        $user = $userManager->createUser();
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Generate a token, to activate account
-            $tokenGenerator = $this->get('app.token_generator');
-            $user->setConfirmationToken($tokenGenerator->generateToken());
-
-            // Encode the password
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-
+            // Persist the user
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
+            // Add notifications: mails and flash
             $this->get('app.mailer')->sendUserConfirmation($user);
             $this->addFlash('success', 'You have been successfully registered.');
 
@@ -46,34 +39,34 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/register/activate-account/{username}/{token}", name="user_activation")
+     * @Route("/register/confirm/{token}", name="user_activation")
      */
-    public function activateAction($username, $token)
+    public function activateAction($token)
     {
-        $username = rawurldecode($username);
-        $token = rawurldecode($token);
+        $userManager = $this->get('app.user_manager');
+        $user = $userManager->findUserByConfirmationToken($token);
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneByEmail($username);
+        // If the user doesn't exists
+        // The token doesn't exists too
+        if (null === $user) {
+            $this->addFlash('warning', 'This token doesn\'t exists.');
 
+            return $this->redirectToRoute('login');
+        }
+
+        // If the user is already enabled, return
         if ($user->isEnabled()) {
             $this->addFlash('warning', 'Your account is already activated.');
 
             return $this->redirectToRoute('login');
         }
 
-        if (null === $user->getConfirmationToken() ||
-            !hash_equals($user->getConfirmationToken(), $token)
-        ) {
-            $this->addFlash('warning', 'The confirmation token is not valid.');
-
-            return $this->redirectToRoute('login');
-        }
-
+        // Active the account and remove the token
         $user->setIsActive(true);
         $user->setConfirmationToken(null);
-        $em->flush();
+        $userManager->updateUser($user);
 
+        // Add notification
         $this->addFlash('success', 'Your account have been successfully activated.');
 
         return $this->redirectToRoute('login');

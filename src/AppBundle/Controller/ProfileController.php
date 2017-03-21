@@ -35,8 +35,8 @@ class ProfileController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
+            $userManager = $this->get('app.user_manager');
+            $userManager->updateUser($user);
 
             $this->addFlash('success', 'Your profile have been successfully edited.');
 
@@ -59,12 +59,8 @@ class ProfileController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the password
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
+            $userManager = $this->get('app.user_manager');
+            $userManager->updateUser($user);
 
             $this->addFlash('success', 'Your password have been successfully changed.');
 

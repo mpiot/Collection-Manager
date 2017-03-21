@@ -8,7 +8,7 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
-# General
+# Utils
     app.mailer:
         class: AppBundle\Utils\Mailer
         arguments: ["@mailer", "@templating", '%mailer_from%', '%mailer_name%']
@@ -19,6 +19,15 @@ services:
 
     app.token_generator:
         class: AppBundle\Utils\TokenGenerator
+
+    app.password_updater:
+        class: AppBundle\Utils\PasswordUpdater
+        arguments: ["@security.password_encoder"]
+
+# Manager
+    app.user_manager:
+        class: AppBundle\Manager\UserManager
+        arguments: ["@app.password_updater", "@doctrine.orm.entity_manager"]
 
 # Twig extensions
     twig.extension.text:
@@ -150,6 +159,12 @@ services:
     app.event_listener.project:
         class: AppBundle\EventListener\ProjectSubscriber
         arguments: ["@security.token_storage"]
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.event_listener.user:
+        class: AppBundle\EventListener\UserSubscriber
+        arguments: ["@app.password_updater", "@app.token_generator"]
         tags:
             - { name: doctrine.event_subscriber }
 

@@ -1,5 +1,5 @@
 <p>
-    {% set activationLink = url('user_activation', { 'username': user.username|url_encode, 'token': user.confirmationToken|url_encode }) %}
+    {% set activationLink = url('user_activation', { 'token': user.confirmationToken }) %}
 
     Hi {{ user.firstName }} {{ user.lastName }},<br>
     We confirm your registration on CollectionManager !<br>
