@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManager;
 
 class UserManager
 {
-
     protected $entityManager;
     protected $repository;
     protected $passwordUpdater;
@@ -40,7 +39,7 @@ class UserManager
 
     public function findUserByConfirmationToken($token)
     {
-        return $this->findUserBy(array('confirmationToken' => $token));
+        return $this->findUserBy(['confirmationToken' => $token]);
     }
 
     public function findUsers()

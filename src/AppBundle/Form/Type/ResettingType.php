@@ -28,6 +28,5 @@ class ResettingType extends AbstractType
                     new RecaptchaTrue(),
                 ],
             ]);
-        ;
     }
 }

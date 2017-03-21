@@ -33,7 +33,6 @@ class RegistrationType extends AbstractType
                     new RecaptchaTrue(),
                 ],
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
