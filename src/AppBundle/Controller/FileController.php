@@ -32,7 +32,7 @@ class FileController extends Controller
         }
 
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');
-        $request->headers->set('X-Accel-Mapping', '/var/www/html/uploads/=/uploads-internal/');
+        $request->headers->set('X-Accel-Mapping', $genbankFile->getXSendfileUploadDir().'=/uploads-internal/');
 
         BinaryFileResponse::trustXSendfileTypeHeader();
 

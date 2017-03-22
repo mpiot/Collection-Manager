@@ -116,6 +116,16 @@ class File
     }
 
     /**
+     * Get XSendfile upload dir.
+     *
+     * @return string
+     */
+    public function getXSendfileUploadDir()
+    {
+        return realpath(__DIR__.'/../../../uploads');
+    }
+
+    /**
      * Get upload dir.
      *
      * @return string
