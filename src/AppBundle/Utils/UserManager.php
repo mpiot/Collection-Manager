@@ -3,7 +3,6 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
-use AppBundle\Utils\PasswordUpdater;
 use Doctrine\ORM\EntityManager;
 
 class UserManager
