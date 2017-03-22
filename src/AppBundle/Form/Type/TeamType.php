@@ -38,19 +38,7 @@ class TeamType extends AbstractType
                         ->addOrderBy('u.firstName', 'ASC');
                 },
                 'multiple' => true,
-                'expanded' => true,
-                'attr' => [
-                    'data-filtered-name' => 'administrators',
-                    'data-filtered-by' => 'team-filter',
-                ],
-                'choice_attr' => function (User $user) {
-                    return [
-                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
-                    ];
-                },
-                'choice_label' => function (User $user) {
-                    return $user->getLastName().' '.$user->getFirstName();
-                },
+                'choice_label' => 'fullName',
             ])
             ->add('members', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
@@ -60,46 +48,10 @@ class TeamType extends AbstractType
                         ->addOrderBy('u.firstName', 'ASC');
                 },
                 'multiple' => true,
-                'expanded' => true,
                 'required' => false,
-                'attr' => [
-                    'data-filtered-name' => 'members',
-                    'data-filtered-by' => 'team-filter',
-                ],
-                'choice_attr' => function (User $user) {
-                    return [
-                        'data-teams' => '['.implode(',', $user->getTeamsId()).']',
-                    ];
-                },
-                'choice_label' => function (User $user) {
-                    return $user->getLastName().' '.$user->getFirstName();
-                },
+                'choice_label' => 'fullName',
             ])
         ;
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-            $team = $event->getData();
-
-            $defaultTeam = null !== $team->getId() ? $team : null;
-
-            $form->add('team_filter', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->orderBy('team.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'mapped' => false,
-                'required' => false,
-                'placeholder' => 'Users without team',
-                'attr' => [
-                    'data-filter-name' => 'team-filter',
-                    'data-help' => 'Use this list to filter Administrators and Members checkboxes.',
-                ],
-                'data' => $defaultTeam,
-            ]);
-        });
     }
 
     /**
