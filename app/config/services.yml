@@ -26,7 +26,7 @@ services:
 
 # Manager
     app.user_manager:
-        class: AppBundle\Manager\UserManager
+        class: AppBundle\Utils\UserManager
         arguments: ["@app.password_updater", "@doctrine.orm.entity_manager"]
 
 # Twig extensions

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Manager;
+namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
 use AppBundle\Utils\PasswordUpdater;
