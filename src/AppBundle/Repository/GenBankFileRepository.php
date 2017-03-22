@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Team;
+
 /**
  * genBankFileRepository.
  *
@@ -10,4 +12,19 @@ namespace AppBundle\Repository;
  */
 class GenBankFileRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findOneByTeamAndName(Team $team, $autoName)
+    {
+        $query = $this->createQueryBuilder('genBankFile')
+            ->leftJoin('genBankFile.plasmid', 'plasmid')
+            ->where('plasmid.team = :team')
+            ->andWhere('plasmid.autoName = :autoName')
+            ->setParameters([
+                'team' => $team,
+                'autoName' => $autoName,
+            ])
+            ->getQuery()
+        ;
+
+        return $query->getOneOrNullResult();
+    }
 }

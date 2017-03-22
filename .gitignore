@@ -1,8 +1,13 @@
 /app/config/parameters.yml
 /build/
 /deploy.js
+docker-compose.yml
 .php_cs.cache
 /phpunit.xml
+/uploads/*
+!/uploads/plasmids
+/uploads/plasmids/*
+!/uploads/plasmids/.gitkeep
 /var/*
 !/var/cache
 /var/cache/*
@@ -18,8 +23,3 @@
 /web/bundles/
 /web/css/compiled/*
 /web/js/compiled/*
-/web/uploads/*
-!/web/uploads/plasmids
-/web/uploads/plasmids/*
-!/web/uploads/plasmids/.gitkeep
-docker-compose.yml

@@ -215,8 +215,14 @@ class Plasmid
      *
      * @return Plasmid
      */
-    public function setGenBankFile($genBankFile)
+    public function setGenBankFile(GenBankFile $genBankFile = null)
     {
+        // If we want to set a GenBankFile on null, the user want delete the file
+        if (null !== $genBankFile) {
+            $genBankFile->setPlasmid($this);
+        }
+
+        //$genBankFile->setPlasmid($this);
         $this->genBankFile = $genBankFile;
 
         return $this;
