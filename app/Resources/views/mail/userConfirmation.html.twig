@@ -1,12 +1,17 @@
+{% set activationLink = url('user_activation', { 'token': user.confirmationToken }) %}
+
 <p>
-    {% set activationLink = url('user_activation', { 'token': user.confirmationToken }) %}
+    Hi {{ user.firstName }} {{ user.lastName }},<br />
+    We confirm your registration on CollectionManager !<br />
+    Before start to use CollectionManager you need to confirm your email to validate your account.<br />
+</p>
 
-    Hi {{ user.firstName }} {{ user.lastName }},<br>
-    We confirm your registration on CollectionManager !<br>
-    But, just a last thing before use CollectionManager, you must confirm your email.
-    <a href="{{ activationLink }}">Confirm my email address</a>
+<p>
+    <a href="{{ activationLink }}">Confirm my email</a>
+</p>
 
-    If the link doesn't work, thanks to copy/paste this link in your browser:
+<p>
+    If the link above doesn't work, thanks to copy/paste this link in your browser:
     {{ activationLink }}
 </p>
 

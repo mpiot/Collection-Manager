@@ -27,7 +27,7 @@ class RegistrationController extends Controller
 
             // Add notifications: mails and flash
             $this->get('app.mailer')->sendUserConfirmation($user);
-            $this->addFlash('success', 'You have been successfully registered.');
+            $this->addFlash('success', 'You have been successfully registered, before login you must validate your email address by clicking on the link in the mail that was sent to you.');
 
             return $this->redirectToRoute('login');
         }
@@ -67,7 +67,7 @@ class RegistrationController extends Controller
         $userManager->updateUser($user);
 
         // Add notification
-        $this->addFlash('success', 'Your account have been successfully activated.');
+        $this->addFlash('success', 'Your account have been successfully activated. You can now connect.');
 
         return $this->redirectToRoute('login');
     }
