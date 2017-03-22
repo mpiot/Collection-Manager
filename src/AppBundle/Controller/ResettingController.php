@@ -89,7 +89,7 @@ class ResettingController extends Controller
             $user->setConfirmationToken(null);
             $em->flush();
 
-            $this->addFlash('success', 'Your password have been successfully changed.');
+            $this->addFlash('success', 'Your password have been successfully changed. You can now log in with this new one.');
 
             return $this->redirectToRoute('login');
         }
