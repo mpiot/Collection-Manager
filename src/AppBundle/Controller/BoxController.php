@@ -204,6 +204,9 @@ class BoxController extends Controller
 
     /**
      * @Route("/{id}-{slug}/export", name="box_export")
+     * @ParamConverter("box", class="AppBundle:Box", options={
+     *     "repository_method" = "findOneWithProjectTypeTubesStrains"
+     * })
      * @Security("is_granted('BOX_VIEW', box)")
      */
     public function exportAction(Box $box)
