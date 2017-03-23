@@ -52,6 +52,7 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
                 ->addOrderBy('members.lastName', 'ASC')
             ->leftJoin('members.projects', 'membersProjects')
                 ->addSelect('membersProjects')
+                ->where('membersProjects.private = false')
                 ->orderBy('membersProjects.name', 'ASC')
             ->leftJoin('team.projects', 'teamProjects')
                 ->addSelect('teamProjects')
