@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class BoxController.
@@ -199,5 +200,42 @@ class BoxController extends Controller
         $this->addFlash('success', 'The box has been deleted successfully.');
 
         return $this->redirectToRoute('box_index');
+    }
+
+    /**
+     * @Route("/{id}-{slug}/export", name="box_export")
+     * @Security("is_granted('BOX_VIEW', box)")
+     */
+    public function exportAction(Box $box)
+    {
+        $fileName = $box->getAutoName().'-'.$box->getName();
+
+        $response = new StreamedResponse();
+        $response->setCallback(function() use ($box) {
+            $handle = fopen('php://output', 'w+');
+
+            fputcsv($handle, ['autoName', 'name', 'box', 'cell'],';');
+
+            foreach($box->getTubes() as $tube) {
+                fputcsv(
+                    $handle,
+                    [
+                        $tube->getStrain()->getAutoName(),
+                        $tube->getStrain()->getName(),
+                        $tube->getBox()->getName(),
+                        $tube->getCellName(),
+                    ],
+                    ';'
+                );
+            }
+
+            fclose($handle);
+        });
+
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.csv"');
+
+        return $response;
     }
 }
