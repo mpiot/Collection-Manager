@@ -53,6 +53,7 @@
                                 <li class="list-group-item {{ (not project.isValid) ? 'list-group-item-warning' }}">
                                     <a href="{{ path('project_view', { 'id': project.id, 'slug': project.slug }) }}">{{ project.name }}</a>
                                     {{ project.administrators.contains(app.user) ? '(admin)' }}
+                                    {{ not project.administrators.contains(app.user) and not project.members.contains(app.user) ? '(you\'re not a member)' }}
                                 </li>
                             {% endfor %}
                         </ul>
