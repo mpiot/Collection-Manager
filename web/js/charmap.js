@@ -1,7 +1,7 @@
 function charMap(fieldHandler)
 {
     // Create the chars array
-    var chars = ['αβγδεζ', 'ηθικλμ', 'νξοπρσ', 'τυφχψω'];
+    var chars = ['αβΔδε', 'θλμπρ', 'σφχψω', '©®™'];
     var charsArray = [];
 
     for (var i = 0; i < chars.length; i++) {
