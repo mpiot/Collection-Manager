@@ -215,24 +215,7 @@ class BoxController extends Controller
 
         $response = new StreamedResponse();
         $response->setCallback(function() use ($box) {
-            $handle = fopen('php://output', 'w+');
-
-            fputcsv($handle, ['autoName', 'name', 'box', 'cell'],';');
-
-            foreach($box->getTubes() as $tube) {
-                fputcsv(
-                    $handle,
-                    [
-                        $tube->getStrain()->getAutoName(),
-                        $tube->getStrain()->getName(),
-                        $tube->getBox()->getName(),
-                        $tube->getCellName(),
-                    ],
-                    ';'
-                );
-            }
-
-            fclose($handle);
+            $this->get('app.csv_exporter')->exportBox($box);
         });
 
         $response->setStatusCode(200);

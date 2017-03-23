@@ -24,6 +24,9 @@ services:
         class: AppBundle\Utils\PasswordUpdater
         arguments: ["@security.password_encoder"]
 
+    app.csv_exporter:
+        class: AppBundle\Utils\CSVExporter
+
 # Manager
     app.user_manager:
         class: AppBundle\Utils\UserManager

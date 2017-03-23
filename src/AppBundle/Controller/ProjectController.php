@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class ProjectController.
@@ -232,5 +233,25 @@ class ProjectController extends Controller
         $this->addFlash('success', 'The project has been deleted successfully.');
 
         return $this->redirectToRoute('project_index');
+    }
+
+    /**
+     * @Route("/{id}-{slug}/export", name="project_export")
+     * @Security("is_granted('PROJECT_VIEW', project)")
+     */
+    public function exportAction(Project $project)
+    {
+        $fileName = $project->getName();
+
+        $response = new StreamedResponse();
+        $response->setCallback(function() use ($project) {
+            $this->get('app.csv_exporter')->exportProject($project);
+        });
+
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.csv"');
+
+        return $response;
     }
 }
