@@ -23,15 +23,6 @@ class GenBankFile extends File
     private $id;
 
     /**
-     * The concerned plasmid.
-     *
-     * @var Plasmid
-     *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Plasmid", inversedBy="genBankFile")
-     */
-    private $plasmid;
-
-    /**
      * The path of the file on the server (before import).
      *
      * @var string
@@ -48,30 +39,6 @@ class GenBankFile extends File
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set Plasmid.
-     *
-     * @param Plasmid $plasmid
-     *
-     * @return $this
-     */
-    public function setPlasmid(Plasmid $plasmid)
-    {
-        $this->plasmid = $plasmid;
-
-        return $this;
-    }
-
-    /**
-     * Get plasmid.
-     *
-     * @return Plasmid
-     */
-    public function getPlasmid()
-    {
-        return $this->plasmid;
     }
 
     /**

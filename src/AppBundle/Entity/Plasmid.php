@@ -55,7 +55,7 @@ class Plasmid
     private $team;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\GenBankFile", mappedBy="plasmid", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\GenBankFile", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid
      */
@@ -211,18 +211,12 @@ class Plasmid
     /**
      * Set genBank file.
      *
-     * @param string $genBankFile
+     * @param GenBankFile $genBankFile
      *
      * @return Plasmid
      */
     public function setGenBankFile(GenBankFile $genBankFile = null)
     {
-        // If we want to set a GenBankFile on null, the user want delete the file
-        if (null !== $genBankFile) {
-            $genBankFile->setPlasmid($this);
-        }
-
-        //$genBankFile->setPlasmid($this);
         $this->genBankFile = $genBankFile;
 
         return $this;
@@ -231,7 +225,7 @@ class Plasmid
     /**
      * Get genBank file.
      *
-     * @return string
+     * @return GenBankFile
      */
     public function getGenBankFile()
     {
