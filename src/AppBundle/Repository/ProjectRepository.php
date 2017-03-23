@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Project;
 use AppBundle\Entity\User;
 
 /**
@@ -40,5 +41,23 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $query->getSingleResult();
+    }
+
+    public function findOneWithBoxTubesStrains($id)
+    {
+        $query = $this->createQueryBuilder('project')
+            ->leftJoin('project.boxes', 'boxes')
+                ->addSelect('boxes')
+                ->orderBy('boxes.id', 'ASC')
+            ->leftJoin('boxes.tubes', 'tubes')
+                ->addSelect('tubes')
+                ->orderBy('tubes.cell', 'ASC')
+            ->leftJoin('tubes.strain', 'strain')
+                ->addSelect('strain')
+            ->where('project.id = :project')
+            ->setParameter('project', $id)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
     }
 }
