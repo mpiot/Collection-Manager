@@ -87,9 +87,14 @@ class StrainTubeType extends AbstractType
             'query_builder' => function (EntityRepository $pr) use ($options) {
                 return $pr->createQueryBuilder('project')
                     ->leftJoin('project.team', 'team')
+                    ->leftJoin('project.members', 'members')
                     ->where('team = :team')
-                    ->setParameter('team', $options['parent_data'])
+                    ->andWhere('members = :user')
                     ->andWhere('project.valid = true')
+                    ->setParameters([
+                        'team' => $options['parent_data'],
+                        'user' => $this->tokenStorage->getToken()->getUser(),
+                    ])
                     ->orderBy('project.name', 'ASC');
             },
             'choice_label' => 'name',
