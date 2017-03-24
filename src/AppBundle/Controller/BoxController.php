@@ -205,7 +205,7 @@ class BoxController extends Controller
     /**
      * @Route("/{id}-{slug}/export", name="box_export")
      * @ParamConverter("box", class="AppBundle:Box", options={
-     *     "repository_method" = "findOneWithProjectTypeTubesStrains"
+     *     "repository_method" = "findForCSVExport"
      * })
      * @Security("is_granted('BOX_VIEW', box)")
      */

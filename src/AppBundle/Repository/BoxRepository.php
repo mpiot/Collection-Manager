@@ -45,4 +45,33 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    public function findForCSVExport($box)
+    {
+        $query = $this->createQueryBuilder('box')
+            ->leftJoin('box.project', 'project')
+                ->addSelect('project')
+            ->leftJoin('box.tubes', 'tubes')
+                ->addSelect('tubes')
+                ->orderBy('tubes.cell', 'ASC')
+            ->leftJoin('tubes.strain', 'strain')
+                ->addSelect('strain')
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species')
+            ->leftJoin('species.genus', 'genus')
+                ->addSelect('genus')
+            ->leftJoin('strain.strainPlasmids', 'strainPlasmids')
+                ->addSelect('strainPlasmids')
+            ->leftJoin('strainPlasmids.plasmid', 'plasmid')
+                ->addSelect('plasmid')
+            ->leftJoin('strain.parents', 'parents')
+                ->addSelect('parents')
+            ->leftJoin('strain.biologicalOriginCategory', 'biologicalOriginCategory')
+                ->addSelect('biologicalOriginCategory')
+            ->where('box = :box')
+            ->setParameter('box', $box)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

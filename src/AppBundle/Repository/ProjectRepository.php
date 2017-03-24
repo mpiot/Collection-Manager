@@ -60,4 +60,34 @@ class ProjectRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    public function findForCSVExport($id)
+    {
+        $query = $this->createQueryBuilder('project')
+            ->leftJoin('project.boxes', 'boxes')
+                ->addSelect('boxes')
+                ->orderBy('boxes.id', 'ASC')
+            ->leftJoin('boxes.tubes', 'tubes')
+                ->addSelect('tubes')
+                ->orderBy('tubes.cell', 'ASC')
+            ->leftJoin('tubes.strain', 'strain')
+                ->addSelect('strain')
+            ->leftJoin('strain.species', 'species')
+                ->addSelect('species')
+            ->leftJoin('species.genus', 'genus')
+                ->addSelect('genus')
+            ->leftJoin('strain.strainPlasmids', 'strainPlasmids')
+                ->addSelect('strainPlasmids')
+            ->leftJoin('strainPlasmids.plasmid', 'plasmid')
+                ->addSelect('plasmid')
+            ->leftJoin('strain.parents', 'parents')
+                ->addSelect('parents')
+            ->leftJoin('strain.biologicalOriginCategory', 'biologicalOriginCategory')
+                ->addSelect('biologicalOriginCategory')
+            ->where('project.id = :project')
+            ->setParameter('project', $id)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

@@ -238,7 +238,7 @@ class ProjectController extends Controller
     /**
      * @Route("/{id}-{slug}/export", name="project_export")
      * @ParamConverter("project", class="AppBundle:Project", options={
-     *     "repository_method" = "findOneWithBoxTubesStrains"
+     *     "repository_method" = "findForCSVExport"
      * })
      * @Security("is_granted('PROJECT_VIEW', project)")
      */
