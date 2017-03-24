@@ -116,6 +116,11 @@ class Plasmid
         $this->primers = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->autoName.' - '.$this->name;
+    }
+
     /**
      * Get id.
      *

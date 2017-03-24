@@ -234,6 +234,11 @@ class Strain
         $this->children = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getAutoName().' - '.$this->name;
+    }
+
     /**
      * Clone.
      *

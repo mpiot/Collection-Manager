@@ -44,6 +44,11 @@ class StrainPlasmid
      */
     private $state;
 
+    public function __toString()
+    {
+        return $this->getPlasmid().' ('.$this->state.')';
+    }
+
     /**
      * Get id.
      *
