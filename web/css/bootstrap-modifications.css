@@ -180,3 +180,11 @@ table tr[data-href] {
 .five-prime-extension {
     color: #4077b5;
 }
+
+/*
+ * Pagination
+ */
+li.disabled a {
+    pointer-events: none;
+    cursor: default;
+}
