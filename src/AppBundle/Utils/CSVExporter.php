@@ -24,7 +24,7 @@ class CSVExporter
                     $tube->getStrain()->getSpecies()->getScientificName(),
                     $tube->getStrain()->getComment(),
                     $tube->getStrain()->getSequenced() ? 'yes' : 'no',
-                    $tube->getStrain()->getDeleted() ? 'yes' : 'no',
+                    $tube->getDeleted() ? 'yes' : 'no',
                     $tube->getStrain()->getDescription(),
                     $tube->getStrain()->getGenotype(),
                     implode(',', $tube->getStrain()->getStrainPlasmids()->toArray()),
