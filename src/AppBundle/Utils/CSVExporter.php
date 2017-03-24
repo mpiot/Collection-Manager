@@ -11,9 +11,9 @@ class CSVExporter
     {
         $handle = fopen('php://output', 'w+');
 
-        fputcsv($handle, ['autoName', 'name', 'box', 'cell', 'species', 'comment', 'sequenced', 'deleted', 'description', 'genotype', 'plasmids', 'parents', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'],';');
+        fputcsv($handle, ['autoName', 'name', 'box', 'cell', 'species', 'comment', 'sequenced', 'deleted', 'description', 'genotype', 'plasmids', 'parents', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'], ';');
 
-        foreach($box->getTubes() as $tube) {
+        foreach ($box->getTubes() as $tube) {
             fputcsv(
                 $handle,
                 [
@@ -27,8 +27,8 @@ class CSVExporter
                     $tube->getStrain()->getDeleted() ? 'yes' : 'no',
                     $tube->getStrain()->getDescription(),
                     $tube->getStrain()->getGenotype(),
-                    implode(",", $tube->getStrain()->getStrainPlasmids()->toArray()),
-                    implode(",", $tube->getStrain()->getParents()->toArray()),
+                    implode(',', $tube->getStrain()->getStrainPlasmids()->toArray()),
+                    implode(',', $tube->getStrain()->getParents()->toArray()),
                     null !== $tube->getStrain()->getBiologicalOriginCategory() ? $tube->getStrain()->getBiologicalOriginCategory()->getName() : '',
                     $tube->getStrain()->getBiologicalOrigin(),
                     $tube->getStrain()->getSource(),

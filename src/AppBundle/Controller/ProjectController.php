@@ -247,7 +247,7 @@ class ProjectController extends Controller
         $fileName = $project->getName();
 
         $response = new StreamedResponse();
-        $response->setCallback(function() use ($project) {
+        $response->setCallback(function () use ($project) {
             $this->get('app.csv_exporter')->exportProject($project);
         });
 

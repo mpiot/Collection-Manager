@@ -214,7 +214,7 @@ class BoxController extends Controller
         $fileName = $box->getAutoName().'-'.$box->getName();
 
         $response = new StreamedResponse();
-        $response->setCallback(function() use ($box) {
+        $response->setCallback(function () use ($box) {
             $this->get('app.csv_exporter')->exportBox($box);
         });
 
