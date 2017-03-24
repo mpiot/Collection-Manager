@@ -29,8 +29,8 @@ class CSVImporter
 
         $row = 0;
         $data = [];
-        if (false !== ($handle = fopen($file, "r"))) {
-            while (false !== ($line = fgetcsv($handle, 1000, ","))) {
+        if (false !== ($handle = fopen($file, 'r'))) {
+            while (false !== ($line = fgetcsv($handle, 1000, ','))) {
                 ++$row;
                 if (1 === $row) {
                     continue;
@@ -108,7 +108,6 @@ class CSVImporter
             if ('gmo' === $strain->getDiscriminator()) {
                 $strain->setDescription($line[7]);
                 $strain->setGenotype($line[8]);
-
             } elseif ('wild' === $strain->getDiscriminator()) {
                 // Check category
                 //Before do a Doctrine query, check if we already have validate it
