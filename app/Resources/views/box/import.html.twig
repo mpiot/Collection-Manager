@@ -1,0 +1,23 @@
+{% extends "box/base.html.twig" %}
+
+{% block title %}Import data{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('box_index') }}">Boxes list</a></li>
+    <li><a href="{{ path('box_view', { 'id': box.id, 'slug': box.slug }) }}">{{ box.name }} ({{ box.autoName }})</a></li>
+    <li class="active">Import data</li>
+{% endblock %}
+
+{% block box_body %}
+    <h2 class="sub-header">Import data in {{ box.name }}</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="login" class="btn btn-default" value="Import" />
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

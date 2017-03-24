@@ -11,14 +11,18 @@
 {% block box_body %}
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h2 class="sub-header">{{ box.name }} ({{ box.autoName }})</h2>
 
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-4">
             {% embed "box/_delete_form.html.twig" with { box: box } only %}
                 {% block btn %}
+                    <a class="btn btn-info" href="{{ path('box_import', { 'id': box.id, 'slug': box.slug}) }}">
+                        <span class="glyphicon glyphicon-import" aria-hidden="true"></span> Import
+                    </a>
+
                     <a class="btn btn-info" href="{{ path('box_export', { 'id': box.id, 'slug': box.slug}) }}">
                         <span class="glyphicon glyphicon-export" aria-hidden="true"></span> Export
                     </a>

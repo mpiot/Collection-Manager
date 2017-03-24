@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Project;
 use AppBundle\Form\Type\BoxEditType;
+use AppBundle\Form\Type\BoxImportType;
 use AppBundle\Form\Type\BoxType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -223,5 +224,33 @@ class BoxController extends Controller
         $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.csv"');
 
         return $response;
+    }
+
+    /**
+     * @Route("/{id}-{slug}/import", name="box_import")
+     * @Security("is_granted('BOX_VIEW', box)")
+     */
+    public function importAction(Box $box, Request $request)
+    {
+        $form = $this->createForm(BoxImportType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $this->get('app.csv_importer')->importBox($box, $form);
+
+            if ($form->isValid()) {
+                $this->addFlash('success', 'Strains has been successfully imported.');
+
+                return $this->redirectToRoute('box_view', [
+                    'id' => $box->getId(),
+                    'slug' => $box->getSlug(),
+                ]);
+            }
+        }
+
+        return $this->render('box/import.html.twig', [
+            'form' => $form->createView(),
+            'box' => $box,
+        ]);
     }
 }

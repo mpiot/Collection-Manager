@@ -27,6 +27,10 @@ services:
     app.csv_exporter:
         class: AppBundle\Utils\CSVExporter
 
+    app.csv_importer:
+        class: AppBundle\Utils\CSVImporter
+        arguments: ["@doctrine.orm.entity_manager", "@validator"]
+
 # Manager
     app.user_manager:
         class: AppBundle\Utils\UserManager

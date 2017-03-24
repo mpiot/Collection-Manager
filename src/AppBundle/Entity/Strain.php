@@ -37,6 +37,10 @@ class Strain
      * @var string
      *
      * @ORM\Column(name="discriminator", type="string", length=255)
+     * @Assert\Regex(
+     *     pattern="/^(gmo|wild)$/",
+     *     message="The discriminator must be 'gmo' or 'wild'."
+     * )
      */
     private $discriminator;
 
@@ -51,6 +55,7 @@ class Strain
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -110,6 +115,7 @@ class Strain
      * @var ArrayCollection|StrainPlasmid
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="strain", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $strainPlasmids;
 
@@ -139,6 +145,7 @@ class Strain
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=255, nullable=true)
+     * @Assert\Country()
      */
     private $country;
 
