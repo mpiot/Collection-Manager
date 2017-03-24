@@ -78,12 +78,12 @@ class CSVImporter
             if (!array_key_exists($line[1].' '.$line[2], $validObjects['species'])) {
                 $genus = $this->em->getRepository('AppBundle:Genus')->findOneByName($line[1]);
                 if (null === $genus) {
-                    return $form->addError(new FormError('The genus '.$line[1].' doesn\'t exists.'));
+                    return $form->addError(new FormError('The genus '.$line[1].' doesn\'t exists. (Row: '.$row.')'));
                 }
 
                 $species = $this->em->getRepository('AppBundle:Species')->findOneBy(['genus' => $genus, 'name' => $line[2]]);
                 if (null === $species) {
-                    return $form->addError(new FormError('The species '.$line[1].' '.$line[2].' doesn\'t exists.'));
+                    return $form->addError(new FormError('The species '.$line[1].' '.$line[2].' doesn\'t exists. (Row: '.$row.')'));
                 }
 
                 // Add in a array all valid data to prevent some db requests
@@ -96,7 +96,7 @@ class CSVImporter
             if (!array_key_exists($line[3], $validObjects['type'])) {
                 $type = $this->em->getRepository('AppBundle:Type')->findOneBy(['team' => $team, 'name' => $line[3]]);
                 if (null === $type) {
-                    return $form->addError(new FormError('The type "'.$line[3].'"" doesn\'t exists for the team: "'.$team->getName().'"".'));
+                    return $form->addError(new FormError('The type "'.$line[3].'"" doesn\'t exists for the team: "'.$team->getName().'"". (Row: '.$row.')'));
                 }
 
                 // Add in a array all valid data to prevent some db requests
@@ -114,7 +114,7 @@ class CSVImporter
                 if (!array_key_exists($line[9], $validObjects['category'])) {
                     $category = $this->em->getRepository('AppBundle:BiologicalOriginCategory')->findOneBy(['team' => $team, 'name' => $line[9]]);
                     if (null === $category) {
-                        return $form->addError(new FormError('The category "'.$line[9].'"" doesn\'t exists for the team: "'.$team->getName().'"".'));
+                        return $form->addError(new FormError('The category "'.$line[9].'"" doesn\'t exists for the team: "'.$team->getName().'"". (Row: '.$row.')'));
                     }
 
                     // Add in a array all valid data to prevent some db requests
@@ -122,7 +122,11 @@ class CSVImporter
                 }
                 $strain->setBiologicalOriginCategory($validObjects['category'][$line[9]]);
 
+                if (empty($line[10])) {
+                    return $form->addError(new FormError('The biological origin must be set. (Row: '.$row.')'));
+                }
                 $strain->setBiologicalOrigin($line[10]);
+
                 $strain->setSource($line[11]);
                 $strain->setLatitude($line[12]);
                 $strain->setLongitude($line[13]);
