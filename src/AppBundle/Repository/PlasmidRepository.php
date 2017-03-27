@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Team;
 use AppBundle\Entity\User;
 
 /**
@@ -42,6 +43,22 @@ class PlasmidRepository extends \Doctrine\ORM\EntityRepository
             ->where('plasmid.id = :id')
                 ->setParameter('id', $id)
             ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
+    public function findOneByTeamAndNameWithFile(Team $team, $autoName)
+    {
+        $query = $this->createQueryBuilder('plasmid')
+            ->leftJoin('plasmid.genBankFile', 'genBankFile')
+            ->where('plasmid.team = :team')
+            ->andWhere('plasmid.autoName = :autoName')
+            ->setParameters([
+                'team' => $team,
+                'autoName' => $autoName,
+            ])
+            ->getQuery()
+        ;
 
         return $query->getOneOrNullResult();
     }

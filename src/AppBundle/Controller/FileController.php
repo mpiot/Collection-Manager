@@ -25,7 +25,8 @@ class FileController extends Controller
     public function plasmidAction(Team $team, $autoName, $name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $genbankFile = $em->getRepository('AppBundle:GenBankFile')->findOneByTeamAndName($team, $autoName);
+        $plasmid = $em->getRepository('AppBundle:Plasmid')->findOneByTeamAndNameWithFile($team, $autoName);
+        $genbankFile = $plasmid->getGenBankFile();
 
         if (null === $genbankFile) {
             throw $this->createNotFoundException("This file doen't exists.");
