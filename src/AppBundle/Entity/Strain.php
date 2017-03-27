@@ -180,6 +180,10 @@ class Strain
      * @var string
      *
      * @ORM\Column(name="latitude", type="float", nullable=true)
+     * @Assert\Expression(
+     *     "(null !== this.getLatitude() && null !== this.getLongitude()) or (null === this.getLatitude() && null === this.getLongitude())",
+     *     message="Both: latitude and longitude must be fill or not."
+     * )
      */
     private $latitude;
 
@@ -187,6 +191,10 @@ class Strain
      * @var string
      *
      * @ORM\Column(name="longitude", type="float", nullable=true)
+     * @Assert\Expression(
+     *     "(null !== this.getLatitude() && null !== this.getLongitude()) or (null === this.getLatitude() && null === this.getLongitude())",
+     *     message="Both: latitude and longitude must be fill or not."
+     * )
      */
     private $longitude;
 
