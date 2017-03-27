@@ -66,11 +66,13 @@
             });
         }
 
-        $('#strain_gmo_species').select2();
+        $('#strain_gmo_species, #strain_wild_species').select2();
+
         $('[id^="strain_gmo_strainPlasmids_"][id$="plasmid"]').select2();
         $('#add-plasmid').click(function() {
             $('[id^="strain_gmo_strainPlasmids_"][id$="plasmid"]').select2();
         });
+
         $('[id^="strain_gmo_parents_"]').select2();
         $('#add-parent').click(function() {
             $('[id^="strain_gmo_parents_"]').select2();
