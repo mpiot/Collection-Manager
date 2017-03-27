@@ -27,7 +27,7 @@ class CSVImporter
         $team = $project->getTeam();
         $file = $form->get('csvFile')->getData()->getRealPath();
         $errors = [];
-        $keys = ['disc', 'genus', 'species', 'type', 'name', 'comment', 'sequenced', 'description', 'genotype', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country', 'deleted'];
+        $keys = ['disc', 'genus', 'species', 'type', 'name', 'comment', 'sequenced', 'deleted', 'cells', 'description', 'genotype', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'];
         $data = [];
 
         $row = 0;
@@ -41,11 +41,6 @@ class CSVImporter
                 $data[] = array_combine($keys, $line);
             }
             fclose($handle);
-        }
-
-        // If the file contains more strain than empty cells in the box
-        if ($row > $box->getFreeSpace()) {
-            return $form->addError(new FormError('There is not enough cells in the box. ('.$box->getFreeSpace().' cells in the box, and the file contain '.$row.' lines.'));
         }
 
         // Change all empty values by null
@@ -64,21 +59,38 @@ class CSVImporter
         ];
 
         // Get the empty cells array
-        $emptyCells = array_values($box->getEmptyCells());
+        $emptyCells = $box->getEmptyCells();
 
         foreach ($data as $key => $value) {
-            // Init a tube
-            $tube = new Tube();
-            $tube->setProject($project);
-            $tube->setBox($box);
-            $tube->setCell($emptyCells[0]);
-            // After set a cell, we remove the cell from the array, and re-organize keys for the next
-            unset($emptyCells[0]);
-            $emptyCells = array_values($emptyCells);
-
-            // Create a new strain, and set attributes
+            // Create the strain
             $strain = new Strain();
-            $strain->addTube($tube);
+
+            // Get cells
+            if (null === $value['cells']) {
+                $errorString = 'Line '.($key + 2).', Column "cells": You must define a cell.';
+                $form->addError(new FormError($errorString));
+            } else {
+                $cells = explode(',', $value['cells']);
+
+                foreach ($cells as $cell) {
+                    // Init a tube
+                    $tube = new Tube();
+                    $tube->setProject($project);
+                    $tube->setBox($box);
+                    if (array_key_exists($cell, $emptyCells)) {
+                        $tube->setCell($emptyCells[$cell]);
+                        // After set a cell, we remove the cell from the array, and re-organize keys for the next
+                        unset($emptyCells[$cell]);
+                    } else {
+                        $errorString = 'Line '.($key + 2).', Column "cells": The cell '.$cell.' is not available (maybe already used).';
+                        $form->addError(new FormError($errorString));
+                    }
+
+                    $strain->addTube($tube);
+                }
+            }
+
+            // Set attributes for the strain
             $strain->setDiscriminator($value['disc']);
             $strain->setName($value['name']);
             $strain->setComment($value['comment']);
@@ -98,7 +110,6 @@ class CSVImporter
             // Is the strain deleted ? (default: false)
             $deleted = 'yes' === $value['deleted'] ? true : false;
             $strain->setDeleted($deleted);
-            $tube->setDeleted($deleted);
 
             // Check species
             //Before do a Doctrine query, check if we already have validate it

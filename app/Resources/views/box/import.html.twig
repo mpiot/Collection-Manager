@@ -31,6 +31,14 @@
                 <li><b>name</b>: The name of the strain (required)</li>
                 <li><b>comment</b>: A comment</li>
                 <li><b>sequenced</b>: Is strain sequenced ? Must be 'yes' or 'no'</li>
+                <li><b>deleted</b>: Is strain and tube deleted ? Must be 'yes' or 'no' (if yes the strain and the tube will be set on delete)</li>
+                <li><b>cells</b>: In which cell is the strains ? Must be like:
+                    <ul>
+                        <li>Single tube: 'A1'</li>
+                        <li>Multiple tubes: 'A1,A2,B8'</li>
+                    </ul>
+                </li>
+
                 <section>
                     <h5>GMO strain only:</h5>
                     <ul>
@@ -51,8 +59,6 @@
                         <li><b>country</b>: The ISO 3166-1 alpha-2 country code (2 letters). (<a href="https://countrycode.org/" target="_blank">https://countrycode.org/</a>)</li>
                     </ul>
                 </section>
-
-                <li><b>deleted</b>: Must be 'yes' or 'no', if yes the strain and the tube will be set on delete</li>
             </ul>
         </section>
     </div>
