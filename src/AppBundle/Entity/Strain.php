@@ -150,6 +150,10 @@ class Strain
      *
      * @ORM\Column(name="country", type="string", length=255, nullable=true)
      * @Assert\Country()
+     * @Assert\Expression(
+     *     "(null !== this.getAddress() and null !== this.getCountry()) or null === this.getAddress()",
+     *     message="If the address is set, the country must be set to."
+     * )
      */
     private $country;
 
