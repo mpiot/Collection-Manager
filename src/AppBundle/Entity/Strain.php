@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Strain.
@@ -70,6 +71,7 @@ class Strain
      * @var bool
      *
      * @ORM\Column(name="sequenced", type="boolean")
+     * @Assert\Type("bool")
      */
     private $sequenced;
 
@@ -78,6 +80,7 @@ class Strain
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="strains")
      * @ORM\JoinColumn(name="species", nullable=false)
+     * @Assert\Type("object")
      */
     private $species;
 
@@ -86,6 +89,7 @@ class Strain
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Type", inversedBy="strains")
      * @ORM\JoinColumn(name="type")
+     * @Assert\Type("object")
      */
     private $type;
 
@@ -154,6 +158,7 @@ class Strain
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BiologicalOriginCategory", inversedBy="strains")
      * @ORM\JoinColumn(name="category", nullable=true)
+     * @Assert\Type("object")
      */
     private $biologicalOriginCategory;
 
@@ -189,6 +194,7 @@ class Strain
      * @var bool
      *
      * @ORM\Column(name="deleted", type="boolean")
+     * @Assert\Type("bool")
      */
     private $deleted;
 
@@ -1025,5 +1031,80 @@ class Strain
         // Set autoName
         $this->setAutoName($autoName);
         $project->setLastStrainNumber($projectStrainNumber);
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        // Somme fields are specifics for GMO and other for Wild
+        if ('gmo' === $this->discriminator) {
+            if (null !== $this->biologicalOriginCategory) {
+                $context->buildViolation('The biological origin category field is only used for Wild strain!')
+                    ->atPath('biologicalOriginCategory')
+                    ->addViolation();
+            }
+
+            if (null !== $this->biologicalOrigin) {
+                $context->buildViolation('The biological origin field is only used for Wild strain!')
+                    ->atPath('biologicalOrigin')
+                    ->addViolation();
+            }
+
+            if (null !== $this->source) {
+                $context->buildViolation('The source field is only used for Wild strain!')
+                    ->atPath('source')
+                    ->addViolation();
+            }
+
+            if (null !== $this->latitude) {
+                $context->buildViolation('The latitude field is only used for Wild strain!')
+                    ->atPath('latitude')
+                    ->addViolation();
+            }
+
+            if (null !== $this->longitude) {
+                $context->buildViolation('The longitude field is only used for Wild strain!')
+                    ->atPath('longitude')
+                    ->addViolation();
+            }
+
+            if (null !== $this->address) {
+                $context->buildViolation('The address field is only used for Wild strain!')
+                    ->atPath('address')
+                    ->addViolation();
+            }
+
+            if (null !== $this->country) {
+                $context->buildViolation('The country field is only used for Wild strain!')
+                    ->atPath('country')
+                    ->addViolation();
+            }
+        } else {
+            if (null !== $this->description) {
+                $context->buildViolation('The description field is only used for GMO strain!')
+                    ->atPath('description')
+                    ->addViolation();
+            }
+
+            if (null !== $this->genotype) {
+                $context->buildViolation('The genotype field is only used for GMO strain!')
+                    ->atPath('genotype')
+                    ->addViolation();
+            }
+
+            if (!$this->parents->isEmpty()) {
+                $context->buildViolation('The parents field is only used for GMO strain!')
+                    ->atPath('genotype')
+                    ->addViolation();
+            }
+
+            if (!$this->strainPlasmids->isEmpty()) {
+                $context->buildViolation('The plasmids field is only used for GMO strain!')
+                    ->atPath('genotype')
+                    ->addViolation();
+            }
+        }
     }
 }
