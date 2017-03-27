@@ -66,7 +66,7 @@ class CSVImporter
         // Get the empty cells array
         $emptyCells = array_values($box->getEmptyCells());
 
-        foreach ($data as $key=>$value) {
+        foreach ($data as $key => $value) {
             // Init a tube
             $tube = new Tube();
             $tube->setProject($project);
@@ -96,7 +96,7 @@ class CSVImporter
             $strain->setSequenced($sequenced);
 
             // Is the strain deleted ? (default: false)
-            $deleted = 'yes' === $value['deleted']  ? true : false;
+            $deleted = 'yes' === $value['deleted'] ? true : false;
             $strain->setDeleted($deleted);
             $tube->setDeleted($deleted);
 
@@ -118,7 +118,6 @@ class CSVImporter
 
                     // Add in a array all valid data to prevent some db requests
                     $validObjects['species'][$value['genus'].' '.$value['species']] = $species;
-
                 }
             }
             if (null !== $species = $validObjects['species'][$value['genus'].' '.$value['species']]) {

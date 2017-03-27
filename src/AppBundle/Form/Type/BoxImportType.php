@@ -21,7 +21,7 @@ class BoxImportType extends AbstractType
                     new File([
                         'mimeTypes' => ['text/csv', 'text/plain'],
                     ]),
-                ]
+                ],
             ])
         ;
     }
