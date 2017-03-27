@@ -26,9 +26,11 @@ class CSVImporter
         $project = $box->getProject();
         $team = $project->getTeam();
         $file = $form->get('csvFile')->getData()->getRealPath();
+        $errors = [];
+        $keys = ['disc', 'genus', 'species', 'type', 'name', 'comment', 'sequenced', 'description', 'genotype', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country', 'deleted'];
+        $data = [];
 
         $row = 0;
-        $data = [];
         if (false !== ($handle = fopen($file, 'r'))) {
             while (false !== ($line = fgetcsv($handle, 1000, ','))) {
                 ++$row;
@@ -36,123 +38,149 @@ class CSVImporter
                     continue;
                 }
 
-                $data[] = $line;
+                $data[] = array_combine($keys, $line);
             }
             fclose($handle);
         }
 
         // If the file contains more strain than empty cells in the box
-        if (count($data) > $box->getFreeSpace()) {
-            return $form->addError(new FormError('There is not enough cells in the box. ('.$box->getFreeSpace().' cells in the box, and the file contain '.count($data).' strains.'));
+        if ($row > $box->getFreeSpace()) {
+            return $form->addError(new FormError('There is not enough cells in the box. ('.$box->getFreeSpace().' cells in the box, and the file contain '.$row.' lines.'));
         }
 
+        // Change all empty values by null
+        array_walk_recursive($data, function (&$value) {
+            $value = trim($value);
+            if ('' == $value) {
+                $value = null;
+            }
+        });
+
+        // Prepare an array to save SQL requests
         $validObjects = [
             'species' => [],
             'type' => [],
             'category' => [],
         ];
 
+        // Get the empty cells array
         $emptyCells = array_values($box->getEmptyCells());
-        $row = 1;
 
-        foreach ($data as $line) {
-            ++$row;
-
+        foreach ($data as $key=>$value) {
+            // Init a tube
             $tube = new Tube();
             $tube->setProject($project);
             $tube->setBox($box);
             $tube->setCell($emptyCells[0]);
+            // After set a cell, we remove the cell from the array, and re-organize keys for the next
             unset($emptyCells[0]);
             $emptyCells = array_values($emptyCells);
 
+            // Create a new strain, and set attributes
             $strain = new Strain();
             $strain->addTube($tube);
-            $strain->setDiscriminator($line[0]);
-            $strain->setName($line[4]);
-            $strain->setComment($line[5]);
-            $sequenced = 'no' === $line[6] || empty($line[6]) ? false : true;
+            $strain->setDiscriminator($value['disc']);
+            $strain->setName($value['name']);
+            $strain->setComment($value['comment']);
+            $strain->setDescription($value['description']);
+            $strain->setGenotype($value['genotype']);
+            $strain->setBiologicalOrigin($value['biologicalOrigin']);
+            $strain->setSource($value['source']);
+            $strain->setLatitude($value['lat']);
+            $strain->setLongitude($value['long']);
+            $strain->setAddress($value['address']);
+            $strain->setCountry($value['country']);
+
+            // Is the strain sequenced ? (default: false)
+            $sequenced = 'yes' === $value['sequenced'] ? true : false;
             $strain->setSequenced($sequenced);
 
-            // Check species
-            //Before do a Doctrine query, check if we already have validate it
-            if (!array_key_exists($line[1].' '.$line[2], $validObjects['species'])) {
-                $genus = $this->em->getRepository('AppBundle:Genus')->findOneByName($line[1]);
-                if (null === $genus) {
-                    return $form->addError(new FormError('The genus '.$line[1].' doesn\'t exists. (Row: '.$row.')'));
-                }
-
-                $species = $this->em->getRepository('AppBundle:Species')->findOneBy(['genus' => $genus, 'name' => $line[2]]);
-                if (null === $species) {
-                    return $form->addError(new FormError('The species '.$line[1].' '.$line[2].' doesn\'t exists. (Row: '.$row.')'));
-                }
-
-                // Add in a array all valid data to prevent some db requests
-                $validObjects['species'][$line[1].' '.$line[2]] = $species;
-            }
-            $strain->setSpecies($validObjects['species'][$line[1].' '.$line[2]]);
-
-            // Check type
-            //Before do a Doctrine query, check if we already have validate it
-            if (!array_key_exists($line[3], $validObjects['type'])) {
-                $type = $this->em->getRepository('AppBundle:Type')->findOneBy(['team' => $team, 'name' => $line[3]]);
-                if (null === $type) {
-                    return $form->addError(new FormError('The type "'.$line[3].'"" doesn\'t exists for the team: "'.$team->getName().'"". (Row: '.$row.')'));
-                }
-
-                // Add in a array all valid data to prevent some db requests
-                $validObjects['type'][$line[3]] = $type;
-            }
-            $strain->setType($validObjects['type'][$line[3]]);
-
-            // Special fields, only for GMO or only for Wild
-            if ('gmo' === $strain->getDiscriminator()) {
-                $strain->setDescription($line[7]);
-                $strain->setGenotype($line[8]);
-            } elseif ('wild' === $strain->getDiscriminator()) {
-                // Check category
-                //Before do a Doctrine query, check if we already have validate it
-                if (!array_key_exists($line[9], $validObjects['category'])) {
-                    $category = $this->em->getRepository('AppBundle:BiologicalOriginCategory')->findOneBy(['team' => $team, 'name' => $line[9]]);
-                    if (null === $category) {
-                        return $form->addError(new FormError('The category "'.$line[9].'"" doesn\'t exists for the team: "'.$team->getName().'"". (Row: '.$row.')'));
-                    }
-
-                    // Add in a array all valid data to prevent some db requests
-                    $validObjects['category'][$line[9]] = $category;
-                }
-                $strain->setBiologicalOriginCategory($validObjects['category'][$line[9]]);
-
-                if (empty($line[10])) {
-                    return $form->addError(new FormError('The biological origin must be set. (Row: '.$row.')'));
-                }
-                $strain->setBiologicalOrigin($line[10]);
-
-                $strain->setSource($line[11]);
-                $strain->setLatitude($line[12]);
-                $strain->setLongitude($line[13]);
-                $strain->setAddress($line[14]);
-                $strain->setCountry($line[15]);
-            }
-
-            // Is the strain deleted ?
-            $deleted = 'no' === $line[16] || empty($line[16]) ? false : true;
+            // Is the strain deleted ? (default: false)
+            $deleted = 'yes' === $value['deleted']  ? true : false;
             $strain->setDeleted($deleted);
             $tube->setDeleted($deleted);
 
-            // Control with validator, object is OK
-            $errors = $this->validator->validate($strain);
-            if (count($errors) > 0) {
-                $errorString = 'Line '.$row.', Column '.$errors[0]->getPropertyPath().': '.$errors[0]->getMessage();
+            // Check species
+            //Before do a Doctrine query, check if we already have validate it
+            if (!array_key_exists($value['genus'].' '.$value['species'], $validObjects['species'])) {
+                $genus = $this->em->getRepository('AppBundle:Genus')->findOneByName($value['genus']);
+                if (null === $genus) {
+                    $errorString = 'Line '.($key + 2).', Column "genus": The genus "'.$value['genus'].'" doesn\'t exists.';
+                    $form->addError(new FormError($errorString));
 
-                return $form->addError(new FormError($errorString));
+                    $validObjects['species'][$value['genus'].' '.$value['species']] = null;
+                } else {
+                    $species = $this->em->getRepository('AppBundle:Species')->findOneBy(['genus' => $genus, 'name' => $value['species']]);
+                    if (null === $species) {
+                        $errorString = 'Line '.($key + 2).', Column "species": The species "'.$value['genus'].' '.$value['species'].'" doesn\'t exists.';
+                        $form->addError(new FormError($errorString));
+                    }
+
+                    // Add in a array all valid data to prevent some db requests
+                    $validObjects['species'][$value['genus'].' '.$value['species']] = $species;
+
+                }
+            }
+            if (null !== $species = $validObjects['species'][$value['genus'].' '.$value['species']]) {
+                $strain->setSpecies($species);
             }
 
-            // Persist the strain
-            $this->em->persist($strain);
+            // Check type
+            //Before do a Doctrine query, check if we already have validate it
+            if (!array_key_exists($value['type'], $validObjects['type'])) {
+                $type = $this->em->getRepository('AppBundle:Type')->findOneBy(['team' => $team, 'name' => $value['type']]);
+                if (null === $type) {
+                    $errorString = 'Line '.($key + 2).', Column "type": The type "'.$value['type'].'" doesn\'t exists for the team: "'.$team->getName().'".';
+                    $form->addError(new FormError($errorString));
+                }
+
+                // Add in a array all valid data to prevent some db requests
+                $validObjects['type'][$value['type']] = $type;
+            }
+            if (null !== $type = $validObjects['type'][$value['type']]) {
+                $strain->setType($type);
+            }
+
+            // Check category
+            //Before do a Doctrine query, check if we already have validate it
+            if (!empty($value['biologicalOriginCategory'])) {
+                if (!array_key_exists($value['biologicalOriginCategory'], $validObjects['category'])) {
+                    $category = $this->em->getRepository('AppBundle:BiologicalOriginCategory')->findOneBy(['team' => $team, 'name' => $value['biologicalOriginCategory']]);
+                    if (null === $category) {
+                        $errorString = 'Line '.($key + 2).', Column "biologicalOriginCategory": The category "'.$value['biologicalOriginCategory'].'" doesn\'t exists for the team: "'.$team->getName().'".';
+                        $form->addError(new FormError($errorString));
+                    }
+
+                    // Add in a array all valid data to prevent some db requests
+                    $validObjects['category'][$value['biologicalOriginCategory']] = $category;
+                }
+                if (null !== $biologicalOriginCategory = $validObjects['category'][$value['biologicalOriginCategory']]) {
+                    $strain->setBiologicalOriginCategory($biologicalOriginCategory);
+                }
+            }
+
+            // Validate the Strain object with the Validator
+            $strainErrors = $this->validator->validate($strain);
+            if (count($strainErrors) > 0) {
+                $errors[] = $strainErrors;
+                foreach ($strainErrors as $error) {
+                    $errorString = 'Line '.($key + 2).', Column "'.$error->getPropertyPath().'": '.$error->getMessage();
+
+                    $form->addError(new FormError($errorString));
+                }
+            }
+
+            if ($form->isValid()) {
+                // Persist the strain
+                $this->em->persist($strain);
+            }
         }
 
-        // Flush all
-        $this->em->flush();
+        // If there is no error, flush
+        if ($form->isValid()) {
+            // Flush all
+            $this->em->flush();
+        }
 
         return $form;
     }
