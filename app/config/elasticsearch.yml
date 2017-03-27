@@ -30,8 +30,8 @@ fos_elastica:
                                 max_gram: 20
                             sequence_ngram:
                                 type: nGram
-                                min_gram: 1
-                                max_gram: 20
+                                min_gram: 10
+                                max_gram: 60
             types:
                 strain:
                     properties:
