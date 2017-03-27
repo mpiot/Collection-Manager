@@ -106,14 +106,14 @@ class BoxController extends Controller
         $box->setProject($project);
         $form = $this->createForm(BoxType::class, $box)
             ->add('save', SubmitType::class, [
-                'label' => 'Create',
+                'label' => 'Save',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-first',
                 ],
             ])
             ->add('saveAndAdd', SubmitType::class, [
-                'label' => 'Create and Add',
+                'label' => 'Save and Add',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-last',

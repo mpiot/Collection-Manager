@@ -74,20 +74,20 @@ class ProjectController extends Controller
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project)
             ->add('save', SubmitType::class, [
-                'label' => 'Create',
+                'label' => 'Save',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-first',
                 ],
             ])
             ->add('saveAndAdd', SubmitType::class, [
-                'label' => 'Create and Add',
+                'label' => 'Save and Add',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                 ],
             ])
             ->add('saveAndAddBox', SubmitType::class, [
-                'label' => 'Create and Add a box',
+                'label' => 'Save and Add a box',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-last',

@@ -78,14 +78,14 @@ class PlasmidController extends Controller
         $plasmid = new Plasmid();
         $form = $this->createForm(PlasmidType::class, $plasmid)
             ->add('save', SubmitType::class, [
-                'label' => 'Create',
+                'label' => 'Save',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-first',
                 ],
             ])
             ->add('saveAndAdd', SubmitType::class, [
-                'label' => 'Create and Add',
+                'label' => 'Save and Add',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-last',
@@ -142,7 +142,7 @@ class PlasmidController extends Controller
     {
         $form = $this->createForm(PlasmidEditType::class, $plasmid)
             ->add('save', SubmitType::class, [
-                'label' => 'Edit',
+                'label' => 'Save changes',
             ]);
 
         $form->handleRequest($request);
