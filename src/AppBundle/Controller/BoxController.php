@@ -235,7 +235,7 @@ class BoxController extends Controller
         $form = $this->createForm(BoxImportType::class);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->get('app.csv_importer')->importBox($box, $form);
 
             if ($form->isValid()) {
