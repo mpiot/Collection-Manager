@@ -283,7 +283,6 @@ class Strain
             $this->tubes[$key] = clone $tube;
             $this->tubes[$key]->setStrain($this);
         }
-        dump($this->tubes);
         $this->createdBy = null;
         $this->created = null;
         $this->updatedBy = null;
