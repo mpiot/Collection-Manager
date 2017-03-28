@@ -103,13 +103,13 @@ class StrainController extends Controller
                 ],
             ])
             ->add('saveAndAdd', SubmitType::class, [
-                'label' => 'Save and Add',
+                'label' => 'Save & Add',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                 ],
             ])
             ->add('saveAndCopy', SubmitType::class, [
-                'label' => 'Save and Copy',
+                'label' => 'Save & Copy',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-last',

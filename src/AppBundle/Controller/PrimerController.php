@@ -83,7 +83,7 @@ class PrimerController extends Controller
                 ],
             ])
             ->add('saveAndAdd', SubmitType::class, [
-                'label' => 'Save and Add',
+                'label' => 'Save & Add',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-last',
