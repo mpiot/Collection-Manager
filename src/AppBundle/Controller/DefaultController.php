@@ -28,4 +28,12 @@ class DefaultController extends Controller
             'projects' => $userProjects,
         ]);
     }
+
+    /**
+     * @Route("/faq", name="faq")
+     */
+    public function faqAction()
+    {
+        return $this->render('default/faq.html.twig');
+    }
 }
