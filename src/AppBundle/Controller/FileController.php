@@ -29,7 +29,7 @@ class FileController extends Controller
         $genbankFile = $plasmid->getGenBankFile();
 
         if (null === $genbankFile) {
-            throw $this->createNotFoundException("This file doen't exists.");
+            throw $this->createNotFoundException("This file doesn't exists.");
         }
 
         $request->headers->set('X-Sendfile-Type', 'X-Accel-Redirect');

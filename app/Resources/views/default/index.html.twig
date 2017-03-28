@@ -39,7 +39,7 @@
                         My projects
                         {% if app.user.isInTeam() %}
                             <a class="pull-right" href="{{ path('project_add') }}">
-                                {{ app.user.isTeamAdministrator() ? 'Create a new project' : 'Suggest a new project' }}
+                                {{ app.user.isTeamAdministrator() ? 'Add a new project' : 'Suggest a new project' }}
                             </a>
                         {% endif %}
                     </div>

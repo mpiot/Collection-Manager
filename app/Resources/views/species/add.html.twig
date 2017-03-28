@@ -47,7 +47,7 @@
                 // Take the taxid value
                 var taxid = $("#species_taxId").val();
 
-                // If the visitor click on the button with something writed in the input field
+                // If the visitor click on the button with something written in the input field
                 if (taxid.length > 0) {
                     // Define the URL for ajax, use replace permit use symfony routing
                     var url = "{{ path('species_getjson', { 'taxid': 'taxid-change' }) }}";

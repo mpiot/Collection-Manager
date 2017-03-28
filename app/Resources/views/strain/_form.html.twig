@@ -1,8 +1,9 @@
 {{ form_start(form) }}
     <div class="alert alert-info" role="alert">
-        <h4><span class="glyphicon glyphicon-info-sign"></span> Notice on the team rights </h4>
-        <p>In this form, you can link some team ressources: Type, Category, Plasmids, Parental Strains.<br>
-            Keep in mind that ressourses are private in your team. If in the Tube section, you add your strain in a project shared by other teams, they can access in "read only" mode to the linked shared ressources.
+        <h4><span class="glyphicon glyphicon-info-sign"></span> Notice on the linked data</h4>
+        <p>
+            In the form you link data on the strain: Type, Category, Plasmids, Parental Strains. These resources are restricted for your team (only team member can view it).<br>
+            If you add a tube in a project shared with an other team, then, they can view the linked data (only view, they have no rights to edit, delete).
         </p>
     </div>
 
@@ -11,7 +12,7 @@
     {% endif %}
 
     <fieldset>
-        <legend>General informations</legend>
+        <legend>General information</legend>
         {{ form_row(form.species) }}
 
         <div class="form-group">
@@ -41,7 +42,7 @@
     {# Special fields #}
     {% if 'gmo' == strain.discriminator %}
         <fieldset>
-            <legend>Biological informations</legend>
+            <legend>Biological information</legend>
             {{ form_row(form.description) }}
             {{ form_row(form.genotype) }}
         </fieldset>
