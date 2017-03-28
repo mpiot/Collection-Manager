@@ -275,7 +275,7 @@ class Strain
         $this->slug = null;
         $this->autoName = null;
         foreach ($this->tubes as $key => $tube) {
-            $this->tubes[$key] =  clone $tube;
+            $this->tubes[$key] = clone $tube;
             $this->tubes[$key]->setStrain($this);
         }
         dump($this->tubes);

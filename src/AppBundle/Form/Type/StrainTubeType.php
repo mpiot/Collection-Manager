@@ -97,10 +97,10 @@ class StrainTubeType extends AbstractType
                     ])
                     ->orderBy('project.name', 'ASC');
             },
-            'choice_label' => function($val) {
+            'choice_label' => function ($val) {
                 return (0 === count($val->getBoxes())) ? $val->getName().' (no box)' : $val->getName();
             },
-            'choice_attr' => function($val) {
+            'choice_attr' => function ($val) {
                 return (0 === count($val->getBoxes())) ? ['disabled' => 'disabled'] : [];
             },
             'placeholder' => '-- select a project --',
@@ -117,10 +117,10 @@ class StrainTubeType extends AbstractType
                     ->where('b.project = :project')
                         ->setParameter('project', $project);
             },
-            'choice_label' => function($val) {
+            'choice_label' => function ($val) {
                 return (0 === $val->getFreeSpace()) ? $val->getName().' (full)' : $val->getName();
             },
-            'choice_attr' => function($val) {
+            'choice_attr' => function ($val) {
                 return (0 === $val->getFreeSpace()) ? ['disabled' => 'disabled'] : [];
             },
             'auto_initialize' => false,
