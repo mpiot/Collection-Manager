@@ -274,14 +274,11 @@ class Strain
         $this->id = null;
         $this->slug = null;
         $this->autoName = null;
-        $this->tubes = new ArrayCollection();
-        $this->biologicalOriginCategory = null;
-        $this->biologicalOrigin = null;
-        $this->source = null;
-        $this->latitude = null;
-        $this->longitude = null;
-        $this->address = null;
-        $this->country = null;
+        foreach ($this->tubes as $key => $tube) {
+            $this->tubes[$key] =  clone $tube;
+            $this->tubes[$key]->setStrain($this);
+        }
+        dump($this->tubes);
         $this->createdBy = null;
         $this->created = null;
         $this->updatedBy = null;

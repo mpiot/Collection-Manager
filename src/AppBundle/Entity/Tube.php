@@ -84,6 +84,22 @@ class Tube
     }
 
     /**
+     * Clone.
+     *
+     * Used when a strain is cloned.
+     */
+    public function __clone()
+    {
+        $this->id = null;
+        $this->strain = null;
+        $this->cell = null;
+        $this->cellName = null;
+        $this->creationDate = null;
+        $this->deletionDate = null;
+        $this->deleted = false;
+    }
+
+    /**
      * Get id.
      *
      * @return int

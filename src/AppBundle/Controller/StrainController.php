@@ -74,27 +74,25 @@ class StrainController extends Controller
 
     /**
      * @Route("/add/gmo", name="strain_add_gmo")
-     * @Route("/add/gmo/{id}-{slug}", name="strain_add_gmo_from_model", requirements={"id": "\d+"})
      * @Route("/add/wild", name="strain_add_wild")
+     * @Route("/add/{id}-{slug}", name="strain_add_from_model", requirements={"id": "\d+"})
      * @Security("user.isInTeam()")
      */
     public function addAction(Request $request, Strain $strainModel = null)
     {
+        $strain = new Strain();
         if ('strain_add_wild' === $request->get('_route')) {
-            $discriminator = 'wild';
+            $strain->setDiscriminator('wild');
             $formType = StrainWildType::class;
         } else {
-            $discriminator = 'gmo';
+            $strain->setDiscriminator('gmo');
             $formType = StrainGmoType::class;
         }
 
         if ($strainModel) {
             $strain = clone $strainModel;
-        } else {
-            $strain = new Strain();
+            $formType = 'gmo' === $strain->getDiscriminator() ? StrainGmoType::class : StrainWildType::class;
         }
-
-        $strain->setDiscriminator($discriminator);
 
         $form = $this->createForm($formType, $strain)
             ->add('save', SubmitType::class, [
@@ -106,6 +104,12 @@ class StrainController extends Controller
             ])
             ->add('saveAndAdd', SubmitType::class, [
                 'label' => 'Save and Add',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                ],
+            ])
+            ->add('saveAndCopy', SubmitType::class, [
+                'label' => 'Save and Copy',
                 'attr' => [
                     'data-btn-group' => 'btn-group',
                     'data-btn-position' => 'btn-last',
@@ -122,7 +126,9 @@ class StrainController extends Controller
             $this->addFlash('success', 'The strain has been added successfully: '.$strain->getAutoName());
 
             if ($form->get('saveAndAdd')->isClicked()) {
-                return $this->redirectToRoute('strain_add_'.$discriminator);
+                return $this->redirectToRoute('strain_add_'.$strain->getDiscriminator());
+            } elseif ($form->get('saveAndCopy')->isClicked()) {
+                return $this->redirectToRoute('strain_add_from_model', ['id' => $strain->getId(), 'slug' => $strain->getSlug()]);
             } else {
                 return $this->redirectToRoute('strain_view', ['id' => $strain->getId(), 'slug' => $strain->getSlug()]);
             }
