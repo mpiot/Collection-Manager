@@ -97,6 +97,11 @@ class Tube
         $this->creationDate = null;
         $this->deletionDate = null;
         $this->deleted = false;
+
+        // If the box is full, set box on null
+        if (0 === $this->box->getFreeSpace()) {
+            $this->box = null;
+        }
     }
 
     /**
