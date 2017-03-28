@@ -80,7 +80,6 @@ class Strain
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="strains")
      * @ORM\JoinColumn(name="species", nullable=false)
-     * @Assert\Type("object")
      */
     private $species;
 
@@ -89,7 +88,6 @@ class Strain
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Type", inversedBy="strains")
      * @ORM\JoinColumn(name="type")
-     * @Assert\Type("object")
      */
     private $type;
 
@@ -162,7 +160,10 @@ class Strain
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BiologicalOriginCategory", inversedBy="strains")
      * @ORM\JoinColumn(name="category", nullable=true)
-     * @Assert\Type("object")
+     * @Assert\Expression(
+     *     "null !== this.getBiologicalOriginCategory() or 'gmo' === this.getDiscriminator()",
+     *     message="In Wild strain, the biological origin category is required."
+     * )
      */
     private $biologicalOriginCategory;
 
@@ -170,6 +171,10 @@ class Strain
      * @var string
      *
      * @ORM\Column(name="biologicalOrigin", type="string", length=255, nullable=true)
+     * @Assert\Expression(
+     *     "null !== this.getBiologicalOrigin() or 'gmo' === this.getDiscriminator()",
+     *     message="In Wild strain, the biological origin is required."
+     * )
      */
     private $biologicalOrigin;
 
