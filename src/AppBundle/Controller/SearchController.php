@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends Controller
 {
     const HITS_PER_PAGE = 50;
-    const SUGGEST_HITS = 10;
 
     /**
      * Quick search.
@@ -57,6 +56,8 @@ class SearchController extends Controller
     /**
      * @param Request $request
      *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/advanced-search", name="advanced-search")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
@@ -92,42 +93,6 @@ class SearchController extends Controller
 
         return $this->render('search/advancedSearch.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/suggest-search", name="suggest-search", options={"expose"=true}, condition="request.isXmlHttpRequest()")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
-     */
-    public function suggestAction(Request $request)
-    {
-        $keyword = $request->get('search', null);
-
-        // Get the query
-        $repository = new GlobalRepository();
-        $query = $repository->searchQuery($keyword, $this->getUser());
-
-        // Execute the query
-        $mngr = $this->get('fos_elastica.index_manager');
-        $search = $mngr->getIndex('app')->createSearch();
-        $search->addType('plasmid');
-        $search->addType('primer');
-        $search->addType('strain');
-        $results = $search->search($query, self::SUGGEST_HITS);
-
-        $data = [];
-
-        foreach ($results as $result) {
-            $source = $result->getSource();
-            $data[] = [
-                'suggest' => $source['name'].' ('.$source['autoName'].')',
-                'autoName' => $source['autoName'],
-                'name' => $source['name'],
-            ];
-        }
-
-        return new JsonResponse($data, 200, [
-            'Cache-Control' => 'no-cache',
         ]);
     }
 }
