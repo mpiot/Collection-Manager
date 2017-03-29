@@ -25,13 +25,7 @@
             <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
             <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.6/select2-bootstrap.min.css" rel="stylesheet" />
 
-            {% stylesheets
-              'css/ie10-viewport-bug-workaround.css'
-              'css/bootstrap-modifications.css'
-            filter='?uglifycss' filter='cssrewrite' output='css/compiled/app.css'
-             %}
-                <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
+            <link rel="stylesheet" href="{{ asset('built/app.min.css') }}" />
         {% endblock %}
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
@@ -180,12 +174,7 @@
             <!-- Select2 -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
-            {% javascripts
-                'js/*'
-                filter='?uglifyjs2' output='js/compiled/app.js'
-            %}
-            <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
+            <script src="{{ asset('built/app.min.js') }}"></script>
 
         {% endblock %}
     </body>
