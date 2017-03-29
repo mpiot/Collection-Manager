@@ -3,7 +3,7 @@ $( function() {
         minLength: 2,
         source: function (request, response) {
             $.ajax({
-                url: Routing.generate('strain-name-suggest', { keyword: $('#strain_gmo_name, #strain_wild_name').val() }),
+                url: Routing.generate('strain_search', { name: $('#strain_gmo_name, #strain_wild_name').val() }),
                 dataType: 'json',
                 success: function (data) {
                     var items = [];

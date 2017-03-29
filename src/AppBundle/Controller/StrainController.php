@@ -6,6 +6,7 @@ use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
 use AppBundle\SearchRepository\GlobalRepository;
+use AppBundle\SearchRepository\StrainRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -272,26 +273,21 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/name-suggest/{keyword}", name="strain-name-suggest", options={"expose"=true}, condition="request.isXmlHttpRequest()")
+     * @Route("/search/{name}", name="strain_search", options={"expose"=true}, condition="request.isXmlHttpRequest()")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function suggestAction($keyword)
+    public function searchAction($name)
     {
-        // Get the query
-        $repository = new GlobalRepository();
-        $query = $repository->searchQuery($keyword, $this->getUser(), ['gmo', 'wild']);
-
-        // Execute the query
-        $mngr = $this->get('fos_elastica.index_manager');
-        $search = $mngr->getIndex('app')->createSearch();
-        $search->addType('strain');
-        $results = $search->search($query, 10);
+        $repositoryManager = $this->get('fos_elastica.manager.orm');
+        $repository = $repositoryManager->getRepository('AppBundle:Strain');
+        $elasticQuery = $repository->searchByNameQuery($name, null, null, $this->getUser());
+        $results = $this->get('fos_elastica.finder.app.strain')->find($elasticQuery);
 
         $data = [];
-
         foreach ($results as $result) {
-            $source = $result->getSource();
-            $data[] = $source['name'];
+            if (!in_array($result->getName(), $data)) {
+                $data[] = $result->getName();
+            }
         }
 
         return new JsonResponse($data, 200, [

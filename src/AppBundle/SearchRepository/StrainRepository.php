@@ -8,7 +8,7 @@ use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, $projectId, User $user)
+    public function searchByNameQuery($q, $p = null, $projectId, User $user)
     {
         $projectsSecureQuery = new \Elastica\Query\Terms();
         $projectsSecureQuery->setTerms('project_id', $user->getProjectsId());
@@ -40,9 +40,11 @@ class StrainRepository extends Repository
             $boolQuery->addFilter($projectQuery);
         }
 
-        $query
-            ->setFrom(($p - 1) * Strain::NUM_ITEMS)
-            ->setSize(Strain::NUM_ITEMS);
+        if (null !== $p) {
+            $query
+                ->setFrom(($p - 1) * Strain::NUM_ITEMS)
+                ->setSize(Strain::NUM_ITEMS);
+        }
 
         // build $query with Elastica objects
         return $query;
