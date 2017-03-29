@@ -1,12 +1,13 @@
 $( function() {
-    $('[name="advanced_search[search]"]').autocomplete({
+    $('#advanced_search_search').autocomplete({
         minLength: 3,
         source: function (request, response) {
             $.ajax({
                 url: Routing.generate('suggest-search'),
                 dataType: 'json',
-                data: 'search=' + $('[name="advanced_search[search]"]').val(),
+                data: 'search=' + $('#advanced_search_search').val(),
                 success: function (data) {
+                    console.log(data);
                     var items = [];
                     $.each(data, function (key, val) {
                         items.push(val['suggest']);
@@ -17,11 +18,11 @@ $( function() {
         }
     });
 
-    $('[name="gmo_strain[name]"], [name$="wild_strain[name]"]').autocomplete({
+    $('#strain_gmo_name, #strain_wild_name').autocomplete({
         minLength: 2,
         source: function (request, response) {
             $.ajax({
-                url: Routing.generate('strain-name-suggest', { keyword: $('[name="gmo_strain[name]"], [name$="wild_strain[name]"]').val() }),
+                url: Routing.generate('strain-name-suggest', { keyword: $('#strain_gmo_name, #strain_wild_name').val() }),
                 dataType: 'json',
                 success: function (data) {
                     var items = [];

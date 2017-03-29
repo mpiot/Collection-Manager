@@ -96,7 +96,7 @@ class SearchController extends Controller
     }
 
     /**
-     * @Route("/suggest-search", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="suggest-search")
+     * @Route("/suggest-search", name="suggest-search", options={"expose"=true}, condition="request.isXmlHttpRequest()")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function suggestAction(Request $request)

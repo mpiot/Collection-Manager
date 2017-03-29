@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
+use AppBundle\SearchRepository\GlobalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -272,38 +273,25 @@ class StrainController extends Controller
 
     /**
      * @Route("/name-suggest/{keyword}", name="strain-name-suggest", options={"expose"=true}, condition="request.isXmlHttpRequest()")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function nameSuggestAction($keyword)
+    public function suggestAction($keyword)
     {
-        // Set a project filter
-        $projectsSecureQuery = new \Elastica\Query\Terms();
-        $projectsSecureQuery->setTerms('projects', $this->getUser()->getProjectsId());
-
-        // If user set a keyword, else, he just want use a filter
-        $keywordQuery = new \Elastica\Query\QueryString();
-        $keywordQuery->setFields(['autoName', 'name', 'sequence']);
-        $keywordQuery->setDefaultOperator('AND');
-        $keywordQuery->setQuery($keyword);
-
-        $query = new \Elastica\Query\BoolQuery();
-        $query->addFilter($projectsSecureQuery);
-        $query->addMust($keywordQuery);
+        // Get the query
+        $repository = new GlobalRepository();
+        $query = $repository->searchQuery($keyword, $this->getUser(), ['gmo', 'wild']);
 
         // Execute the query
-        $mngr = $this->container->get('fos_elastica.index_manager');
+        $mngr = $this->get('fos_elastica.index_manager');
         $search = $mngr->getIndex('app')->createSearch();
-        $search->addType('gmoStrain');
-        $search->addType('wildStrain');
-        $results = $search->search($query, 10)->getResults();
+        $search->addType('strain');
+        $results = $search->search($query, 10);
 
         $data = [];
 
         foreach ($results as $result) {
             $source = $result->getSource();
-            // Verify if the name is already in the array
-            if (!in_array($source['name'], $data)) {
-                $data[] = $source['name'];
-            }
+            $data[] = $source['name'];
         }
 
         return new JsonResponse($data, 200, [
