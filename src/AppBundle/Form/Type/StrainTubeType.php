@@ -97,12 +97,7 @@ class StrainTubeType extends AbstractType
                     ])
                     ->orderBy('project.name', 'ASC');
             },
-            'choice_label' => function ($val) {
-                return (0 === count($val->getBoxes())) ? $val->getName().' (no box)' : $val->getName();
-            },
-            'choice_attr' => function ($val) {
-                return (0 === count($val->getBoxes())) ? ['disabled' => 'disabled'] : [];
-            },
+            'choice_label' => 'name',
             'placeholder' => '-- select a project --',
         ]);
     }
