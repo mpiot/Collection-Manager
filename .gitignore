@@ -1,6 +1,5 @@
 /app/config/parameters.yml
 /bower_components
-/build
 /deploy.js
 docker-compose.yml
 /node_modules/
@@ -23,7 +22,7 @@ docker-compose.yml
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/web/css/compiled/*
-/web/js/compiled/*
-/web/built
-/web/fonts
+/web/css/
+/web/js/
+/web/fonts/
+*~
