@@ -11,25 +11,25 @@ it provides the management of:
 2. How to control your code syntax ?
 3. Follow the best practice
 
-## 1. How to install to develop the app (no adapted for production) ?
-These explanations are for install the project under Docker.
+## 1. How to install to develop the app ?
+These explanations are for install the project with Docker.
 
 1. Install Docker and Docker compose on your computer (see the doc)
-2. Get mpiot/symfony-docker
 3. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
     ```
     $ grep vm.max_map_count /etc/sysctl.conf
     vm.max_map_count=262144
     ```
     To apply the setting on a live system type: `sysctl -w vm.max_map_count=262144`
-4. Set your params in the .env file (copy .env.dist to .env)
-5. `docker-compose build`
-6. `docker-compose up -d`
+4. Copy the file docker-compose.yml.dist to docker-compose.yml
+4. You can changes ports exposure in the docker-compose.yml file, or other things
+5. Built the images `docker-compose build`
+6. Built containers, volume, network and start all `docker-compose up -d`
 7. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
 
- 
 Now you have containers with nginx, php, mariadb and elasticsearch, config the app to work with the containers, and init the app:
-    
+
+1. Install CSS, JS, and Fonts with Bower and Grunt `bower install` and `grunt default` (you need to have Bower and GruntJS installed)
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
     ```bash
     setfacl -R -m u:33:rwX -m u:`whoami`:rwX var/ web/uploads/
@@ -40,7 +40,7 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
     ```bash
     docker exec -it collection-manager-php bash
     ```
-    
+
 3. Install Vendors
     ```bash
     composer install
@@ -64,14 +64,10 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
     bin/console fos:elastica:populate
     ```
 
-7. Dump the Assets (CSS/JS)
-    ```bash
-    bin/console assetic:dump
-    ```
-
 8. Clear the cache
     ```bash
-    bin/console cache:clear
+    bin/console cache:clear --no-warmup
+    bin/console cache:warmup
     ```
 
 Any files and folders created by PHP or in the container are root on the host machine. You have to do a chown command each time you want edit files (eg: with the bin/console doctrine:entity).
