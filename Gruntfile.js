@@ -41,11 +41,11 @@ module.exports = function(grunt) {
         },
         watch: {
             css: {
-                files: ['web/css/*.css'],
+                files: ['app/Resources/css/*.css'],
                 tasks: ['css']
             },
             javascript: {
-                files: ['web/js/*.js'],
+                files: ['app/Resources/js/*.js'],
                 tasks: ['javascript']
             }
         },
