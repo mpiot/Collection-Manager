@@ -1,7 +1,8 @@
 /app/config/parameters.yml
-/build/
+/bower_components
 /deploy.js
 docker-compose.yml
+/node_modules/
 .php_cs.cache
 /phpunit.xml
 /uploads/*
@@ -21,5 +22,7 @@ docker-compose.yml
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/web/css/compiled/*
-/web/js/compiled/*
+/web/css/
+/web/js/
+/web/fonts/
+*~
