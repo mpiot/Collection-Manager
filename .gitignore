@@ -25,3 +25,5 @@ docker-compose.yml
 /web/bundles/
 /web/css/compiled/*
 /web/js/compiled/*
+/web/built
+/web/fonts
