@@ -5,8 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
-use AppBundle\SearchRepository\GlobalRepository;
-use AppBundle\SearchRepository\StrainRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

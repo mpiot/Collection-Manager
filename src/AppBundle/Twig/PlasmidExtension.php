@@ -116,7 +116,7 @@ class PlasmidExtension extends \Twig_Extension
         function coordonnees($cx, $cy, $rayon, $angle)
         {
             // calcul de l'angle en radian
-            $radian = $angle * pi() / 180.0;
+            $radian = $angle * M_PI / 180.0;
             // calcul des coordonnees correspondantes
             $coord = [
                 'x' => $cx + ($rayon * cos($radian)),
