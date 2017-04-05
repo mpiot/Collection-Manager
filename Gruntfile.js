@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                         'bower_components/jquery-ui/themes/base/jquery-ui.min.css',
                         'bower_components/select2/dist/css/select2.min.css',
                         'bower_components/select2-bootstrap/dist/select2-bootstrap.min.css',
-                        'app/Resources/css/*.css'
+                        'app/Resources/public/css/*.css'
                     ]
                 }
             }
@@ -34,18 +34,18 @@ module.exports = function(grunt) {
                         'bower_components/jquery-ui/jquery-ui.min.js',
                         'bower_components/bootstrap/dist/js/bootstrap.min.js',
                         'bower_components/select2/dist/js/select2.min.js',
-                        'app/Resources/js/*.js'
+                        'app/Resources/public/js/*.js'
                     ]
                 }
             }
         },
         watch: {
             css: {
-                files: ['app/Resources/css/*.css'],
+                files: ['app/Resources/public/css/*.css'],
                 tasks: ['css']
             },
             javascript: {
-                files: ['app/Resources/js/*.js'],
+                files: ['app/Resources/public/js/*.js'],
                 tasks: ['javascript']
             }
         },
