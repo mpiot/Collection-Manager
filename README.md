@@ -32,8 +32,8 @@ Now you have containers with nginx, php, mariadb and elasticsearch, config the a
 1. Install CSS, JS, and Fonts with Bower and Grunt `bower install` and `grunt default` (you need to have Bower and GruntJS installed)
 1. Set the rights to allow PHP create files (in container www-data user have UID 33):
     ```bash
-    setfacl -R -m u:33:rwX -m u:`whoami`:rwX var/ web/uploads/
-    setfacl -dR -m u:33:rwX -m u:`whoami`:rwX var/ web/uploads/
+    setfacl -R -m u:33:rwX -m u:`whoami`:rwX var/ uploads/
+    setfacl -dR -m u:33:rwX -m u:`whoami`:rwX var/ uploads/
     ```
 
 2. Next command, must be execute in the container, execute it to go in the PHP container:
