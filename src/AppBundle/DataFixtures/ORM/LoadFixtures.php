@@ -32,80 +32,72 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
         //---------//
         //  Users  //
         //---------//
-        $userManager = $this->container->get('fos_user.user_manager');
+        $userManager = $this->container->get('app.user_manager');
 
         // Create a user: admin
         $admin = $userManager->createUser();
         $admin->setEmail('admin');
-        $admin->setUsername('admin');
         $admin->setFirstName('admin');
         $admin->setLastName('admin');
         $admin->setPlainPassword('mdp');
-        $admin->setEnabled(true);
+        $admin->setIsActive(true);
         $admin->addRole('ROLE_SUPER_ADMIN');
 
         // Create a user: user
         $user = $userManager->createUser();
         $user->setEmail('user');
-        $user->setUsername('user');
         $user->setFirstName('user');
         $user->setLastName('user');
         $user->setPlainPassword('mdp');
-        $user->setEnabled(true);
+        $user->setIsActive(true);
 
         // Create a user: Team1Admin
         $team1admin = $userManager->createUser();
         $team1admin->setEmail('team1admin');
-        $team1admin->setUsername('team1admin');
         $team1admin->setFirstName('team1admin');
         $team1admin->setLastName('team1admin');
         $team1admin->setPlainPassword('mdp');
-        $team1admin->setEnabled(true);
+        $team1admin->setIsActive(true);
 
         // Create a user: Team1Project
         $team1project = $userManager->createUser();
         $team1project->setEmail('team1project');
-        $team1project->setUsername('team1project');
         $team1project->setFirstName('team1project');
         $team1project->setLastName('team1project');
         $team1project->setPlainPassword('mdp');
-        $team1project->setEnabled(true);
+        $team1project->setIsActive(true);
 
         // Create a user: Team1User
         $team1user = $userManager->createUser();
         $team1user->setEmail('team1user');
-        $team1user->setUsername('team1user');
         $team1user->setFirstName('team1user');
         $team1user->setLastName('team1user');
         $team1user->setPlainPassword('mdp');
-        $team1user->setEnabled(true);
+        $team1user->setIsActive(true);
 
         // Create a user: Team2Admin
         $team2admin = $userManager->createUser();
         $team2admin->setEmail('team2admin');
-        $team2admin->setUsername('team2admin');
         $team2admin->setFirstName('team2admin');
         $team2admin->setLastName('team2admin');
         $team2admin->setPlainPassword('mdp');
-        $team2admin->setEnabled(true);
+        $team2admin->setIsActive(true);
 
         // Create a user: Team2Project
         $team2project = $userManager->createUser();
         $team2project->setEmail('team2project');
-        $team2project->setUsername('team2project');
         $team2project->setFirstName('team2project');
         $team2project->setLastName('team2project');
         $team2project->setPlainPassword('mdp');
-        $team2project->setEnabled(true);
+        $team2project->setIsActive(true);
 
         // Create a user: Team2User
         $team2user = $userManager->createUser();
         $team2user->setEmail('team2user');
-        $team2user->setUsername('team2user');
         $team2user->setFirstName('team2user');
         $team2user->setLastName('team2user');
         $team2user->setPlainPassword('mdp');
-        $team2user->setEnabled(true);
+        $team2user->setIsActive(true);
 
         // Persist and setReference for users
         $manager->persist($admin);
