@@ -32,7 +32,7 @@ class CSVImporter
 
         $row = 0;
         if (false !== ($handle = fopen($file, 'r'))) {
-            while (false !== ($line = fgetcsv($handle, 1000, ','))) {
+            while (false !== ($line = fgetcsv($handle, 1000, ';'))) {
                 ++$row;
                 if (1 === $row) {
                     continue;
