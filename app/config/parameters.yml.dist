@@ -2,24 +2,23 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     db
-    database_port:     ~
-    database_name:     collectionManager
-    database_user:     collectionManager
-    database_password: collectionManager
+    # Database settings
+    env(DATABASE_URL):              mysql://collection-manager:collection-manager@db:3306/collection-manager
 
-    elasticsearch_host: es1
-    elasticsearch_port: ~
+    # ElasticSearch settings
+    env(ELASTICSEARCH_URL):         http://es1:9200
 
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    # Mailer settings
+    env(MAILER_URL):                smtp://login:password@host:587?encryption=tls&auth_mode=login
+    env(MAILER_SENDER_ADDRESS):     me@myhost.tld
+    env(MAILER_SENDER_NAME):        My site name
 
     mailer_from:       ~
     mailer_name:       ~
 
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    # A secret key that's used to generate certain security-related tokens
+    env(SYMFONY_SECRET):            ThisTokenIsNotSoSecretChangeIt
 
-    recaptcha_public_key:    ~
-    recaptcha_private_key:   ~
+    # ReCaptcha API key
+    env(RECAPTCHA_PUBLIC_KEY):      ReplaceWithYourOwnReCaptchaPublicKeyForInvisibleCatcha
+    env(RECAPTCHA_PRIVATE_KEY):     ReplaceWithYourOwnReCaptchaPrivateKeyForInvisibleCatcha
