@@ -27,7 +27,6 @@ Encore
         './assets/js/images.js',
         './assets/js/modal-confirmation-message.js',
         './assets/js/plasmid-add-gbk-file.js',
-        './assets/js/quick-search.js',
         './assets/js/select2-conf.js',
         './assets/js/strain-tubes-dynamic.js'
     ])

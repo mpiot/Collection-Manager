@@ -26,11 +26,14 @@ class SearchController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/search/{keyword}", options={"expose"=true}, name="quick-search")
+     * @Route("/search", name="quick-search")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function quickSearchAction($keyword)
+    public function quickSearchAction(Request $request)
     {
+        $keyword = null !== $request->get('q') ? $request->get('q') : '';
+        $keyword = mb_convert_encoding($keyword, 'UTF-8');
+
         // Get the query
         $repository = new GlobalRepository();
         $query = $repository->searchQuery($keyword, $this->getUser());
