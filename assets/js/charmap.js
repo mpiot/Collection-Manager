@@ -1,5 +1,4 @@
-function charMap(fieldHandler)
-{
+module.exports = function(fieldHandler) {
     // Create the chars array
     var chars = ['αβΔδε', 'θλμπρ', 'σφχψω', '©®™'];
     var charsArray = [];
@@ -11,11 +10,11 @@ function charMap(fieldHandler)
     // Create the table object
     var table = $('<table class="table table-bordered text-center">');
 
-    for (var i = 0; i < charsArray.length; i++) {
+    for (var j = 0; j < charsArray.length; j++) {
         var tr = '<tr>';
-        for (var j = 0; j < charsArray[i].length; j++) {
+        for (var k = 0; k < charsArray[j].length; k++) {
             var td = '<td>';
-            td += charsArray[i][j];
+            td += charsArray[j][k];
             td += '</td>';
 
             tr += td;
@@ -41,8 +40,8 @@ function charMap(fieldHandler)
 
     // Remove the table when user click elsewhere
     $('body').click(function(e) {
-        if(e.target != fieldHandler[0] && 0 == table.find(e.target)['length']) {
+        if(e.target !== fieldHandler[0] && 0 === table.find(e.target)['length']) {
             table.hide();
         }
     });
-}
+};

@@ -22,12 +22,3 @@
         {{ form_rest(form) }}
     {{ form_end(form) }}
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-
-    <script>
-        $('#project_administrators').select2();
-        $('#project_members').select2();
-    </script>
-{% endblock %}

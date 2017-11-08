@@ -133,13 +133,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-
-    <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover();
-        })
-    </script>
-{% endblock %}

@@ -22,12 +22,3 @@
         </div>
     {{ form_end(form) }}
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-
-    <script>
-        $('#team_administrators').select2();
-        $('#team_members').select2();
-    </script>
-{% endblock %}

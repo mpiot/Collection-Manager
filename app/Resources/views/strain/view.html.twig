@@ -348,7 +348,6 @@
 
     {% if 'wild' == strain.discriminator and strain.latitude is defined and strain.longitude is defined %}
         <script type="text/javascript">
-
             var map;
             function initMap() {
                 var myLatLng = {lat: {{ strain.latitude }}, lng: {{ strain.longitude}}};
@@ -364,10 +363,7 @@
                     title: '{{ strain.autoName }}'
                 });
             }
-
-        </script>
-        <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg&callback=initMap">
+            initMap();
         </script>
     {% endif %}
 {% endblock %}

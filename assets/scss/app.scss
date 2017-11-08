@@ -4,6 +4,13 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "custom";
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
+// jQueryUI styles
+@import "~jquery-ui/themes/base/autocomplete.css";
+
+// Select2 styles
+@import "~select2/src/scss/core.scss";
+@import "~select2-bootstrap-theme/src/select2-bootstrap.scss";
+
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
   padding-top: 50px;
