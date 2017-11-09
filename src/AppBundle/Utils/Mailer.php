@@ -16,15 +16,15 @@ class Mailer
 {
     protected $mailer;
     protected $templating;
-    private $from;
-    private $name;
+    private $senderMail;
+    private $senderName;
 
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, $mailer_from, $mailer_name)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, $senderMail, $senderName)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
-        $this->from = $mailer_from;
-        $this->name = $mailer_name;
+        $this->senderMail = $senderMail;
+        $this->senderName = $senderName;
     }
 
     /**
@@ -34,11 +34,11 @@ class Mailer
      * @param string $subject
      * @param string $body
      */
-    protected function sendEmailMessage($from, $to, $subject, $body)
+    protected function sendEmailMessage($to, $subject, $body)
     {
         $message = \Swift_Message::newInstance();
         $message
-            ->setFrom($from)
+            ->setFrom($this->senderMail, $this->senderName)
             ->setTo($to)
             ->setSubject($subject)
             ->setBody($body)
@@ -55,14 +55,13 @@ class Mailer
      */
     public function sendUserConfirmation(User $user)
     {
-        $from = [$this->from => $this->name];
         $to = $user->getEmail();
         $subject = 'Registration confirmation';
         $body = $this->templating->render('mail/userConfirmation.html.twig', [
             'user' => $user,
         ]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($to, $subject, $body);
     }
 
     /**
@@ -72,14 +71,13 @@ class Mailer
      */
     public function sendPasswordResetting(User $user)
     {
-        $from = [$this->from => $this->name];
         $to = $user->getEmail();
         $subject = 'Password resetting';
         $body = $this->templating->render('mail/passwordResetting.html.twig', [
             'user' => $user,
         ]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($to, $subject, $body);
     }
 
     /**
@@ -89,12 +87,11 @@ class Mailer
      */
     public function sendTeamRequestConfirmation(TeamRequest $teamRequest)
     {
-        $from = [$this->from => $this->name];
         $to = $teamRequest->getUser()->getEmail();
         $subject = 'Confirmation of your team request';
         $body = $this->templating->render('mail/confirmationTeamRequest.html.twig', ['teamRequest' => $teamRequest]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($to, $subject, $body);
     }
 
     /**
@@ -104,7 +101,6 @@ class Mailer
      */
     public function sendTeamRequestNotification(TeamRequest $teamRequest)
     {
-        $from = [$this->from => $this->name];
         $subject = 'Team request notification';
 
         foreach ($teamRequest->getTeam()->getAdministrators() as $teamAdmin) {
@@ -112,7 +108,7 @@ class Mailer
                 'teamRequest' => $teamRequest,
                 'teamAdmin' => $teamAdmin,
             ]);
-            $this->sendEmailMessage($from, $teamAdmin->getEmail(), $subject, $body);
+            $this->sendEmailMessage($teamAdmin->getEmail(), $subject, $body);
         }
     }
 
@@ -123,12 +119,11 @@ class Mailer
      */
     public function sendTeamRequestAnswer(TeamRequest $teamRequest)
     {
-        $from = [$this->from => $this->name];
         $to = $teamRequest->getUser()->getEmail();
         $subject = 'Team request answer';
         $body = $this->templating->render('mail/teamRequestAnswer.html.twig', ['teamRequest' => $teamRequest]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($to, $subject, $body);
     }
 
     /**
@@ -138,13 +133,12 @@ class Mailer
      */
     public function sendProjectAdminNotification(Project $project)
     {
-        $from = [$this->from => $this->name];
         $to = '';
         $subject = 'Project administration notification';
         $body = $this->templating->render('mail/projectAdminNotification.html.twig', [
             'project' => $project,
         ]);
 
-        $this->sendEmailMessage($from, $to, $subject, $body);
+        $this->sendEmailMessage($to, $subject, $body);
     }
 }

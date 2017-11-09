@@ -11,7 +11,7 @@ services:
 # Utils
     app.mailer:
         class: AppBundle\Utils\Mailer
-        arguments: ["@mailer", "@templating", '%mailer_from%', '%mailer_name%']
+        arguments: ["@mailer", "@templating", '%env(MAILER_SENDER_ADDRESS)%', '%env(MAILER_SENDER_NAME)%']
 
     app.taxid:
         class: AppBundle\Utils\TaxId
