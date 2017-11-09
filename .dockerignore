@@ -1,11 +1,12 @@
 /app/config/parameters.yml
+/assets
+/.git
+/.idea
 /node_modules
 /phpunit.xml
 /uploads/*
 !/uploads/plasmids
 /uploads/plasmids/*
-/.git
-/.idea
 /var/*
 !/var/cache
 /var/cache/*
@@ -15,7 +16,6 @@
 /var/sessions/*
 !var/SymfonyRequirements.php
 /vendor
-/web/build
 /web/bundles
 /web/config.php
 /web/app_dev.php
@@ -27,3 +27,5 @@ Dockerfile
 package.json
 phpunit.xml.dist
 README.md
+webpack.config.js
+yarn.lock
