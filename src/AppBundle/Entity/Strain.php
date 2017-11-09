@@ -690,7 +690,7 @@ class Strain
      *
      * @return Strain
      */
-    public function addParent(Strain $strain)
+    public function addParent(self $strain)
     {
         $this->parents->add($strain);
 
@@ -704,7 +704,7 @@ class Strain
      *
      * @return Strain
      */
-    public function removeParent(Strain $strain)
+    public function removeParent(self $strain)
     {
         $this->parents->removeElement($strain);
 

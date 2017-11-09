@@ -144,7 +144,7 @@ class Tube
         if (null === $this->box) {
             // Then we remove one space in the new box
             $box->setFreeSpace($box->getFreeSpace() - 1);
-        // Else if the actual box is not null and different to the new box
+            // Else if the actual box is not null and different to the new box
         } elseif (null !== $this->box && $this->box !== $box) {
             // Then we add a free space in the previous box, and remove on in the new box
             $box->setFreeSpace($box->getFreeSpace() - 1);

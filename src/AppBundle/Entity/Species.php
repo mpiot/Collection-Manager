@@ -188,7 +188,7 @@ class Species
      *
      * @return $this
      */
-    public function setMainSpecies(Species $species)
+    public function setMainSpecies(self $species)
     {
         $this->mainSpecies = $species;
 
@@ -212,7 +212,7 @@ class Species
      *
      * @return $this
      */
-    public function addSynonym(Species $species)
+    public function addSynonym(self $species)
     {
         // A synonym can't have the same name than the main Species
         if ($this->getScientificName() === $species->getScientificName()) {
@@ -240,7 +240,7 @@ class Species
      *
      * @return $this
      */
-    public function removeSynonym(Species $species)
+    public function removeSynonym(self $species)
     {
         if ($this->synonyms->contains($species)) {
             $this->synonyms->removeElement($species);

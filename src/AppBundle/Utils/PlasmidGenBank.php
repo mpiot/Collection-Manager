@@ -74,16 +74,16 @@ class PlasmidGenBank
                     $array['features'][$i - 1][$matches[1]] = $matches[2];
                 }
             }
-/*
-            // If it's a translation
-            elseif (preg_match('/ {21}(?:\/translation=")?([A-Z]+)/', $line, $matches)) {
-                if (array_key_exists('translation', $array['features'][$i - 1])) {
-                    $array['features'][$i - 1]['translation'] .= $matches[1];
-                } else {
-                    $array['features'][$i - 1]['translation'] = $matches[1];
-                }
-            }
-*/
+            /*
+                        // If it's a translation
+                        elseif (preg_match('/ {21}(?:\/translation=")?([A-Z]+)/', $line, $matches)) {
+                            if (array_key_exists('translation', $array['features'][$i - 1])) {
+                                $array['features'][$i - 1]['translation'] .= $matches[1];
+                            } else {
+                                $array['features'][$i - 1]['translation'] = $matches[1];
+                            }
+                        }
+            */
 
             // Finally, if it the sequence
             elseif (preg_match('/^ +\d+ ([\w ]+)/', $line, $matches)) {
