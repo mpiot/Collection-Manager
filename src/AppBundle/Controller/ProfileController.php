@@ -35,7 +35,7 @@ class ProfileController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $userManager = $this->get('app.user_manager');
+            $userManager = $this->get('AppBundle\Utils\UserManager');
             $userManager->updateUser($user);
 
             $this->addFlash('success', 'Your profile have been successfully edited.');
@@ -59,7 +59,7 @@ class ProfileController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $userManager = $this->get('app.user_manager');
+            $userManager = $this->get('AppBundle\Utils\UserManager');
             $userManager->updateUser($user);
 
             $this->addFlash('success', 'Your password have been successfully changed.');

@@ -38,12 +38,12 @@ class ResettingController extends Controller
             }
 
             // Generate a token, to activate account
-            $tokenGenerator = $this->get('app.token_generator');
+            $tokenGenerator = $this->get('AppBundle\Utils\TokenGenerator');
             $user->setConfirmationToken($tokenGenerator->generateToken());
             $em->flush();
 
             // Send an email with the reset link
-            $this->get('app.mailer')->sendPasswordResetting($user);
+            $this->get('AppBundle\Utils\Mailer')->sendPasswordResetting($user);
 
             return $this->redirectToRoute('login');
         }

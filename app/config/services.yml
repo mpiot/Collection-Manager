@@ -4,230 +4,81 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
 
-# Utils
-    app.mailer:
-        class: AppBundle\Utils\Mailer
-        arguments: ["@mailer", "@templating", '%env(MAILER_SENDER_ADDRESS)%', '%env(MAILER_SENDER_NAME)%']
+    # makes classes in src/AppBundle available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
 
-    app.taxid:
-        class: AppBundle\Utils\TaxId
-        arguments: ["@doctrine.orm.entity_manager"]
+    # controllers are imported separately to make sure they're public
+    # and have a tag that allows actions to type-hint services
+    AppBundle\Controller\:
+        resource: '../../src/AppBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
 
-    app.token_generator:
-        class: AppBundle\Utils\TokenGenerator
-
-    app.password_updater:
-        class: AppBundle\Utils\PasswordUpdater
-        arguments: ["@security.password_encoder"]
-
-    app.csv_exporter:
-        class: AppBundle\Utils\CSVExporter
-
-    app.csv_importer:
-        class: AppBundle\Utils\CSVImporter
-        arguments: ["@doctrine.orm.entity_manager", "@validator"]
-
-# Manager
-    app.user_manager:
-        class: AppBundle\Utils\UserManager
-        arguments: ["@app.password_updater", "@doctrine.orm.entity_manager"]
+    # add more services, or override services that need manual wiring
+    # AppBundle\Service\ExampleService:
+    #     arguments:
+    #         $someArgument: 'some_value'
 
 # Twig extensions
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
-        public:    false
 
-    app.twig.country_extension:
-        class: AppBundle\Twig\CountryExtension
-        tags:
-            - { name: twig.extension }
-        public:    false
+# Utils
+    AppBundle\Utils\CSVExporter:
+        public: true
 
-    app.twig.plasmid_extension:
-        class: AppBundle\Twig\PlasmidExtension
-        tags:
-            - { name: twig.extension }
-        public:    false
+    AppBundle\Utils\CSVImporter:
+        public: true
 
-    app.twig.instanceOf_extension:
-        class: AppBundle\Twig\InstanceOfExtension
-        tags:
-            - { name: twig.extension }
-        public:    false
+    AppBundle\Utils\Mailer:
+        public: true
+        arguments:
+            $senderMail: '%env(MAILER_SENDER_ADDRESS)%'
+            $senderName: '%env(MAILER_SENDER_NAME)%'
 
-# Form type
-    app.type.genus_selector:
-        class: AppBundle\Form\Type\GenusSelectorType
-        arguments: ['@doctrine.orm.entity_manager']
-        tags:
-            - { name: form.type }
+    AppBundle\Utils\TaxId:
+        public: true
 
-    app.form_type.tube:
-        class: AppBundle\Form\Type\StrainTubeType
-        arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]
-        tags:
-            - { name: form.type }
+    AppBundle\Utils\TokenGenerator:
+        public: true
 
-    app.form_type.strain:
-        class: AppBundle\Form\Type\StrainType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
+    AppBundle\Utils\UserManager:
+        public: true
 
-    app.form_type.gmoStrain:
-        class: AppBundle\Form\Type\StrainGmoType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.wildStrain:
-        class: AppBundle\Form\Type\StrainWildType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.strainSpecies:
-        class: AppBundle\Form\Type\StrainSpeciesType
-        arguments: ["@doctrine.orm.entity_manager"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.box:
-        class: AppBundle\Form\Type\BoxType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.plasmid:
-        class: AppBundle\Form\Type\PlasmidType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.primer:
-        class: AppBundle\Form\Type\PrimerType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.advanced_search:
-        class: AppBundle\Form\Type\AdvancedSearchType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.project:
-        class: AppBundle\Form\Type\ProjectType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.team:
-        class: AppBundle\Form\Type\TeamType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.strain_plasmid:
-        class: AppBundle\Form\Type\StrainPlasmidType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.type:
-        class: AppBundle\Form\Type\TypeType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-    app.form_type.category:
-        class: AppBundle\Form\Type\BiologicalOriginCategoryType
-        arguments: ["@security.token_storage"]
-        tags:
-            - { name: form.type }
-
-# Doctrine's listeners and subscribers
-    app.event_listener.species:
-        class: AppBundle\EventListener\SpeciesListener
+# Listeners
+    AppBundle\EventListener\SpeciesListener:
         tags:
             - { name: doctrine.event_listener, event: postRemove }
 
-    app.event_listener.team:
-        class: AppBundle\EventListener\TeamListener
+    AppBundle\EventListener\TeamListener:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
-    app.event_listener.project:
-        class: AppBundle\EventListener\ProjectSubscriber
-        arguments: ["@security.token_storage"]
+    AppBundle\EventListener\ProjectSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
 
-    app.event_listener.user:
-        class: AppBundle\EventListener\UserSubscriber
-        arguments: ["@app.password_updater", "@app.token_generator"]
+    AppBundle\EventListener\UserSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
 
-# Kernel's listeners and subscribers
-    app.event_listener.search.strain:
-        class: AppBundle\EventListener\StrainSearchIndexListener
+    AppBundle\EventListener\StrainSearchIndexListener:
         tags:
             - { name: kernel.event_subscriber }
-
-# Voters
-    app.voter.category:
-        class: AppBundle\Security\BiologicalOriginCategoryVoter
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.box:
-        class: AppBundle\Security\BoxVoter
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.plasmid:
-        class: AppBundle\Security\PlasmidVoter
-        arguments: ["@security.access.decision_manager"]
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.primer:
-        class: AppBundle\Security\PrimerVoter
-        arguments: ["@security.access.decision_manager"]
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.project:
-        class: AppBundle\Security\ProjectVoter
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.strain:
-        class: AppBundle\Security\StrainVoter
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.tube:
-        class: AppBundle\Security\TubeVoter
-        tags:
-            - { name: security.voter }
-        public: false
-
-    app.voter.type:
-        class: AppBundle\Security\TypeVoter
-        tags:
-            - { name: security.voter }
-        public: false

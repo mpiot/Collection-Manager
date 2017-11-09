@@ -248,7 +248,7 @@ class ProjectController extends Controller
 
         $response = new StreamedResponse();
         $response->setCallback(function () use ($project) {
-            $this->get('app.csv_exporter')->exportProject($project);
+            $this->get('AppBundle\Utils\CSVExporter')->exportProject($project);
         });
 
         $response->setStatusCode(200);

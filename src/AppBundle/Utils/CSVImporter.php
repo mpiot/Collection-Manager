@@ -5,7 +5,7 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Strain;
 use AppBundle\Entity\Tube;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -15,7 +15,7 @@ class CSVImporter
     private $em;
     private $validator;
 
-    public function __construct(EntityManager $entityManager, ValidatorInterface $validator)
+    public function __construct(EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
         $this->em = $entityManager;
         $this->validator = $validator;

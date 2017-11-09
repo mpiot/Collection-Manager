@@ -216,7 +216,7 @@ class BoxController extends Controller
 
         $response = new StreamedResponse();
         $response->setCallback(function () use ($box) {
-            $this->get('app.csv_exporter')->exportBox($box);
+            $this->get('AppBundle\Utils\CSVExporter')->exportBox($box);
         });
 
         $response->setStatusCode(200);
@@ -236,7 +236,7 @@ class BoxController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app.csv_importer')->importBox($box, $form);
+            $this->get('AppBundle\Utils\CSVImporter')->importBox($box, $form);
 
             if ($form->isValid()) {
                 $this->addFlash('success', 'Strains has been successfully imported.');

@@ -120,7 +120,7 @@ class SpeciesController extends Controller
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
-                $species = $this->get('app.taxid')->getSpecies((int) $data['taxId']);
+                $species = $this->get('AppBundle\Utils\TaxId')->getSpecies((int) $data['taxId']);
 
                 if (!$species instanceof Species) {
                     $form->get('taxId')->addError(new FormError($species));
@@ -248,7 +248,7 @@ class SpeciesController extends Controller
      */
     public function getJsonAction($taxid)
     {
-        $data = $this->get('app.taxid')->getArray((int) $taxid);
+        $data = $this->get('AppBundle\Utils\TaxId')->getArray((int) $taxid);
 
         return new JsonResponse($data);
     }
