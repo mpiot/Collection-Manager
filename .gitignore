@@ -2,10 +2,10 @@
 /node_modules
 .php_cs.cache
 /phpunit.xml
-/uploads/*
-!/uploads/plasmids
-/uploads/plasmids/*
-!/uploads/plasmids/.gitkeep
+/files/*
+!/files/plasmids
+/files/plasmids/*
+!/files/plasmids/.gitkeep
 /var/*
 !/var/cache
 /var/cache/*

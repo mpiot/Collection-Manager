@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="file")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"file" = "file", "genBankFile" = "genBankFile"})
+ * @ORM\DiscriminatorMap({"file" = "File", "genBankFile" = "GenBankFile"})
  * @ORM\HasLifecycleCallbacks
  */
 class File
@@ -122,7 +122,7 @@ class File
      */
     public function getXSendfileUploadDir()
     {
-        return realpath(__DIR__.'/../../../uploads');
+        return realpath(__DIR__.'/../../../files');
     }
 
     /**
@@ -133,7 +133,7 @@ class File
     protected function getUploadDir()
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on récupère le fichier
-        return 'uploads';
+        return 'files';
     }
 
     /**
