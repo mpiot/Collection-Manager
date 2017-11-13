@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductMovement;
 use AppBundle\Form\Type\ProductMovementType;
-use AppBundle\Form\Type\ProductType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -55,7 +54,6 @@ class ProductMovementController extends Controller
 
             $this->addFlash('success', 'The product movement has been added successfully.');
 
-
             if ($form->get('saveAndAdd')->isClicked()) {
                 return $this->redirectToRoute('product_movement_add', [
                     'product_id' => $product->getId(),
@@ -65,8 +63,6 @@ class ProductMovementController extends Controller
                     'id' => $product->getId(),
                 ]);
             }
-
-
         }
 
         return $this->render('product_movement/add.html.twig', [
@@ -90,7 +86,7 @@ class ProductMovementController extends Controller
             $this->addFlash('success', 'The product movement has been edited successfully.');
 
             return $this->redirectToRoute('product_view', [
-                'id'=> $productMovement->getProduct()->getId(),
+                'id' => $productMovement->getProduct()->getId(),
             ]);
         }
 

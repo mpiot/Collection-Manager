@@ -36,7 +36,6 @@ class ProductMovement
      *
      * @ORM\Column(name="movement", type="integer")
      * @Assert\NotBlank()
-     *
      */
     private $movement;
 
@@ -48,7 +47,7 @@ class ProductMovement
     private $comment;
 
     /**
-     * @var \DateTime $created
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -56,7 +55,7 @@ class ProductMovement
     private $created;
 
     /**
-     * @var \DateTime $updated
+     * @var \DateTime
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
@@ -64,7 +63,7 @@ class ProductMovement
     private $updated;
 
     /**
-     * @var string $createdBy
+     * @var string
      *
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -73,7 +72,7 @@ class ProductMovement
     private $createdBy;
 
     /**
-     * @var string $updatedBy
+     * @var string
      *
      * @Gedmo\Blameable(on="update")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
@@ -87,9 +86,9 @@ class ProductMovement
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -97,9 +96,9 @@ class ProductMovement
     }
 
     /**
-     * Set movement
+     * Set movement.
      *
-     * @param integer $movement
+     * @param int $movement
      *
      * @return ProductMovement
      */
@@ -111,9 +110,9 @@ class ProductMovement
     }
 
     /**
-     * Get movement
+     * Get movement.
      *
-     * @return integer
+     * @return int
      */
     public function getMovement()
     {
@@ -121,7 +120,7 @@ class ProductMovement
     }
 
     /**
-     * Set comment
+     * Set comment.
      *
      * @param string $comment
      *
@@ -135,7 +134,7 @@ class ProductMovement
     }
 
     /**
-     * Get comment
+     * Get comment.
      *
      * @return string
      */
@@ -145,7 +144,7 @@ class ProductMovement
     }
 
     /**
-     * Set created
+     * Set created.
      *
      * @param \DateTime $created
      *
@@ -159,7 +158,7 @@ class ProductMovement
     }
 
     /**
-     * Get created
+     * Get created.
      *
      * @return \DateTime
      */
@@ -169,7 +168,7 @@ class ProductMovement
     }
 
     /**
-     * Set updated
+     * Set updated.
      *
      * @param \DateTime $updated
      *
@@ -183,7 +182,7 @@ class ProductMovement
     }
 
     /**
-     * Get updated
+     * Get updated.
      *
      * @return \DateTime
      */
@@ -193,7 +192,7 @@ class ProductMovement
     }
 
     /**
-     * Set createdBy
+     * Set createdBy.
      *
      * @param string $createdBy
      *
@@ -207,7 +206,7 @@ class ProductMovement
     }
 
     /**
-     * Get createdBy
+     * Get createdBy.
      *
      * @return string
      */
@@ -217,7 +216,7 @@ class ProductMovement
     }
 
     /**
-     * Set updatedBy
+     * Set updatedBy.
      *
      * @param string $updatedBy
      *
@@ -231,7 +230,7 @@ class ProductMovement
     }
 
     /**
-     * Get updatedBy
+     * Get updatedBy.
      *
      * @return string
      */
@@ -241,7 +240,7 @@ class ProductMovement
     }
 
     /**
-     * Set product
+     * Set product.
      *
      * @param Product $product
      *
@@ -255,7 +254,7 @@ class ProductMovement
     }
 
     /**
-     * Get product
+     * Get product.
      *
      * @return \AppBundle\Entity\Product
      */

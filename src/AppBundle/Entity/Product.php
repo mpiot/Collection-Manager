@@ -106,7 +106,6 @@ class Product
     private $manualFile;
     private $addManualFile = false;
 
-
     /**
      * @var string
      *
@@ -159,7 +158,6 @@ class Product
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductMovement", mappedBy="product")
      */
     private $movements;
-
 
     public function __construct()
     {
@@ -492,7 +490,7 @@ class Product
     /**
      * Get packed by.
      *
-     * @return integer
+     * @return int
      */
     public function getPackedBy()
     {

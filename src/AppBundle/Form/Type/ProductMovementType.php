@@ -18,7 +18,6 @@ class ProductMovementType extends AbstractType
             ->add('movement')
             ->add('comment')
         ;
-
     }
 
     /**
