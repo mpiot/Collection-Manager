@@ -6,6 +6,9 @@
 !/files/plasmids
 /files/plasmids/*
 !/files/plasmids/.gitkeep
+!/files/documents
+/files/documents/*
+!/files/documents/.gitkeep
 /var/*
 !/var/cache
 /var/cache/*

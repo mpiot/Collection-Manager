@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Product movement</h1>
+
+    {% block product_movement_body %}
+    {% endblock %}
+{% endblock %}

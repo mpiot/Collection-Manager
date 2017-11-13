@@ -1,0 +1,68 @@
+<div id="brand-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-9">Brand</th>
+                    <th class="col-md-2">Actions</th>
+                </tr>
+            </thead>
+            {% if brandsList is not empty %}
+                {% for brand in brandsList %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ brand.name }}</td>
+                        <td>
+                            {% embed "brand/_delete_form.html.twig" with { brand: brand } only %}
+                                {% block btn %}
+                                    <a class="btn btn-warning" href="{{ path('brand_edit', { 'id': brand.id}) }}">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                    </a>
+                                {% endblock %}
+                            {% endembed %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td class="text-center" colspan="5">There is no brands.</td>
+            {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {% set nbExtremPages, nbBorderPages = 3, 2 %}
+
+        {% if nbPages > 1 %}
+            <li{% if page == 1 %} class="disabled"{% endif %}>
+                <a href="{{ path('brand_index', {'q': query, 'p': page - 1}) }}">&laquo;</a>
+            </li>
+
+            {% for p in range(1, nbPages) %}
+                {% if
+                ( p <= nbExtremPages ) or
+                ( p < page and (p >= (page - nbBorderPages)) ) or
+                ( p == page ) or
+                ( p > page and (p <= (page + nbBorderPages)) ) or
+                ( p > (nbPages - nbExtremPages) )
+                %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                        <a href="{{ path('brand_index', {'q': query, 'p': p}) }}">{{ p }}</a>
+                    </li>
+                {% elseif
+                ((p == (page - nbBorderPages - 1)) or (p == (page + nbBorderPages + 1 )))
+                %}
+                    <li>
+                        <span>...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            <li{% if page == nbPages %} class="disabled"{% endif %}>
+                <a href="{{ path('brand_index', {'q': query, 'p': page + 1}) }}" >&raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

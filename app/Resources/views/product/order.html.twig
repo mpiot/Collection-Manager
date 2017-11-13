@@ -1,0 +1,32 @@
+{% extends "product/base.html.twig" %}
+
+{% block title %}Products order{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Products order</li>
+{% endblock %}
+
+{% block product_body %}
+    <div class="row">
+        <form id="product-order-search-form" method="get">
+            <div class="col-md-2">
+                <select id="product-order-team-field" name="team" class="form-control col-md-3">
+                    {% for team in app.user.teams %}
+                        <option value="{{ team.id }}"{{ app.user.isFavoriteTeam(team) ? 'selected="selected"' }}>{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button id="product-order-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <h2>Product to order</h2>
+
+    {{ list.content|raw }}
+{% endblock %}

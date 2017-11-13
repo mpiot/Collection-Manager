@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+    {{ form_row(form.movement) }}
+    {{ form_row(form.comment) }}
+
+    {% block button %}
+    {% endblock %}
+
+    {{ form_rest(form) }}
+{{ form_end(form) }}

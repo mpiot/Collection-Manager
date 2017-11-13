@@ -1,0 +1,16 @@
+{% extends "product/base.html.twig" %}
+
+{% block title %}Add a product{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('product_index') }}">Products list</a></li>
+    <li class="active">Add</li>
+{% endblock %}
+
+{% block product_body %}
+    <h2 class="sub-header">Add a product</h2>
+
+    {% embed 'product/_form.html.twig' %}
+    {% endembed %}
+{% endblock %}

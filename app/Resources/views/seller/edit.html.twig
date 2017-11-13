@@ -1,0 +1,23 @@
+{% extends "seller/base.html.twig" %}
+
+{% block title %}Edit the seller: {{ seller.name }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('seller_index') }}">Sellers list</a></li>
+    <li class="active">Edit</li>
+{% endblock %}
+
+{% block seller_body %}
+    <h2 class="sub-header">Edit a seller</h2>
+
+    {% embed  'seller/_form.html.twig' %}
+        {% block button %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-default" value="Save changes"/>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

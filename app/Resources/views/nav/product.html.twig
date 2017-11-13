@@ -1,0 +1,11 @@
+<ul class="nav nav-sidebar">
+    <li><a href="{{ path('brand_index') }}">Brands</a></li>
+    <li><a href="{{ path('seller_index') }}">Sellers</a></li>
+</ul>
+
+{% if app.user.isInTeam %}
+<ul class="nav nav-sidebar">
+    <li><a href="{{ path('product_index') }}">Products</a></li>
+    <li><a href="{{ path('product_order') }}">Order</a></li>
+</ul>
+{% endif %}

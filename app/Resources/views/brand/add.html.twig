@@ -1,0 +1,17 @@
+{% extends "brand/base.html.twig" %}
+
+{% block title %}Add a brand{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('brand_index') }}">Brands list</a></li>
+    <li class="active">Add</li>
+{% endblock %}
+
+{% block brand_body %}
+    <h2 class="sub-header">Add a brand</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

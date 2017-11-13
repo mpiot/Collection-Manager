@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="file")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"file" = "File", "genBankFile" = "GenBankFile"})
+ * @ORM\DiscriminatorMap({"file" = "File", "genBankFile" = "GenBankFile", "documentFile" = "DocumentFile"})
  * @ORM\HasLifecycleCallbacks
  */
 class File

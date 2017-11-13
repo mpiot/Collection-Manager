@@ -1,0 +1,23 @@
+{% extends "product/base.html.twig" %}
+
+{% block title %}Edit the product: {{ product.name }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('product_index') }}">Products list</a></li>
+    <li class="active">Edit</li>
+{% endblock %}
+
+{% block product_body %}
+    <h2 class="sub-header">Edit a product</h2>
+
+    {% embed 'product/_form.html.twig' %}
+        {% block button %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-default" value="Save changes"/>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

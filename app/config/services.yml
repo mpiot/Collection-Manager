@@ -82,3 +82,7 @@ services:
     AppBundle\EventListener\StrainSearchIndexListener:
         tags:
             - { name: kernel.event_subscriber }
+
+    AppBundle\EventListener\ProductMovementSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }

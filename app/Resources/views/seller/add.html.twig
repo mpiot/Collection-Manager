@@ -1,0 +1,16 @@
+{% extends "seller/base.html.twig" %}
+
+{% block title %}Add a seller{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('seller_index') }}">Sellers list</a></li>
+    <li class="active">Add</li>
+{% endblock %}
+
+{% block seller_body %}
+    <h2 class="sub-header">Add a seller</h2>
+
+    {% embed  'seller/_form.html.twig' %}
+    {% endembed %}
+{% endblock %}

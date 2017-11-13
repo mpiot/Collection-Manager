@@ -1,0 +1,44 @@
+{% extends "product/base.html.twig" %}
+
+{% block title %}Products list{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Products list</li>
+{% endblock %}
+
+{% block product_body %}
+    {% if app.user.isInTeam() %}
+        <div>
+            <a class="btn btn-default" href="{{ path('product_add') }}">
+                <span class="glyphicon glyphicon-plus"></span> Add a product
+            </a>
+        </div>
+    {% endif %}
+
+    <h2 class="sub-header">Products list</h2>
+
+    <div class="row">
+        <form id="product-search-form" method="get">
+            <div class="col-md-3">
+                <input type="text" id="product-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
+
+            <div class="col-md-2">
+                <select id="product-team-field" name="team" class="form-control col-md-3">
+                    {% for team in app.user.teams %}
+                        <option value="{{ team.id }}"{{ app.user.isFavoriteTeam(team) ? 'selected="selected"' }}>{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <button id="product-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {{ list.content|raw }}
+{% endblock %}

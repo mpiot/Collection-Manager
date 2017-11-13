@@ -1,0 +1,36 @@
+{% extends "seller/base.html.twig" %}
+
+{% block title %}Sellers list{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Sellers list</li>
+{% endblock %}
+
+{% block seller_body %}
+    {% if app.user.isInTeam() %}
+        <div>
+            <a class="btn btn-default" href="{{ path('seller_add') }}">
+                <span class="glyphicon glyphicon-plus"></span> Add a seller
+            </a>
+        </div>
+    {% endif %}
+
+    <h2 class="sub-header">Sellers list</h2>
+
+    <div class="row">
+        <form id="seller-search-form" method="get">
+            <div class="col-md-3">
+                <input type="text" id="seller-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
+            </div>
+
+            <div class="col-md-1">
+                <button id="brand-search-button" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {{ list.content|raw }}
+{% endblock %}

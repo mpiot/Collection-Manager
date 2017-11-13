@@ -1,0 +1,24 @@
+{% extends "product_movement/base.html.twig" %}
+
+{% block title %}Edit a product movement{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('product_index') }}">Products list</a></li>
+    <li><a href="{{ path('product_view', { 'id': productMovement.product.id }) }}">{{ productMovement.product.name }}</a></li>
+    <li class="active">Edit a movement</li>
+{% endblock %}
+
+{% block product_movement_body %}
+    <h2 class="sub-header">Edit a product movement</h2>
+
+    {% embed 'product_movement/_form.html.twig' %}
+        {% block button %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-default" value="Save changes"/>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
