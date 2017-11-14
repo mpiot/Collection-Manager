@@ -3,7 +3,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Genus;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,7 +17,7 @@ class StrainSpeciesType extends AbstractType
 {
     private $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }

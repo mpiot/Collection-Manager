@@ -4,14 +4,14 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Genus;
 use AppBundle\Entity\Species;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TaxId
 {
     private $em;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
     }

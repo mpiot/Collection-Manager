@@ -4,7 +4,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Project;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class StrainTubeType extends AbstractType
 {
@@ -22,7 +22,7 @@ class StrainTubeType extends AbstractType
     private $tokenStorage;
     private $previousTubes = [];
 
-    public function __construct(EntityManager $entityManager, TokenStorage $tokenStorage)
+    public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage)
     {
         $this->em = $entityManager;
         $this->tokenStorage = $tokenStorage;

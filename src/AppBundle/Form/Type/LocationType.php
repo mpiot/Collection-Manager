@@ -4,7 +4,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Location;
 use AppBundle\Repository\LocationRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +17,7 @@ class LocationType extends AbstractType
 {
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
