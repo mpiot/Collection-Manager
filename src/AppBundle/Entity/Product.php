@@ -44,9 +44,8 @@ class Product
     private $slug;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="location", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Location")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $location;
 
@@ -212,11 +211,11 @@ class Product
     /**
      * Set location.
      *
-     * @param string $location
+     * @param Location $location
      *
      * @return Product
      */
-    public function setLocation($location)
+    public function setLocation(Location $location)
     {
         $this->location = $location;
 
@@ -226,7 +225,7 @@ class Product
     /**
      * Get location.
      *
-     * @return string
+     * @return Location
      */
     public function getLocation()
     {

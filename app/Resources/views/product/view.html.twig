@@ -13,7 +13,7 @@
         <div class="panel-heading">
             <h2>{{ product.name }}</h2>
         </div>
-        
+
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-5">
@@ -22,7 +22,16 @@
                             <h4>Product informations</h4>
                         </div>
                         <ul class="list-group">
-                            <li class="list-group-item"><u>Location:</u> {{ product.location }}</li>
+                            <li class="list-group-item">
+                                <u>Location:</u>
+                                {% for location in locationPath %}
+                                    {% if not loop.first and not loop.last %}
+                                        {{ location.name }} /
+                                    {% elseif loop.last %}
+                                        {{ location.name }}
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
                             <li class="list-group-item"><u>Brand:</u> {{ product.brand.name }}</li>
                             <li class="list-group-item"><u>Brand reference:</u> {{ product.brandReference }}</li>
                             <li class="list-group-item"><u>Seller reference:</u> {{ product.sellerReference }}</li>

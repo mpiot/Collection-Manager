@@ -2,6 +2,8 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Location;
+use AppBundle\Repository\LocationRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -42,7 +44,23 @@ class ProductType extends AbstractType
                 'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
             ])
             ->add('name')
-            ->add('location')
+            ->add('location', EntityType::class, [
+                'class' => 'AppBundle\Entity\Location',
+                'query_builder' => function (LocationRepository $er) {
+                    return $er->createQueryBuilder('location')
+                        ->leftJoin('location.root', 'root')
+                        ->addSelect('root')
+                        ->orderBy('location.lft', 'ASC')
+                        ->where('root.name = :location')
+                        ->andWhere('location.lvl != 0')
+                        ->setParameter('location', 'Location');
+                },
+                'choice_label' => function (Location $location) {
+                    return str_repeat('-', ($location->getLevel() - 1)).$location->getName();
+                },
+                'required' => false,
+                'placeholder' => '-- select a location --',
+            ])
             ->add('brand', EntityType::class, [
                 'class' => 'AppBundle\Entity\Brand',
                 'query_builder' => function (EntityRepository $er) {

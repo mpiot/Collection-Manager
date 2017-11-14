@@ -107,8 +107,11 @@ class ProductController extends Controller
      */
     public function viewAction(Product $product)
     {
+        $locationPath = $this->getDoctrine()->getManager()->getRepository('AppBundle:Location')->getPath($product->getLocation());
+
         return $this->render('product/view.html.twig', [
             'product' => $product,
+            'locationPath' => $locationPath,
         ]);
     }
 
