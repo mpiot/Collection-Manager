@@ -1,0 +1,26 @@
+{% extends "location/base.html.twig" %}
+
+{% block title %}Locations list{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Locations list</li>
+{% endblock %}
+
+{% block location_body %}
+    {% if app.user.isInTeam() %}
+        <div>
+            <a class="btn btn-default" href="{{ path('location_add') }}">
+                <span class="glyphicon glyphicon-plus"></span> Add a Location
+            </a>
+        </div><br>
+    {% endif %}
+
+    {% if '' != locations %}
+        {{ locations|raw }}
+    {% else %}
+        <div class="alert alert-info">
+            There are no locations.
+        </div>
+    {% endif %}
+{% endblock %}

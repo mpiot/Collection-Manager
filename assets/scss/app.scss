@@ -1,8 +1,10 @@
 // Because we disable resolveUrlLoader, we need to override the fonts location
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$fa-font-path: "~font-awesome/fonts";
 
 @import "custom";
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import "~font-awesome/scss/font-awesome.scss";
 
 // jQueryUI styles
 @import "~jquery-ui/themes/base/autocomplete.css";

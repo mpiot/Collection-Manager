@@ -1,0 +1,17 @@
+{% extends "location/base.html.twig" %}
+
+{% block title %}Add a location{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('location_index') }}">Locations list</a></li>
+    <li class="active">Add</li>
+{% endblock %}
+
+{% block location_body %}
+    <h2 class="sub-header">Add a location</h2>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
