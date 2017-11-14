@@ -19,13 +19,6 @@ class SearchController extends Controller
     const HITS_PER_PAGE = 50;
 
     /**
-     * Quick search.
-     * Do the search and return the results.
-     *
-     * @param $search
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @Route("/search", name="quick-search")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
@@ -56,10 +49,6 @@ class SearchController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @Route("/advanced-search", name="advanced-search")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */

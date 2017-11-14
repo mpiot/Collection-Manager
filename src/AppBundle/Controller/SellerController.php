@@ -20,11 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SellerController extends Controller
 {
     /**
-     * @Route(
-     *     "/",
-     *     options={"expose"=true},
-     *     name="seller_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="seller_index")
      */
     public function indexAction(Request $request)
     {
@@ -37,12 +33,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="seller_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()",name="seller_index_ajax")
      */
     public function listAction(Request $request)
     {

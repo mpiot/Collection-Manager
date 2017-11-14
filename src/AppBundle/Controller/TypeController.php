@@ -39,12 +39,7 @@ class TypeController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="type_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="type_index_ajax")
      * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)

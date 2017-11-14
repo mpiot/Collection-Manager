@@ -23,10 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 class StrainController extends Controller
 {
     /**
-     * @Route("/",
-     *     options={"expose"=true},
-     *     name="strain_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="strain_index")
      * @Security("user.isProjectMember()")
      */
     public function indexAction(Request $request)
@@ -41,12 +38,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="strain_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain_index_ajax")
      * @Security("user.isProjectMember()")
      */
     public function listAction(Request $request)

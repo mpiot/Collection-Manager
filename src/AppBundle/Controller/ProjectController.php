@@ -21,10 +21,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class ProjectController extends Controller
 {
     /**
-     * @Route("/",
-     *     options={"expose"=true},
-     *     name="project_index"
-     * )
+     * @Route("/", options={"expose"=true},name="project_index")
      */
     public function indexAction(Request $request)
     {
@@ -37,12 +34,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="project_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="project_index_ajax")
      */
     public function listAction(Request $request)
     {

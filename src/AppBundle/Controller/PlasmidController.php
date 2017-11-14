@@ -22,10 +22,7 @@ use AppBundle\Utils\PlasmidGenBank;
 class PlasmidController extends Controller
 {
     /**
-     * @Route("/",
-     *     options={"expose"=true},
-     *     name="plasmid_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="plasmid_index")
      * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
@@ -39,12 +36,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="plasmid_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="plasmid_index_ajax")
      * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)

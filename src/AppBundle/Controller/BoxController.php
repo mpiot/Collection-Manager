@@ -24,11 +24,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class BoxController extends Controller
 {
     /**
-     * @Route(
-     *     "/",
-     *     options={"expose"=true},
-     *     name="box_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="box_index")
      */
     public function indexAction(Request $request)
     {
@@ -42,12 +38,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="box_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="box_index_ajax")
      */
     public function listAction(Request $request)
     {

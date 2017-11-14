@@ -23,11 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SpeciesController extends Controller
 {
     /**
-     * @Route(
-     *     "/",
-     *     options={"expose"=true},
-     *     name="species_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="species_index")
      */
     public function indexAction(Request $request)
     {
@@ -40,12 +36,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="species_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_index_ajax")
      */
     public function listAction(Request $request)
     {
@@ -231,19 +222,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * Consult the ncbi taxonomy api, and return a json with the interesting data.
-     * Used in AddSpecies for the autocomplete method.
-     *
-     * @param $taxid
-     *
-     * @return JsonResponse
-     *
-     * @Route(
-     *     "/json/{taxid}",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="species_getjson"
-     * )
+     * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson")
      * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function getJsonAction($taxid)

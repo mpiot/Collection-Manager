@@ -20,11 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class BrandController extends Controller
 {
     /**
-     * @Route(
-     *     "/",
-     *     options={"expose"=true},
-     *     name="brand_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="brand_index")
      */
     public function indexAction(Request $request)
     {
@@ -37,12 +33,7 @@ class BrandController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="brand_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="brand_index_ajax")
      */
     public function listAction(Request $request)
     {

@@ -20,10 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PrimerController extends Controller
 {
     /**
-     * @Route("/",
-     *     options={"expose"=true},
-     *     name="primer_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="primer_index")
      * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
@@ -37,12 +34,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="primer_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="primer_index_ajax")
      * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)

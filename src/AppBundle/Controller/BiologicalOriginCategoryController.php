@@ -21,11 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 class BiologicalOriginCategoryController extends Controller
 {
     /**
-     * @Route(
-     *     "/",
-     *     options={"expose"=true},
-     *     name="category_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="category_index")
      * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
@@ -39,12 +35,7 @@ class BiologicalOriginCategoryController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="category_index_ajax"
-     * )
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="category_index_ajax")
      * @Security("user.isInTeam()")
      */
     public function listAction(Request $request)
