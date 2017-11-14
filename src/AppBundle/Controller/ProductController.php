@@ -104,6 +104,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="product_view")
+     * @Security("user.hasTeam(product.getTeam())")
      */
     public function viewAction(Product $product)
     {
