@@ -3,8 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Brand;
-use AppBundle\Entity\Type;
 use AppBundle\Form\Type\BrandType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -58,6 +58,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/add", name="brand_add")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function addAction(Request $request)
     {
@@ -100,37 +101,8 @@ class BrandController extends Controller
     }
 
     /**
-     * @Route("/embdedAdd", name="brand_embded_add", condition="request.isXmlHttpRequest()")
-     */
-    public function embdedAddAction(Request $request)
-    {
-        $brand = new Brand();
-        $form = $this->createForm(BrandType::class, $brand, [
-            'action' => $this->generateUrl('brand_embded_add'),
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($brand);
-            $em->flush();
-
-            // return a json response with the new type
-            return new JsonResponse([
-                'success' => true,
-                'id' => $brand->getId(),
-                'name' => $brand->getName(),
-            ]);
-        }
-
-        return $this->render('brand/embdedAdd.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="brand_edit")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function editAction(Brand $brand, Request $request)
     {
@@ -155,6 +127,7 @@ class BrandController extends Controller
     /**
      * @Route("/{id}/delete", name="brand_delete")
      * @Method("POST")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function deleteAction(Brand $brand, Request $request)
     {

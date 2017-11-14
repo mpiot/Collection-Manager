@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Seller;
 use AppBundle\Entity\Type;
 use AppBundle\Form\Type\SellerType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -60,6 +61,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/add", name="seller_add")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function addAction(Request $request)
     {
@@ -102,37 +104,8 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/embded-add", name="seller_embded_add", condition="request.isXmlHttpRequest()")
-     */
-    public function embdedAddAction(Request $request)
-    {
-        $seller = new Seller();
-        $form = $this->createForm(SellerType::class, $seller, [
-            'action' => $this->generateUrl('seller_embded_add'),
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($seller);
-            $em->flush();
-
-            // return a json response with the new type
-            return new JsonResponse([
-                'success' => true,
-                'id' => $seller->getId(),
-                'name' => $seller->getName(),
-            ]);
-        }
-
-        return $this->render('seller/embded-add.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="seller_edit")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function editAction(Seller $seller, Request $request)
     {
@@ -157,6 +130,7 @@ class SellerController extends Controller
     /**
      * @Route("/{id}/delete", name="seller_delete")
      * @Method("POST")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function deleteAction(Seller $seller, Request $request)
     {

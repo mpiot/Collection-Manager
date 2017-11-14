@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Location;
 use AppBundle\Form\Type\LocationType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -72,6 +73,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/add", name="location_add")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function addAction(Request $request)
     {
@@ -116,6 +118,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-up", name="location_move_up")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function moveUpAction(Location $location)
     {
@@ -129,6 +132,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-down", name="location_move_down")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function moveDownAction(Location $location)
     {
@@ -142,6 +146,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/edit", name="location_edit")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function editAction(Location $location, Request $request)
     {
@@ -166,6 +171,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/delete", name="location_delete")
+     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
      */
     public function deleteAction(Location $location, Request $request)
     {
