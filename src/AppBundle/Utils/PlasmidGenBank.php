@@ -22,7 +22,7 @@ class PlasmidGenBank
 
         if (null !== $this->plasmid->getGenBankFile()) {
             // In finder do .. to leave the web folder
-            $this->finder->in('../uploads/plasmids')->files()->name($this->plasmid->getGenBankFile()->getPath());
+            $this->finder->in('../files/plasmids')->files()->name($this->plasmid->getGenBankFile()->getPath());
 
             foreach ($this->finder as $file) {
                 $file = $file->getContents();
