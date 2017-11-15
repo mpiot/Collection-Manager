@@ -1049,7 +1049,7 @@ class Strain
     /**
      * @Assert\Callback
      */
-    public function validate(ExecutionContextInterface $context, $payload)
+    public function validate(ExecutionContextInterface $context)
     {
         // Somme fields are specifics for GMO and other for Wild
         if ('gmo' === $this->discriminator) {

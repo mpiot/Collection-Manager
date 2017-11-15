@@ -9,17 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class StrainPlasmidType extends AbstractType
 {
-    private $tokenStorage;
-
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->tokenStorage = $tokenStorage;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array
@@ -33,7 +25,7 @@ class StrainPlasmidType extends AbstractType
                     return $er->createQueryBuilder('p')
                         ->leftJoin('p.team', 'team')
                         ->where('team = :team')
-                        ->setParameter('team', $options['parent_data'])
+                            ->setParameter('team', $options['parent_data'])
                         ->orderBy('p.autoName', 'ASC')
                     ;
                 },

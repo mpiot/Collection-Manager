@@ -172,7 +172,6 @@ class CSVImporter
             // Validate the Strain object with the Validator
             $strainErrors = $this->validator->validate($strain);
             if (count($strainErrors) > 0) {
-                $errors[] = $strainErrors;
                 foreach ($strainErrors as $error) {
                     $errorString = 'Line '.($key + 2).', Column "'.$error->getPropertyPath().'": '.$error->getMessage();
 
