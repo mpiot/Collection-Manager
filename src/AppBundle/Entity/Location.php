@@ -99,8 +99,18 @@ class Location
         return $this->children;
     }
 
+    public function getLeft()
+    {
+        return $this->lft;
+    }
+
     public function getLevel()
     {
         return $this->lvl;
+    }
+
+    public function getRight()
+    {
+        return $this->rgt;
     }
 }
