@@ -112,11 +112,11 @@ class StrainTubeType extends AbstractType
                     ->where('b.project = :project')
                         ->setParameter('project', $project);
             },
-            'choice_label' => function ($val) {
-                return (0 === $val->getFreeSpace()) ? $val->getName().' (full)' : $val->getName();
+            'choice_label' => function (Box $box) {
+                return (0 === $box->getFreeSpace()) ? $box->getName().' (full)' : $box->getName();
             },
-            'choice_attr' => function ($val) {
-                return (0 === $val->getFreeSpace()) ? ['disabled' => 'disabled'] : [];
+            'choice_attr' => function (Box $box) {
+                return (0 === $box->getFreeSpace()) ? ['disabled' => 'disabled'] : [];
             },
             'auto_initialize' => false,
         ]);
