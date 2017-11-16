@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Plasmid;
+use AppBundle\Entity\Team;
 use AppBundle\Form\Type\PlasmidEditType;
 use AppBundle\Form\Type\PlasmidType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,7 +28,7 @@ class PlasmidController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('plasmid/index.html.twig', [
             'list' => $list,
@@ -39,25 +40,12 @@ class PlasmidController extends Controller
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="plasmid_index_ajax")
      * @Security("user.isInTeam()")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Plasmid');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
-        $plasmidsList = $this->get('fos_elastica.finder.app.plasmid')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.plasmid')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Plasmid::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Plasmid::class, true, true, [Team::class]);
 
         return $this->render('plasmid/_list.html.twig', [
-            'plasmidsList' => $plasmidsList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

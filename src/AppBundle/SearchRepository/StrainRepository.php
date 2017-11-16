@@ -10,13 +10,18 @@ class StrainRepository extends Repository
 {
     public function searchByNameQuery($q, $p = null, $projectId, User $user)
     {
+        $query = new \Elastica\Query();
+
         $projectsSecureQuery = new \Elastica\Query\Terms();
         $projectsSecureQuery->setTerms('project_id', $user->getProjectsId());
 
-        $query = new \Elastica\Query();
-
         $boolQuery = new \Elastica\Query\BoolQuery();
         $boolQuery->addFilter($projectsSecureQuery);
+
+        // Only search in the type strain
+        $typeQuery = new \Elastica\Query\Type();
+        $typeQuery->setType('strain');
+        $boolQuery->addFilter($typeQuery);
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();

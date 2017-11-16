@@ -23,7 +23,7 @@ class BrandController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('brand/index.html.twig', [
             'list' => $list,
@@ -34,24 +34,15 @@ class BrandController extends Controller
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="brand_index_ajax")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Brand');
-        $elasticQuery = $repository->searchByNameQuery($query, $page);
-        $brandsList = $this->get('fos_elastica.finder.app.brand')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.brand')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Brand::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Brand::class, true, true);
 
         return $this->render('brand/_list.html.twig', [
-            'brandsList' => $brandsList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'brandsList' => $results->results,
+            'query' => $results->query,
+            'page' => $results->page,
+            'nbPages' => $results->nbPages,
         ]);
     }
 

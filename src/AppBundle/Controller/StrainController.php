@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Project;
 use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
@@ -28,7 +29,7 @@ class StrainController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('strain/index.html.twig', [
             'list' => $list,
@@ -41,26 +42,12 @@ class StrainController extends Controller
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain_index_ajax")
      * @Security("user.isProjectMember()")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $projectId = ('' !== $request->get('project') && null !== $request->get('project')) ? $request->get('project') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Strain');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $projectId, $this->getUser());
-        $strainList = $this->get('fos_elastica.finder.app.strain')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.strain')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Strain::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Strain::class, true, true, [Project::class]);
 
         return $this->render('strain/_list.html.twig', [
-            'strainList' => $strainList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
-            'project' => $request->get('project'),
+            'results' => $results,
         ]);
     }
 

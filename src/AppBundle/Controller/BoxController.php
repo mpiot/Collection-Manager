@@ -42,24 +42,14 @@ class BoxController extends Controller
      */
     public function listAction(Request $request)
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $projectId = ('' !== $request->get('project') && null !== $request->get('project')) ? $request->get('project') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Box');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $projectId, $this->getUser());
-        $boxList = $this->get('fos_elastica.finder.app.box')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.box')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Box::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Box::class, true, true, [Project::class]);
 
         return $this->render('box/_list.html.twig', [
-            'boxList' => $boxList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
-            'project' => $request->get('project'),
+            'boxList' => $results->results,
+            'query' => $results->query,
+            'page' => $results->page,
+            'nbPages' => $results->nbPages,
+            'project' => $results->filters->project,
         ]);
     }
 

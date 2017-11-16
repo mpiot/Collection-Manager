@@ -10,12 +10,18 @@ class TypeRepository extends Repository
 {
     public function searchByNameQuery($q, $p, $teamId, User $user)
     {
+        $query = new \Elastica\Query();
+
         $teamSecureQuery = new \Elastica\Query\Terms();
         $teamSecureQuery->setTerms('team_id', $user->getTeamsId());
 
-        $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();
         $boolQuery->addFilter($teamSecureQuery);
+
+        // Only search in the type type
+        $typeQuery = new \Elastica\Query\Type();
+        $typeQuery->setType('type');
+        $boolQuery->addFilter($typeQuery);
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();

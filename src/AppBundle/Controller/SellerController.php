@@ -23,7 +23,7 @@ class SellerController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('seller/index.html.twig', [
             'list' => $list,
@@ -34,26 +34,12 @@ class SellerController extends Controller
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()",name="seller_index_ajax")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Seller');
-        $elasticQuery = $repository->searchByNameQuery($query, $page);
-        $sellersList = $this->get('fos_elastica.finder.app.seller')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.seller')->count($elasticQuery);
-
-        dump($sellersList);
-
-        $nbPages = ceil($nbResults / Seller::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Seller::class, true, true);
 
         return $this->render('seller/_list.html.twig', [
-            'sellersList' => $sellersList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

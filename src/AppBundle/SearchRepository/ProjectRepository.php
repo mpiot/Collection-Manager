@@ -19,6 +19,11 @@ class ProjectRepository extends Repository
         $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();
 
+        // Only search in the type project
+        $typeQuery = new \Elastica\Query\Type();
+        $typeQuery->setType('project');
+        $boolQuery->addFilter($typeQuery);
+
         $boolQuery->setMinimumShouldMatch(1);
         $boolQuery->addShould($memberSecureQuery);
         $boolQuery->addShould($teamsSecureQuery);

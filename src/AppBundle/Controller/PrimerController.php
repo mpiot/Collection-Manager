@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Primer;
+use AppBundle\Entity\Team;
 use AppBundle\Form\Type\PrimerEditType;
 use AppBundle\Form\Type\PrimerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,7 +26,7 @@ class PrimerController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('primer/index.html.twig', [
             'list' => $list,
@@ -37,25 +38,12 @@ class PrimerController extends Controller
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="primer_index_ajax")
      * @Security("user.isInTeam()")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Primer');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
-        $primersList = $this->get('fos_elastica.finder.app.primer')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.primer')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Primer::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Primer::class, true, true, [Team::class]);
 
         return $this->render('primer/_list.html.twig', [
-            'primersList' => $primersList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

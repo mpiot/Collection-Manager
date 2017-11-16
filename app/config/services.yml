@@ -62,6 +62,13 @@ services:
     AppBundle\Utils\UserManager:
         public: true
 
+    AppBundle\Utils\IndexFilter:
+        public: true
+        arguments:
+            $repositoryManager: '@fos_elastica.manager.orm'
+            $finder: '@fos_elastica.finder.app'
+            $index: '@fos_elastica.index.app'
+
 # Listeners
     AppBundle\EventListener\SpeciesListener:
         tags:

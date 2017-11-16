@@ -9,7 +9,15 @@ class BrandRepository extends Repository
 {
     public function searchByNameQuery($q, $p)
     {
+        $boolQuery = new \Elastica\Query\BoolQuery();
+
         $query = new \Elastica\Query();
+        $query->setQuery($boolQuery);
+
+        // Only search in the type brand
+        $typeQuery = new \Elastica\Query\Type();
+        $typeQuery->setType('brand');
+        $boolQuery->addFilter($typeQuery);
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();
@@ -17,11 +25,11 @@ class BrandRepository extends Repository
             $queryString->setDefaultOperator('AND');
             $queryString->setQuery($q);
 
-            $query->setQuery($queryString);
+            $boolQuery->addMust($queryString);
         } else {
             $matchAllQuery = new \Elastica\Query\MatchAll();
 
-            $query->setQuery($matchAllQuery);
+            $boolQuery->addMust($matchAllQuery);
             $query->setSort(['name_raw' => 'asc']);
         }
 

@@ -17,7 +17,7 @@ class UserAdminController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('user/admin/index.html.twig', [
             'list' => $list,
@@ -26,32 +26,15 @@ class UserAdminController extends Controller
     }
 
     /**
-     * @Route(
-     *     "/users/list",
-     *     options={"expose"=true},
-     *     condition="request.isXmlHttpRequest()",
-     *     name="user_index_ajax"
-     * )
+     * @Route("/users/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="user_index_ajax")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:User');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
-        $usersList = $this->get('fos_elastica.finder.app.user')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.user')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / User::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(User::class, true, true);
 
         return $this->render('user/admin/_list.html.twig', [
-            'usersList' => $usersList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

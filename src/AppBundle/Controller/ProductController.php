@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Team;
 use AppBundle\Form\Type\ProductType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,7 +25,7 @@ class ProductController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('product/index.html.twig', [
             'list' => $list,
@@ -36,25 +37,12 @@ class ProductController extends Controller
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_index_ajax")
      * @Security("user.isInTeam()")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Product');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
-        $productsList = $this->get('fos_elastica.finder.app.product')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.product')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Product::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Product::class, true, true, [Team::class]);
 
         return $this->render('product/_list.html.twig', [
-            'productsList' => $productsList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

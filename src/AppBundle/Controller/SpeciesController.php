@@ -27,7 +27,7 @@ class SpeciesController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('species/index.html.twig', [
             'list' => $list,
@@ -38,24 +38,12 @@ class SpeciesController extends Controller
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_index_ajax")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager');
-        $repository = $repositoryManager->getRepository('AppBundle:Species');
-        $elasticQuery = $repository->searchByScientificNameQuery($query, $page);
-        $speciesList = $this->get('fos_elastica.finder.app.species')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.species')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Species::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Species::class, true, true, []);
 
         return $this->render('species/_list.html.twig', [
-            'speciesList' => $speciesList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

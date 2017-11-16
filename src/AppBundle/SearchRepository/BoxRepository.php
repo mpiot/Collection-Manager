@@ -17,6 +17,11 @@ class BoxRepository extends Repository
         $projectSecureQuery->setTerms('project_id', $user->getProjectsId());
         $boolQuery->addFilter($projectSecureQuery);
 
+        // Only search in the type box
+        $typeQuery = new \Elastica\Query\Type();
+        $typeQuery->setType('box');
+        $boolQuery->addFilter($typeQuery);
+
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();
             $queryString->setFields(['name', 'autoName', 'project']);

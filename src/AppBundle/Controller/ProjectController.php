@@ -25,7 +25,7 @@ class ProjectController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('project/index.html.twig', [
             'list' => $list,
@@ -36,24 +36,12 @@ class ProjectController extends Controller
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="project_index_ajax")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Project');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $this->getUser());
-        $projectList = $this->get('fos_elastica.finder.app.project')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.project')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Project::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Project::class, true, true);
 
         return $this->render('project/_list.html.twig', [
-            'projectList' => $projectList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

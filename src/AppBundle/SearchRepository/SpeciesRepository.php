@@ -10,6 +10,13 @@ class SpeciesRepository extends Repository
     public function searchByScientificNameQuery($q, $p)
     {
         $query = new \Elastica\Query();
+        $boolQuery = new \Elastica\Query\BoolQuery();
+        $query->setQuery($boolQuery);
+
+        // Only search in the type type
+        $typeQuery = new \Elastica\Query\Type();
+        $typeQuery->setType('species');
+        $boolQuery->addFilter($typeQuery);
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();
@@ -17,11 +24,11 @@ class SpeciesRepository extends Repository
             $queryString->setDefaultOperator('AND');
             $queryString->setQuery($q);
 
-            $query->setQuery($queryString);
+            $boolQuery->addMust($queryString);
         } else {
             $matchAllQuery = new \Elastica\Query\MatchAll();
 
-            $query->setQuery($matchAllQuery);
+            $boolQuery->addMust($matchAllQuery);
             $query->setSort(['name_raw' => 'asc']);
         }
 

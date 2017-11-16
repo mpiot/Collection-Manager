@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Team;
 use AppBundle\Entity\Type;
 use AppBundle\Form\Type\TypeEditType;
 use AppBundle\Form\Type\TypeType;
@@ -21,16 +22,12 @@ use Symfony\Component\HttpFoundation\Request;
 class TypeController extends Controller
 {
     /**
-     * @Route(
-     *     "/",
-     *     options={"expose"=true},
-     *     name="type_index"
-     * )
+     * @Route("/", options={"expose"=true}, name="type_index")
      * @Security("user.isInTeam()")
      */
     public function indexAction(Request $request)
     {
-        $list = $this->listAction($request);
+        $list = $this->listAction();
 
         return $this->render('type/index.html.twig', [
             'list' => $list,
@@ -42,25 +39,12 @@ class TypeController extends Controller
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="type_index_ajax")
      * @Security("user.isInTeam()")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:Type');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
-        $typesList = $this->get('fos_elastica.finder.app.type')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.type')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / Type::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Type::class, true, true, [Team::class]);
 
         return $this->render('type/_list.html.twig', [
-            'typesList' => $typesList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'results' => $results,
         ]);
     }
 

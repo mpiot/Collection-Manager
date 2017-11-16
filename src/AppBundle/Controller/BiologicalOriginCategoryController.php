@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\BiologicalOriginCategory;
+use AppBundle\Entity\Team;
 use AppBundle\Form\Type\BiologicalOriginCategoryEditType;
 use AppBundle\Form\Type\BiologicalOriginCategoryType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,23 +41,13 @@ class BiologicalOriginCategoryController extends Controller
      */
     public function listAction(Request $request)
     {
-        $query = ('' !== $request->get('q') && null !== $request->get('q')) ? $request->get('q') : null;
-        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
-        $page = (0 < (int) $request->get('p')) ? $request->get('p') : 1;
-
-        $repositoryManager = $this->get('fos_elastica.manager.orm');
-        $repository = $repositoryManager->getRepository('AppBundle:BiologicalOriginCategory');
-        $elasticQuery = $repository->searchByNameQuery($query, $page, $teamId, $this->getUser());
-        $categoryList = $this->get('fos_elastica.finder.app.biologicalorigincategory')->find($elasticQuery);
-        $nbResults = $this->get('fos_elastica.index.app.biologicalorigincategory')->count($elasticQuery);
-
-        $nbPages = ceil($nbResults / BiologicalOriginCategory::NUM_ITEMS);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(BiologicalOriginCategory::class, true, true, [Team::class]);
 
         return $this->render('biological_origin_category/_list.html.twig', [
-            'categoryList' => $categoryList,
-            'query' => $query,
-            'page' => $page,
-            'nbPages' => $nbPages,
+            'categoryList' => $results->results,
+            'query' => $results->query,
+            'page' => $results->page,
+            'nbPages' => $results->nbPages,
         ]);
     }
 
