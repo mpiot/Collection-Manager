@@ -25,9 +25,8 @@
                 <tr>
                     <th class="col-md-1">#</th>
                     <th class="col-md-2">Name</th>
-                    <th class="col-md-6">Administrators</th>
+                    <th class="col-md-7">Administrators</th>
                     <th class="col-md-1">Members</th>
-                    <th class="col-md-1">Request</th>
                     <th class="col-md-1">User status</th>
                 </tr>
             </thead>
@@ -44,26 +43,6 @@
                             {% endfor %}
                         </td>
                         <td>{{ team.members|length }}</td>
-                        <td>
-                            <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                {% if not team.isMember(app.user) and team.getTeamRequestFor(app.user) is null %}
-                                    <a class="btn btn-info" href="{{ path('team_request_add', { 'id': team.id }) }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Join it</a>
-                                {% elseif team.getTeamRequestFor(app.user) is not null %}
-                                    {% set answer = team.getTeamRequestFor(app.user).answer %}
-                                    {% if 'accepted' == answer %}
-                                        <span class="label label-success">
-                                    {% elseif "declined" == answer %}
-                                        <span class="label label-danger">
-                                    {% else %}
-                                        <span class="label label-info">
-                                    {% endif %}
-                                        {{ answer|capitalize }}
-                                    </span>
-                                {% elseif team.isMember(app.user) %}
-                                    <span class="label label-success">Accepted</span>
-                                {% endif %}
-                            </div>
-                        </td>
                         <td>
                             {% if team.isMember(app.user) %}
                                 <span class="label label-success">Member</span>

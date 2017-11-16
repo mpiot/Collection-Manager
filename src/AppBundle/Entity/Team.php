@@ -61,11 +61,6 @@ class Team
     private $projects;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeamRequest", mappedBy="team")
-     */
-    private $teamRequests;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="team")
      */
     private $plasmids;
@@ -95,7 +90,6 @@ class Team
         $this->projects = new ArrayCollection();
         $this->types = new ArrayCollection();
         $this->biologicalOriginCategories = new ArrayCollection();
-        $this->teamRequests = new ArrayCollection();
         $this->plasmids = new ArrayCollection();
         $this->lastPlasmidNumber = 0;
         $this->primers = new ArrayCollection();
@@ -299,27 +293,6 @@ class Team
         }
 
         return $projects;
-    }
-
-    /**
-     * Get team requests.
-     *
-     * @return ArrayCollection
-     */
-    public function getTeamRequests()
-    {
-        return $this->teamRequests;
-    }
-
-    public function getTeamRequestFor(User $user)
-    {
-        foreach ($this->teamRequests as $teamRequest) {
-            if ($user === $teamRequest->getUser()) {
-                return $teamRequest;
-            }
-        }
-
-        return;
     }
 
     /**

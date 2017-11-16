@@ -105,11 +105,6 @@ class User implements AdvancedUserInterface, \Serializable
     private $favoriteTeam;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeamRequest", mappedBy="user")
-     */
-    private $teamRequests;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="createdBy")
      */
     private $strains;
@@ -130,7 +125,6 @@ class User implements AdvancedUserInterface, \Serializable
         $this->isActive = false;
         $this->teams = new ArrayCollection();
         $this->administeredTeams = new ArrayCollection();
-        $this->teamRequests = new ArrayCollection();
         $this->strains = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->administeredProjects = new ArrayCollection();
@@ -633,37 +627,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function isFavoriteTeam(Team $team)
     {
         return $team === $this->getFavoriteTeam();
-    }
-
-    /**
-     * Get team requests.
-     *
-     * @return ArrayCollection
-     */
-    public function getTeamRequests()
-    {
-        return $this->teamRequests;
-    }
-
-    /**
-     * Has requested for this team ?
-     *
-     * @param Team $team
-     *
-     * @return bool
-     */
-    public function hasRequestedTeam(Team $team)
-    {
-        $result = false;
-
-        foreach ($this->teamRequests as $teamRequest) {
-            if ($team === $teamRequest->getTeam()) {
-                $result = true;
-                break;
-            }
-        }
-
-        return $result;
     }
 
     /**

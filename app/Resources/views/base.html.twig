@@ -79,9 +79,6 @@
                                         <li role="separator" class="divider"></li>
                                     {% endif %}
                                     <li><a href="{{ path('team_index') }}">Teams list</a></li>
-                                    {% if app.user.isTeamAdministrator()  %}
-                                        <li><a href="{{ path('team_request_index') }}">Manage team requests {{ render(controller("AppBundle:TeamRequest:numberRequests")) }}</a></li>
-                                    {% endif %}
                                     <li role="separator" class="divider"></li>
                                     <li><a href="{{ path('user_profile') }}">My profile</a></li>
                                     <li><a href="{{ path('logout') }}">Log out</a></li>
