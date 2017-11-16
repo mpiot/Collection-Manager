@@ -26,7 +26,6 @@ class CSVImporter
         $project = $box->getProject();
         $team = $project->getTeam();
         $file = $form->get('csvFile')->getData()->getRealPath();
-        $errors = [];
         $keys = ['disc', 'genus', 'species', 'type', 'name', 'comment', 'sequenced', 'deleted', 'cells', 'description', 'genotype', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'];
         $data = [];
 
