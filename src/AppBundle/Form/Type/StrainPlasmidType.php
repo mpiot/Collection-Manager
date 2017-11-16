@@ -9,9 +9,17 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class StrainPlasmidType extends AbstractType
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array
@@ -22,11 +30,12 @@ class StrainPlasmidType extends AbstractType
             ->add('plasmid', EntityType::class, [
                 'class' => 'AppBundle\Entity\Plasmid',
                 'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('p')
-                        ->leftJoin('p.team', 'team')
-                        ->where('team = :team')
-                            ->setParameter('team', $options['parent_data'])
-                        ->orderBy('p.autoName', 'ASC')
+                    return $er->createQueryBuilder('plasmid')
+                        ->leftJoin('plasmid.team', 'team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('plasmid.autoName', 'ASC')
                     ;
                 },
                 'choice_label' => function (Plasmid $plasmid) {
@@ -53,7 +62,5 @@ class StrainPlasmidType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\StrainPlasmid',
         ]);
-
-        $resolver->setRequired(['parent_data']);
     }
 }

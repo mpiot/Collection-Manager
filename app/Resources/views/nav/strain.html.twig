@@ -1,9 +1,5 @@
 <ul class="nav nav-sidebar">
     <li><a href="{{ path('species_index') }}">Species</a></li>
-    {% if app.user.isInTeam %}
-        <li><a href="{{ path('type_index') }}">Types</a></li>
-        <li><a href="{{ path('category_index') }}">Categories</a></li>
-    {% endif %}
 </ul>
 <ul class="nav nav-sidebar">
     <li><a href="{{ path('project_index') }}">Projects</a></li>

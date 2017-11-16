@@ -3,12 +3,11 @@
 namespace AppBundle\SearchRepository;
 
 use AppBundle\Entity\Project;
-use AppBundle\Entity\Type;
 use AppBundle\Entity\User;
 
 class GlobalRepository
 {
-    public function searchQuery($keyword = null, User $user, $category = null, $country = null, Project $project = null, Type $type = null, User $author = null, $deleted = false)
+    public function searchQuery($keyword = null, User $user, $category = null, $country = null, Project $project = null, User $author = null, $deleted = false)
     {
         // Create the search query
         $query = new \Elastica\Query\BoolQuery();
@@ -41,12 +40,6 @@ class GlobalRepository
         if (null !== $project && '' !== $project) {
             $projectQuery = new \Elastica\Query\Term();
             $projectQuery->setTerm('project_id', $project->getId());
-        }
-
-        // Set the type filter
-        if (null !== $type && '' !== $type) {
-            $typeQuery = new \Elastica\Query\Term();
-            $typeQuery->setTerm('type', $type->getId());
         }
 
         // Set the author filter
@@ -155,9 +148,6 @@ class GlobalRepository
             if (null !== $project && '' !== $project) {
                 $gmoStrainBoolQuery->addFilter($projectQuery);
             }
-            if (null !== $type && '' !== $type) {
-                $gmoStrainBoolQuery->addFilter($typeQuery);
-            }
 
             // Add the Gmo BoolQuery to the main BoolQuery
             // Set a boost on 2, because there is 2 fields in "should"
@@ -196,9 +186,6 @@ class GlobalRepository
             }
             if (null !== $project && '' !== $project) {
                 $wildStrainBoolQuery->addFilter($projectQuery);
-            }
-            if (null !== $type && '' !== $type) {
-                $wildStrainBoolQuery->addFilter($typeQuery);
             }
 
             // Add the Gmo BoolQuery to the main BoolQuery

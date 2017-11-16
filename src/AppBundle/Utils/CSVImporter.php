@@ -26,7 +26,7 @@ class CSVImporter
         $project = $box->getProject();
         $team = $project->getTeam();
         $file = $form->get('csvFile')->getData()->getRealPath();
-        $keys = ['disc', 'genus', 'species', 'type', 'name', 'comment', 'sequenced', 'deleted', 'cells', 'description', 'genotype', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'];
+        $keys = ['disc', 'genus', 'species', 'name', 'comment', 'sequenced', 'deleted', 'cells', 'description', 'genotype', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'];
         $data = [];
 
         $row = 0;
@@ -53,8 +53,6 @@ class CSVImporter
         // Prepare an array to save SQL requests
         $validObjects = [
             'species' => [],
-            'type' => [],
-            'category' => [],
         ];
 
         // Get the empty cells array
@@ -95,7 +93,6 @@ class CSVImporter
             $strain->setComment($value['comment']);
             $strain->setDescription($value['description']);
             $strain->setGenotype($value['genotype']);
-            $strain->setBiologicalOrigin($value['biologicalOrigin']);
             $strain->setSource($value['source']);
             $strain->setLatitude($value['lat']);
             $strain->setLongitude($value['long']);
@@ -132,40 +129,6 @@ class CSVImporter
             }
             if (null !== $species = $validObjects['species'][$value['genus'].' '.$value['species']]) {
                 $strain->setSpecies($species);
-            }
-
-            // Check type
-            //Before do a Doctrine query, check if we already have validate it
-            if (!array_key_exists($value['type'], $validObjects['type'])) {
-                $type = $this->em->getRepository('AppBundle:Type')->findOneBy(['team' => $team, 'name' => $value['type']]);
-                if (null === $type) {
-                    $errorString = 'Line '.($key + 2).', Column "type": The type "'.$value['type'].'" doesn\'t exists for the team: "'.$team->getName().'".';
-                    $form->addError(new FormError($errorString));
-                }
-
-                // Add in a array all valid data to prevent some db requests
-                $validObjects['type'][$value['type']] = $type;
-            }
-            if (null !== $type = $validObjects['type'][$value['type']]) {
-                $strain->setType($type);
-            }
-
-            // Check category
-            //Before do a Doctrine query, check if we already have validate it
-            if (!empty($value['biologicalOriginCategory'])) {
-                if (!array_key_exists($value['biologicalOriginCategory'], $validObjects['category'])) {
-                    $category = $this->em->getRepository('AppBundle:BiologicalOriginCategory')->findOneBy(['team' => $team, 'name' => $value['biologicalOriginCategory']]);
-                    if (null === $category) {
-                        $errorString = 'Line '.($key + 2).', Column "biologicalOriginCategory": The category "'.$value['biologicalOriginCategory'].'" doesn\'t exists for the team: "'.$team->getName().'".';
-                        $form->addError(new FormError($errorString));
-                    }
-
-                    // Add in a array all valid data to prevent some db requests
-                    $validObjects['category'][$value['biologicalOriginCategory']] = $category;
-                }
-                if (null !== $biologicalOriginCategory = $validObjects['category'][$value['biologicalOriginCategory']]) {
-                    $strain->setBiologicalOriginCategory($biologicalOriginCategory);
-                }
             }
 
             // Validate the Strain object with the Validator

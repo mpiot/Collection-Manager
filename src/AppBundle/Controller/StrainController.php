@@ -96,8 +96,9 @@ class StrainController extends Controller
             ]);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($strain);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($strain);
             $em->flush();

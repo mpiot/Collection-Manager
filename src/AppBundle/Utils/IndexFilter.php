@@ -2,7 +2,6 @@
 
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\BiologicalOriginCategory;
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Brand;
 use AppBundle\Entity\Plasmid;
@@ -13,7 +12,6 @@ use AppBundle\Entity\Seller;
 use AppBundle\Entity\Species;
 use AppBundle\Entity\Strain;
 use AppBundle\Entity\Team;
-use AppBundle\Entity\Type;
 use AppBundle\Entity\User;
 use Elastica\Index;
 use Elastica\Query;
@@ -25,7 +23,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class IndexFilter
 {
     const ALLOWED_CLASS = [
-        BiologicalOriginCategory::class,
         Box::class,
         Brand::class,
         Plasmid::class,
@@ -35,7 +32,6 @@ class IndexFilter
         Seller::class,
         Species::class,
         Strain::class,
-        Type::class,
         User::class,
     ];
     const ALLOWED_FILTERED_CLASS = [Project::class, Team::class];
@@ -130,10 +126,6 @@ class IndexFilter
         $repository = $repositoryManager->getRepository($class);
 
         switch ($class) {
-            case BiologicalOriginCategory::class:
-                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->team, $this->tokenStorage->getToken()->getUser());
-                break;
-
             case Box::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->project, $this->tokenStorage->getToken()->getUser());
                 break;
@@ -168,10 +160,6 @@ class IndexFilter
 
             case Strain::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->project, $this->tokenStorage->getToken()->getUser());
-                break;
-
-            case Type::class:
-                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->team, $this->tokenStorage->getToken()->getUser());
                 break;
 
             case User::class:

@@ -8,7 +8,6 @@
                     <h4><a href="{{ path('strain_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
                         <span class="category">{{ 'gmo' == result.discriminator ? 'GMO' : 'Wild' }} strain</span><br />
-                        Type: {{ result.type.name }}<br />
                         Species: {{ result.species.scientificName }}
 
                     </p>

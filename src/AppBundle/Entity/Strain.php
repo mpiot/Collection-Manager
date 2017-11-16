@@ -84,14 +84,6 @@ class Strain
     private $species;
 
     /**
-     * @var Type
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Type", inversedBy="strains")
-     * @ORM\JoinColumn(name="type")
-     */
-    private $type;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="genotype", type="text", nullable=true)
@@ -154,18 +146,6 @@ class Strain
      * )
      */
     private $country;
-
-    /**
-     * @var BiologicalOriginCategory
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BiologicalOriginCategory", inversedBy="strains")
-     * @ORM\JoinColumn(name="category", nullable=true)
-     * @Assert\Expression(
-     *     "null !== this.getBiologicalOriginCategory() or 'gmo' === this.getDiscriminator()",
-     *     message="In Wild strain, the biological origin category is required."
-     * )
-     */
-    private $biologicalOriginCategory;
 
     /**
      * @var string
@@ -464,30 +444,6 @@ class Strain
     }
 
     /**
-     * Set type.
-     *
-     * @param Type $type
-     *
-     * @return Strain
-     */
-    public function setType(Type $type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set genotype.
      *
      * @param string $genotype
@@ -780,30 +736,6 @@ class Strain
     }
 
     /**
-     * Set Biological origin category.
-     *
-     * @param $category
-     *
-     * @return $this
-     */
-    public function setBiologicalOriginCategory($category)
-    {
-        $this->biologicalOriginCategory = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get biological origin category.
-     *
-     * @return BiologicalOriginCategory
-     */
-    public function getBiologicalOriginCategory()
-    {
-        return $this->biologicalOriginCategory;
-    }
-
-    /**
      * Set biologicalOrigin.
      *
      * @param string $biologicalOrigin
@@ -1053,12 +985,6 @@ class Strain
     {
         // Somme fields are specifics for GMO and other for Wild
         if ('gmo' === $this->discriminator) {
-            if (null !== $this->biologicalOriginCategory) {
-                $context->buildViolation('The biological origin category field is only used for Wild strain!')
-                    ->atPath('biologicalOriginCategory')
-                    ->addViolation();
-            }
-
             if (null !== $this->biologicalOrigin) {
                 $context->buildViolation('The biological origin field is only used for Wild strain!')
                     ->atPath('biologicalOrigin')

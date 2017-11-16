@@ -2,7 +2,7 @@
     <div class="alert alert-info" role="alert">
         <h4><span class="glyphicon glyphicon-info-sign"></span> Notice on the linked data</h4>
         <p>
-            In the form you link data on the strain: Type, Category, Plasmids, Parental Strains. These resources are restricted for your team (only team member can view it).<br>
+            In the form you link data on the strain: Plasmids, Parental Strains. These resources are restricted for your team (only team member can view it).<br>
             If you add a tube in a project shared with an other team, then, they can view the linked data (only view, they have no rights to edit, delete).
         </p>
     </div>
@@ -14,20 +14,6 @@
     <fieldset>
         <legend>General information</legend>
         {{ form_row(form.species) }}
-
-        <div class="form-group">
-            {{ form_label(form.type) }}
-
-            <div class="col-sm-9">
-                {{ form_widget(form.type) }}
-            </div>
-            <div class="col-sm-1">
-                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addTypeModal">
-                    Add a type
-                </button>
-            </div>
-        </div>
-
         {{ form_row(form.name) }}
         {{ form_row(form.comment) }}
         {{ form_row(form.sequenced) }}
@@ -62,19 +48,6 @@
     {% if 'wild' == strain.discriminator %}
         <fieldset>
             <legend>Biological origin</legend>
-            <div class="form-group">
-                {{ form_label(form.biologicalOriginCategory) }}
-
-                <div class="col-sm-9">
-                    {{ form_widget(form.biologicalOriginCategory) }}
-                </div>
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addBioCategoryModal">
-                        Add a category
-                    </button>
-                </div>
-            </div>
-
             {{ form_row(form.biologicalOrigin) }}
             {{ form_row(form.source) }}
         </fieldset>
@@ -102,32 +75,3 @@
         <div id="map" style="height:400px;"></div>
     </div>
 {% endif %}
-
-<!-- Modal -->
-<div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="addTypeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addTypeModalLabel">Add a type</h4>
-            </div>
-            <div class="modal-body">
-                {{ render(controller('AppBundle:Type:embdedAdd')) }}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="addBioCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addBioCategoryModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addBioCategoryModalLabel">Add a category</h4>
-            </div>
-            <div class="modal-body">
-                {{ render(controller('AppBundle:BiologicalOriginCategory:embdedAdd')) }}
-            </div>
-        </div>
-    </div>
-</div>

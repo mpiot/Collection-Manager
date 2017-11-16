@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Project;
-use AppBundle\Entity\Type;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -69,19 +68,6 @@ class AdvancedSearchType extends AbstractType
                 },
                 'choice_label' => 'name',
                 'placeholder' => 'All available projects',
-                'required' => false,
-            ])
-            ->add('type', EntityType::class, [
-                'class' => 'AppBundle\Entity\Type',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('type')
-                        ->orderBy('type.name', 'ASC');
-                },
-                'group_by' => function (Type $type) {
-                    return $type->getTeam()->getName();
-                },
-                'choice_label' => 'name',
-                'placeholder' => 'All types',
                 'required' => false,
             ])
             ->add('author', EntityType::class, [

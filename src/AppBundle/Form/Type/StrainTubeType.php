@@ -86,15 +86,10 @@ class StrainTubeType extends AbstractType
             'class' => 'AppBundle\Entity\Project',
             'query_builder' => function (EntityRepository $pr) use ($options) {
                 return $pr->createQueryBuilder('project')
-                    ->leftJoin('project.team', 'team')
                     ->leftJoin('project.members', 'members')
-                    ->where('team = :team')
                     ->andWhere('members = :user')
                     ->andWhere('project.valid = true')
-                    ->setParameters([
-                        'team' => $options['parent_data'],
-                        'user' => $this->tokenStorage->getToken()->getUser(),
-                    ])
+                    ->setParameter('user', $this->tokenStorage->getToken()->getUser())
                     ->orderBy('project.name', 'ASC');
             },
             'choice_label' => 'name',
@@ -141,7 +136,5 @@ class StrainTubeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Tube',
         ]);
-
-        $resolver->setRequired(['parent_data']);
     }
 }

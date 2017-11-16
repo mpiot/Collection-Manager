@@ -4,11 +4,9 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\BiologicalOriginCategory;
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Project;
 use AppBundle\Entity\Team;
-use AppBundle\Entity\Type;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -151,56 +149,6 @@ class LoadFixtures extends AbstractFixture implements ContainerAwareInterface
 
             $manager->persist($team);
             $this->setReference('team-'.$teamData['name'], $team);
-        }
-
-        //-------//
-        // Types //
-        //-------//
-        $typesData = [
-            ['name' => 'Yeast'],
-            ['name' => 'Bacteria'],
-            ['name' => 'Plasmid'],
-        ];
-
-        foreach ($typesData as $typeData) {
-            $type = new Type();
-            $type->setName($typeData['name']);
-            $type->setTeam($this->getReference('team-Team 1'));
-
-            $manager->persist($type);
-        }
-
-        foreach ($typesData as $typeData) {
-            $type = new Type();
-            $type->setName($typeData['name']);
-            $type->setTeam($this->getReference('team-Team 2'));
-
-            $manager->persist($type);
-        }
-
-        //----------------------------//
-        // Biological Origin Category //
-        //----------------------------//
-        $categoriesData = [
-            ['name' => 'Soil'],
-            ['name' => 'Sea'],
-            ['name' => 'Tree'],
-        ];
-
-        foreach ($categoriesData as $categoryData) {
-            $category = new BiologicalOriginCategory();
-            $category->setName($categoryData['name']);
-            $category->setTeam($this->getReference('team-Team 1'));
-
-            $manager->persist($category);
-        }
-
-        foreach ($categoriesData as $categoryData) {
-            $category = new BiologicalOriginCategory();
-            $category->setName($categoryData['name']);
-            $category->setTeam($this->getReference('team-Team 2'));
-
-            $manager->persist($category);
         }
 
         //---------//

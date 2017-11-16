@@ -11,7 +11,7 @@ class CSVExporter
     {
         $handle = fopen('php://output', 'w+');
 
-        fputcsv($handle, ['autoName', 'name', 'box', 'cell', 'species', 'comment', 'sequenced', 'deleted', 'description', 'genotype', 'plasmids', 'parents', 'biologicalOriginCategory', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'], ';');
+        fputcsv($handle, ['autoName', 'name', 'box', 'cell', 'species', 'comment', 'sequenced', 'deleted', 'description', 'genotype', 'plasmids', 'parents', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'], ';');
 
         foreach ($box->getTubes() as $tube) {
             fputcsv(
@@ -29,7 +29,6 @@ class CSVExporter
                     $tube->getStrain()->getGenotype(),
                     implode(',', $tube->getStrain()->getStrainPlasmids()->toArray()),
                     implode(',', $tube->getStrain()->getParents()->toArray()),
-                    null !== $tube->getStrain()->getBiologicalOriginCategory() ? $tube->getStrain()->getBiologicalOriginCategory()->getName() : '',
                     $tube->getStrain()->getBiologicalOrigin(),
                     $tube->getStrain()->getSource(),
                     $tube->getStrain()->getLatitude(),
