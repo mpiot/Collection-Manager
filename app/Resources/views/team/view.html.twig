@@ -10,7 +10,7 @@
 
 {% block team_body %}
 
-    {% if app.user.isAdministratorOf(team) or is_granted('ROLE_ADMIN') %}
+    {% if team.isAdministrator(app.user) or is_granted('ROLE_ADMIN') %}
         <div>
             <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("team_edit", {'slug': team.slug }) }}">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

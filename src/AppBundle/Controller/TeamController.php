@@ -21,7 +21,6 @@ class TeamController extends Controller
 {
     /**
      * @Route("/", name="team_index")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function indexAction()
     {
@@ -80,7 +79,6 @@ class TeamController extends Controller
     /**
      * @Route("/{slug}", name="team_view")
      * @ParamConverter("team", options={"repository_method" = "findOneWithMembers"})
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function viewAction(Team $team)
     {
@@ -92,7 +90,7 @@ class TeamController extends Controller
     /**
      * @Route("/{slug}/edit", name="team_edit")
      * @ParamConverter("team", options={"repository_method" = "findOneWithMembers"})
-     * @Security("user.isAdministratorOf(team) or is_granted('ROLE_ADMIN')")
+     * @Security("team.isAdministrator(user) or is_granted('ROLE_ADMIN')")
      */
     public function editAction(Team $team, Request $request)
     {
@@ -141,7 +139,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{slug}/favorite", name="team_favorite")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     * @Security("team.isMember(user)")
      */
     public function favoriteAction(Team $team)
     {

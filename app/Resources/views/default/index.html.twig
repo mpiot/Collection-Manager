@@ -8,7 +8,7 @@
                     <div class="panel-heading">My teams</div>
                     {% if teams is empty %}
                         <div class="panel-body">
-                            You have not team. <a href="{{ path('team_index') }}">Join a team</a>.
+                            You have not team
                         </div>
                     {% else %}
                         <ul  class="list-group">
@@ -25,9 +25,6 @@
                                     {% endif %}
                                 </li>
                             {% endfor %}
-                            <li class="list-group-item">
-                                <a href="{{ path('team_index') }}">Join an other team</a>
-                            </li>
                         </ul>
                     {% endif %}
                 </div>

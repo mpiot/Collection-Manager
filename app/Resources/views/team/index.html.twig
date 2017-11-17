@@ -24,10 +24,8 @@
             <thead>
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-2">Name</th>
-                    <th class="col-md-7">Administrators</th>
-                    <th class="col-md-1">Members</th>
-                    <th class="col-md-1">User status</th>
+                    <th class="col-md-3">Name</th>
+                    <th class="col-md-8">Administrators</th>
                 </tr>
             </thead>
 
@@ -41,14 +39,6 @@
                             {% for admin in team.administrators %}
                                 {{ admin.fullName }}{{ not loop.last ? ',' }}
                             {% endfor %}
-                        </td>
-                        <td>{{ team.members|length }}</td>
-                        <td>
-                            {% if team.isMember(app.user) %}
-                                <span class="label label-success">Member</span>
-                            {% else %}
-                                <span class="label label-default">Not member</span>
-                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

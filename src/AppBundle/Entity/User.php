@@ -507,18 +507,6 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Is an administrator of this team ?
-     *
-     * @param Team $team
-     *
-     * @return bool
-     */
-    public function isAdministratorOf(Team $team)
-    {
-        return $this->administeredTeams->contains($team);
-    }
-
-    /**
      * Add team.
      *
      * @param Team $team
