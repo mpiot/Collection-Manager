@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -36,22 +37,27 @@ class StrainGmoType extends AbstractType
             ->add('genotype', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('parents', CollectionType::class, [
+        ;
+
+        $formModifier = function (FormInterface $form, $team = null, $strainId = null) {
+            $form->add('parents', CollectionType::class, [
                 'entry_type' => EntityType::class,
                 'entry_options' => [
                     'class' => 'AppBundle\Entity\Strain',
                     'choice_label' => 'fullName',
                     'placeholder' => '-- select a parent --',
-                    'query_builder' => function (EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) use ($team, $strainId) {
                         return $er->createQueryBuilder('strain')
-                            ->leftJoin('strain.tubes', 'tubes')
-                            ->leftJoin('tubes.project', 'project')
-                            ->leftJoin('project.team', 'team')
-                            ->leftJoin('project.members', 'members')
-                                ->where('members = :member')
-                            ->setParameter('member', $this->tokenStorage->getToken()->getUser())
-                            ->andWhere('strain.id <> :id')
-                                ->setParameter('id', $this->strainId)
+                            ->leftJoin('strain.team', 'team')
+                            ->leftJoin('team.members', 'members')
+                            ->where('members = :user')
+                            ->andWhere('strain.id <> :strainId')
+                            ->andWhere('team = :team')
+                                ->setParameters([
+                                    'user' => $this->tokenStorage->getToken()->getUser(),
+                                    'team' => $team,
+                                    'strainId' => $strainId,
+                                ])
                             ->orderBy('strain.autoName', 'ASC');
                     },
                 ],
@@ -59,21 +65,50 @@ class StrainGmoType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'required' => false,
-            ])
-            ->add('strainPlasmids', CollectionType::class, [
+            ]);
+
+            $form->add('strainPlasmids', CollectionType::class, [
                 'entry_type' => StrainPlasmidType::class,
+                'entry_options' => [
+                    'parent_data' => $team,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
                 'required' => false,
-            ])
-        ;
+            ]);
+        };
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            function (FormEvent $event) use ($formModifier) {
                 $strain = $event->getData();
-                $this->strainId = $strain->getId() ? $strain->getId() : null;
+                $strainId = $strain->getId() ? $strain->getId() : null;
+
+                // If it's a new strain, the default team is the FavoriteTeam of the user
+                // else, we retrieve the team from the type
+                if (null === $strain->getId()) {
+                    $team = $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+                } else {
+                    $team = $strain->getTeam();
+                }
+
+                $formModifier($event->getForm(), $team, $strainId);
+            }
+        );
+
+        $builder->get('team')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                // It's important here to fetch $event->getForm()->getData(), as
+                // $event->getData() will get you the client data (that is, the ID)
+                $team = $event->getForm()->getData();
+                $strain = $event->getForm()->getParent()->getData();
+                $strainId = $strain->getId() ? $strain->getId() : 0;
+
+                // since we've added the listener to the child, we'll have to pass on
+                // the parent to the callback functions!
+                $formModifier($event->getForm()->getParent(), $team, $strainId);
             }
         );
     }

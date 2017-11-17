@@ -7,7 +7,6 @@ use AppBundle\Entity\Brand;
 use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Primer;
 use AppBundle\Entity\Product;
-use AppBundle\Entity\Project;
 use AppBundle\Entity\Seller;
 use AppBundle\Entity\Species;
 use AppBundle\Entity\Strain;
@@ -28,13 +27,12 @@ class IndexFilter
         Plasmid::class,
         Primer::class,
         Product::class,
-        Project::class,
         Seller::class,
         Species::class,
         Strain::class,
         User::class,
     ];
-    const ALLOWED_FILTERED_CLASS = [Project::class, Team::class];
+    const ALLOWED_FILTERED_CLASS = [Team::class];
 
     private $repositoryManager;
     private $finder;
@@ -91,10 +89,6 @@ class IndexFilter
                 if (Team::class === $class) {
                     $filter['team'] = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->tokenStorage->getToken()->getUser()->getFavoriteTeam()->getId();
                 }
-
-                if (Project::class === $class) {
-                    $filter['project'] = ('' !== $request->get('project') && null !== $request->get('project')) ? $request->get('project') : null;
-                }
             }
         }
 
@@ -127,7 +121,7 @@ class IndexFilter
 
         switch ($class) {
             case Box::class:
-                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->project, $this->tokenStorage->getToken()->getUser());
+                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->team, $this->tokenStorage->getToken()->getUser());
                 break;
 
             case Brand::class:
@@ -146,10 +140,6 @@ class IndexFilter
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->team, $this->tokenStorage->getToken()->getUser());
                 break;
 
-            case Project::class:
-                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $this->tokenStorage->getToken()->getUser());
-                break;
-
             case Seller::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page);
                 break;
@@ -159,7 +149,7 @@ class IndexFilter
                 break;
 
             case Strain::class:
-                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->project, $this->tokenStorage->getToken()->getUser());
+                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->team, $this->tokenStorage->getToken()->getUser());
                 break;
 
             case User::class:

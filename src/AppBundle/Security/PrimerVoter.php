@@ -28,7 +28,7 @@ class PrimerVoter extends Voter
             return false;
         }
 
-        // Only vote for Project object
+        // Only vote for Primer object
         if (!$subject instanceof Primer) {
             return false;
         }

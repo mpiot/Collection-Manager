@@ -73,7 +73,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/add", name="location_add")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function addAction(Request $request)
     {
@@ -118,7 +118,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-up", name="location_move_up")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function moveUpAction(Location $location)
     {
@@ -132,7 +132,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-down", name="location_move_down")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function moveDownAction(Location $location)
     {
@@ -146,7 +146,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/edit", name="location_edit")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function editAction(Location $location, Request $request)
     {
@@ -171,7 +171,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/delete", name="location_delete")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function deleteAction(Location $location, Request $request)
     {

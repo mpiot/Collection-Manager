@@ -2,11 +2,9 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Entity\Project;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
@@ -54,39 +52,31 @@ class AdvancedSearchType extends AbstractType
                 'placeholder' => 'All countries',
                 'required' => false,
             ])
-            ->add('project', EntityType::class, [
-                'class' => 'AppBundle\Entity\Project',
+            ->add('team', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('project')
-                        ->leftJoin('project.members', 'members')
+                    return $er->createQueryBuilder('team')
+                        ->leftJoin('team.members', 'members')
                         ->where('members = :user')
-                        ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('project.name', 'ASC');
-                },
-                'group_by' => function (Project $project) {
-                    return $project->getTeam()->getName();
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->orderBy('team.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'All available projects',
+                'placeholder' => 'All teams',
                 'required' => false,
             ])
             ->add('author', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('user')
-                        ->leftJoin('user.projects', 'projects')
-                        ->leftJoin('projects.members', 'members')
-                        ->where('members = :user')
-                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('user.lastName', 'ASC')
-                        ->addOrderBy('user.firstName', 'ASC');
+                        ->leftJoin('user.teams', 'teams')
+                        ->where('teams IN (:teams)')
+                            ->setParameter('teams', $this->tokenStorage->getToken()->getUser()->getTeams())
+                        ->orderBy('user.firstName', 'ASC')
+                        ->addOrderBy('user.lastName', 'ASC');
                 },
                 'choice_label' => 'fullName',
                 'placeholder' => 'All users',
-                'required' => false,
-            ])
-            ->add('deleted', CheckboxType::class, [
-                'label' => 'Search deleted strains ?',
                 'required' => false,
             ])
         ;

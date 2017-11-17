@@ -109,16 +109,6 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $strains;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="administrators")
-     */
-    private $administeredProjects;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", mappedBy="members")
-     */
-    private $projects;
-
     public function __construct()
     {
         $this->roles = [];
@@ -126,8 +116,6 @@ class User implements AdvancedUserInterface, \Serializable
         $this->teams = new ArrayCollection();
         $this->administeredTeams = new ArrayCollection();
         $this->strains = new ArrayCollection();
-        $this->projects = new ArrayCollection();
-        $this->administeredProjects = new ArrayCollection();
     }
 
     /**
@@ -627,100 +615,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function isFavoriteTeam(Team $team)
     {
         return $team === $this->getFavoriteTeam();
-    }
-
-    /**
-     * Add a project.
-     *
-     * @param Project $project
-     */
-    public function addProject(Project $project)
-    {
-        $this->projects->add($project);
-    }
-
-    /**
-     * Get projects.
-     *
-     * @return ArrayCollection
-     */
-    public function getProjects()
-    {
-        return $this->projects;
-    }
-
-    /**
-     * Get projects Ids.
-     *
-     * @return array
-     */
-    public function getProjectsId()
-    {
-        $projectsId = [];
-
-        foreach ($this->projects as $project) {
-            $projectsId[] = $project->getId();
-        }
-
-        return $projectsId;
-    }
-
-    /**
-     * Is a project member ?
-     *
-     * @return bool
-     */
-    public function isProjectMember()
-    {
-        return !$this->projects->isEmpty();
-    }
-
-    /**
-     * Add an administered project.
-     *
-     * @param Project $project
-     */
-    public function addAdministeredProject(Project $project)
-    {
-        $this->administeredProjects->add($project);
-    }
-
-    /**
-     * Get administered projects.
-     *
-     * @return ArrayCollection
-     */
-    public function getAdministeredProjects()
-    {
-        return $this->administeredProjects;
-    }
-
-    /**
-     * Is a project administrator ?
-     *
-     * @return bool
-     */
-    public function isProjectAdministrator()
-    {
-        foreach ($this->administeredProjects as $administeredProject) {
-            if ($administeredProject->isValid()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Is an administrator of this project ?
-     *
-     * @param Team $team
-     *
-     * @return bool
-     */
-    public function isProjectAdministratorOf(Project $project)
-    {
-        return $this->administeredProjects->contains($project);
     }
 
     /**

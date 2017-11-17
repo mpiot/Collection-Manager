@@ -15,22 +15,11 @@ $(document).ready(function(){
     function showHideStrainField() {
         // Set selectors
         $countryField = $('#advanced_search_country').closest('.form-group');
-        $projectField = $('#advanced_search_project').closest('.form-group');
-        $typeField = $('#advanced_search_type').closest('.form-group');
-        $deletedField = $('#advanced_search_deleted').closest('.form-group');
 
         // First display all
         $countryField.show();
-        $projectField.show();
-        $typeField.show();
-        $deletedField.show();
 
-        if (!$gmoStrainCheckbox.is(':checked') && !$wildStrainCheckbox.is(':checked')) {
-            $countryField.hide();
-            $projectField.hide();
-            $typeField.hide();
-            $deletedField.hide();
-        } else if (!$wildStrainCheckbox.is(':checked')) {
+        if (!$wildStrainCheckbox.is(':checked')) {
             $countryField.hide();
         }
     }

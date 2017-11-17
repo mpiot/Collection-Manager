@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Repository\ProjectRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -28,21 +28,16 @@ class BoxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('project', EntityType::class, [
-                'class' => 'AppBundle\Entity\Project',
-                'query_builder' => function (ProjectRepository $pr) {
-                    return $pr->createQueryBuilder('project')
-                        ->innerJoin('project.team', 'team')
-                        ->innerJoin('team.administrators', 'teamadmin')
-                        ->innerJoin('project.members', 'members')
+            ->add('team', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('team')
+                        ->leftJoin('team.members', 'members')
                         ->where('members = :user')
-                        ->orWhere('teamadmin = :user')
-                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->andWhere('project.valid = true')
-                        ->orderBy('project.name', 'ASC');
+                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
                 'choice_label' => 'name',
-                'placeholder' => '-- select a project --',
             ])
             ->add('name', TextType::class, [
                 'attr' => [

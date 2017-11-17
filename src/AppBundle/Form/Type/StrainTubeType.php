@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\Box;
-use AppBundle\Entity\Project;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -43,7 +42,6 @@ class StrainTubeType extends AbstractType
         $form = $event->getForm();
         $data = $event->getData();
 
-        $project = null === $data ? null : $data->getProject();
         $box = null === $data ? null : $data->getBox();
         $cell = null === $data ? null : $data->getCell();
 
@@ -52,8 +50,7 @@ class StrainTubeType extends AbstractType
         }
 
         // Add forms
-        $this->addProjectForm($form, $form->getConfig()->getOptions());
-        $this->addBoxForm($form, $project);
+        $this->addBoxForm($form);
         $this->addCellForm($form, $box, $cell);
     }
 
@@ -63,7 +60,6 @@ class StrainTubeType extends AbstractType
         $data = $event->getData();
         $persistedTube = $event->getForm()->getData();
 
-        $project = null === $data['project'] ? null : $this->em->getRepository('AppBundle:Project')->findOneById($data['project']);
         $box = null === $data['box'] ? null : $this->em->getRepository('AppBundle:Box')->findOneById($data['box']);
         $cell = null;
 
@@ -75,37 +71,25 @@ class StrainTubeType extends AbstractType
             }
         }
 
-        $this->addProjectForm($form, $form->getConfig()->getOptions());
-        $this->addBoxForm($form, $project);
+        $this->addBoxForm($form);
         $this->addCellForm($form, $box, $cell);
     }
 
-    protected function addProjectForm(FormInterface $form, $options)
-    {
-        $form->add('project', EntityType::class, [
-            'class' => 'AppBundle\Entity\Project',
-            'query_builder' => function (EntityRepository $pr) use ($options) {
-                return $pr->createQueryBuilder('project')
-                    ->leftJoin('project.members', 'members')
-                    ->andWhere('members = :user')
-                    ->andWhere('project.valid = true')
-                    ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                    ->orderBy('project.name', 'ASC');
-            },
-            'choice_label' => 'name',
-            'placeholder' => '-- select a project --',
-        ]);
-    }
-
-    protected function addBoxForm(FormInterface $form, Project $project = null)
+    protected function addBoxForm(FormInterface $form)
     {
         $form->add('box', EntityType::class, [
             'class' => 'AppBundle:Box',
             'placeholder' => '-- select a box --',
-            'query_builder' => function (EntityRepository $er) use ($project) {
-                return $er->createQueryBuilder('b')
-                    ->where('b.project = :project')
-                        ->setParameter('project', $project);
+            'query_builder' => function (EntityRepository $er) use ($form) {
+                return $er->createQueryBuilder('box')
+                    ->leftJoin('box.team', 'team')
+                    ->leftJoin('team.members', 'user')
+                    ->where('user = :user')
+                    ->andWhere('team = :team')
+                        ->setParameters([
+                            'user' => $this->tokenStorage->getToken()->getUser(),
+                            'team' => $form->getConfig()->getOption('parent_data'),
+                        ]);
             },
             'choice_label' => function (Box $box) {
                 return (0 === $box->getFreeSpace()) ? $box->getName().' (full)' : $box->getName();
@@ -136,5 +120,7 @@ class StrainTubeType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Tube',
         ]);
+
+        $resolver->setRequired(['parent_data']);
     }
 }

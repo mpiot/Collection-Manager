@@ -45,7 +45,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/add", name="seller_add")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function addAction(Request $request)
     {
@@ -89,7 +89,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/{id}/edit", name="seller_edit")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function editAction(Seller $seller, Request $request)
     {
@@ -114,7 +114,7 @@ class SellerController extends Controller
     /**
      * @Route("/{id}/delete", name="seller_delete")
      * @Method("POST")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function deleteAction(Seller $seller, Request $request)
     {

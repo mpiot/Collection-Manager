@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Box;
-use AppBundle\Entity\Project;
+use AppBundle\Entity\Team;
 use AppBundle\Form\Type\BoxEditType;
 use AppBundle\Form\Type\BoxImportType;
 use AppBundle\Form\Type\BoxType;
@@ -33,7 +33,7 @@ class BoxController extends Controller
         return $this->render('box/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
-            'projectRequest' => $request->get('project'),
+            'team' => $request->get('team'),
         ]);
     }
 
@@ -42,21 +42,21 @@ class BoxController extends Controller
      */
     public function listAction(Request $request)
     {
-        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Box::class, true, true, [Project::class]);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Box::class, true, true, [Team::class]);
 
         return $this->render('box/_list.html.twig', [
             'boxList' => $results->results,
             'query' => $results->query,
             'page' => $results->page,
             'nbPages' => $results->nbPages,
-            'project' => $results->filters->project,
+            'team' => $results->filters->team,
         ]);
     }
 
     /**
      * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"})
      * @ParamConverter("box", class="AppBundle:Box", options={
-     *     "repository_method" = "findOneWithProjectTypeTubesStrains"
+     *     "repository_method" = "findOneWithStrains"
      * })
      * @Security("is_granted('BOX_VIEW', box)")
      */
@@ -77,14 +77,10 @@ class BoxController extends Controller
 
     /**
      * @Route("/add", name="box_add")
-     * @Route("/add/{id}", name="box_add_4_project")
-     * @ParamConverter("project", class="AppBundle:Project")
-     * @Security("user.isTeamAdministrator() or user.isProjectMember()")
      */
-    public function addAction(Request $request, Project $project = null)
+    public function addAction(Request $request)
     {
         $box = new Box();
-        $box->setProject($project);
         $form = $this->createForm(BoxType::class, $box)
             ->add('save', SubmitType::class, [
                 'label' => 'Save',
@@ -193,7 +189,7 @@ class BoxController extends Controller
      */
     public function exportAction(Box $box)
     {
-        $fileName = $box->getAutoName().'-'.$box->getName();
+        $fileName = $box->getTeam()->getName().'-'.$box->getName();
 
         $response = new StreamedResponse();
         $response->setCallback(function () use ($box) {
@@ -209,7 +205,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/{id}-{slug}/import", name="box_import")
-     * @Security("is_granted('BOX_VIEW', box)")
+     * @Security("is_granted('BOX_EDIT', box)")
      */
     public function importAction(Box $box, Request $request)
     {

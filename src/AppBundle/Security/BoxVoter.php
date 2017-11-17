@@ -20,7 +20,7 @@ class BoxVoter extends Voter
             return false;
         }
 
-        // Only vote for Project object
+        // Only vote for Box object
         if (!$subject instanceof Box) {
             return false;
         }
@@ -55,7 +55,7 @@ class BoxVoter extends Voter
 
     private function canView(Box $box, User $user)
     {
-        if ($box->getProject()->isMember($user)) {
+        if ($box->getTeam()->isMember($user)) {
             return true;
         }
 
@@ -77,13 +77,8 @@ class BoxVoter extends Voter
 
     private function canDelete(Box $box, User $user)
     {
-        // The Project administrator can delete a box
-        if ($box->getProject()->isAdministrator($user)) {
-            return true;
-        }
-
-        // A team administrator of the project can delete it
-        if ($box->getProject()->getTeam()->isAdministrator($user)) {
+        // A team administrator cand delete a box
+        if ($box->getTeam()->isAdministrator($user)) {
             return true;
         }
 

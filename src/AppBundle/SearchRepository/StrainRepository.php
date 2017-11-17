@@ -8,15 +8,14 @@ use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function searchByNameQuery($q, $p = null, $projectId, User $user)
+    public function searchByNameQuery($q, $p = null, $teamId, User $user)
     {
         $query = new \Elastica\Query();
-
-        $projectsSecureQuery = new \Elastica\Query\Terms();
-        $projectsSecureQuery->setTerms('project_id', $user->getProjectsId());
-
         $boolQuery = new \Elastica\Query\BoolQuery();
-        $boolQuery->addFilter($projectsSecureQuery);
+
+        $teamSecureQuery = new \Elastica\Query\Terms();
+        $teamSecureQuery->setTerms('team_id', $user->getTeamsId());
+        $boolQuery->addFilter($teamSecureQuery);
 
         // Only search in the type strain
         $typeQuery = new \Elastica\Query\Type();
@@ -39,10 +38,10 @@ class StrainRepository extends Repository
             $query->setSort(['name_raw' => 'asc']);
         }
 
-        if (null !== $projectId) {
-            $projectQuery = new \Elastica\Query\Term();
-            $projectQuery->setTerm('project_id', $projectId);
-            $boolQuery->addFilter($projectQuery);
+        if (null !== $teamId) {
+            $teamQuery = new \Elastica\Query\Term();
+            $teamQuery->setTerm('team_id', $teamId);
+            $boolQuery->addFilter($teamQuery);
         }
 
         if (null !== $p) {

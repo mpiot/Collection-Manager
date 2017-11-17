@@ -21,22 +21,18 @@ Encore
         './assets/js/charmap.js',
         './assets/js/collection-type.js',
         './assets/js/delay.js',
-        './assets/js/filter-biological-origin-category.js',
         './assets/js/filter-box.js',
         './assets/js/filter-brand.js',
         './assets/js/filter-plasmid.js',
         './assets/js/filter-primer.js',
         './assets/js/filter-product.js',
         './assets/js/filter-product-order.js',
-        './assets/js/filter-project.js',
         './assets/js/filter-seller.js',
         './assets/js/filter-species.js',
         './assets/js/filter-strain.js',
-        './assets/js/filter-type.js',
         './assets/js/filter-user.js',
         './assets/js/form-handle.js',
         './assets/js/form-primer.js',
-        './assets/js/form-project.js',
         './assets/js/form-send.js',
         './assets/js/form-species.js',
         './assets/js/form-strain.js',
@@ -48,7 +44,6 @@ Encore
         './assets/js/popover.js',
         './assets/js/select2-conf.js',
         './assets/js/strain-tubes-dynamic-on-box-change.js',
-        './assets/js/strain-tubes-dynamic-on-project-change.js'
     ])
     .addStyleEntry('css/app', ['./assets/scss/app.scss'])
 ;

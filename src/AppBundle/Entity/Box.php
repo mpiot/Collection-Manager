@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="box")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BoxRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity({"name", "project"}, message="A box already exist with the name: {{ value }}.")
+ * @UniqueEntity({"name", "team"}, message="A box already exist with the name: {{ value }}.")
  */
 class Box
 {
@@ -34,13 +34,6 @@ class Box
      * @ORM\Column(name="slug", type="string", length=128, unique=true)
      */
     private $slug;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="auto_name", type="string", length=255)
-     */
-    private $autoName;
 
     /**
      * @var string
@@ -104,12 +97,12 @@ class Box
     private $freeSpace;
 
     /**
-     * @var Project
+     * @var Team
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project", inversedBy="boxes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="boxes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $project;
+    private $team;
 
     /**
      * @var ArrayCollection of Tube
@@ -150,16 +143,6 @@ class Box
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    /**
-     * Get autoName.
-     *
-     * @return string
-     */
-    public function getAutoName()
-    {
-        return $this->autoName;
     }
 
     /**
@@ -336,27 +319,27 @@ class Box
     }
 
     /**
-     * Set project.
+     * Set team.
      *
-     * @param $project
+     * @param Team $team
      *
      * @return $this
      */
-    public function setProject($project)
+    public function setTeam(Team $team)
     {
-        $this->project = $project;
+        $this->team = $team;
 
         return $this;
     }
 
     /**
-     * Get project.
+     * Get team.
      *
-     * @return Project
+     * @return Team
      */
-    public function getProject()
+    public function getTeam()
     {
-        return $this->project;
+        return $this->team;
     }
 
     /**
@@ -463,13 +446,6 @@ class Box
      */
     public function prePersist()
     {
-        // Give a number to the box
-        $projectPrefix = $this->getProject()->getPrefix();
-        $boxNumber = $this->getProject()->getLastBoxNumber() + 1;
-        $this->project->setLastBoxNumber($boxNumber);
-        $autoName = $projectPrefix.'_Box'.str_pad($boxNumber, 2, '0', STR_PAD_LEFT);
-        $this->autoName = $autoName;
-
         // Determine the freeSpace
         $this->freeSpace = $this->colNumber * $this->rowNumber;
     }

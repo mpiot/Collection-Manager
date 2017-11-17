@@ -188,6 +188,14 @@ class Strain
     private $longitude;
 
     /**
+     * @var Team
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="strains")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $team;
+
+    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
@@ -516,61 +524,15 @@ class Strain
     }
 
     /**
-     * Get the teams.
-     *
-     * @return array
-     */
-    public function getTeams()
-    {
-        $teams = [];
-
-        foreach ($this->getTubes() as $tube) {
-            $team = $tube->getBox()->getProject()->getTeam();
-
-            if (!in_array($team, $teams)) {
-                $teams[] = $team;
-            }
-        }
-
-        return $teams;
-    }
-
-    /**
-     * Get the projects.
-     *
-     * @return array
-     */
-    public function getProjects()
-    {
-        $projects = [];
-
-        foreach ($this->getTubes() as $tube) {
-            if (!in_array($project = $tube->getBox()->getProject(), $projects)) {
-                $projects[] = $project;
-            }
-        }
-
-        return $projects;
-    }
-
-    /**
      * Get allowed users.
      *
      * @return array
      */
     public function getAllowedUsers()
     {
-        $allowedUsers = [];
+        $users = $this->team->getMembers()->toArray();
 
-        foreach ($this->getTubes() as $tube) {
-            foreach ($tube->getBox()->getProject()->getMembers() as $member) {
-                if (!in_array($member, $allowedUsers)) {
-                    $allowedUsers[] = $member;
-                }
-            }
-        }
-
-        return $allowedUsers;
+        return $users;
     }
 
     /**
@@ -817,6 +779,30 @@ class Strain
     }
 
     /**
+     * Set team.
+     *
+     * @param Team $team
+     *
+     * @return $this
+     */
+    public function setTeam(Team $team)
+    {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team.
+     *
+     * @return Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
      * Get created.
      *
      * @return \DateTime
@@ -891,15 +877,14 @@ class Strain
      */
     public function lifeCycleAutoName()
     {
-        $project = $this->getTubes()->first()->getProject();
-        $projectStrainNumber = $project->getLastStrainNumber() + 1;
-        $projectPrefix = $project->getPrefix();
+        dump($this);
 
-        $autoName = $projectPrefix.'_'.str_pad($projectStrainNumber, 4, '0', STR_PAD_LEFT);
+        $strainNumber = $this->getTeam()->getLastStrainNumber() + 1;
+        $autoName = str_pad($strainNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
         $this->setAutoName($autoName);
-        $project->setLastStrainNumber($projectStrainNumber);
+        $this->team->setLastStrainNumber($strainNumber);
     }
 
     /**

@@ -3,51 +3,12 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Strain;
-use AppBundle\Entity\User;
 
 /**
  * Strain Repository.
  */
 class StrainRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllName(User $user)
-    {
-        $query = $this->createQueryBuilder('strain')
-            ->leftJoin('strain.tubes', 'tubes')
-            ->leftJoin('tubes.project', 'project')
-            ->leftJoin('project.members', 'members')
-            ->where('members = :user')
-            ->setParameter('user', $user)
-            ->select('strain.name')
-            ->orderBy('strain.name', 'ASC')
-            ->distinct()
-            ->getQuery();
-
-        return $query->getArrayResult();
-    }
-
-    public function findAllForUser(User $user, $limit = 10)
-    {
-        $query = $this->createQueryBuilder('strain')
-            ->leftJoin('strain.tubes', 'tubes')
-            ->leftJoin('tubes.box', 'boxes')
-            ->leftJoin('boxes.project', 'projects')
-            ->leftJoin('projects.members', 'members')
-            ->leftJoin('strain.createdBy', 'createdBy')
-                ->addSelect('createdBy')
-            ->leftJoin('projects.administrators', 'administrators')
-            ->where('members = :user')
-            ->orWhere('createdBy = :user')
-            ->orWhere('administrators = :user')
-                ->setParameter('user', $user)
-            ->distinct(true)
-            ->orderBy('strain.id', 'DESC')
-            ->setMaxResults($limit)
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
     public function findOneBySlug($id)
     {
         $query = $this->createQueryBuilder('strain')
@@ -63,8 +24,6 @@ class StrainRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('tubes')
             ->leftJoin('tubes.box', 'boxes')
                 ->addSelect('boxes')
-            ->leftJoin('boxes.project', 'projects')
-                ->addSelect('projects')
             ->where('strain.id = :id')
                 ->setParameter('id', $id)
             ->getQuery();

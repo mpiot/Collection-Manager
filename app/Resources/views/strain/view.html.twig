@@ -79,38 +79,30 @@
                 <div class="panel-heading">Tubes</div>
                 <table class="table table-striped">
                     <tr>
-                        <th>Project</th>
                         <th>Box</th>
                         <th>Cell</th>
                         <th>Actions</th>
                     </tr>
                     {% for tube in strain.tubes %}
-                        {% if is_granted('TUBE_VIEW', tube) %}
-                            <tr>
-                                <td>
-                                    <a href="{{ path('project_view', { 'id': tube.box.project.id, 'slug': tube.box.project.slug }) }}">
-                                        {{ tube.box.project.name }}
+                        <tr>
+                            <td>
+                                <a href="{{ path('box_view', { 'id': tube.box.id, 'slug': tube.box.slug }) }}">
+                                    {{ tube.box.name }}
+                                </a>
+                            </td>
+                            <td>{{ tube.cellName }}</td>
+                            <td>
+                            {% if app.user == strain.createdBy or app.user.isTeamAdministrator %}
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                    <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id, 'token': csrf_token('deleteTube') }) }}">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
-                                </td>
-                                <td>
-                                    <a href="{{ path('box_view', { 'id': tube.box.id, 'slug': tube.box.slug }) }}">
-                                        {{ tube.box.name }}
-                                    </a>
-                                </td>
-                                <td>{{ tube.cellName }}</td>
-                                <td>
-                                {% if is_granted('TUBE_DELETE', tube) %}
-                                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id, 'token': csrf_token('deleteTube') }) }}">
-                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                        </a>
-                                    </div>
-                                {% else %}
-                                    -
-                                {% endif %}
-                                </td>
-                            </tr>
-                        {% endif %}
+                                </div>
+                            {% else %}
+                                -
+                            {% endif %}
+                            </td>
+                        </tr>
                     {% endfor %}
                 </table>
             </div>

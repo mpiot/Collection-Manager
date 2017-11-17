@@ -1,11 +1,7 @@
 <?php
 
-// src/AppBundle/Utils/Mailer.php
-
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\Project;
-use AppBundle\Entity\TeamRequest;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
@@ -75,68 +71,6 @@ class Mailer
         $subject = 'Password resetting';
         $body = $this->templating->render('mail/passwordResetting.html.twig', [
             'user' => $user,
-        ]);
-
-        $this->sendEmailMessage($to, $subject, $body);
-    }
-
-    /**
-     * Send an email to confirm a request as been sent.
-     *
-     * @param TeamRequest $teamRequest
-     */
-    public function sendTeamRequestConfirmation(TeamRequest $teamRequest)
-    {
-        $to = $teamRequest->getUser()->getEmail();
-        $subject = 'Confirmation of your team request';
-        $body = $this->templating->render('mail/confirmationTeamRequest.html.twig', ['teamRequest' => $teamRequest]);
-
-        $this->sendEmailMessage($to, $subject, $body);
-    }
-
-    /**
-     * Send an email to inform admin about a request.
-     *
-     * @param TeamRequest $teamRequest
-     */
-    public function sendTeamRequestNotification(TeamRequest $teamRequest)
-    {
-        $subject = 'Team request notification';
-
-        foreach ($teamRequest->getTeam()->getAdministrators() as $teamAdmin) {
-            $body = $this->templating->render('mail/teamRequestNotification.html.twig', [
-                'teamRequest' => $teamRequest,
-                'teamAdmin' => $teamAdmin,
-            ]);
-            $this->sendEmailMessage($teamAdmin->getEmail(), $subject, $body);
-        }
-    }
-
-    /**
-     * Send an email to inform user about the answer.
-     *
-     * @param TeamRequest $teamRequest
-     */
-    public function sendTeamRequestAnswer(TeamRequest $teamRequest)
-    {
-        $to = $teamRequest->getUser()->getEmail();
-        $subject = 'Team request answer';
-        $body = $this->templating->render('mail/teamRequestAnswer.html.twig', ['teamRequest' => $teamRequest]);
-
-        $this->sendEmailMessage($to, $subject, $body);
-    }
-
-    /**
-     * Send an email to inform user about his project admin role.
-     *
-     * @param Project $project
-     */
-    public function sendProjectAdminNotification(Project $project)
-    {
-        $to = '';
-        $subject = 'Project administration notification';
-        $body = $this->templating->render('mail/projectAdminNotification.html.twig', [
-            'project' => $project,
         ]);
 
         $this->sendEmailMessage($to, $subject, $body);

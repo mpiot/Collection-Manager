@@ -10,7 +10,7 @@ $( function() {
         $('[id^="plasmid_primers_"], [id^="plasmid_edit_primers_"]').select2();
     });
 
-    var $team = $('[name$="[team]"]');
+    var $team = $('#plasmid_team');
     // When genus gets selected ...
     $team.change(function () {
         // ... retrieve the corresponding form.

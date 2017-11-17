@@ -56,9 +56,19 @@ class Team
     private $members;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Project", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Box", mappedBy="team")
      */
-    private $projects;
+    private $boxes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="team")
+     */
+    private $strains;
+
+    /**
+     * @ORM\Column(name="last_strain_number", type="integer", nullable=false)
+     */
+    private $lastStrainNumber;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="team")
@@ -87,9 +97,11 @@ class Team
     {
         $this->members = new ArrayCollection();
         $this->administrators = new ArrayCollection();
-        $this->projects = new ArrayCollection();
+        $this->boxes = new ArrayCollection();
         $this->types = new ArrayCollection();
         $this->biologicalOriginCategories = new ArrayCollection();
+        $this->strains = new ArrayCollection();
+        $this->lastStrainNumber = 0;
         $this->plasmids = new ArrayCollection();
         $this->lastPlasmidNumber = 0;
         $this->primers = new ArrayCollection();
@@ -243,56 +255,75 @@ class Team
     }
 
     /**
-     * Add project.
+     * Add box.
      *
-     * @param Project $project
+     * @param Box $box
      *
      * @return Team
      */
-    public function addProject(Project $project)
+    public function addBox(Box $box)
     {
-        $this->projects->add($project);
+        $this->boxes->add($box);
 
         return $this;
     }
 
     /**
-     * Remove project.
+     * Remove box.
      *
-     * @param Project $project
+     * @param Box $box
+     *
+     * @return Team
      */
-    public function removeProject(Project $project)
+    public function removeBox(Box $box)
     {
-        $this->projects->removeElement($project);
+        $this->boxes->removeElement($box);
+
+        return $this;
     }
 
     /**
-     * Get projects.
+     * Get boxes.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
-    public function getProjects()
+    public function getBoxes()
     {
-        return $this->projects;
+        return $this->boxes;
     }
 
     /**
-     * Get collaboration.
+     * Get strains.
+     *
+     * @return ArrayCollection
      */
-    public function getPartnerProjects()
+    public function getStrains()
     {
-        // Foreach user, get projects
-        $projects = [];
+        return $this->strains;
+    }
 
-        foreach ($this->members as $member) {
-            foreach ($member->getProjects() as $project) {
-                if (!$project->isPrivate() && !$this->projects->contains($project) && !in_array($project, $projects)) {
-                    $projects[] = $project;
-                }
-            }
-        }
+    /**
+     * Set last strain number.
+     *
+     * @param int $number
+     *
+     * @return $this
+     */
+    public function setLastStrainNumber(int $number)
+    {
+        $this->lastStrainNumber = $number;
 
-        return $projects;
+        return $this;
+    }
+
+    /**
+     * Get last strain number.
+     *
+     * @return int
+     */
+    public function getLastStrainNumber()
+    {
+        return $this->lastStrainNumber;
     }
 
     /**

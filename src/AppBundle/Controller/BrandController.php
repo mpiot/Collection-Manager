@@ -48,7 +48,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/add", name="brand_add")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function addAction(Request $request)
     {
@@ -92,7 +92,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/{id}/edit", name="brand_edit")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function editAction(Brand $brand, Request $request)
     {
@@ -117,7 +117,7 @@ class BrandController extends Controller
     /**
      * @Route("/{id}/delete", name="brand_delete")
      * @Method("POST")
-     * @Security("user.isTeamAdministrator() or user.isProjectAdministrator()")
+     * @Security("user.isTeamAdministrator()")
      */
     public function deleteAction(Brand $brand, Request $request)
     {

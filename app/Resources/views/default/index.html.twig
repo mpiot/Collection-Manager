@@ -32,34 +32,6 @@
                     {% endif %}
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        My projects
-                        {% if app.user.isInTeam() %}
-                            <a class="pull-right" href="{{ path('project_add') }}">
-                                {{ app.user.isTeamAdministrator() ? 'Add a new project' : 'Suggest a new project' }}
-                            </a>
-                        {% endif %}
-                    </div>
-                    {% if projects is empty %}
-                        <div class="panel-body">
-                            You have no project. Ask to a project admin.
-                        </div>
-                    {% else %}
-                        <ul class="list-group">
-                            {% for project in projects %}
-                                <li class="list-group-item {{ (not project.isValid) ? 'list-group-item-warning' }}">
-                                    <a href="{{ path('project_view', { 'id': project.id, 'slug': project.slug }) }}">{{ project.name }}</a>
-                                    {{ project.administrators.contains(app.user) ? '(admin)' }}
-                                    {{ not project.administrators.contains(app.user) and not project.members.contains(app.user) ? '(you\'re not a member)' }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-            </div>
         </div>
     {% endif %}
 {% endblock %}

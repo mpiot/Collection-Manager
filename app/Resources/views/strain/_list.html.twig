@@ -34,7 +34,7 @@
 
         {% if results.nbPages > 1 %}
             <li{% if results.page == 1 %} class="disabled"{% endif %}>
-                <a href="{{ path('strain_index', {'q': results.query, 'project': results.filters.project, 'p': results.page - 1}) }}">&laquo;</a>
+                <a href="{{ path('strain_index', {'q': results.query, 'p': results.page - 1}) }}">&laquo;</a>
             </li>
 
             {% for p in range(1, results.nbPages) %}
@@ -46,7 +46,7 @@
                     ( p > (results.nbPages - nbExtremPages) )
                 %}
                     <li{% if p == results.page %} class="active"{% endif %}>
-                        <a href="{{ path('strain_index', {'q': results.query, 'project': results.filters.project, 'p': p}) }}">{{ p }}</a>
+                        <a href="{{ path('strain_index', {'q': results.query, 'p': p}) }}">{{ p }}</a>
                     </li>
                 {% elseif
                     ((p == (results.page - nbBorderPages - 1)) or (p == (results.page + nbBorderPages + 1 )))
@@ -58,7 +58,7 @@
             {% endfor %}
 
             <li{% if results.page == results.nbPages %} class="disabled"{% endif %}>
-                <a href="{{ path('strain_index', {'q': results.query, 'project': results.filters.project, 'p': results.page + 1}) }}" >&raquo;</a>
+                <a href="{{ path('strain_index', {'q': results.query, 'p': results.page + 1}) }}" >&raquo;</a>
             </li>
         {% endif %}
     </ul>

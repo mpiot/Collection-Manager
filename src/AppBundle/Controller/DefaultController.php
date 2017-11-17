@@ -16,16 +16,13 @@ class DefaultController extends Controller
 
         if (null !== $this->getUser()) {
             $userTeams = $em->getRepository('AppBundle:Team')->findAllForUser($this->getUser());
-            $userProjects = $em->getRepository('AppBundle:Project')->findAllAuthorizedForCurrentUser($this->getUser());
         } else {
             $userTeams = null;
-            $userProjects = null;
         }
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'teams' => $userTeams,
-            'projects' => $userProjects,
         ]);
     }
 

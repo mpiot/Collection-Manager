@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\User;
+use AppBundle\Entity\Box;
 
 /**
  * BoxRepository.
@@ -12,34 +12,15 @@ use AppBundle\Entity\User;
  */
 class BoxRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllAuthorizedForCurrentUserWithType(User $user)
+    public function findOneWithStrains($boxId)
     {
         $query = $this->createQueryBuilder('box')
-            ->leftJoin('box.project', 'project')
-            ->leftJoin('project.members', 'members')
-            ->leftJoin('project.team', 'team')
-            ->leftJoin('team.administrators', 'administrators')
-            ->where('administrators = :user')
-            ->orWhere('members = :user')
-                ->setParameter('user', $user)
-            ->orderBy('box.project', 'ASC')
-            ->addOrderBy('box.boxLetter', 'ASC')
-            ->getQuery();
-
-        return $query->getResult();
-    }
-
-    public function findOneWithProjectTypeTubesStrains($box)
-    {
-        $query = $this->createQueryBuilder('box')
-            ->leftJoin('box.project', 'project')
-                ->addSelect('project')
             ->leftJoin('box.tubes', 'tubes')
                 ->addSelect('tubes')
             ->leftJoin('tubes.strain', 'strain')
                 ->addSelect('strain')
-            ->where('box = :box')
-                ->setParameter('box', $box)
+            ->where('box.id = :boxId')
+                ->setParameter('boxId', $boxId)
             ->orderBy('tubes.cell', 'ASC')
             ->getQuery();
 
@@ -49,8 +30,6 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
     public function findForCSVExport($box)
     {
         $query = $this->createQueryBuilder('box')
-            ->leftJoin('box.project', 'project')
-                ->addSelect('project')
             ->leftJoin('box.tubes', 'tubes')
                 ->addSelect('tubes')
                 ->orderBy('tubes.cell', 'ASC')
@@ -66,8 +45,6 @@ class BoxRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('plasmid')
             ->leftJoin('strain.parents', 'parents')
                 ->addSelect('parents')
-            ->leftJoin('strain.biologicalOriginCategory', 'biologicalOriginCategory')
-                ->addSelect('biologicalOriginCategory')
             ->where('box = :box')
             ->setParameter('box', $box)
             ->getQuery();

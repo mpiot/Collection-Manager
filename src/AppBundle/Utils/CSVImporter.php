@@ -6,8 +6,8 @@ use AppBundle\Entity\Box;
 use AppBundle\Entity\Strain;
 use AppBundle\Entity\Tube;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CSVImporter
@@ -21,12 +21,10 @@ class CSVImporter
         $this->validator = $validator;
     }
 
-    public function importBox(Box $box, Form $form)
+    public function importBox(Box $box, FormInterface $form)
     {
-        $project = $box->getProject();
-        $team = $project->getTeam();
         $file = $form->get('csvFile')->getData()->getRealPath();
-        $keys = ['disc', 'genus', 'species', 'name', 'comment', 'sequenced', 'deleted', 'cells', 'description', 'genotype', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'];
+        $keys = ['disc', 'genus', 'species', 'name', 'comment', 'sequenced', 'cells', 'description', 'genotype', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'];
         $data = [];
 
         $row = 0;
@@ -72,7 +70,6 @@ class CSVImporter
                 foreach ($cells as $cell) {
                     // Init a tube
                     $tube = new Tube();
-                    $tube->setProject($project);
                     $tube->setBox($box);
                     if (array_key_exists($cell, $emptyCells)) {
                         $tube->setCell($emptyCells[$cell]);
@@ -88,6 +85,7 @@ class CSVImporter
             }
 
             // Set attributes for the strain
+            $strain->setTeam($box->getTeam());
             $strain->setDiscriminator($value['disc']);
             $strain->setName($value['name']);
             $strain->setComment($value['comment']);
@@ -102,10 +100,6 @@ class CSVImporter
             // Is the strain sequenced ? (default: false)
             $sequenced = 'yes' === $value['sequenced'] ? true : false;
             $strain->setSequenced($sequenced);
-
-            // Is the strain deleted ? (default: false)
-            $deleted = 'yes' === $value['deleted'] ? true : false;
-            $strain->setDeleted($deleted);
 
             // Check species
             //Before do a Doctrine query, check if we already have validate it

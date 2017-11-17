@@ -7,19 +7,19 @@
                 {% if result is strain %}
                     <h4><a href="{{ path('strain_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
-                        <span class="category">{{ 'gmo' == result.discriminator ? 'GMO' : 'Wild' }} strain</span><br />
+                        <span class="category">{{ result.team.name }} - {{ 'gmo' == result.discriminator ? 'GMO' : 'Wild' }} strain</span><br />
                         Species: {{ result.species.scientificName }}
 
                     </p>
                 {% elseif result is plasmid %}
                     <h4><a href="{{ path('plasmid_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
-                        <span class="category">Plasmid</span><br />
+                        <span class="category">{{ result.team.name }} - Plasmid</span><br />
                     </p>
                 {% elseif result is primer %}
                     <h4><a href="{{ path('primer_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }} ({{ result.autoName }})</a></h4>
                     <p>
-                        <span class="category">Primer</span><br />
+                        <span class="category">{{ result.team.name }} - Primer</span><br />
                         Sequence: {{ result.sequence }}
                     </p>
                 {% endif %}

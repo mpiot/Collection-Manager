@@ -44,40 +44,4 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">Team projects</div>
-                <ul class="list-group">
-                    {% if team.projects is not empty %}
-                        {% for project in team.projects %}
-                            <li class="list-group-item">
-                                <a href="{{ path('project_view', { 'id': project.id, 'slug': project.slug }) }}">{{ project.name }}</a>
-                            </li>
-                        {% endfor %}
-                    {% else %}
-                        <li class="list-group-item">There is no project.</li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">Partner projects</div>
-                <ul class="list-group">
-                    {% if team.partnerProjects is not empty %}
-                        {% for project in team.partnerProjects %}
-                            <li class="list-group-item">
-                                <a href="{{ path('project_view', { 'id': project.id, 'slug': project.slug }) }}">{{ project.name }}</a>
-                            </li>
-                        {% endfor %}
-                    {% else %}
-                        <li class="list-group-item">There is no project.</li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </div>
 {% endblock %}

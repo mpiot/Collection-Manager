@@ -33,11 +33,6 @@ class Tube
     private $strain;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project")
-     */
-    private $project;
-
-    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Box", inversedBy="tubes")
      */
     private $box;
@@ -103,18 +98,6 @@ class Tube
     public function getStrain()
     {
         return $this->strain;
-    }
-
-    public function setProject(Project $project)
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
-    public function getProject()
-    {
-        return $this->project;
     }
 
     public function setBox(Box $box)

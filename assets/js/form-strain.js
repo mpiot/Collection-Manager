@@ -1,89 +1,65 @@
-import googleMaps from 'googleMaps';
+// import googleMaps from 'googleMaps';
 
 var formHandle = require('./form-handle');
 var collectionType = require('./collection-type');
-var onProjectChange = require('./strain-tubes-dynamic-on-project-change');
 var onBoxChange = require('./strain-tubes-dynamic-on-box-change');
 var charMap = require('./charmap');
 
 $( function() {
     var form = $('form[name^="strain_"]');
+    var $team = $('#strain_gmo_team, #strain_wild_team');
     var strainDisc = form.data('strain-discriminator');
 
-    if ('gmo' === strainDisc) {
-        collectionType($('div#strain_gmo_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
-        collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid', 'add-plasmid');
-        collectionType($('div#strain_gmo_parents'), 'Add a parent', 'add-parent');
-        formHandle($('select[name="strain_gmo[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
-        charMap($('#strain_gmo_name'));
-        charMap($('#strain_gmo_genotype'));
-    } else if ('wild' === strainDisc) {
-        collectionType($('div#strain_wild_tubes'), 'Add a tube', null, true, [onProjectChange, onBoxChange]);
-        formHandle($('select[name="strain_wild[biologicalOriginCategory]"]'), $('#addBioCategoryModal'), $('form[name="biological_origin_category"]'), 'form[name="biological_origin_category"]');
-        formHandle($('select[name="strain_wild[type]"]'), $('#addTypeModal'), $('form[name="type"]'), 'form[name="type"]');
-        charMap($('#strain_wild_name'));
-    }
+    collectionType($('div#strain_gmo_tubes, div#strain_wild_tubes'), 'Add a tube', null, true, [onBoxChange]);
+    collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid', 'add-plasmid');
+    collectionType($('div#strain_gmo_parents'), 'Add a parent', 'add-parent');
+    charMap($('#strain_gmo_name, #strain_wild_name'));
+    charMap($('#strain_gmo_genotype'));
+    applySelect2();
 
-    if ('gmo' === strainDisc || 'wild' === strainDisc) {
-        strainFormLoad();
-        function strainFormLoad() {
-            var $team = $('[name$="[team]"]');
+    $team.change(function () {
+        // Fields
+        var tubes = $('div#strain_gmo_tubes, div#strain_wild_tubes');
+        var plasmids = $('div#strain_gmo_strainPlasmids');
+        var parents = $('div#strain_gmo_parents');
 
-            // When genus gets selected ...
-            $team.change(function () {
-                // Fields
-                var type = $('select[name$="[type]"]');
-                var bioCat = $('select[name$="[biologicalOriginCategory]"]');
-                var tubes = $('div#strain_gmo_tubes, div#strain_wild_tubes');
-                var plasmids = $('div#strain_gmo_strainPlasmids');
-                var parents = $('div#strain_gmo_parents');
+        // ... retrieve the corresponding form.
+        var $form = $(this).closest('form');
+        // Simulate form data, but only include the selected genus value.
+        var data = {};
+        data[$team.attr('name')] = $team.val();
 
-                // ... retrieve the corresponding form.
-                var $form = $(this).closest('form');
-                // Simulate form data, but only include the selected genus value.
-                var data = {};
-                data[$team.attr('name')] = $team.val();
+        // Submit data via AJAX to the form's action path.
+        $.ajax({
+            url: $form.attr('action'),
+            type: $form.attr('method'),
+            data: data,
+            success: function (html) {
+                // Replace current position field ...
+                tubes.replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('div#strain_gmo_tubes, div#strain_wild_tubes')
+                );
+                plasmids.replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('div#strain_gmo_strainPlasmids')
+                );
+                parents.replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('div#strain_gmo_parents')
+                );
 
-                // Submit data via AJAX to the form's action path.
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: $form.attr('method'),
-                    data: data,
-                    success: function (html) {
-                        // Replace current position field ...
-                        type.replaceWith(
-                            // ... with the returned one from the AJAX response.
-                            $(html).find('select[name$="[type]"]')
-                        );
-                        bioCat.replaceWith(
-                            // ... with the returned one from the AJAX response.
-                            $(html).find('select[name$="[biologicalOriginCategory]"]')
-                        );
-                        tubes.replaceWith(
-                            // ... with the returned one from the AJAX response.
-                            $(html).find('div#strain_gmo_tubes, div#strain_wild_tubes')
+                collectionType($('div#strain_gmo_tubes, div#strain_wild_tubes'), 'Add a tube', null, true, [onBoxChange]);
+                collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid', 'add-plasmid');
+                collectionType($('div#strain_gmo_parents'), 'Add a parent', 'add-parent');
 
-                        );
-                        plasmids.replaceWith(
-                            // ... with the returned one from the AJAX response.
-                            $(html).find('div#strain_gmo_strainPlasmids')
+                applySelect2();
+            }
+        });
 
-                        );
-                        parents.replaceWith(
-                            // ... with the returned one from the AJAX response.
-                            $(html).find('#strain_gmo_parents')
-                        );
+    });
 
-                        collectionType(tubes, 'Add a tube', null, true, [onProjectChange, onBoxChange]);
-                        collectionType(parents, 'Add a parent');
-                        collectionType(plasmids, 'Add a plasmid');
-
-                        strainFormLoad();
-                    }
-                });
-            });
-        }
-
+    function applySelect2 () {
         $('#strain_gmo_species, #strain_wild_species').select2();
 
         $('[id^="strain_gmo_strainPlasmids_"][id$="plasmid"]').select2();
@@ -190,5 +166,5 @@ $( function() {
     //         });
     //     }
     // });
-} );
+});
 

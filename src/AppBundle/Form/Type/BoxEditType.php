@@ -10,7 +10,7 @@ class BoxEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->remove('project')
+            ->remove('team')
             ->remove('colNumber')
             ->remove('rowNumber')
             ->add('deleted')

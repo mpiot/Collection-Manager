@@ -1,12 +1,4 @@
 {{ form_start(form, { 'attr': { 'data-strain-discriminator': strain.discriminator } }) }}
-    <div class="alert alert-info" role="alert">
-        <h4><span class="glyphicon glyphicon-info-sign"></span> Notice on the linked data</h4>
-        <p>
-            In the form you link data on the strain: Plasmids, Parental Strains. These resources are restricted for your team (only team member can view it).<br>
-            If you add a tube in a project shared with an other team, then, they can view the linked data (only view, they have no rights to edit, delete).
-        </p>
-    </div>
-
     {% if form.team is defined %}
         {{ form_row(form.team) }}
     {% endif %}

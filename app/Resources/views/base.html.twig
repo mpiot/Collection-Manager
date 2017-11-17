@@ -48,12 +48,9 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ path('species_index') }}">Species</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="{{ path('project_index') }}">Projects</a></li>
                                     <li><a href="{{ path('box_index') }}">Boxes</a></li>
-                                    {% if app.user.isProjectMember %}
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="{{ path('strain_index') }}">Strains</a></li>
-                                    {% endif %}
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="{{ path('strain_index') }}">Strains</a></li>
                                 </ul>
                             </li>
                             {% if app.user.isInTeam() %}

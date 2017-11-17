@@ -3,7 +3,6 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\Box;
-use AppBundle\Entity\Project;
 
 class CSVExporter
 {
@@ -11,7 +10,7 @@ class CSVExporter
     {
         $handle = fopen('php://output', 'w+');
 
-        fputcsv($handle, ['autoName', 'name', 'box', 'cell', 'species', 'comment', 'sequenced', 'deleted', 'description', 'genotype', 'plasmids', 'parents', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'], ';');
+        fputcsv($handle, ['autoName', 'name', 'box', 'cell', 'species', 'comment', 'sequenced', 'description', 'genotype', 'plasmids', 'parents', 'biologicalOrigin', 'source', 'lat', 'long', 'address', 'country'], ';');
 
         foreach ($box->getTubes() as $tube) {
             fputcsv(
@@ -24,7 +23,6 @@ class CSVExporter
                     $tube->getStrain()->getSpecies()->getScientificName(),
                     $tube->getStrain()->getComment(),
                     $tube->getStrain()->getSequenced() ? 'yes' : 'no',
-                    $tube->getDeleted() ? 'yes' : 'no',
                     $tube->getStrain()->getDescription(),
                     $tube->getStrain()->getGenotype(),
                     implode(',', $tube->getStrain()->getStrainPlasmids()->toArray()),
@@ -43,18 +41,5 @@ class CSVExporter
         fclose($handle);
 
         return $handle;
-    }
-
-    public function exportProject(Project $project)
-    {
-        $handle = fopen('php://output', 'w+');
-
-        foreach ($project->getBoxes() as $box) {
-            if (!$box->getTubes()->isEmpty()) {
-                $this->exportBox($box);
-            }
-        }
-
-        fclose($handle);
     }
 }

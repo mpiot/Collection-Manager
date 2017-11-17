@@ -79,7 +79,7 @@ class TeamController extends Controller
 
     /**
      * @Route("/{slug}", name="team_view")
-     * @ParamConverter("team", options={"repository_method" = "findOneWithMembersProjects"})
+     * @ParamConverter("team", options={"repository_method" = "findOneWithMembers"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function viewAction(Team $team)

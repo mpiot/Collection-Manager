@@ -30,34 +30,12 @@ class TeamRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('team')
             ->leftJoin('team.administrators', 'administrators')
                 ->addSelect('administrators')
+                    ->orderBy('administrators.firstName', 'ASC')
+                    ->addOrderBy('administrators.lastName', 'ASC')
             ->leftJoin('team.members', 'members')
                 ->addSelect('members')
-            ->where('team.slug = :slug')
-                ->setParameter('slug', $param['slug'])
-            ->getQuery();
-
-        return $query->getOneOrNullResult();
-    }
-
-    public function findOneWithMembersProjects($param)
-    {
-        $query = $this->createQueryBuilder('team')
-            ->leftJoin('team.administrators', 'administrators')
-                ->addSelect('administrators')
-                ->orderBy('administrators.firstName', 'ASC')
-                ->addOrderBy('administrators.lastName', 'ASC')
-            ->leftJoin('team.members', 'members')
-                ->addSelect('members')
-                ->orderBy('members.firstName', 'ASC')
-                ->addOrderBy('members.lastName', 'ASC')
-            ->leftJoin('members.projects', 'membersProjects')
-                ->addSelect('membersProjects')
-                ->where('membersProjects.private = false')
-                ->orderBy('membersProjects.name', 'ASC')
-            ->leftJoin('team.projects', 'teamProjects')
-                ->addSelect('teamProjects')
-                ->where('teamProjects.private = false')
-                ->orderBy('teamProjects.name', 'ASC')
+                    ->orderBy('members.firstName', 'ASC')
+                    ->addOrderBy('members.lastName', 'ASC')
             ->where('team.slug = :slug')
                 ->setParameter('slug', $param['slug'])
             ->getQuery();

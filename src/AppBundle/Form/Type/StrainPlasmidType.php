@@ -34,7 +34,11 @@ class StrainPlasmidType extends AbstractType
                         ->leftJoin('plasmid.team', 'team')
                         ->leftJoin('team.members', 'members')
                         ->where('members = :user')
-                            ->setParameter('user', $this->tokenStorage->getToken()->getUser())
+                        ->andWhere('team = :team')
+                            ->setParameters([
+                                'user' => $this->tokenStorage->getToken()->getUser(),
+                                'team' => $options['parent_data'],
+                            ])
                         ->orderBy('plasmid.autoName', 'ASC')
                     ;
                 },
@@ -62,5 +66,7 @@ class StrainPlasmidType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\StrainPlasmid',
         ]);
+
+        $resolver->setRequired(['parent_data']);
     }
 }

@@ -55,7 +55,7 @@ class StrainVoter extends Voter
 
     private function canView(Strain $strain, User $user)
     {
-        // If the user is member of the project
+        // If the user is member of the team
         if ($strain->isAllowedUser($user)) {
             return true;
         }
@@ -85,19 +85,8 @@ class StrainVoter extends Voter
             return true;
         }
 
-        // If the user is a project administrator of the concerned strain
-        $strainProjects = $strain->getProjects();
-        $userAdministeredProjects = $user->getAdministeredProjects()->toArray();
-
-        if (!empty(array_intersect($strainProjects, $userAdministeredProjects))) {
-            return true;
-        }
-
-        // If the user is an administrator of a team concerned by the strain
-        $strainTeams = $strain->getTeams();
-        $userAdministeredTeams = $user->getAdministeredTeams()->toArray();
-
-        if (!empty(array_intersect($strainTeams, $userAdministeredTeams))) {
+        // If the user is administrator of the team that handle the strain
+        if ($strain->getTeam()->isAdministrator($user)) {
             return true;
         }
 

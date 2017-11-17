@@ -28,7 +28,7 @@ class PlasmidVoter extends Voter
             return false;
         }
 
-        // Only vote for Project object
+        // Only vote for Plasmid object
         if (!$subject instanceof Plasmid) {
             return false;
         }

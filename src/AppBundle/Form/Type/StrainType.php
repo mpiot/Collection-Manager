@@ -9,6 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class StrainType extends AbstractType
@@ -27,6 +30,17 @@ class StrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('team', EntityType::class, [
+                'class' => 'AppBundle\Entity\Team',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('team')
+                        ->leftJoin('team.members', 'members')
+                        ->where('members = :user')
+                            ->setParameter('user', $this->tokenStorage->getToken()->getUser());
+                },
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
+                'choice_label' => 'name',
+            ])
             ->add('species', EntityType::class, [
                 'class' => 'AppBundle\Entity\Species',
                 'query_builder' => function (EntityRepository $er) {
@@ -48,13 +62,53 @@ class StrainType extends AbstractType
             ])
             ->add('comment')
             ->add('sequenced')
-            ->add('tubes', CollectionType::class, [
+        ;
+
+        $formModifier = function (FormInterface $form, $team) {
+            $form->add('tubes', CollectionType::class, [
                 'entry_type' => StrainTubeType::class,
+                'entry_options' => [
+                    'parent_data' => $team,
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 // Use add and remove properties in the entity
                 'by_reference' => false,
-            ])
-        ;
+            ]);
+        };
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $form = $event->getForm();
+                $strain = $event->getData();
+
+                // If it's a new strain, the default team is the FavoriteTeam of the user
+                // else, we retrieve the team
+                if (null === $strain->getId()) {
+                    $team = $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+                } else {
+                    $team = $strain->getTeam();
+
+                    // And, remove the team field
+                    $form->remove('team');
+                }
+
+                $formModifier($form, $team);
+            }
+        );
+
+        $builder->get('team')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                // It's important here to fetch $event->getForm()->getData(), as
+                // $event->getData() will get you the client data (that is, the ID)
+                $team = $event->getForm()->getData();
+
+                // since we've added the listener to the child, we'll have to pass on
+                // the parent to the callback functions!
+                $formModifier($event->getForm()->getParent(), $team);
+            }
+        );
     }
 }

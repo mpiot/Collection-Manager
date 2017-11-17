@@ -2,12 +2,9 @@
     <li><a href="{{ path('species_index') }}">Species</a></li>
 </ul>
 <ul class="nav nav-sidebar">
-    <li><a href="{{ path('project_index') }}">Projects</a></li>
     <li><a href="{{ path('box_index') }}">Boxes</a></li>
 </ul>
 
-{% if app.user.isProjectMember %}
-    <ul class="nav nav-sidebar">
-        <li><a href="{{ path('strain_index') }}">Strains</a></li>
-    </ul>
-{% endif %}
+<ul class="nav nav-sidebar">
+    <li><a href="{{ path('strain_index') }}">Strains</a></li>
+</ul>

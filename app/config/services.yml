@@ -78,17 +78,9 @@ services:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 
-    AppBundle\EventListener\ProjectSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber }
-
     AppBundle\EventListener\UserSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
-
-    AppBundle\EventListener\StrainSearchIndexListener:
-        tags:
-            - { name: kernel.event_subscriber }
 
     AppBundle\EventListener\ProductMovementSubscriber:
         tags:

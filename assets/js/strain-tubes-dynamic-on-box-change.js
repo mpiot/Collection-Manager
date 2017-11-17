@@ -1,9 +1,7 @@
 module.exports = function(container) {
     // Transmit Type and Species, because it correct a bug. The FormType bug if Type isn't send.
-    var $type = $('[name$="[type]"]');
     var $species = $('[name$="[species]"]');
 
-    var $project = $(container).find('[name$="[project]"]');
     var $box = $(container).find('[name$="[box]"]');
 
     // When box gets selected ...
@@ -12,9 +10,7 @@ module.exports = function(container) {
         var $form = $(this).closest('form');
         // Simulate form data, but only include the selected box value.
         var data = {};
-        data[$type.attr('name')] = $type.val();
         data[$species.attr('name')] = $species.val();
-        data[$project.attr('name')] = $project.val();
         data[$box.attr('name')] = $box.val();
 
         // Submit data via AJAX to the form's action path.

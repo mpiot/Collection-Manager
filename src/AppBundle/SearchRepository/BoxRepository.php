@@ -8,14 +8,14 @@ use FOS\ElasticaBundle\Repository;
 
 class BoxRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, $projectId, User $user)
+    public function searchByNameQuery($q, $p, $teamId, User $user)
     {
         $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();
 
-        $projectSecureQuery = new \Elastica\Query\Terms();
-        $projectSecureQuery->setTerms('project_id', $user->getProjectsId());
-        $boolQuery->addFilter($projectSecureQuery);
+        $teamSecureQuery = new \Elastica\Query\Terms();
+        $teamSecureQuery->setTerms('team_id', $user->getTeamsId());
+        $boolQuery->addFilter($teamSecureQuery);
 
         // Only search in the type box
         $typeQuery = new \Elastica\Query\Type();
@@ -24,7 +24,7 @@ class BoxRepository extends Repository
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();
-            $queryString->setFields(['name', 'autoName', 'project']);
+            $queryString->setFields(['name', 'autoName']);
             $queryString->setDefaultOperator('AND');
             $queryString->setQuery($q);
 
@@ -38,10 +38,10 @@ class BoxRepository extends Repository
             $query->setSort(['name_raw' => 'asc']);
         }
 
-        if (null !== $projectId) {
-            $projectQuery = new \Elastica\Query\Term();
-            $projectQuery->setTerm('project_id', $projectId);
-            $boolQuery->addFilter($projectQuery);
+        if (null !== $teamId) {
+            $teamQuery = new \Elastica\Query\Term();
+            $teamQuery->setTerm('team_id', $teamId);
+            $boolQuery->addFilter($teamQuery);
         }
 
         $query

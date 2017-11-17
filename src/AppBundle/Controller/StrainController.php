@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Project;
 use AppBundle\Entity\Strain;
+use AppBundle\Entity\Team;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,7 +25,6 @@ class StrainController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="strain_index")
-     * @Security("user.isProjectMember()")
      */
     public function indexAction(Request $request)
     {
@@ -34,17 +33,16 @@ class StrainController extends Controller
         return $this->render('strain/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
-            'projectRequest' => $request->get('project'),
+            'teamRequest' => $request->get('team'),
         ]);
     }
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain_index_ajax")
-     * @Security("user.isProjectMember()")
      */
     public function listAction()
     {
-        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Strain::class, true, true, [Project::class]);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Strain::class, true, true, [Team::class]);
 
         return $this->render('strain/_list.html.twig', [
             'results' => $results,
