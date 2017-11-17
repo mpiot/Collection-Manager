@@ -68,8 +68,8 @@ class Box
      *
      * @ORM\Column(name="colNumber", type="integer")
      * @Assert\Range(
-     *   min = 4,
-     *   max = 20,
+     *   min = 1,
+     *   max = 26,
      *   minMessage = "The box must have at least {{ limit }} columns.",
      *   maxMessage = "The box can't have more than {{ limit }} columns."
      * )
@@ -81,8 +81,8 @@ class Box
      *
      * @ORM\Column(name="rowNumber", type="integer")
      * @Assert\Range(
-     *   min = 4,
-     *   max = 20,
+     *   min = 1,
+     *   max = 26,
      *   minMessage = "The box must have at least {{ limit }} rows.",
      *   maxMessage = "The box can't have more than {{ limit }} rows."
      * )
