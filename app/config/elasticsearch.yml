@@ -49,7 +49,6 @@ fos_elastica:
                         country:
                         author_id:
                             property_path:    createdBy.id
-                        deleted:
                     persistence:
                         driver:                 orm
                         model:                  AppBundle\Entity\Strain

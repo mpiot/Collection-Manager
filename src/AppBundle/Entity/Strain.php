@@ -188,21 +188,6 @@ class Strain
     private $longitude;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="deleted", type="boolean")
-     * @Assert\Type("bool")
-     */
-    private $deleted;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="deletionDate", type="datetime", nullable=true)
-     */
-    private $deletionDate;
-
-    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
@@ -832,67 +817,6 @@ class Strain
     }
 
     /**
-     * Set deleted.
-     *
-     * @param bool $deleted
-     *
-     * @return Strain
-     */
-    public function setDeleted(bool $deleted)
-    {
-        if (true === $deleted && false === $this->deleted) {
-            $this->deletionDate = new \DateTime();
-        } elseif (false === $deleted && true === $this->deleted) {
-            $this->deletionDate = null;
-        }
-
-        // If user delete a strain, wee need to delete all tubes
-        if (true === $deleted) {
-            foreach ($this->getTubes() as $tube) {
-                $tube->setDeleted(true);
-            }
-        }
-
-        $this->deleted = $deleted;
-
-        return $this;
-    }
-
-    /**
-     * Get deleted.
-     *
-     * @return bool
-     */
-    public function getDeleted()
-    {
-        return $this->deleted;
-    }
-
-    /**
-     * Set deletionDate.
-     *
-     * @param \DateTime $deletionDate
-     *
-     * @return Strain
-     */
-    public function setDeletionDate($deletionDate)
-    {
-        $this->deletionDate = $deletionDate;
-
-        return $this;
-    }
-
-    /**
-     * Get deletionDate.
-     *
-     * @return \DateTime
-     */
-    public function getDeletionDate()
-    {
-        return $this->deletionDate;
-    }
-
-    /**
      * Get created.
      *
      * @return \DateTime
@@ -900,18 +824,6 @@ class Strain
     public function getCreated()
     {
         return $this->created;
-    }
-
-    /**
-     * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function isAuthor(User $user)
-    {
-        return $user === $this->createdBy;
     }
 
     /**
@@ -932,6 +844,18 @@ class Strain
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Is author ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user === $this->createdBy;
     }
 
     /**

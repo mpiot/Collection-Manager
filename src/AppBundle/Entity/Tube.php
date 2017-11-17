@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Type.
+ * Tube.
  *
  * @ORM\Table(name="tube")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TubeRepository")
@@ -65,25 +65,6 @@ class Tube
     private $creationDate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="deletionDate", type="datetime", nullable=true)
-     */
-    private $deletionDate;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="deleted", type="boolean")
-     */
-    private $deleted;
-
-    public function __construct()
-    {
-        $this->deleted = false;
-    }
-
-    /**
      * Clone.
      *
      * Used when a strain is cloned.
@@ -95,8 +76,6 @@ class Tube
         $this->cell = null;
         $this->cellName = null;
         $this->creationDate = null;
-        $this->deletionDate = null;
-        $this->deleted = false;
 
         // If the box is full, set box on null
         if (0 === $this->box->getFreeSpace()) {
@@ -191,32 +170,6 @@ class Tube
     public function getCreationDate()
     {
         return $this->creationDate;
-    }
-
-    public function setDeletionDate(\DateTime $date)
-    {
-        $this->deletionDate = $date;
-    }
-
-    public function getDeletionDate()
-    {
-        return $this->deletionDate;
-    }
-
-    public function setDeleted(bool $deleted)
-    {
-        if (true === $deleted && false === $this->deleted) {
-            $this->deletionDate = new \DateTime();
-        } elseif (false === $deleted && true === $this->deleted) {
-            $this->deletionDate = null;
-        }
-
-        $this->deleted = $deleted;
-    }
-
-    public function getDeleted()
-    {
-        return $this->deleted;
     }
 
     /**

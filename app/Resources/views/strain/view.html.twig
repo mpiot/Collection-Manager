@@ -70,14 +70,6 @@
                 <ul class="list-group">
                     <li class="list-group-item">Name: {{ strain.name }}</li>
                     <li class="list-group-item">Auto name: {{ strain.autoName }}</li>
-                    <li class="list-group-item">
-                        Deleted:
-                        {% if strain.deleted %}
-                            <span style="color: red;">Yes</span> on {{ strain.deletionDate|date("Y/m/d") }}
-                        {% else %}
-                            <span style="color: green">No</span>
-                        {% endif %}
-                    </li>
                 </ul>
             </div>
         </div>
@@ -90,7 +82,6 @@
                         <th>Project</th>
                         <th>Box</th>
                         <th>Cell</th>
-                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                     {% for tube in strain.tubes %}
@@ -108,26 +99,11 @@
                                 </td>
                                 <td>{{ tube.cellName }}</td>
                                 <td>
-                                    {% if tube.deleted %}
-                                        <span style="color: red;">Deleted</span> on {{ tube.deletionDate|date('Y/m/d') }}
-                                    {% else %}
-                                        <span style="color: green;">Present</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                {% if is_granted('TUBE_RESTORE', tube) or is_granted('TUBE_DELETE', tube) %}
+                                {% if is_granted('TUBE_DELETE', tube) %}
                                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                        {% if tube.deleted == true and is_granted('TUBE_RESTORE', tube) %}
-                                            <a class="btn btn-success" value="Delete" href="{{ path('tube_restore', { 'id': tube.id, 'token': csrf_token('restoreTube') }) }}">
-                                                <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-                                            </a>
-                                        {% endif %}
-
-                                        {% if tube.deleted == false and is_granted('TUBE_DELETE', tube) %}
                                         <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id, 'token': csrf_token('deleteTube') }) }}">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </a>
-                                        {% endif %}
                                     </div>
                                 {% else %}
                                     -

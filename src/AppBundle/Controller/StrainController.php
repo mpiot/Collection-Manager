@@ -97,8 +97,6 @@ class StrainController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($strain);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($strain);
             $em->flush();
@@ -194,8 +192,7 @@ class StrainController extends Controller
         }
 
         $entityManager = $this->getDoctrine()->getManager();
-        $strain->setDeleted(true);
-        $entityManager->persist($strain);
+        $entityManager->remove($strain);
         $entityManager->flush();
 
         $this->addFlash('success', 'The strain has been deleted successfully.');

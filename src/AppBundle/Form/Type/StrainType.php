@@ -48,7 +48,6 @@ class StrainType extends AbstractType
             ])
             ->add('comment')
             ->add('sequenced')
-            ->add('deleted')
             ->add('tubes', CollectionType::class, [
                 'entry_type' => StrainTubeType::class,
                 'allow_add' => true,
