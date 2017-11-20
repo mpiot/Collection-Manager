@@ -119,7 +119,7 @@ class StrainController extends Controller
     /**
      * @Route("/{id}-{slug}", name="strain_view", requirements={"id": "\d+"})
      * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
-     * @Security("is_granted('STRAIN_VIEW', strain)")
+     * @Security("strain.getGroup().isMember(user)")
      */
     public function viewAction(Strain $strain)
     {
@@ -131,7 +131,7 @@ class StrainController extends Controller
     /**
      * @Route("/{id}-{slug}/edit", name="strain_edit", requirements={"id": "\d+"})
      * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
-     * @Security("is_granted('STRAIN_EDIT', strain)")
+     * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
     public function editAction(Strain $strain, Request $request)
     {
@@ -175,7 +175,7 @@ class StrainController extends Controller
      * @Route("/{id}-{slug}/delete", name="strain_delete", requirements={"id": "\d+"})
      * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
      * @Method("POST")
-     * @Security("is_granted('STRAIN_DELETE', strain)")
+     * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Strain $strain, Request $request)
     {
@@ -247,7 +247,6 @@ class StrainController extends Controller
 
     /**
      * @Route("/search/{name}", name="strain_search", options={"expose"=true}, condition="request.isXmlHttpRequest()")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function searchAction($name)
     {

@@ -23,17 +23,19 @@
         </div>
 
         <div class="col-md-4">
-            <div class="text-right">
-                {% embed "plasmid/_delete_form.html.twig" with { plasmid: plasmid } only %}
-                    {% block btn %}
-                        {% if is_granted('PLASMID_EDIT', plasmid) %}
-                            <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                            </a>
-                        {% endif %}
-                    {% endblock %}
-                {% endembed %}
-            </div>
+            {% if plasmid.isAuthor(app.user) or plasmid.getGroup().isAdministrator(app.user) %}
+                <div class="text-right">
+                    {% embed "plasmid/_delete_form.html.twig" with { plasmid: plasmid } only %}
+                        {% block btn %}
+                            {% if is_granted('PLASMID_EDIT', plasmid) %}
+                                <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                </a>
+                            {% endif %}
+                        {% endblock %}
+                    {% endembed %}
+                </div>
+            {% endif %}
 
             <p class="text-right">
                 Created the {{ plasmid.created|date("m/d/Y") }} by {{ plasmid.createdBy.fullName }}<br>

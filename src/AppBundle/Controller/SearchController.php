@@ -11,8 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Search engine controller.
- *
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class SearchController extends Controller
 {
@@ -20,7 +18,6 @@ class SearchController extends Controller
 
     /**
      * @Route("/search", name="quick-search")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function quickSearchAction(Request $request)
     {
@@ -50,7 +47,6 @@ class SearchController extends Controller
 
     /**
      * @Route("/advanced-search", name="advanced-search")
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function advancedSearchAction(Request $request)
     {

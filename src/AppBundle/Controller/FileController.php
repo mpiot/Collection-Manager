@@ -22,7 +22,7 @@ class FileController extends Controller
     /**
      * @Route("/plasmids/{group_slug}/{autoName}-{name}.gbk", name="download_plasmid")
      * @ParamConverter("group", options={"mapping": {"group_slug": "slug"}})
-     * @Security("user.hasGroup(group)")
+     * @Security("group.isMember(user)")
      */
     public function plasmidAction(Group $group, $autoName, $name, Request $request)
     {
@@ -72,7 +72,7 @@ class FileController extends Controller
 
     /**
      * @Route("/documents/products/quote/{id}-{slug}", name="download_product_quote")
-     * @Security("user.hasGroup(product.getGroup())")
+     * @Security("product.getGroup().isMember(user)")
      */
     public function productQuoteAction(Product $product, Request $request)
     {
@@ -96,7 +96,7 @@ class FileController extends Controller
 
     /**
      * @Route("/documents/products/manual/{id}-{slug}", name="download_product_manual")
-     * @Security("user.hasGroup(product.getGroup())")
+     * @Security("product.getGroup().isMember(user)")
      */
     public function productManualAction(Product $product, Request $request)
     {

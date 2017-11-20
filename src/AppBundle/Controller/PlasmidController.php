@@ -24,7 +24,6 @@ class PlasmidController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="plasmid_index")
-     * @Security("user.isInGroup()")
      */
     public function indexAction(Request $request)
     {
@@ -38,7 +37,6 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="plasmid_index_ajax")
-     * @Security("user.isInGroup()")
      */
     public function listAction()
     {
@@ -101,7 +99,7 @@ class PlasmidController extends Controller
     /**
      * @Route("/{id}-{slug}", name="plasmid_view", requirements={"id": "\d+"})
      * @ParamConverter("plasmid", options={"repository_method" = "findOneWithAll"})
-     * @Security("is_granted('PLASMID_VIEW', plasmid)")
+     * @Security("plasmid.getGroup().isMember(user)")
      */
     public function viewAction(Plasmid $plasmid)
     {
@@ -116,7 +114,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/{id}-{slug}/edit", name="plasmid_edit", requirements={"id": "\d+"})
-     * @Security("is_granted('PLASMID_EDIT', plasmid)")
+     * @Security("plasmid.isAuthor(user) or plasmid.getGroup().isAdministrator(user)")
      */
     public function editAction(Plasmid $plasmid, Request $request)
     {
@@ -154,7 +152,7 @@ class PlasmidController extends Controller
     /**
      * @Route("/{id}-{slug}/delete", name="plasmid_delete", requirements={"id": "\d+"})
      * @Method("POST")
-     * @Security("is_granted('PLASMID_DELETE', plasmid)")
+     * @Security("plasmid.isAuthor(user) or plasmid.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Plasmid $plasmid, Request $request)
     {

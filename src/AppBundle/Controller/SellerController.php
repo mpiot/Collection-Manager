@@ -20,6 +20,7 @@ class SellerController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="seller_index")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
     {
@@ -33,6 +34,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()",name="seller_index_ajax")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()
     {
@@ -45,7 +47,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/add", name="seller_add")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -89,7 +91,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/{id}/edit", name="seller_edit")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Seller $seller, Request $request)
     {
@@ -114,7 +116,7 @@ class SellerController extends Controller
     /**
      * @Route("/{id}/delete", name="seller_delete")
      * @Method("POST")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Seller $seller, Request $request)
     {

@@ -15,12 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
  * Class GroupController.
  *
  * @Route("group")
- * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
  */
 class GroupController extends Controller
 {
     /**
      * @Route("/", name="group_index")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction()
     {
@@ -34,7 +34,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/add", name="group_add")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -79,6 +79,7 @@ class GroupController extends Controller
     /**
      * @Route("/{slug}", name="group_view")
      * @ParamConverter("group", options={"repository_method" = "findOneWithMembers"})
+     * @Security("is_granted('ROLE_USER')")
      */
     public function viewAction(Group $group)
     {
@@ -90,7 +91,7 @@ class GroupController extends Controller
     /**
      * @Route("/{slug}/edit", name="group_edit")
      * @ParamConverter("group", options={"repository_method" = "findOneWithMembers"})
-     * @Security("group.isAdministrator(user) or is_granted('ROLE_ADMIN')")
+     * @Security("group.isAdministrator(user) or is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Group $group, Request $request)
     {
@@ -114,7 +115,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/{slug}/delete", name="group_delete")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Group $group, Request $request)
     {

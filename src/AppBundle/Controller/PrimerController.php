@@ -22,7 +22,6 @@ class PrimerController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="primer_index")
-     * @Security("user.isInGroup()")
      */
     public function indexAction(Request $request)
     {
@@ -36,7 +35,6 @@ class PrimerController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="primer_index_ajax")
-     * @Security("user.isInGroup()")
      */
     public function listAction()
     {
@@ -93,7 +91,7 @@ class PrimerController extends Controller
 
     /**
      * @Route("/{id}-{slug}", name="primer_view", requirements={"id": "\d+"})
-     * @Security("is_granted('PRIMER_VIEW', primer)")
+     * @Security("primer.getGroup().isMember(user)")
      */
     public function viewAction(Primer $primer)
     {
@@ -104,7 +102,7 @@ class PrimerController extends Controller
 
     /**
      * @Route("/{id}-{slug}/edit", name="primer_edit", requirements={"id": "\d+"})
-     * @Security("is_granted('PRIMER_EDIT', primer)")
+     * @Security("primer.isAuthor(user) or primer.getGroup().isAdministrator(user)")
      */
     public function editAction(Primer $primer, Request $request)
     {
@@ -133,7 +131,7 @@ class PrimerController extends Controller
     /**
      * @Route("/{id}-{slug}/delete", name="primer_delete", requirements={"id": "\d+"})
      * @Method("POST")
-     * @Security("is_granted('PRIMER_DELETE', primer)")
+     * @Security("primer.isAuthor(user) or primer.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Primer $primer, Request $request)
     {

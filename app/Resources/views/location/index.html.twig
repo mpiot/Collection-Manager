@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block location_body %}
-    {% if app.user.isInGroup() %}
+    {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
             <a class="btn btn-default" href="{{ path('location_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a Location

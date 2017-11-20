@@ -19,6 +19,7 @@ class LocationController extends Controller
 {
     /**
      * @Route("/", name="location_index")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction()
     {
@@ -35,7 +36,10 @@ class LocationController extends Controller
             'nodeDecorator' => function ($node) {
                 $label = $node['name'];
 
-                if (0 !== $node['lvl']) {
+                if (
+                    true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')
+                    || $this->getUser()->isInGroup()
+                ) {
                     $moveUpUrl = $this->generateUrl('location_move_up', [
                         'id' => $node['id'],
                     ]);
@@ -47,15 +51,17 @@ class LocationController extends Controller
                     $label .= ' <a class="btn btn-default btn-xs" href="'.$moveUpUrl.'"><span class="fa fa-arrow-up"></span></a><a class="btn btn-default btn-xs" href="'.$moveDownUrl.'"><span class="fa fa-arrow-down"></span></a>';
                 }
 
-                $editUrl = $this->generateUrl('location_edit', [
-                    'id' => $node['id'],
-                ]);
-                $label .= ' <a class="btn btn-warning btn-xs" href="'.$editUrl.'">Edit</a>';
+                if (true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                    $editUrl = $this->generateUrl('location_edit', [
+                        'id' => $node['id'],
+                    ]);
+                    $label .= ' <a class="btn btn-warning btn-xs" href="'.$editUrl.'">Edit</a>';
 
-                $deleteUrl = $this->generateUrl('location_delete', [
-                    'id' => $node['id'],
-                ]);
-                $label .= ' <a class="btn btn-danger btn-xs" href="'.$deleteUrl.'">Delete</a>';
+                    $deleteUrl = $this->generateUrl('location_delete', [
+                        'id' => $node['id'],
+                    ]);
+                    $label .= ' <a class="btn btn-danger btn-xs" href="'.$deleteUrl.'">Delete</a>';
+                }
 
                 return $label;
             },
@@ -73,7 +79,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/add", name="location_add")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
@@ -118,7 +124,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-up", name="location_move_up")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function moveUpAction(Location $location)
     {
@@ -132,7 +138,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-down", name="location_move_down")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function moveDownAction(Location $location)
     {
@@ -146,7 +152,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/edit", name="location_edit")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Location $location, Request $request)
     {
@@ -171,7 +177,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/delete", name="location_delete")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Location $location, Request $request)
     {

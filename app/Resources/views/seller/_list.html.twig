@@ -7,7 +7,9 @@
                     <th class="col-md-3">Seller</th>
                     <th class="col-md-3">Offer reference</th>
                     <th class="col-md-3">Offer file</th>
-                    <th class="col-md-2">Actions</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th class="col-md-2">Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             {% if results.results is not empty %}
@@ -26,13 +28,15 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% embed "seller/_delete_form.html.twig" with { seller: seller } only %}
-                                {% block btn %}
-                                    <a class="btn btn-warning" href="{{ path('seller_edit', { 'id': seller.id}) }}">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                                    </a>
-                                {% endblock %}
-                            {% endembed %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {% embed "seller/_delete_form.html.twig" with { seller: seller } only %}
+                                    {% block btn %}
+                                        <a class="btn btn-warning" href="{{ path('seller_edit', { 'id': seller.id}) }}">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                        </a>
+                                    {% endblock %}
+                                {% endembed %}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

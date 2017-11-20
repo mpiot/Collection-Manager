@@ -10,7 +10,7 @@
 {% block group_body %}
     <h2>Groups list</h2>
 
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div>
             <a type="button" class="btn btn-default" href="{{ path('group_add') }}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

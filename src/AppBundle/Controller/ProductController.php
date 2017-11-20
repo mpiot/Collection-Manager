@@ -21,7 +21,6 @@ class ProductController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="product_index")
-     * @Security("user.isInGroup()")
      */
     public function indexAction(Request $request)
     {
@@ -35,7 +34,6 @@ class ProductController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_index_ajax")
-     * @Security("user.isInGroup()")
      */
     public function listAction()
     {
@@ -92,7 +90,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="product_view")
-     * @Security("user.hasGroup(product.getGroup())")
+     * @Security("product.getGroup().isMember(user)")
      */
     public function viewAction(Product $product)
     {
@@ -106,7 +104,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}/edit", requirements={"id": "\d+"}, name="product_edit")
-     * @Security("user.hasGroup(product.getGroup())")
+     * @Security("product.getGroup().isMember(user)")
      */
     public function editAction(Product $product, Request $request)
     {
@@ -130,7 +128,7 @@ class ProductController extends Controller
     /**
      * @Route("/{id}/delete", requirements={"id": "\d+"}, name="product_delete")
      * @Method("POST")
-     * @Security("user.hasGroup(product.getGroup())")
+     * @Security("product.getGroup().isMember(user)")
      */
     public function deleteAction(Product $product, Request $request)
     {
@@ -164,7 +162,6 @@ class ProductController extends Controller
 
     /**
      * @Route("/order/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_order_ajax")
-     * @Security("user.isInGroup()")
      */
     public function orderListAction(Request $request)
     {

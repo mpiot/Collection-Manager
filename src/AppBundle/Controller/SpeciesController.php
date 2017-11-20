@@ -24,6 +24,7 @@ class SpeciesController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="species_index")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
     {
@@ -37,6 +38,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_index_ajax")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()
     {
@@ -49,10 +51,11 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/add", name="species_add")
+     * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
     {
-        if ($this->getUser()->isGroupAdministrator()) {
+        if (true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $species = new Species();
             $form = $this->createForm(SpeciesType::class, $species)
                 ->add('save', SubmitType::class, [
@@ -139,6 +142,7 @@ class SpeciesController extends Controller
     /**
      * @Route("/{slug}", name="species_view")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenusAndSynonyms"})
+     * @Security("is_granted('ROLE_USER')")
      */
     public function viewAction(Species $species)
     {
@@ -154,7 +158,7 @@ class SpeciesController extends Controller
     /**
      * @Route("/{slug}/edit", name="species_edit")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
-     * @Security("(null === species.getMainSpecies()) and (user.isGroupAdministrator())")
+     * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
     public function editAction(Species $species, Request $request)
     {
@@ -181,7 +185,7 @@ class SpeciesController extends Controller
      * @Route("/{slug}/delete", name="species_delete")
      * @Method("POST")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
-     * @Security("(null === species.getMainSpecies()) and (user.isGroupAdministrator())")
+     * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
     public function deleteAction(Species $species, Request $request)
     {
@@ -211,7 +215,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson")
-     * @Security("user.isGroupAdministrator()")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function getJsonAction($taxid)
     {

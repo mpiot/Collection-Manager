@@ -13,7 +13,7 @@ class UserAdminController extends Controller
 {
     /**
      * @Route("/users", options={"expose"=true}, name="user_index")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction(Request $request)
     {
@@ -27,7 +27,7 @@ class UserAdminController extends Controller
 
     /**
      * @Route("/users/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="user_index_ajax")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function listAction()
     {
@@ -40,7 +40,7 @@ class UserAdminController extends Controller
 
     /**
      * @Route("/user/roles/{id}", name="user_roles")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function rolesAction(User $user, Request $request)
     {

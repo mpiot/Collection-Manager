@@ -112,9 +112,38 @@ class Box
     private $tubes;
 
     /**
-     * @ORM\Column(name="deleted", type="boolean")
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
      */
-    private $deleted;
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var User
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="strains")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     */
+    private $createdBy;
+
+    /**
+     * @var User
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     */
+    private $updatedBy;
 
     /**
      * Box constructor.
@@ -122,7 +151,6 @@ class Box
     public function __construct()
     {
         $this->tubes = new ArrayCollection();
-        $this->deleted = false;
     }
 
     /**
@@ -353,46 +381,6 @@ class Box
     }
 
     /**
-     * Set deleted.
-     *
-     * @param bool $deleted
-     *
-     * @return $this
-     */
-    public function setDeleted(bool $deleted)
-    {
-        $this->deleted = $deleted;
-
-        if (true === $this->deleted) {
-            foreach ($this->tubes as $tube) {
-                $tube->setDeleted(true);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get deleted.
-     *
-     * @return bool
-     */
-    public function getDeleted()
-    {
-        return $this->deleted;
-    }
-
-    /**
-     * Is deleted ?
-     *
-     * @return bool
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
-    }
-
-    /**
      * Get cell number.
      *
      * @return int
@@ -401,6 +389,59 @@ class Box
     {
         return $this->colNumber * $this->rowNumber;
     }
+
+    /**
+     * Get created.
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Get updated.
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Get created by.
+     *
+     * @return User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Is author ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user === $this->createdBy;
+    }
+
+    /**
+     * Get updated by.
+     *
+     * @return User
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
 
     /**
      * Get empty cells.

@@ -36,24 +36,24 @@
             <h2 class="sub-header">{{ strain.fullName }}</h2>
         </div>
 
-        <div class="col-md-4">
-            <div class="text-right">
-                {% embed "strain/_delete_form.html.twig" with { strain: strain } only %}
-                    {% block btn %}
-                        {% if app.user.isInGroup() %}
-                            <a class="btn btn-success" href="{{ path('strain_add_from_model', { 'id': strain.id, 'slug': strain.slug }) }}">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Copy this strain
-                            </a>
-                        {% endif %}
+        <div class="col-md-2">
+            <a class="btn btn-xs btn-success" href="{{ path('strain_add_from_model', { 'id': strain.id, 'slug': strain.slug }) }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Copy this strain
+            </a>
+        </div>
 
-                        {% if is_granted('STRAIN_EDIT', strain) %}
+        <div class="col-md-2">
+            {% if strain.isAuthor(app.user) or strain.getGroup().isAdministrator(app.user) %}
+                <div class="text-right">
+                    {% embed "strain/_delete_form.html.twig" with { strain: strain } only %}
+                        {% block btn %}
                             <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id, 'slug': strain.slug }) }}">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                             </a>
-                        {% endif %}
-                    {% endblock %}
-                {% endembed %}
-            </div>
+                        {% endblock %}
+                    {% endembed %}
+                </div>
+            {% endif %}
 
         <p class="text-right">
             Created the {{ strain.created|date("m/d/Y") }} by {{ strain.createdBy.fullName }}<br>
@@ -81,7 +81,6 @@
                     <tr>
                         <th>Box</th>
                         <th>Cell</th>
-                        <th>Actions</th>
                     </tr>
                     {% for tube in strain.tubes %}
                         <tr>
@@ -91,17 +90,6 @@
                                 </a>
                             </td>
                             <td>{{ tube.cellName }}</td>
-                            <td>
-                            {% if app.user == strain.createdBy or app.user.isGroupAdministrator %}
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                    <a class="btn btn-danger" value="Delete" href="{{ path('tube_delete', { 'id': tube.id, 'token': csrf_token('deleteTube') }) }}">
-                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                    </a>
-                                </div>
-                            {% else %}
-                                -
-                            {% endif %}
-                            </td>
                         </tr>
                     {% endfor %}
                 </table>

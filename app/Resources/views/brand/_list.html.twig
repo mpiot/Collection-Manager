@@ -4,8 +4,10 @@
             <thead>
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md-9">Brand</th>
-                    <th class="col-md-2">Actions</th>
+                    <th class="col-md">Brand</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th class="col-md-2">Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             {% if brandsList is not empty %}
@@ -14,13 +16,15 @@
                         <td>{{ loop.index }}</td>
                         <td>{{ brand.name }}</td>
                         <td>
-                            {% embed "brand/_delete_form.html.twig" with { brand: brand } only %}
-                                {% block btn %}
-                                    <a class="btn btn-warning" href="{{ path('brand_edit', { 'id': brand.id}) }}">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                                    </a>
-                                {% endblock %}
-                            {% endembed %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {% embed "brand/_delete_form.html.twig" with { brand: brand } only %}
+                                    {% block btn %}
+                                        <a class="btn btn-warning" href="{{ path('brand_edit', { 'id': brand.id}) }}">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                        </a>
+                                    {% endblock %}
+                                {% endembed %}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

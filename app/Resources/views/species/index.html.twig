@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block species_body %}
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
             <a class="btn btn-default" href="{{ path('species_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a species

@@ -58,7 +58,7 @@ class BoxController extends Controller
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findOneWithStrains"
      * })
-     * @Security("is_granted('BOX_VIEW', box)")
+     * @Security("box.getGroup().isMember(user)")
      */
     public function viewAction(Box $box)
     {
@@ -77,6 +77,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/add", name="box_add")
+     * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
     {
@@ -120,7 +121,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/{id}-{slug}/edit", name="box_edit")
-     * @Security("is_granted('BOX_EDIT', box)")
+     * @Security("box.isAuthor(user) or box.getGroup().isAdministrator(user)")
      */
     public function editAction(Box $box, Request $request)
     {
@@ -146,7 +147,7 @@ class BoxController extends Controller
     /**
      * @Route("/{id}-{slug}/delete", name="box_delete")
      * @Method("POST")
-     * @Security("is_granted('BOX_DELETE', box)")
+     * @Security("box.isAuthor(user) or box.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Box $box, Request $request)
     {
@@ -185,7 +186,7 @@ class BoxController extends Controller
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findForCSVExport"
      * })
-     * @Security("is_granted('BOX_VIEW', box)")
+     * @Security("box.getGroup().isMember(user)")
      */
     public function exportAction(Box $box)
     {
@@ -205,7 +206,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/{id}-{slug}/import", name="box_import")
-     * @Security("is_granted('BOX_EDIT', box)")
+     * @Security("box.getGroup().isMember(user)")
      */
     public function importAction(Box $box, Request $request)
     {

@@ -23,7 +23,7 @@ class ProductMovementController extends Controller
     /**
      * @Route("/add/{product_id}", name="product_movement_add")
      * @ParamConverter("product", options={"mapping": {"product_id": "id"}})
-     * @Security("user.hasGroup(product.getGroup())")
+     * @Security("product.getGroup().isMember(user)")
      */
     public function addAction(Product $product, Request $request)
     {
@@ -73,7 +73,7 @@ class ProductMovementController extends Controller
 
     /**
      * @Route("/{id}/edit", name="product_movement_edit")
-     * @Security("user.hasGroup(productMovement.getProduct().getGroup())")
+     * @Security("productMovement.getProduct().getGroup().isMember(user)")
      */
     public function editAction(ProductMovement $productMovement, Request $request)
     {
@@ -99,7 +99,7 @@ class ProductMovementController extends Controller
     /**
      * @Route("/{id}/delete", name="product_movement_delete")
      * @Method("POST")
-     * @Security("user.hasGroup(productMovement.getProduct().getGroup())")
+     * @Security("productMovement.getProduct().getGroup().isMember(user)")
      */
     public function deleteAction(ProductMovement $productMovement, Request $request)
     {
