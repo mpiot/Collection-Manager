@@ -349,6 +349,18 @@ class Plasmid
     }
 
     /**
+     * Is author ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user === $this->createdBy;
+    }
+
+    /**
      * Get updated by.
      *
      * @return User

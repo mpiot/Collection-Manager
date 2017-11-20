@@ -62,6 +62,40 @@ class Seller
      */
     private $products;
 
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var User
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="strains")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     */
+    private $createdBy;
+
+    /**
+     * @var User
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     */
+    private $updatedBy;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -191,5 +225,57 @@ class Seller
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * Get created.
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Get updated.
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Get created by.
+     *
+     * @return User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Is author ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user === $this->createdBy;
+    }
+
+    /**
+     * Get updated by.
+     *
+     * @return User
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 }

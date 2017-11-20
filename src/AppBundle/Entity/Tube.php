@@ -54,10 +54,36 @@ class Tube
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="creationDate", type="datetime")
      * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
      */
-    private $creationDate;
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var User
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="strains")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     */
+    private $createdBy;
+
+    /**
+     * @var User
+     *
+     * @Gedmo\Blameable(on="update")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     */
+    private $updatedBy;
 
     /**
      * Clone.
@@ -70,7 +96,6 @@ class Tube
         $this->strain = null;
         $this->cell = null;
         $this->cellName = null;
-        $this->creationDate = null;
 
         // If the box is full, set box on null
         if (0 === $this->box->getFreeSpace()) {
@@ -145,14 +170,56 @@ class Tube
         return $this->cellName;
     }
 
-    public function setCreationDate(\DateTime $date)
+    /**
+     * Get created.
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
     {
-        $this->creationDate = $date;
+        return $this->created;
     }
 
-    public function getCreationDate()
+    /**
+     * Get updated.
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
     {
-        return $this->creationDate;
+        return $this->updated;
+    }
+
+    /**
+     * Get created by.
+     *
+     * @return User
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Is author ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user === $this->createdBy;
+    }
+
+    /**
+     * Get updated by.
+     *
+     * @return User
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
     }
 
     /**

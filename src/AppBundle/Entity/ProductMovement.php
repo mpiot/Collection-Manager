@@ -216,6 +216,18 @@ class ProductMovement
     }
 
     /**
+     * Is author ?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user === $this->createdBy;
+    }
+
+    /**
      * Set updatedBy.
      *
      * @param string $updatedBy
