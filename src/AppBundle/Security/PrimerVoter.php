@@ -88,7 +88,7 @@ class PrimerVoter extends Voter
 
     private function canDelete(Primer $primer, User $user)
     {
-        if ($primer->getTeam()->isMember($user)) {
+        if ($primer->getGroup()->isMember($user)) {
             return true;
         }
 

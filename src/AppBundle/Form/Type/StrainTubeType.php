@@ -82,13 +82,13 @@ class StrainTubeType extends AbstractType
             'placeholder' => '-- select a box --',
             'query_builder' => function (EntityRepository $er) use ($form) {
                 return $er->createQueryBuilder('box')
-                    ->leftJoin('box.team', 'team')
-                    ->leftJoin('team.members', 'user')
+                    ->leftJoin('box.group', 'g')
+                    ->leftJoin('g.members', 'user')
                     ->where('user = :user')
-                    ->andWhere('team = :team')
+                    ->andWhere('g = :group')
                         ->setParameters([
                             'user' => $this->tokenStorage->getToken()->getUser(),
-                            'team' => $form->getConfig()->getOption('parent_data'),
+                            'group' => $form->getConfig()->getOption('parent_data'),
                         ]);
             },
             'choice_label' => function (Box $box) {

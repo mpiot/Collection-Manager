@@ -8,14 +8,14 @@ use FOS\ElasticaBundle\Repository;
 
 class BoxRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, $teamId, User $user)
+    public function searchByNameQuery($q, $p, $groupId, User $user)
     {
         $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();
 
-        $teamSecureQuery = new \Elastica\Query\Terms();
-        $teamSecureQuery->setTerms('team_id', $user->getTeamsId());
-        $boolQuery->addFilter($teamSecureQuery);
+        $groupSecureQuery = new \Elastica\Query\Terms();
+        $groupSecureQuery->setTerms('group_id', $user->getGroupsId());
+        $boolQuery->addFilter($groupSecureQuery);
 
         // Only search in the type box
         $typeQuery = new \Elastica\Query\Type();
@@ -38,10 +38,10 @@ class BoxRepository extends Repository
             $query->setSort(['name_raw' => 'asc']);
         }
 
-        if (null !== $teamId) {
-            $teamQuery = new \Elastica\Query\Term();
-            $teamQuery->setTerm('team_id', $teamId);
-            $boolQuery->addFilter($teamQuery);
+        if (null !== $groupId) {
+            $groupQuery = new \Elastica\Query\Term();
+            $groupQuery->setTerm('group_id', $groupId);
+            $boolQuery->addFilter($groupQuery);
         }
 
         $query

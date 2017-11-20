@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Box;
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 use AppBundle\Form\Type\BoxEditType;
 use AppBundle\Form\Type\BoxImportType;
 use AppBundle\Form\Type\BoxType;
@@ -33,7 +33,7 @@ class BoxController extends Controller
         return $this->render('box/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
-            'team' => $request->get('team'),
+            'group' => $request->get('group'),
         ]);
     }
 
@@ -42,14 +42,14 @@ class BoxController extends Controller
      */
     public function listAction(Request $request)
     {
-        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Box::class, true, true, [Team::class]);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Box::class, true, true, [Group::class]);
 
         return $this->render('box/_list.html.twig', [
             'boxList' => $results->results,
             'query' => $results->query,
             'page' => $results->page,
             'nbPages' => $results->nbPages,
-            'team' => $results->filters->team,
+            'group' => $results->filters->group,
         ]);
     }
 
@@ -189,7 +189,7 @@ class BoxController extends Controller
      */
     public function exportAction(Box $box)
     {
-        $fileName = $box->getTeam()->getName().'-'.$box->getName();
+        $fileName = $box->getGroup()->getName().'-'.$box->getName();
 
         $response = new StreamedResponse();
         $response->setCallback(function () use ($box) {

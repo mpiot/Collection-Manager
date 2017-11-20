@@ -15,7 +15,7 @@
             <h2 class="sub-header">{{ species.scientificName }}</h2>
         </div>
 
-        {% if app.user.isTeamAdministrator() %}
+        {% if app.user.isGroupAdministrator() %}
             <div class="col-md-2">
                 {% embed "species/_delete_form.html.twig" with { species: species } only %}
                     {% block btn %}

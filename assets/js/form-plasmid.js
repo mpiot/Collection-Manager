@@ -10,14 +10,14 @@ $( function() {
         $('[id^="plasmid_primers_"], [id^="plasmid_edit_primers_"]').select2();
     });
 
-    var $team = $('#plasmid_team');
+    var $group = $('#plasmid_group');
     // When genus gets selected ...
-    $team.change(function () {
+    $group.change(function () {
         // ... retrieve the corresponding form.
         var $form = $(this).closest('form');
         // Simulate form data, but only include the selected genus value.
         var data = {};
-        data[$team.attr('name')] = $team.val();
+        data[$group.attr('name')] = $group.val();
 
         // Submit data via AJAX to the form's action path.
         $.ajax({

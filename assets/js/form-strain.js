@@ -7,7 +7,7 @@ var charMap = require('./charmap');
 
 $( function() {
     var form = $('form[name^="strain_"]');
-    var $team = $('#strain_gmo_team, #strain_wild_team');
+    var $group = $('#strain_gmo_group, #strain_wild_group');
     var strainDisc = form.data('strain-discriminator');
 
     collectionType($('div#strain_gmo_tubes, div#strain_wild_tubes'), 'Add a tube', null, true, [onBoxChange]);
@@ -17,7 +17,7 @@ $( function() {
     charMap($('#strain_gmo_genotype'));
     applySelect2();
 
-    $team.change(function () {
+    $group.change(function () {
         // Fields
         var tubes = $('div#strain_gmo_tubes, div#strain_wild_tubes');
         var plasmids = $('div#strain_gmo_strainPlasmids');
@@ -27,7 +27,7 @@ $( function() {
         var $form = $(this).closest('form');
         // Simulate form data, but only include the selected genus value.
         var data = {};
-        data[$team.attr('name')] = $team.val();
+        data[$group.attr('name')] = $group.val();
 
         // Submit data via AJAX to the form's action path.
         $.ajax({

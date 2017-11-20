@@ -63,7 +63,7 @@ class SearchController extends Controller
 
             // Get the query
             $repository = new GlobalRepository();
-            $query = $repository->searchQuery($data['search'], $this->getUser(), $data['category'], $data['country'], $data['team'], $data['author']);
+            $query = $repository->searchQuery($data['search'], $this->getUser(), $data['category'], $data['country'], $data['group'], $data['author']);
 
             // Execute the query
             $mngr = $this->get('fos_elastica.index_manager');

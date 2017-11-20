@@ -74,7 +74,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postRemove }
 
-    AppBundle\EventListener\TeamListener:
+    AppBundle\EventListener\GroupListener:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
 

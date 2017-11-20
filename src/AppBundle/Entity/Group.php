@@ -9,14 +9,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Team.
+ * Group.
  *
- * @ORM\Table(name="team")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TeamRepository")
+ * @ORM\Table(name="`group`")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GroupRepository")
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("name", message="A team already exists with this name.")
+ * @UniqueEntity("name", message="A group already exists with this name.")
  */
-class Team
+class Group
 {
     /**
      * @var int
@@ -41,27 +41,27 @@ class Team
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="administeredTeams")
-     * @ORM\JoinTable(name="team_administrators")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="administeredGroups")
+     * @ORM\JoinTable(name="group_administrators")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Count(min="1", minMessage = "You must specify at least one administrator.")
      */
     private $administrators;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="teams")
-     * @ORM\JoinTable(name="team_members")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="groups")
+     * @ORM\JoinTable(name="group_members")
      * @ORM\JoinColumn(nullable=false)
      */
     private $members;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Box", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Box", mappedBy="group")
      */
     private $boxes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="group")
      */
     private $strains;
 
@@ -71,7 +71,7 @@ class Team
     private $lastStrainNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="group")
      */
     private $plasmids;
 
@@ -81,7 +81,7 @@ class Team
     private $lastPlasmidNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Primer", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Primer", mappedBy="group")
      */
     private $primers;
 
@@ -91,7 +91,7 @@ class Team
     private $lastPrimerNumber;
 
     /**
-     * Team constructor.
+     * Group constructor.
      */
     public function __construct()
     {
@@ -138,7 +138,7 @@ class Team
      *
      * @param string $name
      *
-     * @return Team
+     * @return Group
      */
     public function setName($name)
     {
@@ -162,11 +162,11 @@ class Team
      *
      * @param User $user
      *
-     * @return Team
+     * @return Group
      */
     public function addAdministrator(User $user)
     {
-        $user->addAdministeredTeam($this);
+        $user->addAdministeredGroup($this);
         $this->administrators->add($user);
 
         // When you add a user as an administrator, add it as a member too
@@ -212,11 +212,11 @@ class Team
      *
      * @param User $user
      *
-     * @return Team
+     * @return Group
      */
     public function addMember(User $user)
     {
-        $user->addTeam($this);
+        $user->addGroup($this);
         $this->members->add($user);
 
         return $this;
@@ -259,7 +259,7 @@ class Team
      *
      * @param Box $box
      *
-     * @return Team
+     * @return Group
      */
     public function addBox(Box $box)
     {
@@ -273,7 +273,7 @@ class Team
      *
      * @param Box $box
      *
-     * @return Team
+     * @return Group
      */
     public function removeBox(Box $box)
     {

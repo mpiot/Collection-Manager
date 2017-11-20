@@ -36,7 +36,7 @@ Encore
         './assets/js/form-send.js',
         './assets/js/form-species.js',
         './assets/js/form-strain.js',
-        './assets/js/form-team.js',
+        './assets/js/form-group.js',
         './assets/js/form-plasmid.js',
         './assets/js/images.js',
         './assets/js/modal-confirmation-message.js',

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 use AppBundle\Entity\User;
 
 /**
@@ -16,8 +16,8 @@ class PlasmidRepository extends \Doctrine\ORM\EntityRepository
     public function findAllForUser(User $user)
     {
         $query = $this->createQueryBuilder('plasmid')
-            ->leftJoin('plasmid.team', 'team')
-            ->leftJoin('team.members', 'members')
+            ->leftJoin('plasmid.group', 'g')
+            ->leftJoin('g.members', 'members')
             ->where('members = :user')
                 ->setParameter('user', $user)
             ->getQuery();
@@ -32,9 +32,9 @@ class PlasmidRepository extends \Doctrine\ORM\EntityRepository
                 ->addSelect('strainPlasmids')
             ->leftJoin('strainPlasmids.strain', 'strain')
                 ->addSelect('strain')
-            ->leftJoin('strain.team', 'team')
-                ->addSelect('team')
-            ->leftJoin('team.members', 'members')
+            ->leftJoin('strain.group', 'g')
+                ->addSelect('g')
+            ->leftJoin('g.members', 'members')
                 ->addSelect('members')
             ->leftJoin('plasmid.primers', 'primers')
                 ->addSelect('primers')
@@ -45,14 +45,14 @@ class PlasmidRepository extends \Doctrine\ORM\EntityRepository
         return $query->getOneOrNullResult();
     }
 
-    public function findOneByTeamAndNameWithFile(Team $team, $autoName)
+    public function findOneByGroupAndNameWithFile(Group $group, $autoName)
     {
         $query = $this->createQueryBuilder('plasmid')
             ->leftJoin('plasmid.genBankFile', 'genBankFile')
-            ->where('plasmid.team = :team')
+            ->where('plasmid.group = :group')
             ->andWhere('plasmid.autoName = :autoName')
             ->setParameters([
-                'team' => $team,
+                'group' => $group,
                 'autoName' => $autoName,
             ])
             ->getQuery()

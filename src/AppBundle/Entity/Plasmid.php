@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="plasmid")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PlasmidRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity({"name", "team"}, message="This name is already used by another plasmid.")
+ * @UniqueEntity({"name", "group"}, message="This name is already used by another plasmid.")
  */
 class Plasmid
 {
@@ -50,9 +50,9 @@ class Plasmid
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="plasmids")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="plasmids")
      */
-    private $team;
+    private $group;
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\GenBankFile", cascade={"persist", "remove"})
@@ -190,27 +190,27 @@ class Plasmid
     }
 
     /**
-     * Set team.
+     * Set group.
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return Plasmid
      */
-    public function setTeam($team)
+    public function setGroup($group)
     {
-        $this->team = $team;
+        $this->group = $group;
 
         return $this;
     }
 
     /**
-     * Get team.
+     * Get group.
      *
-     * @return Team
+     * @return Group
      */
-    public function getTeam()
+    public function getGroup()
     {
-        return $this->team;
+        return $this->group;
     }
 
     /**
@@ -365,11 +365,11 @@ class Plasmid
      */
     public function prePersist()
     {
-        $plasmidNumber = $this->getTeam()->getLastPlasmidNumber() + 1;
+        $plasmidNumber = $this->getGroup()->getLastPlasmidNumber() + 1;
         $autoName = 'p'.str_pad($plasmidNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
         $this->setAutoName($autoName);
-        $this->getTeam()->setLastPlasmidNumber($plasmidNumber);
+        $this->getGroup()->setLastPlasmidNumber($plasmidNumber);
     }
 }

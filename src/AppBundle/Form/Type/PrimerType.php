@@ -29,17 +29,17 @@ class PrimerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('team', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
+            ->add('group', EntityType::class, [
+                'class' => 'AppBundle\Entity\Group',
                 'choice_label' => 'name',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->leftJoin('team.members', 'members')
+                    return $er->createQueryBuilder('g')
+                        ->leftJoin('g.members', 'members')
                         ->where('members = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('team.name', 'ASC');
+                        ->orderBy('g.name', 'ASC');
                 },
-                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteGroup(),
             ])
             ->add('name', TextType::class, [
                 'attr' => [

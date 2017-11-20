@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block primer_body %}
-    {% if app.user.isInTeam %}
+    {% if app.user.isInGroup %}
         <div>
             <a class="btn btn-default" href="{{ path('primer_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a primer
@@ -25,9 +25,9 @@
             </div>
 
             <div class="col-md-2">
-                <select id="primer-team-field" name="team" class="form-control col-md-3">
-                    {% for team in app.user.teams %}
-                        <option value="{{ team.id }}"{{ app.user.isFavoriteTeam(team) ? 'selected="selected"' }}>{{ team.name }}</option>
+                <select id="primer-group-field" name="group" class="form-control col-md-3">
+                    {% for group in app.user.groups %}
+                        <option value="{{ group.id }}"{{ app.user.isFavoriteGroup(group) ? 'selected="selected"' }}>{{ group.name }}</option>
                     {% endfor %}
                 </select>
             </div>

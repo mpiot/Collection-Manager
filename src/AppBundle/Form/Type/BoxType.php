@@ -28,15 +28,15 @@ class BoxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('team', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
+            ->add('group', EntityType::class, [
+                'class' => 'AppBundle\Entity\Group',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->leftJoin('team.members', 'members')
+                    return $er->createQueryBuilder('g')
+                        ->leftJoin('g.members', 'members')
                         ->where('members = :user')
                         ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteGroup(),
                 'choice_label' => 'name',
             ])
             ->add('name', TextType::class, [

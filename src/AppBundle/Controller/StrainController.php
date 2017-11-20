@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Strain;
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,7 +33,7 @@ class StrainController extends Controller
         return $this->render('strain/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
-            'teamRequest' => $request->get('team'),
+            'groupRequest' => $request->get('group'),
         ]);
     }
 
@@ -42,7 +42,7 @@ class StrainController extends Controller
      */
     public function listAction()
     {
-        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Strain::class, true, true, [Team::class]);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Strain::class, true, true, [Group::class]);
 
         return $this->render('strain/_list.html.twig', [
             'results' => $results,
@@ -53,7 +53,7 @@ class StrainController extends Controller
      * @Route("/add/gmo", name="strain_add_gmo")
      * @Route("/add/wild", name="strain_add_wild")
      * @Route("/add/{id}-{slug}", name="strain_add_from_model", requirements={"id": "\d+"})
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function addAction(Request $request, Strain $strainModel = null)
     {

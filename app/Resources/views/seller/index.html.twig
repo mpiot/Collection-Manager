@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block seller_body %}
-    {% if app.user.isInTeam() %}
+    {% if app.user.isInGroup() %}
         <div>
             <a class="btn btn-default" href="{{ path('seller_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a seller

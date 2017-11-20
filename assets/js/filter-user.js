@@ -3,7 +3,7 @@ var delay = require('./delay');
 $(document).ready(function(){
     var processing = false;
     var search = $('#user-search-field');
-    var team = $('#user-team-field');
+    var group = $('#user-group-field');
 
     search.keyup(function() {
         history.replaceState('', '', Routing.generate('user_index', { q: search.val(), p: 1 }));

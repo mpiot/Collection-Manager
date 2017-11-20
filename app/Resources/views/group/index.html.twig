@@ -1,20 +1,20 @@
-{% extends "team/base.html.twig" %}
+{% extends "group/base.html.twig" %}
 
-{% block title %}AppBundle:Team:index{% endblock %}
+{% block title %}AppBundle:Group:index{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Teams</li>
+    <li class="active">Groups</li>
 {% endblock %}
 
-{% block team_body %}
-    <h2>Teams list</h2>
+{% block group_body %}
+    <h2>Groups list</h2>
 
     {% if is_granted('ROLE_ADMIN') %}
         <div>
-            <a type="button" class="btn btn-default" href="{{ path('team_add') }}">
+            <a type="button" class="btn btn-default" href="{{ path('group_add') }}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                Add a team
+                Add a group
             </a>
         </div>
     {% endif %}
@@ -30,13 +30,13 @@
             </thead>
 
             <tbody>
-            {% if teams is not empty %}
-                {% for team in teams %}
+            {% if groups is not empty %}
+                {% for group in groups %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td><a href="{{ path('team_view', { 'slug': team.slug }) }}">{{ team.name }}</a></td>
+                        <td><a href="{{ path('group_view', { 'slug': group.slug }) }}">{{ group.name }}</a></td>
                         <td>
-                            {% for admin in team.administrators %}
+                            {% for admin in group.administrators %}
                                 {{ admin.fullName }}{{ not loop.last ? ',' }}
                             {% endfor %}
                         </td>
@@ -44,7 +44,7 @@
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="6" class="text-center">There is no teams.</td>
+                    <td colspan="6" class="text-center">There is no groups.</td>
                 </tr>
             {% endif %}
             </tbody>

@@ -188,12 +188,12 @@ class Strain
     private $longitude;
 
     /**
-     * @var Team
+     * @var Group
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="strains")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="strains")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $team;
+    private $group;
 
     /**
      * @var \DateTime
@@ -530,7 +530,7 @@ class Strain
      */
     public function getAllowedUsers()
     {
-        $users = $this->team->getMembers()->toArray();
+        $users = $this->group->getMembers()->toArray();
 
         return $users;
     }
@@ -779,27 +779,27 @@ class Strain
     }
 
     /**
-     * Set team.
+     * Set group.
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return $this
      */
-    public function setTeam(Team $team)
+    public function setGroup(Group $group)
     {
-        $this->team = $team;
+        $this->group = $group;
 
         return $this;
     }
 
     /**
-     * Get team.
+     * Get group.
      *
-     * @return Team
+     * @return Group
      */
-    public function getTeam()
+    public function getGroup()
     {
-        return $this->team;
+        return $this->group;
     }
 
     /**
@@ -879,12 +879,12 @@ class Strain
     {
         dump($this);
 
-        $strainNumber = $this->getTeam()->getLastStrainNumber() + 1;
+        $strainNumber = $this->getGroup()->getLastStrainNumber() + 1;
         $autoName = str_pad($strainNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
         $this->setAutoName($autoName);
-        $this->team->setLastStrainNumber($strainNumber);
+        $this->group->setLastStrainNumber($strainNumber);
     }
 
     /**

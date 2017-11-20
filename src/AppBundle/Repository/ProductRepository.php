@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 
 /**
  * ProductRepository.
@@ -12,11 +12,11 @@ use AppBundle\Entity\Team;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findProductsWarning(Team $team)
+    public function findProductsWarning(Group $group)
     {
         $query = $this->createQueryBuilder('product')
-            ->where('product.team = :team')
-                ->setParameter('team', $team)
+            ->where('product.group = :group')
+                ->setParameter('group', $group)
             ->andWhere('product.stock <= product.stockWarningAlert')
             ->leftJoin('product.seller', 'seller')
                 ->addSelect('seller')

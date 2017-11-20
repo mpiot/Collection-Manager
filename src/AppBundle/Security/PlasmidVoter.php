@@ -88,7 +88,7 @@ class PlasmidVoter extends Voter
 
     private function canDelete(Plasmid $plasmid, User $user)
     {
-        if ($plasmid->getTeam()->isMember($user)) {
+        if ($plasmid->getGroup()->isMember($user)) {
             return true;
         }
 

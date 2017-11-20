@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
- * @UniqueEntity({"brandReference", "brand", "team"}, message="A product already exist with the brand reference: {{ value }}.")
+ * @UniqueEntity({"brandReference", "brand", "group"}, message="A product already exist with the brand reference: {{ value }}.")
  * @UniqueEntity({"sellerReference", "seller", "seller"}, message="A product already exist with the seller reference: {{ value }}.")
  */
 class Product
@@ -148,10 +148,10 @@ class Product
     private $stockDangerAlert;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $team;
+    private $group;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductMovement", mappedBy="product")
@@ -617,27 +617,27 @@ class Product
     }
 
     /**
-     * Set team.
+     * Set group.
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return Product
      */
-    public function setTeam(Team $team)
+    public function setGroup(Group $group)
     {
-        $this->team = $team;
+        $this->group = $group;
 
         return $this;
     }
 
     /**
-     * Get team.
+     * Get group.
      *
-     * @return Team
+     * @return Group
      */
-    public function getTeam()
+    public function getGroup()
     {
-        return $this->team;
+        return $this->group;
     }
 
     /**

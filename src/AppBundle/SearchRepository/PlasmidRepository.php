@@ -8,15 +8,15 @@ use FOS\ElasticaBundle\Repository;
 
 class PlasmidRepository extends Repository
 {
-    public function searchByNameQuery($q, $p, $teamId, User $user)
+    public function searchByNameQuery($q, $p, $groupId, User $user)
     {
         $query = new \Elastica\Query();
 
-        $teamSecureQuery = new \Elastica\Query\Terms();
-        $teamSecureQuery->setTerms('team_id', $user->getTeamsId());
+        $groupSecureQuery = new \Elastica\Query\Terms();
+        $groupSecureQuery->setTerms('group_id', $user->getGroupsId());
 
         $boolQuery = new \Elastica\Query\BoolQuery();
-        $boolQuery->addFilter($teamSecureQuery);
+        $boolQuery->addFilter($groupSecureQuery);
 
         // Only search in the type plasmid
         $typeQuery = new \Elastica\Query\Type();
@@ -39,9 +39,9 @@ class PlasmidRepository extends Repository
             $query->setSort(['name_raw' => 'asc']);
         }
 
-        $teamQuery = new \Elastica\Query\Term();
-        $teamQuery->setTerm('team_id', $teamId);
-        $boolQuery->addFilter($teamQuery);
+        $groupQuery = new \Elastica\Query\Term();
+        $groupQuery->setTerm('group_id', $groupId);
+        $boolQuery->addFilter($groupQuery);
 
         $query
             ->setFrom(($p - 1) * Plasmid::NUM_ITEMS)

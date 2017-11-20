@@ -85,7 +85,7 @@ class CSVImporter
             }
 
             // Set attributes for the strain
-            $strain->setTeam($box->getTeam());
+            $strain->setGroup($box->getGroup());
             $strain->setDiscriminator($value['disc']);
             $strain->setName($value['name']);
             $strain->setComment($value['comment']);

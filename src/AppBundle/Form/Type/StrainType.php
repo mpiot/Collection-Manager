@@ -30,15 +30,15 @@ class StrainType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('team', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
+            ->add('group', EntityType::class, [
+                'class' => 'AppBundle\Entity\Group',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->leftJoin('team.members', 'members')
+                    return $er->createQueryBuilder('g')
+                        ->leftJoin('g.members', 'members')
                         ->where('members = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },
-                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteGroup(),
                 'choice_label' => 'name',
             ])
             ->add('species', EntityType::class, [
@@ -64,11 +64,11 @@ class StrainType extends AbstractType
             ->add('sequenced')
         ;
 
-        $formModifier = function (FormInterface $form, $team) {
+        $formModifier = function (FormInterface $form, $group) {
             $form->add('tubes', CollectionType::class, [
                 'entry_type' => StrainTubeType::class,
                 'entry_options' => [
-                    'parent_data' => $team,
+                    'parent_data' => $group,
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -83,31 +83,31 @@ class StrainType extends AbstractType
                 $form = $event->getForm();
                 $strain = $event->getData();
 
-                // If it's a new strain, the default team is the FavoriteTeam of the user
-                // else, we retrieve the team
+                // If it's a new strain, the default group is the FavoriteGroup of the user
+                // else, we retrieve the group
                 if (null === $strain->getId()) {
-                    $team = $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+                    $group = $this->tokenStorage->getToken()->getUser()->getFavoriteGroup();
                 } else {
-                    $team = $strain->getTeam();
+                    $group = $strain->getGroup();
 
-                    // And, remove the team field
-                    $form->remove('team');
+                    // And, remove the group field
+                    $form->remove('group');
                 }
 
-                $formModifier($form, $team);
+                $formModifier($form, $group);
             }
         );
 
-        $builder->get('team')->addEventListener(
+        $builder->get('group')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
                 // It's important here to fetch $event->getForm()->getData(), as
                 // $event->getData() will get you the client data (that is, the ID)
-                $team = $event->getForm()->getData();
+                $group = $event->getForm()->getData();
 
                 // since we've added the listener to the child, we'll have to pass on
                 // the parent to the callback functions!
-                $formModifier($event->getForm()->getParent(), $team);
+                $formModifier($event->getForm()->getParent(), $group);
             }
         );
     }

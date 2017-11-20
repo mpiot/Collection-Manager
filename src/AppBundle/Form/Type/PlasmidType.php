@@ -31,17 +31,17 @@ class PlasmidType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('team', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
+            ->add('group', EntityType::class, [
+                'class' => 'AppBundle\Entity\Group',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->leftJoin('team.members', 'members')
+                    return $er->createQueryBuilder('g')
+                        ->leftJoin('g.members', 'members')
                         ->where('members = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('team.name', 'ASC');
+                        ->orderBy('g.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteTeam(),
+                'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteGroup(),
             ])
             ->add('name')
             ->add('addGenBankFile', ChoiceType::class, [
@@ -58,17 +58,17 @@ class PlasmidType extends AbstractType
             ])
         ;
 
-        $formModifier = function (FormInterface $form, $team = null) {
+        $formModifier = function (FormInterface $form, $group = null) {
             $form->add('primers', CollectionType::class, [
                 'entry_type' => EntityType::class,
                 'entry_options' => [
                     'class' => 'AppBundle\Entity\Primer',
                     'placeholder' => '-- select a primer --',
-                    'query_builder' => function (EntityRepository $er) use ($team) {
+                    'query_builder' => function (EntityRepository $er) use ($group) {
                         return $er->createQueryBuilder('primer')
-                            ->leftJoin('primer.team', 'team')
-                            ->where('team = :team')
-                            ->setParameter('team', $team)
+                            ->leftJoin('primer.group', 'g')
+                            ->where('g = :group')
+                            ->setParameter('group', $group)
                             ->orderBy('primer.name', 'ASC');
                     },
                     'choice_label' => function (Primer $primer) {
@@ -94,32 +94,32 @@ class PlasmidType extends AbstractType
                     }
                 }
 
-                // If it's a new plasmid, the default team is the FavoriteTeam of the user
-                // else, we retrieve the team from the type
+                // If it's a new plasmid, the default group is the FavoriteGroup of the user
+                // else, we retrieve the group from the type
                 if (null === $plasmid->getId()) {
-                    $team = $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+                    $group = $this->tokenStorage->getToken()->getUser()->getFavoriteGroup();
                 } else {
-                    // We set the team
-                    $team = $plasmid->getTeam();
+                    // We set the group
+                    $group = $plasmid->getGroup();
 
-                    //And, we remove the team field
-                    $form->remove('team');
+                    //And, we remove the group field
+                    $form->remove('group');
                 }
 
-                $formModifier($form, $team);
+                $formModifier($form, $group);
             }
         );
 
-        $builder->get('team')->addEventListener(
+        $builder->get('group')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
                 // It's important here to fetch $event->getForm()->getData(), as
                 // $event->getData() will get you the client data (that is, the ID)
-                $team = $event->getForm()->getData();
+                $group = $event->getForm()->getData();
 
                 // since we've added the listener to the child, we'll have to pass on
                 // the parent to the callback functions!
-                $formModifier($event->getForm()->getParent(), $team);
+                $formModifier($event->getForm()->getParent(), $group);
             }
         );
     }

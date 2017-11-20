@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="box")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BoxRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity({"name", "team"}, message="A box already exist with the name: {{ value }}.")
+ * @UniqueEntity({"name", "group"}, message="A box already exist with the name: {{ value }}.")
  */
 class Box
 {
@@ -97,12 +97,12 @@ class Box
     private $freeSpace;
 
     /**
-     * @var Team
+     * @var Group
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="boxes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="boxes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $team;
+    private $group;
 
     /**
      * @var ArrayCollection of Tube
@@ -319,27 +319,27 @@ class Box
     }
 
     /**
-     * Set team.
+     * Set group.
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return $this
      */
-    public function setTeam(Team $team)
+    public function setGroup(Group $group)
     {
-        $this->team = $team;
+        $this->group = $group;
 
         return $this;
     }
 
     /**
-     * Get team.
+     * Get group.
      *
-     * @return Team
+     * @return Group
      */
-    public function getTeam()
+    public function getGroup()
     {
-        return $this->team;
+        return $this->group;
     }
 
     /**

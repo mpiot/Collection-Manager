@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 use AppBundle\Form\Type\ProductType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,7 +21,7 @@ class ProductController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="product_index")
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function indexAction(Request $request)
     {
@@ -35,11 +35,11 @@ class ProductController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_index_ajax")
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function listAction()
     {
-        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Product::class, true, true, [Team::class]);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Product::class, true, true, [Group::class]);
 
         return $this->render('product/_list.html.twig', [
             'results' => $results,
@@ -48,7 +48,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/add", name="product_add")
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
     {
@@ -92,7 +92,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="product_view")
-     * @Security("user.hasTeam(product.getTeam())")
+     * @Security("user.hasGroup(product.getGroup())")
      */
     public function viewAction(Product $product)
     {
@@ -106,7 +106,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}/edit", requirements={"id": "\d+"}, name="product_edit")
-     * @Security("user.hasTeam(product.getTeam())")
+     * @Security("user.hasGroup(product.getGroup())")
      */
     public function editAction(Product $product, Request $request)
     {
@@ -130,7 +130,7 @@ class ProductController extends Controller
     /**
      * @Route("/{id}/delete", requirements={"id": "\d+"}, name="product_delete")
      * @Method("POST")
-     * @Security("user.hasTeam(product.getTeam())")
+     * @Security("user.hasGroup(product.getGroup())")
      */
     public function deleteAction(Product $product, Request $request)
     {
@@ -164,21 +164,21 @@ class ProductController extends Controller
 
     /**
      * @Route("/order/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_order_ajax")
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function orderListAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $teamId = ('' !== $request->get('team') && null !== $request->get('team')) ? $request->get('team') : $this->getUser()->getFavoriteTeam()->getId();
-        $team = $em->getRepository('AppBundle:Team')->find($teamId);
+        $groupId = ('' !== $request->get('group') && null !== $request->get('group')) ? $request->get('group') : $this->getUser()->getFavoriteGroup()->getId();
+        $group = $em->getRepository('AppBundle:Group')->find($groupId);
 
-        // Check if user is in the team
-        if (!$this->getUser()->hasTeam($team)) {
+        // Check if user is in the group
+        if (!$this->getUser()->hasGroup($group)) {
             throw $this->createAccessDeniedException();
         }
 
-        $products = $em->getRepository('AppBundle:Product')->findProductsWarning($team);
+        $products = $em->getRepository('AppBundle:Product')->findProductsWarning($group);
 
         return $this->render('product/_order_list.html.twig', [
             'products' => $products,

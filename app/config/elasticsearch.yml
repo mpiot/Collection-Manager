@@ -47,8 +47,8 @@ fos_elastica:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
                         country:
-                        team_id:
-                            property_path:    team.id
+                        group_id:
+                            property_path:    group.id
                         author_id:
                             property_path:    createdBy.id
                     persistence:
@@ -73,8 +73,8 @@ fos_elastica:
                             type:             string
                             index:            not_analyzed
                             property_path:    name
-                        team_id:
-                            property_path:    team.id
+                        group_id:
+                            property_path:    group.id
                         author_id:
                             property_path:    createdBy.id
                     persistence:
@@ -98,8 +98,8 @@ fos_elastica:
                             type:             string
                             index:            not_analyzed
                             property_path:    name
-                        team_id:
-                            property_path:    team.id
+                        group_id:
+                            property_path:    group.id
                         author_id:
                             property_path:    createdBy.id
                         sequence:
@@ -146,8 +146,8 @@ fos_elastica:
                         description:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
-                        team_id:
-                            property_path:    team.id
+                        group_id:
+                            property_path:    group.id
                     persistence:
                         driver:                 orm
                         model:                  AppBundle\Entity\Box
@@ -230,8 +230,8 @@ fos_elastica:
                             type:             string
                             index:            not_analyzed
                             property_path:    name
-                        team_id:
-                            property_path:    team.id
+                        group_id:
+                            property_path:    group.id
                     persistence:
                         driver:                 orm
                         model:                  AppBundle\Entity\Product

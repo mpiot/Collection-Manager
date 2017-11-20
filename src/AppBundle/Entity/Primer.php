@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="primer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrimerRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity({"name", "team"}, message="This name is already used by another primer.")
+ * @UniqueEntity({"name", "group"}, message="This name is already used by another primer.")
  */
 class Primer
 {
@@ -87,9 +87,9 @@ class Primer
     private $labelMarker;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team", inversedBy="primers")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="primers")
      */
-    private $team;
+    private $group;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="primers")
@@ -358,27 +358,27 @@ class Primer
     }
 
     /**
-     * Set team.
+     * Set group.
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return Primer
      */
-    public function setTeam(Team $team)
+    public function setGroup(Group $group)
     {
-        $this->team = $team;
+        $this->group = $group;
 
         return $this;
     }
 
     /**
-     * Get team.
+     * Get group.
      *
-     * @return Team
+     * @return Group
      */
-    public function getTeam()
+    public function getGroup()
     {
-        return $this->team;
+        return $this->group;
     }
 
     /**
@@ -438,11 +438,11 @@ class Primer
      */
     public function prePersist()
     {
-        $primerNumber = $this->getTeam()->getLastPrimerNumber() + 1;
+        $primerNumber = $this->getGroup()->getLastPrimerNumber() + 1;
         $autoName = 'primer'.str_pad($primerNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
         $this->setAutoName($autoName);
-        $this->getTeam()->setLastPrimerNumber($primerNumber);
+        $this->getGroup()->setLastPrimerNumber($primerNumber);
     }
 }

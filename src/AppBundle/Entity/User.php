@@ -90,19 +90,19 @@ class User implements AdvancedUserInterface, \Serializable
     private $lastName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", mappedBy="administrators")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Group", mappedBy="administrators")
      */
-    private $administeredTeams;
+    private $administeredGroups;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Team", mappedBy="members")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Group", mappedBy="members")
      */
-    private $teams;
+    private $groups;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Team")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group")
      */
-    private $favoriteTeam;
+    private $favoriteGroup;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="createdBy")
@@ -113,8 +113,8 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->roles = [];
         $this->isActive = false;
-        $this->teams = new ArrayCollection();
-        $this->administeredTeams = new ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->administeredGroups = new ArrayCollection();
         $this->strains = new ArrayCollection();
     }
 
@@ -463,146 +463,146 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Add administered team.
+     * Add administered group.
      *
-     * @param Team $team
+     * @param Group $group
      */
-    public function addAdministeredTeam(Team $team)
+    public function addAdministeredGroup(Group $group)
     {
-        $this->administeredTeams->add($team);
+        $this->administeredGroups->add($group);
     }
 
     /**
      * @return ArrayCollection
      */
-    public function getAdministeredTeams()
+    public function getAdministeredGroups()
     {
-        return $this->administeredTeams;
+        return $this->administeredGroups;
     }
 
     /**
-     * Get administered teams Ids.
+     * Get administered groups Ids.
      *
      * @return array
      */
-    public function getAdministeredTeamsId()
+    public function getAdministeredGroupsId()
     {
-        $administeredTeamsId = [];
+        $administeredGroupsId = [];
 
-        foreach ($this->administeredTeams as $administeredTeam) {
-            $administeredTeamsId[] = $administeredTeam->getId();
+        foreach ($this->administeredGroups as $administeredGroup) {
+            $administeredGroupsId[] = $administeredGroup->getId();
         }
 
-        return $administeredTeamsId;
+        return $administeredGroupsId;
     }
 
     /**
-     * Is a team administrator ?
+     * Is a group administrator ?
      *
      * @return bool
      */
-    public function isTeamAdministrator()
+    public function isGroupAdministrator()
     {
-        return !$this->administeredTeams->isEmpty();
+        return !$this->administeredGroups->isEmpty();
     }
 
     /**
-     * Add team.
+     * Add group.
      *
-     * @param Team $team
+     * @param Group $group
      */
-    public function addTeam(Team $team)
+    public function addGroup(Group $group)
     {
-        $this->teams->add($team);
+        $this->groups->add($group);
     }
 
     /**
-     * Get teams.
+     * Get groups.
      *
      * @return ArrayCollection
      */
-    public function getTeams()
+    public function getGroups()
     {
-        return $this->teams;
+        return $this->groups;
     }
 
     /**
-     * Get teams Ids.
+     * Get groups Ids.
      *
      * @return array
      */
-    public function getTeamsId()
+    public function getGroupsId()
     {
-        $teamsId = [];
+        $groupsId = [];
 
-        foreach ($this->teams as $team) {
-            $teamsId[] = $team->getId();
+        foreach ($this->groups as $group) {
+            $groupsId[] = $group->getId();
         }
 
-        return $teamsId;
+        return $groupsId;
     }
 
     /**
-     * Is in a team ?
+     * Is in a group ?
      *
      * @return bool
      */
-    public function isInTeam()
+    public function isInGroup()
     {
-        return !$this->teams->isEmpty();
+        return !$this->groups->isEmpty();
     }
 
     /**
-     * Is in this teams ?
+     * Is in this groups ?
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return bool
      */
-    public function hasTeam(Team $team)
+    public function hasGroup(Group $group)
     {
-        return $this->teams->contains($team);
+        return $this->groups->contains($group);
     }
 
     /**
-     * Set favorite team.
+     * Set favorite group.
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return $this
      */
-    public function setFavoriteTeam(Team $team)
+    public function setFavoriteGroup(Group $group)
     {
-        $this->favoriteTeam = $team;
+        $this->favoriteGroup = $group;
 
         return $this;
     }
 
     /**
-     * Get favorite team.
+     * Get favorite group.
      *
-     * @return Team
+     * @return Group
      */
-    public function getFavoriteTeam()
+    public function getFavoriteGroup()
     {
-        // If the user have no set a favorite Team, the first match team is the favorite
-        if (null === $this->favoriteTeam) {
-            return $this->teams->first();
+        // If the user have no set a favorite Group, the first match group is the favorite
+        if (null === $this->favoriteGroup) {
+            return $this->groups->first();
         }
 
-        return $this->favoriteTeam;
+        return $this->favoriteGroup;
     }
 
     /**
-     * Is favorite team ?
+     * Is favorite group ?
      *
-     * @param Team $team
+     * @param Group $group
      *
      * @return bool
      */
-    public function isFavoriteTeam(Team $team)
+    public function isFavoriteGroup(Group $group)
     {
-        return $team === $this->getFavoriteTeam();
+        return $group === $this->getFavoriteGroup();
     }
 
     /**

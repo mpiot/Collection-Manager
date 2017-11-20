@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Seller;
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -20,14 +20,14 @@ use Symfony\Component\HttpFoundation\Request;
 class FileController extends Controller
 {
     /**
-     * @Route("/plasmids/{team_slug}/{autoName}-{name}.gbk", name="download_plasmid")
-     * @ParamConverter("team", options={"mapping": {"team_slug": "slug"}})
-     * @Security("user.hasTeam(team)")
+     * @Route("/plasmids/{group_slug}/{autoName}-{name}.gbk", name="download_plasmid")
+     * @ParamConverter("group", options={"mapping": {"group_slug": "slug"}})
+     * @Security("user.hasGroup(group)")
      */
-    public function plasmidAction(Team $team, $autoName, $name, Request $request)
+    public function plasmidAction(Group $group, $autoName, $name, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $plasmid = $em->getRepository('AppBundle:Plasmid')->findOneByTeamAndNameWithFile($team, $autoName);
+        $plasmid = $em->getRepository('AppBundle:Plasmid')->findOneByGroupAndNameWithFile($group, $autoName);
         $genbankFile = $plasmid->getGenBankFile();
 
         if (null === $genbankFile) {
@@ -72,7 +72,7 @@ class FileController extends Controller
 
     /**
      * @Route("/documents/products/quote/{id}-{slug}", name="download_product_quote")
-     * @Security("user.hasTeam(product.getTeam())")
+     * @Security("user.hasGroup(product.getGroup())")
      */
     public function productQuoteAction(Product $product, Request $request)
     {
@@ -96,7 +96,7 @@ class FileController extends Controller
 
     /**
      * @Route("/documents/products/manual/{id}-{slug}", name="download_product_manual")
-     * @Security("user.hasTeam(product.getTeam())")
+     * @Security("user.hasGroup(product.getGroup())")
      */
     public function productManualAction(Product $product, Request $request)
     {

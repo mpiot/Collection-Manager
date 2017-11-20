@@ -2,13 +2,13 @@ var delay = require('./delay');
 
 $(document).ready(function(){
     var processing = false;
-    var team = $('#product-order-team-field');
+    var group = $('#product-order-group-field');
 
-    team.change(function() {
-        history.replaceState('', '', Routing.generate('product_order', { team: team.val() }));
+    group.change(function() {
+        history.replaceState('', '', Routing.generate('product_order', { group: group.val() }));
         $.ajax({
             type: 'GET',
-            url: Routing.generate('product_order_ajax', { team: team.val() }),
+            url: Routing.generate('product_order_ajax', { group: group.val() }),
             dataType: 'html',
             delay: 400,
             beforeSend: function() {

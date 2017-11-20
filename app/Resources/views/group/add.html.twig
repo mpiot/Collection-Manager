@@ -1,15 +1,15 @@
-{% extends "team/base.html.twig" %}
+{% extends "group/base.html.twig" %}
 
-{% block title %}Add a team{% endblock %}
+{% block title %}Add a group{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('team_index') }}">Teams</a></li>
+    <li><a href="{{ path('group_index') }}">Groups</a></li>
     <li class="active">Add</li>
 {% endblock %}
 
-{% block team_body %}
-    <h2>Add a team</h2>
+{% block group_body %}
+    <h2>Add a group</h2>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

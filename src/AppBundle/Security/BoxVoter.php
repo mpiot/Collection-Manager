@@ -55,7 +55,7 @@ class BoxVoter extends Voter
 
     private function canView(Box $box, User $user)
     {
-        if ($box->getTeam()->isMember($user)) {
+        if ($box->getGroup()->isMember($user)) {
             return true;
         }
 
@@ -77,8 +77,8 @@ class BoxVoter extends Voter
 
     private function canDelete(Box $box, User $user)
     {
-        // A team administrator cand delete a box
-        if ($box->getTeam()->isAdministrator($user)) {
+        // A group administrator cand delete a box
+        if ($box->getGroup()->isAdministrator($user)) {
             return true;
         }
 

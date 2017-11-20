@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Primer;
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 use AppBundle\Form\Type\PrimerEditType;
 use AppBundle\Form\Type\PrimerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,7 +22,7 @@ class PrimerController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="primer_index")
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function indexAction(Request $request)
     {
@@ -36,11 +36,11 @@ class PrimerController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="primer_index_ajax")
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function listAction()
     {
-        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Primer::class, true, true, [Team::class]);
+        $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Primer::class, true, true, [Group::class]);
 
         return $this->render('primer/_list.html.twig', [
             'results' => $results,
@@ -49,7 +49,7 @@ class PrimerController extends Controller
 
     /**
      * @Route("/add", name="primer_add")
-     * @Security("user.isInTeam()")
+     * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
     {

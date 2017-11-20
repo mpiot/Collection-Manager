@@ -31,13 +31,13 @@ class StrainPlasmidType extends AbstractType
                 'class' => 'AppBundle\Entity\Plasmid',
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('plasmid')
-                        ->leftJoin('plasmid.team', 'team')
-                        ->leftJoin('team.members', 'members')
+                        ->leftJoin('plasmid.group', 'g')
+                        ->leftJoin('g.members', 'members')
                         ->where('members = :user')
-                        ->andWhere('team = :team')
+                        ->andWhere('g = :group')
                             ->setParameters([
                                 'user' => $this->tokenStorage->getToken()->getUser(),
-                                'team' => $options['parent_data'],
+                                'group' => $options['parent_data'],
                             ])
                         ->orderBy('plasmid.autoName', 'ASC')
                     ;

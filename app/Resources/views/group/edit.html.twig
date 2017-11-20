@@ -1,16 +1,16 @@
-{% extends "team/base.html.twig" %}
+{% extends "group/base.html.twig" %}
 
-{% block title %}Edit a team{% endblock %}
+{% block title %}Edit a group{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('team_index') }}">Teams</a></li>
-    <li><a href="{{ path('team_view', { 'slug': team.slug }) }}">{{ team.name }}</a></li>
+    <li><a href="{{ path('group_index') }}">Groups</a></li>
+    <li><a href="{{ path('group_view', { 'slug': group.slug }) }}">{{ group.name }}</a></li>
     <li class="active">Edit</li>
 {% endblock %}
 
-{% block team_body %}
-    <h2 class="sub-header">Edit the team: {{ team.name }}</h2>
+{% block group_body %}
+    <h2 class="sub-header">Edit the group: {{ group.name }}</h2>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

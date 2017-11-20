@@ -52,7 +52,7 @@ class SpeciesController extends Controller
      */
     public function addAction(Request $request)
     {
-        if ($this->getUser()->isTeamAdministrator()) {
+        if ($this->getUser()->isGroupAdministrator()) {
             $species = new Species();
             $form = $this->createForm(SpeciesType::class, $species)
                 ->add('save', SubmitType::class, [
@@ -154,7 +154,7 @@ class SpeciesController extends Controller
     /**
      * @Route("/{slug}/edit", name="species_edit")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
-     * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator())")
+     * @Security("(null === species.getMainSpecies()) and (user.isGroupAdministrator())")
      */
     public function editAction(Species $species, Request $request)
     {
@@ -181,7 +181,7 @@ class SpeciesController extends Controller
      * @Route("/{slug}/delete", name="species_delete")
      * @Method("POST")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
-     * @Security("(null === species.getMainSpecies()) and (user.isTeamAdministrator())")
+     * @Security("(null === species.getMainSpecies()) and (user.isGroupAdministrator())")
      */
     public function deleteAction(Species $species, Request $request)
     {
@@ -211,7 +211,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson")
-     * @Security("user.isTeamAdministrator()")
+     * @Security("user.isGroupAdministrator()")
      */
     public function getJsonAction($taxid)
     {

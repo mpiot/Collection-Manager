@@ -15,14 +15,14 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if (null !== $this->getUser()) {
-            $userTeams = $em->getRepository('AppBundle:Team')->findAllForUser($this->getUser());
+            $userGroups = $em->getRepository('AppBundle:Group')->findAllForUser($this->getUser());
         } else {
-            $userTeams = null;
+            $userGroups = null;
         }
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
-            'teams' => $userTeams,
+            'groups' => $userGroups,
         ]);
     }
 

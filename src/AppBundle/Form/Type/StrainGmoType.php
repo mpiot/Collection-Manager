@@ -39,23 +39,23 @@ class StrainGmoType extends AbstractType
             ])
         ;
 
-        $formModifier = function (FormInterface $form, $team = null, $strainId = null) {
+        $formModifier = function (FormInterface $form, $group = null, $strainId = null) {
             $form->add('parents', CollectionType::class, [
                 'entry_type' => EntityType::class,
                 'entry_options' => [
                     'class' => 'AppBundle\Entity\Strain',
                     'choice_label' => 'fullName',
                     'placeholder' => '-- select a parent --',
-                    'query_builder' => function (EntityRepository $er) use ($team, $strainId) {
+                    'query_builder' => function (EntityRepository $er) use ($group, $strainId) {
                         return $er->createQueryBuilder('strain')
-                            ->leftJoin('strain.team', 'team')
-                            ->leftJoin('team.members', 'members')
+                            ->leftJoin('strain.group', 'g')
+                            ->leftJoin('g.members', 'members')
                             ->where('members = :user')
                             ->andWhere('strain.id <> :strainId')
-                            ->andWhere('team = :team')
+                            ->andWhere('g = :group')
                                 ->setParameters([
                                     'user' => $this->tokenStorage->getToken()->getUser(),
-                                    'team' => $team,
+                                    'group' => $group,
                                     'strainId' => $strainId,
                                 ])
                             ->orderBy('strain.autoName', 'ASC');
@@ -70,7 +70,7 @@ class StrainGmoType extends AbstractType
             $form->add('strainPlasmids', CollectionType::class, [
                 'entry_type' => StrainPlasmidType::class,
                 'entry_options' => [
-                    'parent_data' => $team,
+                    'parent_data' => $group,
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -85,30 +85,30 @@ class StrainGmoType extends AbstractType
                 $strain = $event->getData();
                 $strainId = $strain->getId() ? $strain->getId() : null;
 
-                // If it's a new strain, the default team is the FavoriteTeam of the user
-                // else, we retrieve the team from the type
+                // If it's a new strain, the default group is the FavoriteGroup of the user
+                // else, we retrieve the group from the type
                 if (null === $strain->getId()) {
-                    $team = $this->tokenStorage->getToken()->getUser()->getFavoriteTeam();
+                    $group = $this->tokenStorage->getToken()->getUser()->getFavoriteGroup();
                 } else {
-                    $team = $strain->getTeam();
+                    $group = $strain->getGroup();
                 }
 
-                $formModifier($event->getForm(), $team, $strainId);
+                $formModifier($event->getForm(), $group, $strainId);
             }
         );
 
-        $builder->get('team')->addEventListener(
+        $builder->get('group')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
                 // It's important here to fetch $event->getForm()->getData(), as
                 // $event->getData() will get you the client data (that is, the ID)
-                $team = $event->getForm()->getData();
+                $group = $event->getForm()->getData();
                 $strain = $event->getForm()->getParent()->getData();
                 $strainId = $strain->getId() ? $strain->getId() : 0;
 
                 // since we've added the listener to the child, we'll have to pass on
                 // the parent to the callback functions!
-                $formModifier($event->getForm()->getParent(), $team, $strainId);
+                $formModifier($event->getForm()->getParent(), $group, $strainId);
             }
         );
     }

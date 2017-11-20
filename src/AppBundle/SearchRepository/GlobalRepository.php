@@ -2,12 +2,12 @@
 
 namespace AppBundle\SearchRepository;
 
-use AppBundle\Entity\Team;
+use AppBundle\Entity\Group;
 use AppBundle\Entity\User;
 
 class GlobalRepository
 {
-    public function searchQuery($keyword = null, User $user, $category = null, $country = null, Team $team = null, User $author = null)
+    public function searchQuery($keyword = null, User $user, $category = null, $country = null, Group $group = null, User $author = null)
     {
         // Create the search query
         $query = new \Elastica\Query\BoolQuery();
@@ -31,10 +31,10 @@ class GlobalRepository
             $countryQuery->setTerm('country', strtolower($country));
         }
 
-        // Set the team filter
-        if (null !== $team && '' !== $team) {
-            $teamQuery = new \Elastica\Query\Term();
-            $teamQuery->setTerm('team_id', $team->getId());
+        // Set the group filter
+        if (null !== $group && '' !== $group) {
+            $groupQuery = new \Elastica\Query\Term();
+            $groupQuery->setTerm('group_id', $group->getId());
         }
 
         // Set the author filter
@@ -47,9 +47,9 @@ class GlobalRepository
         // Set security queries used in BoolQuery //
         //----------------------------------------//
 
-        // Set a team filter
-        $teamsSecureQuery = new \Elastica\Query\Terms();
-        $teamsSecureQuery->setTerms('team_id', $user->getTeamsId());
+        // Set a group filter
+        $groupsSecureQuery = new \Elastica\Query\Terms();
+        $groupsSecureQuery->setTerms('group_id', $user->getGroupsId());
 
         //-------------------------------------------//
         // Assign previous queries to each BoolQuery //
@@ -65,7 +65,7 @@ class GlobalRepository
             $plasmidBoolQuery = new \Elastica\Query\BoolQuery();
 
             // First, define required queries like: type, security
-            $plasmidBoolQuery->addFilter($teamsSecureQuery);
+            $plasmidBoolQuery->addFilter($groupsSecureQuery);
             $plasmidBoolQuery->addFilter($plasmidTypeQuery);
 
             // Then, all conditional queries
@@ -92,7 +92,7 @@ class GlobalRepository
             $primerBoolQuery = new \Elastica\Query\BoolQuery();
 
             // First, define required queries like: type, security
-            $primerBoolQuery->addFilter($teamsSecureQuery);
+            $primerBoolQuery->addFilter($groupsSecureQuery);
             $primerBoolQuery->addFilter($primerTypeQuery);
 
             // Then, all conditional queries
@@ -123,7 +123,7 @@ class GlobalRepository
             $gmoStrainBoolQuery = new \Elastica\Query\BoolQuery();
 
             // First, define required queries like: type, security
-            $gmoStrainBoolQuery->addFilter($teamsSecureQuery);
+            $gmoStrainBoolQuery->addFilter($groupsSecureQuery);
             $gmoStrainBoolQuery->addFilter($strainTypeQuery);
             $gmoStrainBoolQuery->addFilter($dicriminatorFilter);
 
@@ -135,8 +135,8 @@ class GlobalRepository
             if (null !== $author && '' !== $author) {
                 $gmoStrainBoolQuery->addFilter($authorQuery);
             }
-            if (null !== $team && '' !== $team) {
-                $gmoStrainBoolQuery->addFilter($teamQuery);
+            if (null !== $group && '' !== $group) {
+                $gmoStrainBoolQuery->addFilter($groupQuery);
             }
 
             // Add the Gmo BoolQuery to the main BoolQuery
@@ -158,7 +158,7 @@ class GlobalRepository
             $wildStrainBoolQuery = new \Elastica\Query\BoolQuery();
 
             // First, define required queries like: type, security
-            $wildStrainBoolQuery->addFilter($teamsSecureQuery);
+            $wildStrainBoolQuery->addFilter($groupsSecureQuery);
             $wildStrainBoolQuery->addFilter($wildTypeQuery);
             $wildStrainBoolQuery->addFilter($dicriminatorFilter);
 
@@ -173,8 +173,8 @@ class GlobalRepository
             if (null !== $country && '' !== $country) {
                 $wildStrainBoolQuery->addFilter($countryQuery);
             }
-            if (null !== $team && '' !== $team) {
-                $wildStrainBoolQuery->addFilter($teamQuery);
+            if (null !== $group && '' !== $group) {
+                $wildStrainBoolQuery->addFilter($groupQuery);
             }
 
             // Add the Gmo BoolQuery to the main BoolQuery

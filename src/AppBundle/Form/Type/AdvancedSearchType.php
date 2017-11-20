@@ -52,26 +52,26 @@ class AdvancedSearchType extends AbstractType
                 'placeholder' => 'All countries',
                 'required' => false,
             ])
-            ->add('team', EntityType::class, [
-                'class' => 'AppBundle\Entity\Team',
+            ->add('group', EntityType::class, [
+                'class' => 'AppBundle\Entity\Group',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('team')
-                        ->leftJoin('team.members', 'members')
+                    return $er->createQueryBuilder('g')
+                        ->leftJoin('g.members', 'members')
                         ->where('members = :user')
                             ->setParameter('user', $this->tokenStorage->getToken()->getUser())
-                        ->orderBy('team.name', 'ASC');
+                        ->orderBy('g.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'All teams',
+                'placeholder' => 'All groups',
                 'required' => false,
             ])
             ->add('author', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('user')
-                        ->leftJoin('user.teams', 'teams')
-                        ->where('teams IN (:teams)')
-                            ->setParameter('teams', $this->tokenStorage->getToken()->getUser()->getTeams())
+                        ->leftJoin('user.groups', 'g')
+                        ->where('g IN (:groups)')
+                            ->setParameter('groups', $this->tokenStorage->getToken()->getUser()->getGroups())
                         ->orderBy('user.firstName', 'ASC')
                         ->addOrderBy('user.lastName', 'ASC');
                 },

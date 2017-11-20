@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TeamType extends AbstractType
+class GroupType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -49,7 +49,7 @@ class TeamType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Team',
+            'data_class' => 'AppBundle\Entity\Group',
         ]);
     }
 }
