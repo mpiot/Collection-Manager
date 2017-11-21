@@ -70,6 +70,10 @@
                             </td>
                             <td>{{ tube.cellName }}</td>
                         </tr>
+                    {% else %}
+                        <tr>
+                            <td class="text-center" colspan="2">There are no tubes</td>
+                        </tr>
                     {% endfor %}
                 </table>
             </div>

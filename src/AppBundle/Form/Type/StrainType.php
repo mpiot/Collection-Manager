@@ -74,6 +74,7 @@ class StrainType extends AbstractType
                 'allow_delete' => true,
                 // Use add and remove properties in the entity
                 'by_reference' => false,
+                'required' => false,
             ]);
         };
 
