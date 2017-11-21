@@ -199,13 +199,13 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/search/{name}", name="strain_search", options={"expose"=true}, condition="request.isXmlHttpRequest()")
+     * @Route("/autocomplete/group/{group}/name/{name}", name="strain_name_autocomplete", options={"expose"=true}, condition="request.isXmlHttpRequest()")
      */
-    public function searchAction($name)
+    public function nameAutocompleteAction($group, $name)
     {
         $repositoryManager = $this->get('fos_elastica.manager.orm');
         $repository = $repositoryManager->getRepository('AppBundle:Strain');
-        $elasticQuery = $repository->searchByNameQuery($name, null, null, $this->getUser());
+        $elasticQuery = $repository->searchByNameQuery($name, null, $group, $this->getUser());
         $results = $this->get('fos_elastica.finder.app.strain')->find($elasticQuery);
 
         $data = [];

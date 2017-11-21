@@ -4,14 +4,17 @@ $fa-font-path: "~font-awesome/fonts";
 
 @import "custom";
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
-@import "~font-awesome/scss/font-awesome.scss";
+@import "~font-awesome/scss/font-awesome";
 
-// jQueryUI styles
+// jQueryUI styles (for autocomplete)
+@import "~jquery-ui/themes/base/core.css";
 @import "~jquery-ui/themes/base/autocomplete.css";
+@import "~jquery-ui/themes/base/menu.css";
+@import "~jquery-ui/themes/base/theme.css";
 
 // Select2 styles
-@import "~select2/src/scss/core.scss";
-@import "~select2-bootstrap-theme/src/select2-bootstrap.scss";
+@import "~select2/src/scss/core";
+@import "~select2-bootstrap-theme/src/select2-bootstrap";
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
