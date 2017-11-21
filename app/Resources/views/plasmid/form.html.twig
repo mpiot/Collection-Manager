@@ -8,7 +8,7 @@
     <div id="genBank-file-field" class="col-sm-10 col-md-offset-2">
         <div>
             {% if app.request.requesturi != path('plasmid_add') and plasmid.genBankFile.path is defined and plasmid.genBankFile.path is not null %}
-                Actual file: <a href="{{ asset(plasmid.genBankFile.webPath) }}">{{ plasmid.autoName }}-{{ plasmid.name }}.gbk</a>
+                Actual file: {{ plasmid.autoName }}-{{ plasmid.name }}.gbk
             {% endif %}
         </div>
         {{ form_widget(form.genBankFile.fileSystemPath) }}

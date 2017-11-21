@@ -123,6 +123,10 @@ class PlasmidController extends Controller
         $form = $this->createForm(PlasmidEditType::class, $plasmid)
             ->add('save', SubmitType::class, [
                 'label' => 'Save changes',
+                'attr' => [
+                    'data-btn-group' => 'btn-group',
+                    'data-btn-position' => 'btn-first',
+                ],
             ]);
 
         $form->handleRequest($request);
