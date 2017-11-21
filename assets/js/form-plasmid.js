@@ -5,12 +5,8 @@ var onBoxChange = require('./strain-tubes-dynamic-on-box-change');
 $( function() {
     charMap($('#plasmid_name, #plasmid_edit_name'));
     collectionType($('div#plasmid_primers, div#plasmid_edit_primers'), 'Add a primer', 'add-primer');
-    collectionType($('div#plasmid_tubes, div#plasmid_edit_tubes'), 'Add a tube', null, true, [onBoxChange]);
-
-    $('[id^="plasmid_primers_"], [id^="plasmid_edit_primers_"]').select2();
-    $('#add-primer').click(function() {
-        $('[id^="plasmid_primers_"], [id^="plasmid_edit_primers_"]').select2();
-    });
+    collectionType($('div#plasmid_tubes, div#plasmid_edit_tubes'), 'Add a tube', null, false, [onBoxChange]);
+    applySelect2();
 
     var $group = $('#plasmid_group');
     $group.change(function () {
@@ -42,12 +38,17 @@ $( function() {
                 );
 
                 collectionType($('div#plasmid_primers'), 'Add a primer', 'add-primer');
-                $('#add-primer').click(function() {
-                    $('[id^="plasmid_primers_"]').select2();
-                });
-
                 collectionType($('div#plasmid_tubes'), 'Add a tube', null, true, [onBoxChange]);
+
+                applySelect2();
             }
         });
     });
+
+    function applySelect2 () {
+        $('[id^="plasmid_primers_"], [id^="plasmid_edit_primers_"]').select2();
+        $('#add-primer').click(function() {
+            $('[id^="plasmid_primers_"], [id^="plasmid_edit_primers_"]').select2();
+        });
+    }
 } );

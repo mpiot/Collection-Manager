@@ -4,7 +4,7 @@ var onBoxChange = require('./strain-tubes-dynamic-on-box-change');
 
 $( function() {
     charMap($('#primer_name, #primer_edit_name'));
-    collectionType($('div#primer_tubes, div#primer_edit_tubes'), 'Add a tube', null, true, [onBoxChange]);
+    collectionType($('div#primer_tubes, div#primer_edit_tubes'), 'Add a tube', null, false, [onBoxChange]);
 
     var $group = $('#primer_group');
     $group.change(function () {
