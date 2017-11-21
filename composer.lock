@@ -1179,12 +1179,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSElasticaBundle.git",
-                "reference": "ba94590c74aecbc3d64563d08e6da46c1c4e9b3d"
+                "reference": "13cc0072097137f2e5870d3b72fa5984310926fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/ba94590c74aecbc3d64563d08e6da46c1c4e9b3d",
-                "reference": "ba94590c74aecbc3d64563d08e6da46c1c4e9b3d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSElasticaBundle/zipball/13cc0072097137f2e5870d3b72fa5984310926fd",
+                "reference": "13cc0072097137f2e5870d3b72fa5984310926fd",
                 "shasum": ""
             },
             "require": {
@@ -1262,7 +1262,7 @@
                 "propel",
                 "search"
             ],
-            "time": "2017-10-02T14:51:28+00:00"
+            "time": "2017-11-20T13:40:22+00:00"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
