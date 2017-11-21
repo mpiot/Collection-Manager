@@ -199,53 +199,6 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}/parents", name="strain_parents", requirements={"id": "\d+"})
-     * @Route("/{id}/children", name="strain_children", requirements={"id": "\d+"})
-     */
-    public function parentalStrainsAction(Strain $strain, Request $request)
-    {
-        $routeName = $request->get('_route');
-        $em = $this->getDoctrine()->getManager();
-
-        if ('strain_parents' === $routeName) {
-            $strain = $em->getRepository('AppBundle:Strain')->findParents($strain);
-
-            $array['name'] = $strain->getFullName();
-
-            $c = 0;
-            foreach ($strain->getParents() as $parent) {
-                $array['children'][$c]['name'] = $parent->getFullName();
-
-                foreach ($parent->getParents() as $parent2) {
-                    $array['children'][$c]['children'][]['name'] = $parent2->getFullName();
-                }
-
-                ++$c;
-            }
-        } else {
-            $strain = $em->getRepository('AppBundle:Strain')->findChildren($strain);
-
-            $array['name'] = $strain->getFullName();
-
-            $c = 0;
-            foreach ($strain->getChildren() as $child) {
-                $array['children'][$c]['name'] = $child->getFullName();
-
-                foreach ($child->getChildren() as $child2) {
-                    $array['children'][$c]['children'][]['name'] = $child2->getFullName();
-                }
-
-                ++$c;
-            }
-        }
-
-        $response = new Response(json_encode($array));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-    }
-
-    /**
      * @Route("/search/{name}", name="strain_search", options={"expose"=true}, condition="request.isXmlHttpRequest()")
      */
     public function searchAction($name)
