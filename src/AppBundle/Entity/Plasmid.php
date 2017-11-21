@@ -378,7 +378,7 @@ class Plasmid
     public function prePersist()
     {
         $plasmidNumber = $this->getGroup()->getLastPlasmidNumber() + 1;
-        $autoName = 'p'.str_pad($plasmidNumber, 4, '0', STR_PAD_LEFT);
+        $autoName = str_pad($plasmidNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
         $this->setAutoName($autoName);

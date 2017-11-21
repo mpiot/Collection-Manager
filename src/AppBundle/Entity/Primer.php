@@ -451,7 +451,7 @@ class Primer
     public function prePersist()
     {
         $primerNumber = $this->getGroup()->getLastPrimerNumber() + 1;
-        $autoName = 'primer'.str_pad($primerNumber, 4, '0', STR_PAD_LEFT);
+        $autoName = str_pad($primerNumber, 4, '0', STR_PAD_LEFT);
 
         // Set autoName
         $this->setAutoName($autoName);

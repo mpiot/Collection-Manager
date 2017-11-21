@@ -877,8 +877,6 @@ class Strain
      */
     public function lifeCycleAutoName()
     {
-        dump($this);
-
         $strainNumber = $this->getGroup()->getLastStrainNumber() + 1;
         $autoName = str_pad($strainNumber, 4, '0', STR_PAD_LEFT);
 
