@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class StrainTubeType extends AbstractType
+class TubeType extends AbstractType
 {
     private $em;
     private $tokenStorage;

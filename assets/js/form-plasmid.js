@@ -1,9 +1,11 @@
 var collectionType = require('./collection-type');
 var charMap = require('./charmap');
+var onBoxChange = require('./strain-tubes-dynamic-on-box-change');
 
 $( function() {
     charMap($('#plasmid_name, #plasmid_edit_name'));
     collectionType($('div#plasmid_primers, div#plasmid_edit_primers'), 'Add a primer', 'add-primer');
+    collectionType($('div#plasmid_tubes, div#plasmid_edit_tubes'), 'Add a tube', null, true, [onBoxChange]);
 
     $('[id^="plasmid_primers_"], [id^="plasmid_edit_primers_"]').select2();
     $('#add-primer').click(function() {
@@ -11,8 +13,11 @@ $( function() {
     });
 
     var $group = $('#plasmid_group');
-    // When genus gets selected ...
     $group.change(function () {
+        // Fields
+        var primers = $('div#plasmid_primers');
+        var tubes = $('div#plasmid_tubes');
+
         // ... retrieve the corresponding form.
         var $form = $(this).closest('form');
         // Simulate form data, but only include the selected genus value.
@@ -26,14 +31,22 @@ $( function() {
             data: data,
             success: function (html) {
                 // Replace current position field ...
-                $('div#plasmid_primers').replaceWith(
+                primers.replaceWith(
                     // ... with the returned one from the AJAX response.
-                    $(html).find('#plasmid_primers')
+                    $(html).find('div#plasmid_primers')
                 );
+
+                tubes.replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html).find('div#plasmid_tubes')
+                );
+
                 collectionType($('div#plasmid_primers'), 'Add a primer', 'add-primer');
                 $('#add-primer').click(function() {
                     $('[id^="plasmid_primers_"]').select2();
                 });
+
+                collectionType($('div#plasmid_tubes'), 'Add a tube', null, true, [onBoxChange]);
             }
         });
     });

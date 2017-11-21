@@ -66,7 +66,7 @@ class StrainType extends AbstractType
 
         $formModifier = function (FormInterface $form, $group) {
             $form->add('tubes', CollectionType::class, [
-                'entry_type' => StrainTubeType::class,
+                'entry_type' => TubeType::class,
                 'entry_options' => [
                     'parent_data' => $group,
                 ],

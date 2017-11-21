@@ -28,11 +28,6 @@ class Tube
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="tubes")
-     */
-    private $strain;
-
-    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Box", inversedBy="tubes")
      */
     private $box;
@@ -50,6 +45,24 @@ class Tube
      * @ORM\Column(name="cellName", type="string", length=255)
      */
     private $cellName;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Strain", inversedBy="tubes")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $strain;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Plasmid", inversedBy="tubes")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $plasmid;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Primer", inversedBy="tubes")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $primer;
 
     /**
      * @var \DateTime
@@ -113,18 +126,6 @@ class Tube
         return $this->id;
     }
 
-    public function setStrain(Strain $strain)
-    {
-        $this->strain = $strain;
-
-        return $this;
-    }
-
-    public function getStrain()
-    {
-        return $this->strain;
-    }
-
     public function setBox(Box $box)
     {
         // If the actualbox is null, it's a new tube
@@ -168,6 +169,52 @@ class Tube
     public function getCellName()
     {
         return $this->cellName;
+    }
+
+    public function setStrain(Strain $strain)
+    {
+        $this->strain = $strain;
+
+        return $this;
+    }
+
+    public function getStrain()
+    {
+        return $this->strain;
+    }
+
+    public function setPlasmid(Plasmid $plasmid)
+    {
+        $this->plasmid = $plasmid;
+
+        return $this;
+    }
+
+    public function getPlasmid()
+    {
+        return $this->plasmid;
+    }
+
+    public function setPrimer(Primer $primer)
+    {
+        $this->primer = $primer;
+
+        return $this;
+    }
+
+    public function getPrimer()
+    {
+        return $this->primer;
+    }
+
+    public function getContent()
+    {
+        if (null !== $this->strain)
+            return $this->strain;
+        elseif (null !== $this->plasmid)
+            return $this->plasmid;
+        else
+            return $this->primer;
     }
 
     /**
@@ -222,19 +269,23 @@ class Tube
         return $this->updatedBy;
     }
 
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context)
-    {
-        $tubes = $this->strain->getTubes();
-
-        if (count(array_keys($tubes->toArray(), $this)) > 1) {
-            $context->buildViolation('You can\'t have many tubes in the same cell.')
-                ->atPath('cell')
-                ->addViolation();
-        }
-    }
+//    /**
+//     * @Assert\Callback
+//     */
+//    public function validate(ExecutionContextInterface $context)
+//    {
+//        // Check tubes
+//        $tubes = $this->strain->getTubes();
+//        $tubes2 = $this->plasmid->getTubes();
+//
+//        dump($tubes, $tubes2);
+//
+//        if (count(array_keys($tubes->toArray(), $this)) > 1) {
+//            $context->buildViolation('You can\'t have many tubes in the same cell.')
+//                ->atPath('cell')
+//                ->addViolation();
+//        }
+//    }
 
     /**
      * Before persist.

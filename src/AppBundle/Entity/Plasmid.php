@@ -74,6 +74,14 @@ class Plasmid
     private $primers;
 
     /**
+     * @var ArrayCollection|Tube
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="plasmid", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid
+     */
+    private $tubes;
+
+    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
@@ -114,6 +122,7 @@ class Plasmid
     {
         $this->strainPlasmids = new ArrayCollection();
         $this->primers = new ArrayCollection();
+        $this->tubes = new ArrayCollection();
     }
 
     public function __toString()
@@ -316,6 +325,45 @@ class Plasmid
     public function getPrimers()
     {
         return $this->primers;
+    }
+
+    /**
+     * Add tube.
+     *
+     * @param Tube $tube
+     *
+     * @return Plasmid
+     */
+    public function addTube(Tube $tube)
+    {
+        $tube->setPlasmid($this);
+        $this->tubes->add($tube);
+
+        return $this;
+    }
+
+    /**
+     * Remove tube.
+     *
+     * @param Tube $tube
+     *
+     * @return $this
+     */
+    public function removeTube(Tube $tube)
+    {
+        $this->tubes->removeElement($tube);
+
+        return $this;
+    }
+
+    /**
+     * Get tubes.
+     *
+     * @return Tube|ArrayCollection
+     */
+    public function getTubes()
+    {
+        return $this->tubes;
     }
 
     /**

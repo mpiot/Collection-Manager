@@ -59,6 +59,18 @@ class PlasmidType extends AbstractType
         ;
 
         $formModifier = function (FormInterface $form, $group = null) {
+            $form->add('tubes', CollectionType::class, [
+                'entry_type' => TubeType::class,
+                'entry_options' => [
+                    'parent_data' => $group,
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                // Use add and remove properties in the entity
+                'by_reference' => false,
+                'required' => false,
+            ]);
+
             $form->add('primers', CollectionType::class, [
                 'entry_type' => EntityType::class,
                 'entry_options' => [

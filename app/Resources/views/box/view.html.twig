@@ -73,13 +73,31 @@
                             {% if r != 0 %}
                                 {% if c != 0 %}
                                     {% if tubes[cellCounter] is defined %}
-                                        <td
-                                            style="background-color:greenyellow;"
-                                            data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
-                                            title="{{ tubes[cellCounter].strain.name }}"
-                                            data-content="{{ tubes[cellCounter].strain.comment }}">
-                                            {{ cellCounter + 1 }}
-                                        </td>
+                                        {% if tubes[cellCounter].content is strain %}
+                                            <td
+                                                style="background-color:greenyellow;"
+                                                data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
+                                                title="Strain {{ tubes[cellCounter].strain.autoName }}"
+                                                data-content="{{ tubes[cellCounter].strain.name }}">
+                                                {{ cellCounter + 1 }}
+                                            </td>
+                                        {% elseif tubes[cellCounter].content is plasmid %}
+                                            <td
+                                                style="background-color:deepskyblue;"
+                                                data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
+                                                title="Plasmid {{ tubes[cellCounter].plasmid.autoName }}"
+                                                data-content="{{ tubes[cellCounter].plasmid.name }}">
+                                                {{ cellCounter + 1 }}
+                                            </td>
+                                        {% elseif tubes[cellCounter].content is primer %}
+                                            <td
+                                                style="background-color:deeppink;"
+                                                data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
+                                                title="Primer {{ tubes[cellCounter].primer.autoName }}"
+                                                data-content="{{ tubes[cellCounter].primer.name }}">
+                                                {{ cellCounter + 1 }}
+                                            </td>
+                                        {% endif %}
                                     {% else %}
                                         <td>
                                             {{ cellCounter + 1 }}
@@ -108,21 +126,39 @@
         <div class="col-md-7">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading">Strain list</div>
+                <div class="panel-heading">Content list</div>
                 <table class="table table-striped">
                     <tr>
                         <th>Cell</th>
                         <th>Name</th>
                         <th>Auto Name</th>
+                        <th>Type</th>
                     </tr>
 
                     {% if box.tubes is not empty %}
                         {% for tube in box.tubes %}
                             <tr>
                                 <td>{{ tube.cellName }}</td>
-                                <td>{{ tube.strain.name }}</td>
                                 <td>
-                                    <a href="{{ path('strain_view', { 'id': tube.strain.id, 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
+                                    {{ tube.content.name }}
+                                </td>
+                                <td>
+                                    {% if tube.content is strain %}
+                                        <a href="{{ path('strain_view', { 'id': tube.strain.id, 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
+                                    {% elseif tube.content is plasmid %}
+                                        <a href="{{ path('plasmid_view', { 'id': tube.plasmid.id, 'slug': tube.plasmid.slug }) }}">{{ tube.plasmid.autoName }}</a>
+                                    {% elseif tube.content is primer %}
+                                        <a href="{{ path('primer_view', { 'id': tube.primer.id, 'slug': tube.primer.slug }) }}">{{ tube.primer.autoName }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if tube.content is strain %}
+                                        Strain
+                                    {% elseif tube.content is plasmid %}
+                                        Plasmid
+                                    {% elseif tube.content is primer %}
+                                        Primer
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

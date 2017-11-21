@@ -104,6 +104,14 @@ class Primer
     private $hybridationTemp;
 
     /**
+     * @var ArrayCollection|Tube
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="primer", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid
+     */
+    private $tubes;
+
+    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
@@ -143,6 +151,7 @@ class Primer
     public function __construct()
     {
         $this->plasmids = new ArrayCollection();
+        $this->tubes = new ArrayCollection();
     }
 
     /**
@@ -389,6 +398,45 @@ class Primer
     public function getPlasmids()
     {
         return $this->plasmids;
+    }
+
+    /**
+     * Add tube.
+     *
+     * @param Tube $tube
+     *
+     * @return Primer
+     */
+    public function addTube(Tube $tube)
+    {
+        $tube->setPrimer($this);
+        $this->tubes->add($tube);
+
+        return $this;
+    }
+
+    /**
+     * Remove tube.
+     *
+     * @param Tube $tube
+     *
+     * @return $this
+     */
+    public function removeTube(Tube $tube)
+    {
+        $this->tubes->removeElement($tube);
+
+        return $this;
+    }
+
+    /**
+     * Get tubes.
+     *
+     * @return Tube|ArrayCollection
+     */
+    public function getTubes()
+    {
+        return $this->tubes;
     }
 
     /**
