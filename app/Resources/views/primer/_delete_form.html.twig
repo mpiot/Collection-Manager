@@ -5,10 +5,8 @@
         {% block btn %}
         {% endblock %}
 
-        {% if is_granted('PRIMER_DELETE', primer) %}
-            <button type="submit" class="btn btn-danger">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
-            </button>
-        {% endif %}
+        <button type="submit" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+        </button>
     </div>
 </form>
