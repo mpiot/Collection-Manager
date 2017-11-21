@@ -12,8 +12,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Utils\PlasmidGenBank;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Class plasmidController.
@@ -184,5 +186,29 @@ class PlasmidController extends Controller
         $this->addFlash('success', 'The plasmid has been deleted successfully.');
 
         return $this->redirectToRoute('plasmid_index');
+    }
+
+    /**
+     * @Route("/{id}-{slug}/download", name="plasmid_download")
+     * @Security("plasmid.getGroup().isMember(user)")
+     */
+    public function downloadAction(Plasmid $plasmid)
+    {
+        $file = $plasmid->getGenBankFile();
+
+        if (null === $file) {
+            throw $this->createNotFoundException("This file doesn't exists.");
+        }
+
+        BinaryFileResponse::trustXSendfileTypeHeader();
+        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $plasmid->getAutoName().'-'.$plasmid->getAutoName().'.'.$file->getFileExtension()
+        );
+        $response->setCache(['private' => true]);
+        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
+
+        return $response;
     }
 }

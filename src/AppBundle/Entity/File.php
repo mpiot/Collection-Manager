@@ -10,9 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Entity
  * @ORM\Table(name="file")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"file" = "File", "genBankFile" = "GenBankFile", "documentFile" = "DocumentFile"})
  * @ORM\HasLifecycleCallbacks
  */
 class File
@@ -48,6 +45,15 @@ class File
      * @var string
      */
     private $tempPath;
+
+    /**
+     * The extension of the file.
+     *
+     * @var string
+     *
+     * @ORM\Column(name="file_extension", type="string", length=255)
+     */
+    private $fileExtension;
 
     /**
      * @var \DateTime
@@ -151,6 +157,30 @@ class File
     }
 
     /**
+     * Set extension.
+     *
+     * @param string $fileSystemPath
+     *
+     * @return File
+     */
+    public function setFileExtension($fileExtension)
+    {
+        $this->fileExtension = $fileExtension;
+
+        return $this;
+    }
+
+    /**
+     * Get extension.
+     *
+     * @return string
+     */
+    public function getFileExtension()
+    {
+        return $this->fileExtension;
+    }
+
+    /**
      * Get created.
      *
      * @return \DateTime
@@ -203,16 +233,6 @@ class File
     }
 
     /**
-     * Get XSendfile upload dir.
-     *
-     * @return string
-     */
-    public function getXSendfileUploadDir()
-    {
-        return realpath(__DIR__.'/../../../files');
-    }
-
-    /**
      * Get upload dir.
      *
      * @return string
@@ -235,6 +255,16 @@ class File
     }
 
     /**
+     * Get X-Accel-Redirect path.
+     *
+     * @return string
+     */
+    public function getXAccelRedirectPath()
+    {
+        return '/protected-files/'.$this->getPath();
+    }
+
+    /**
      * Get absolute path.
      *
      * @return null|string
@@ -242,14 +272,6 @@ class File
     public function getAbsolutePath()
     {
         return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
-    }
-
-    /**
-     * Get webPath.
-     */
-    public function getWebPath()
-    {
-        return $this->getUploadDir().'/'.$this->getPath();
     }
 
     /**
@@ -264,6 +286,7 @@ class File
             return;
         }
 
+        $this->fileExtension = $this->fileSystemPath->getClientOriginalExtension();
         $this->path = uniqid(rand(), true).'.'.$this->fileSystemPath->getClientOriginalExtension();
     }
 

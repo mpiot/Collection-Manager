@@ -92,7 +92,7 @@ class ProductType extends AbstractType
                 'expanded' => true,
                 'label' => 'Send a quote file ?',
             ])
-            ->add('quoteFile', DocumentFileType::class, [
+            ->add('quoteFile', UploadFileType::class, [
                 'required' => false,
             ])
             ->add('addManualFile', ChoiceType::class, [
@@ -104,7 +104,7 @@ class ProductType extends AbstractType
                 'expanded' => true,
                 'label' => 'Send a manual file ?',
             ])
-            ->add('manualFile', DocumentFileType::class, [
+            ->add('manualFile', UploadFileType::class, [
                 'required' => false,
             ])
             ->add('packedBy')

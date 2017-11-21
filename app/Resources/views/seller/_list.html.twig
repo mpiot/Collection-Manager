@@ -20,7 +20,7 @@
                         <td>{{ seller.offerReference }}</td>
                         <td>
                             {% if seller.offerFile is not null %}
-                                <a href="{{ path('download_seller_offer', { 'slug': seller.slug }) }}">
+                                <a href="{{ path('seller_download_offer', { 'id': seller.id }) }}">
                                     <span class=" glyphicon glyphicon-download" aria-hidden="true"></span> Document
                                 </a>
                             {% else %}

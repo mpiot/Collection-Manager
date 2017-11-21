@@ -90,7 +90,7 @@ class Product
     private $negotiatedPrice;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\DocumentFile", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid
      */
@@ -98,7 +98,7 @@ class Product
     private $addQuoteFile = false;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\DocumentFile", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid
      */
@@ -413,11 +413,11 @@ class Product
     /**
      * Set quote file.
      *
-     * @param DocumentFile $quoteFile
+     * @param File $quoteFile
      *
      * @return Product
      */
-    public function setQuoteFile(DocumentFile $quoteFile)
+    public function setQuoteFile(File $quoteFile)
     {
         $this->quoteFile = $quoteFile;
 
@@ -427,7 +427,7 @@ class Product
     /**
      * Get quote file.
      *
-     * @return DocumentFile
+     * @return File
      */
     public function getQuoteFile()
     {
@@ -461,11 +461,11 @@ class Product
     /**
      * Set manual file.
      *
-     * @param DocumentFile $manualFile
+     * @param File $manualFile
      *
      * @return Product
      */
-    public function setManualFile(DocumentFile $manualFile)
+    public function setManualFile(File $manualFile)
     {
         $this->manualFile = $manualFile;
 
@@ -475,7 +475,7 @@ class Product
     /**
      * Get manual file.
      *
-     * @return DocumentFile
+     * @return File
      */
     public function getManualFile()
     {

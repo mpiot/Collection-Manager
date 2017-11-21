@@ -10,7 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Class brandController.
@@ -180,5 +182,53 @@ class ProductController extends Controller
         return $this->render('product/_order_list.html.twig', [
             'products' => $products,
         ]);
+    }
+
+    /**
+     * @Route("/{id}/download-quote", name="product_download_quote")
+     * @Security("product.getGroup().isMember(user)")
+     */
+    public function downloadQuoteAction(Product $product)
+    {
+        $file = $product->getQuoteFile();
+
+        if (null === $file) {
+            throw $this->createNotFoundException("This file doesn't exists.");
+        }
+
+        BinaryFileResponse::trustXSendfileTypeHeader();
+        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'quote-'.$product->getSlug().'.'.$file->getFileExtension()
+        );
+        $response->setCache(['private' => true]);
+        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
+
+        return $response;
+    }
+
+    /**
+     * @Route("/{id}/download-manual", name="product_download_manual")
+     * @Security("product.getGroup().isMember(user)")
+     */
+    public function downloadManualAction(Product $product)
+    {
+        $file = $product->getManualFile();
+
+        if (null === $file) {
+            throw $this->createNotFoundException("This file doesn't exists.");
+        }
+
+        BinaryFileResponse::trustXSendfileTypeHeader();
+        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'manual-'.$product->getSlug().'.'.$file->getFileExtension()
+        );
+        $response->setCache(['private' => true]);
+        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
+
+        return $response;
     }
 }

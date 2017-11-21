@@ -11,7 +11,7 @@
                             <th colspan="8">
                                 {{ product.seller.name }} {% if product.seller.offerReference is not empty %} (Offer n°{{ product.seller.offerReference }}) {% endif %}
                                 {% if product.seller.offerFile is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs pull-right" href="{{ path('download_seller_offer', { 'slug': product.seller.slug }) }}">
+                                    <a type="button" class="btn btn-primary btn-xs pull-right" href="{{ path('seller_download_offer', { 'id': product.seller.id }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download offer
                                     </a>
                                 {% endif %}
@@ -36,7 +36,7 @@
                         <td>{{ product.negotiatedPrice }} €</td>
                         <td>
                             {% if product.quoteFile is not null %}
-                                <a type="button" class="btn btn-primary btn-xs" href="{{ path('download_product_quote', { 'id': product.id , 'slug': product.slug }) }}">
+                                <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_quote', { 'id': product.id }) }}">
                                     <span class="glyphicon glyphicon-download"></span> Download quote
                                 </a>
                             {% endif %}

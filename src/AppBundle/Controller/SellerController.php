@@ -9,7 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Class sellerController.
@@ -141,5 +143,29 @@ class SellerController extends Controller
         $this->addFlash('success', 'The seller has been deleted successfully.');
 
         return $this->redirectToRoute('seller_index');
+    }
+
+    /**
+     * @Route("/{id}/download-offer", name="seller_download_offer")
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function downloadOfferAction(Seller $seller)
+    {
+        $file = $seller->getOfferFile();
+
+        if (null === $file) {
+            throw $this->createNotFoundException("This file doesn't exists.");
+        }
+
+        BinaryFileResponse::trustXSendfileTypeHeader();
+        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $seller->getSlug().'.'.$file->getFileExtension()
+        );
+        $response->setCache(['private' => true]);
+        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
+
+        return $response;
     }
 }

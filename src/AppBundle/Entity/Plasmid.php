@@ -55,7 +55,7 @@ class Plasmid
     private $group;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\GenBankFile", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid
      */
@@ -216,11 +216,11 @@ class Plasmid
     /**
      * Set genBank file.
      *
-     * @param GenBankFile $genBankFile
+     * @param File $genBankFile
      *
      * @return Plasmid
      */
-    public function setGenBankFile(GenBankFile $genBankFile = null)
+    public function setGenBankFile(File $genBankFile = null)
     {
         $this->genBankFile = $genBankFile;
 
@@ -230,7 +230,7 @@ class Plasmid
     /**
      * Get genBank file.
      *
-     * @return GenBankFile
+     * @return File
      */
     public function getGenBankFile()
     {

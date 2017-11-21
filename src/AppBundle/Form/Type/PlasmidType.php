@@ -53,7 +53,7 @@ class PlasmidType extends AbstractType
                 'expanded' => true,
                 'label' => 'Send a GenBank file ?',
             ])
-            ->add('genBankFile', GenBankFileType::class, [
+            ->add('genBankFile', UploadFileType::class, [
                 'required' => false,
             ])
         ;

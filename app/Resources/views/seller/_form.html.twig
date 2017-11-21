@@ -6,7 +6,7 @@
     <div id="offer-file-field" class="col-sm-10 col-md-offset-2">
         <div>
             {% if app.request.requesturi != path('seller_add') and seller.offerFile.path is defined and seller.offerFile.path is not null %}
-                Actual file: <a href="{{ asset(seller.offerFile.webPath) }}">{{ seller.name }}.pdf</a>
+                Actual file: {{ seller.name }}.pdf
             {% endif %}
         </div>
         {{ form_row(form.offerFile.fileSystemPath) }}

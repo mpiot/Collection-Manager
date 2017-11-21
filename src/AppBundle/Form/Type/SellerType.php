@@ -28,7 +28,7 @@ class SellerType extends AbstractType
                 'expanded' => true,
                 'label' => 'Send a file ?',
             ])
-            ->add('offerFile', DocumentFileType::class, [
+            ->add('offerFile', UploadFileType::class, [
                 'required' => false,
             ])
         ;

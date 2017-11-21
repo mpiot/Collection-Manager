@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DocumentFileType extends AbstractType
+class UploadFileType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -28,7 +28,7 @@ class DocumentFileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\DocumentFile',
+            'data_class' => 'AppBundle\Entity\File',
         ]);
     }
 }

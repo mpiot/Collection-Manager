@@ -50,7 +50,7 @@ class Seller
     private $offerReference;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\DocumentFile", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      * @Assert\Valid
      */
@@ -172,11 +172,11 @@ class Seller
     /**
      * Set offer file.
      *
-     * @param DocumentFile $offerFile
+     * @param File $offerFile
      *
      * @return Seller
      */
-    public function setOfferFile(DocumentFile $offerFile = null)
+    public function setOfferFile(File $offerFile = null)
     {
         $this->offerFile = $offerFile;
 
@@ -186,7 +186,7 @@ class Seller
     /**
      * Get offer file.
      *
-     * @return DocumentFile
+     * @return File
      */
     public function getOfferFile()
     {

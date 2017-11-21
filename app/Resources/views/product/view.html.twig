@@ -40,7 +40,7 @@
                             <li class="list-group-item"><u>Negotiated price:</u> {{ product.negotiatedPrice }} €</li>
                             <li class="list-group-item">
                                 {% if product.quoteFile is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('download_product_quote', { 'id': product.id , 'slug': product.slug }) }}">
+                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_quote', { 'id': product.id }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download quote
                                     </a>
                                 {% else %}
@@ -51,7 +51,7 @@
                             </li>
                             <li class="list-group-item">
                                 {% if product.quoteFile is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('download_product_manual', { 'id': product.id, 'slug': product.slug }) }}">
+                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_manual', { 'id': product.id }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download manual
                                     </a>
                                 {% else %}

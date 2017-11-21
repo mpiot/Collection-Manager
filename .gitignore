@@ -3,12 +3,7 @@
 .php_cs.cache
 /phpunit.xml
 /files/*
-!/files/plasmids
-/files/plasmids/*
-!/files/plasmids/.gitkeep
-!/files/documents
-/files/documents/*
-!/files/documents/.gitkeep
+!/files/.gitkeep
 /var/*
 !/var/cache
 /var/cache/*

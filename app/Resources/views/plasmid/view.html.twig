@@ -14,7 +14,7 @@
             <h2>
                 Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}
                 {% if plasmid.hasGenBankFile %}
-                    <a type="button" class="btn btn-success btn-md" href="{{ path('download_plasmid', { 'group_slug': plasmid.group.slug, 'autoName': plasmid.autoName, 'name': plasmid.name }) }}">
+                    <a type="button" class="btn btn-success btn-md" href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
                         <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
                         Download
                     </a>
