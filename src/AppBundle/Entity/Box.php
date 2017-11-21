@@ -442,7 +442,6 @@ class Box
         return $this->updatedBy;
     }
 
-
     /**
      * Get empty cells.
      *
