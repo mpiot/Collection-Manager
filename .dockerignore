@@ -4,9 +4,7 @@
 /.idea
 /node_modules
 /phpunit.xml
-/uploads/*
-!/uploads/plasmids
-/uploads/plasmids/*
+/files/*
 /var/*
 !/var/cache
 /var/cache/*
