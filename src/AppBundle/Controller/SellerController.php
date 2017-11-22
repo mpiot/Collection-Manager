@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Seller;
+use AppBundle\Form\Type\SellerEditType;
 use AppBundle\Form\Type\SellerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -71,7 +72,6 @@ class SellerController extends Controller
             ]);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($seller);
@@ -97,7 +97,7 @@ class SellerController extends Controller
      */
     public function editAction(Seller $seller, Request $request)
     {
-        $form = $this->createForm(SellerType::class, $seller);
+        $form = $this->createForm(SellerEditType::class, $seller);
 
         $form->handleRequest($request);
 
@@ -151,20 +151,23 @@ class SellerController extends Controller
      */
     public function downloadOfferAction(Seller $seller)
     {
-        $file = $seller->getOfferFile();
-
-        if (null === $file) {
+        if (null === $seller->getOfferName()) {
             throw $this->createNotFoundException("This file doesn't exists.");
         }
 
+        // Get the absolute path of the file and the path for X-Accel-Redirect
+        $filePath = $this->get('vich_uploader.storage')->resolvePath($seller, 'offerFile');
+        $xSendFilePath = $this->get('vich_uploader.storage')->resolveUri($seller, 'offerFile');
+        $fileName = $seller->getSlug().'.'.pathinfo($filePath)['extension'];
+
+        // Return a Binary Response
         BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response = new BinaryFileResponse($filePath);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $seller->getSlug().'.'.$file->getFileExtension()
+            $fileName
         );
-        $response->setCache(['private' => true]);
-        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
+        $response->headers->set('X-Accel-Redirect', $xSendFilePath);
 
         return $response;
     }

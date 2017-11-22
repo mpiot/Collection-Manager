@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Group;
+use AppBundle\Form\Type\ProductEditType;
 use AppBundle\Form\Type\ProductType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -110,7 +111,7 @@ class ProductController extends Controller
      */
     public function editAction(Product $product, Request $request)
     {
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductEditType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -186,48 +187,43 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}/download-quote", name="product_download_quote")
-     * @Security("product.getGroup().isMember(user)")
-     */
-    public function downloadQuoteAction(Product $product)
-    {
-        $file = $product->getQuoteFile();
-
-        if (null === $file) {
-            throw $this->createNotFoundException("This file doesn't exists.");
-        }
-
-        BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = new BinaryFileResponse($file->getAbsolutePath());
-        $response->setContentDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'quote-'.$product->getSlug().'.'.$file->getFileExtension()
-        );
-        $response->setCache(['private' => true]);
-        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
-
-        return $response;
-    }
-
-    /**
      * @Route("/{id}/download-manual", name="product_download_manual")
      * @Security("product.getGroup().isMember(user)")
      */
-    public function downloadManualAction(Product $product)
+    public function downloadAction(Product $product, Request $request)
     {
-        $file = $product->getManualFile();
+        // If user want Quote
+        if ('product_download_quote' === $request->get('_route')) {
+            if (null === $product->getQuoteName()) {
+                throw $this->createNotFoundException("This file doesn't exists.");
+            }
 
-        if (null === $file) {
-            throw $this->createNotFoundException("This file doesn't exists.");
+            $fieldName = 'quoteFile';
+            $name = 'quote';
+        }
+        // If user want Manual
+        else {
+            if (null === $product->getManualName()) {
+                throw $this->createNotFoundException("This file doesn't exists.");
+            }
+
+            $fieldName = 'manualFile';
+            $name = 'manual';
         }
 
+        // Get the absolute path of the file and the path for X-Accel-Redirect
+        $filePath = $this->get('vich_uploader.storage')->resolvePath($product, $fieldName);
+        $xSendFilePath = $this->get('vich_uploader.storage')->resolveUri($product, $fieldName);
+        $fileName = $product->getSlug().'-'.$name.'.'.pathinfo($filePath)['extension'];
+
+        // Return a Binary Response
         BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response = new BinaryFileResponse($filePath);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            'manual-'.$product->getSlug().'.'.$file->getFileExtension()
+            $fileName
         );
-        $response->setCache(['private' => true]);
-        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
+        $response->headers->set('X-Accel-Redirect', $xSendFilePath);
 
         return $response;
     }

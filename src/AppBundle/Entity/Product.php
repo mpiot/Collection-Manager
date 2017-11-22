@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Product.
@@ -15,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
  * @UniqueEntity({"brandReference", "brand", "group"}, message="A product already exist with the brand reference: {{ value }}.")
  * @UniqueEntity({"sellerReference", "seller", "seller"}, message="A product already exist with the seller reference: {{ value }}.")
+ * @Vich\Uploadable
  */
 class Product
 {
@@ -90,20 +93,56 @@ class Product
     private $negotiatedPrice;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     * @Assert\Valid
+     * @Vich\UploadableField(mapping="product_quote", fileNameProperty="quoteName", size="quoteSize")
      */
     private $quoteFile;
-    private $addQuoteFile = false;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     * @Assert\Valid
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $quoteName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @var int
+     */
+    private $quoteSize;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $quoteUpdatedAt;
+
+    /**
+     * @Vich\UploadableField(mapping="product_manual", fileNameProperty="manualName", size="manualSize")
      */
     private $manualFile;
-    private $addManualFile = false;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $manualName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @var int
+     */
+    private $manualSize;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $manualUpdatedAt;
 
     /**
      * @var string
@@ -411,23 +450,25 @@ class Product
     }
 
     /**
-     * Set quote file.
-     *
-     * @param File $quoteFile
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      *
      * @return Product
      */
-    public function setQuoteFile(File $quoteFile)
+    public function setQuoteFile(File $quoteFile = null)
     {
         $this->quoteFile = $quoteFile;
+
+        if ($quoteFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->quoteUpdatedAt = new \DateTimeImmutable();
+        }
 
         return $this;
     }
 
     /**
-     * Get quote file.
-     *
-     * @return File
+     * @return File|null
      */
     public function getQuoteFile()
     {
@@ -435,47 +476,65 @@ class Product
     }
 
     /**
-     * Set addQuoteFile.
-     *
-     * @param string $addQuoteFile
+     * @param string $quoteName
      *
      * @return Product
      */
-    public function setAddQuoteFile($addQuoteFile)
+    public function setQuoteName($quoteName)
     {
-        $this->addQuoteFile = $addQuoteFile;
+        $this->quoteName = $quoteName;
 
         return $this;
     }
 
     /**
-     * Get addQuoteFile.
-     *
-     * @return string
+     * @return string|null
      */
-    public function getAddQuoteFile()
+    public function getQuoteName()
     {
-        return $this->addQuoteFile;
+        return $this->quoteName;
     }
 
     /**
-     * Set manual file.
-     *
-     * @param File $manualFile
+     * @param int $genBankSize
      *
      * @return Product
      */
-    public function setManualFile(File $manualFile)
+    public function setQuoteSize($quoteSize)
+    {
+        $this->quoteSize = $quoteSize;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQuoteSize()
+    {
+        return $this->quoteSize;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     *
+     * @return Product
+     */
+    public function setManualFile(File $manualFile = null)
     {
         $this->manualFile = $manualFile;
 
+        if ($manualFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->manualUpdatedAt = new \DateTimeImmutable();
+        }
+
         return $this;
     }
 
     /**
-     * Get manual file.
-     *
-     * @return File
+     * @return File|null
      */
     public function getManualFile()
     {
@@ -483,27 +542,43 @@ class Product
     }
 
     /**
-     * Set addManualFile.
-     *
-     * @param bool $addManualFile
+     * @param string $manualName
      *
      * @return Product
      */
-    public function setAddManualFile($addManualFile)
+    public function setManualName($manualName)
     {
-        $this->addManualFile = $addManualFile;
+        $this->manualName = $manualName;
 
         return $this;
     }
 
     /**
-     * Get addManualFile.
-     *
-     * @return bool
+     * @return string|null
      */
-    public function getAddManualFile()
+    public function getManualName()
     {
-        return $this->addManualFile;
+        return $this->manualName;
+    }
+
+    /**
+     * @param int $manualSize
+     *
+     * @return Product
+     */
+    public function setManualSize($manualSize)
+    {
+        $this->manualSize = $manualSize;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getManualSize()
+    {
+        return $this->manualSize;
     }
 
     /**

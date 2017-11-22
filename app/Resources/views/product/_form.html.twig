@@ -22,26 +22,8 @@
 
     <fieldset>
         <legend>Files</legend>
-        {{ form_row(form.addQuoteFile) }}
-        <div id="quote-file-field" class="col-sm-10 col-md-offset-2">
-            <div>
-                {% if app.request.requesturi != path('product_add') and product.quoteFile.path is defined and product.quoteFile.path is not null %}
-                    Actual file: {{ product.name }}.pdf
-                {% endif %}
-            </div>
-        </div>
-        {{ form_row(form.quoteFile.fileSystemPath) }}
-
-        {{ form_row(form.addManualFile) }}
-        <div id="manual-file-field" class="col-sm-10 col-md-offset-2">
-            <div>
-                {% if app.request.requesturi != path('product_add') and product.manualFile.path is defined and product.manualFile.path is not null %}
-                    Actual file: {{ product.name }}.pdf
-                {% endif %}
-            </div>
-
-        </div>
-        {{ form_row(form.manualFile.fileSystemPath) }}
+        {{ form_row(form.quoteFile) }}
+        {{ form_row(form.manualFile) }}
     </fieldset>
 
     <fieldset>

@@ -209,12 +209,13 @@ class Tube
 
     public function getContent()
     {
-        if (null !== $this->strain)
+        if (null !== $this->strain) {
             return $this->strain;
-        elseif (null !== $this->plasmid)
+        } elseif (null !== $this->plasmid) {
             return $this->plasmid;
-        else
+        } else {
             return $this->primer;
+        }
     }
 
     /**

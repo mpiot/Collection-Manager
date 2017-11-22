@@ -3,12 +3,10 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class SellerType extends AbstractType
 {
@@ -19,32 +17,13 @@ class SellerType extends AbstractType
             ->add('offerReference', TextType::class, [
                 'required' => false,
             ])
-            ->add('addOfferFile', ChoiceType::class, [
-                'choices' => [
-                    'No' => 0,
-                    'Yes' => 1,
-                ],
-                'multiple' => false,
-                'expanded' => true,
-                'label' => 'Send a file ?',
-            ])
-            ->add('offerFile', UploadFileType::class, [
+            ->add('offerFile', VichFileType::class, [
                 'required' => false,
+                'allow_delete' => false,
+                'download_uri' => false,
+                'download_label' => false,
             ])
         ;
-
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
-                $seller = $event->getData();
-
-                if (null !== $seller && null !== $seller->getOfferFile()) {
-                    if (null !== $seller->getOfferFile()->getPath()) {
-                        $seller->setAddOfferFile(true);
-                    }
-                }
-            }
-        );
     }
 
     /**

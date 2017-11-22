@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Seller.
@@ -14,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="seller")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SellerRepository")
  * @UniqueEntity("name")
+ * @Vich\Uploadable
  */
 class Seller
 {
@@ -50,12 +53,30 @@ class Seller
     private $offerReference;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     * @Assert\Valid
+     * @Vich\UploadableField(mapping="seller_offer", fileNameProperty="offerName", size="offerSize")
      */
     private $offerFile;
-    private $addOfferFile = false;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $offerName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @var int
+     */
+    private $offerSize;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $offerUpdatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="seller")
@@ -170,9 +191,7 @@ class Seller
     }
 
     /**
-     * Set offer file.
-     *
-     * @param File $offerFile
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      *
      * @return Seller
      */
@@ -180,13 +199,17 @@ class Seller
     {
         $this->offerFile = $offerFile;
 
+        if ($offerFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->offerUpdatedAt = new \DateTimeImmutable();
+        }
+
         return $this;
     }
 
     /**
-     * Get offer file.
-     *
-     * @return File
+     * @return File|null
      */
     public function getOfferFile()
     {
@@ -194,27 +217,43 @@ class Seller
     }
 
     /**
-     * Set add offer file.
+     * @param string $offerName
      *
-     * @param $addOfferFile
-     *
-     * @return $this
+     * @return Seller
      */
-    public function setAddOfferFile(bool $addOfferFile)
+    public function setOfferName($offerName)
     {
-        $this->addOfferFile = $addOfferFile;
+        $this->offerName = $offerName;
 
         return $this;
     }
 
     /**
-     * Get add offer file.
-     *
-     * @return bool
+     * @return string|null
      */
-    public function getAddOfferFile()
+    public function getOfferName()
     {
-        return $this->addOfferFile;
+        return $this->offerName;
+    }
+
+    /**
+     * @param int $offerSize
+     *
+     * @return Seller
+     */
+    public function setOfferSize($offerSize)
+    {
+        $this->offerSize = $offerSize;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOfferSize()
+    {
+        return $this->offerSize;
     }
 
     /**

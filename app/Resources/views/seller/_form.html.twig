@@ -2,15 +2,7 @@
     {{ form_row(form.name) }}
     {{ form_row(form.offerReference) }}
 
-    {{ form_row(form.addOfferFile) }}
-    <div id="offer-file-field" class="col-sm-10 col-md-offset-2">
-        <div>
-            {% if app.request.requesturi != path('seller_add') and seller.offerFile.path is defined and seller.offerFile.path is not null %}
-                Actual file: {{ seller.name }}.pdf
-            {% endif %}
-        </div>
-        {{ form_row(form.offerFile.fileSystemPath) }}
-    </div>
+    {{ form_row(form.offerFile) }}
 
     {{ form_rest(form) }}
 

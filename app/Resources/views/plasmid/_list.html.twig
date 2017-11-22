@@ -16,7 +16,7 @@
 
                         <td>{{ plasmid.name }}</td>
                         <td>
-                            {% if plasmid.genBankFile is not null %}
+                            {% if plasmid.genBankName is not null %}
                                 <a href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
                                     <span class=" glyphicon glyphicon-download" aria-hidden="true"></span> GenBank file
                                 </a>

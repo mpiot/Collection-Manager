@@ -20,9 +20,9 @@ class PlasmidGenBank
     {
         $file = null;
 
-        if (null !== $this->plasmid->getGenBankFile()) {
+        if (null !== $this->plasmid->getGenBankName()) {
             // In finder do .. to leave the web folder
-            $this->finder->in('../files')->files()->name($this->plasmid->getGenBankFile()->getPath());
+            $this->finder->in('../files/plasmids')->files()->name($this->plasmid->getGenBankName());
 
             foreach ($this->finder as $file) {
                 $file = $file->getContents();

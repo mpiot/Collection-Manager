@@ -2,13 +2,13 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Entity\Plasmid;
+use AppBundle\Entity\Seller;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
-class PlasmidEditType extends AbstractType
+class SellerEditType extends AbstractType
 {
     private $router;
 
@@ -24,15 +24,14 @@ class PlasmidEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->remove('group')
-            ->add('genBankFile', VichFileType::class, [
+            ->add('offerFile', VichFileType::class, [
                 'required' => false,
                 'allow_delete' => true,
-                'download_uri' => function (Plasmid $plasmid) {
-                    return $this->router->generate('plasmid_download', ['id' => $plasmid->getId(), 'slug' => $plasmid->getSlug()]);
+                'download_uri' => function (Seller $seller) {
+                    return $this->router->generate('seller_download_offer', ['id' => $seller->getId()]);
                 },
-                'download_label' => function (Plasmid $plasmid) {
-                    return $plasmid->getAutoName().'_'.$plasmid->getSlug().'.'.pathinfo($plasmid->getGenBankName())['extension'];
+                'download_label' => function (Seller $seller) {
+                    return $seller->getSlug().'.'.pathinfo($seller->getOfferName())['extension'];
                 },
             ])
         ;
@@ -43,6 +42,6 @@ class PlasmidEditType extends AbstractType
      */
     public function getParent()
     {
-        return PlasmidType::class;
+        return SellerType::class;
     }
 }

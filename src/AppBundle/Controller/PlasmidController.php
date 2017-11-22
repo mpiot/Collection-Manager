@@ -76,11 +76,6 @@ class PlasmidController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            if ((0 === $form->get('addGenBankFile')->getData()) && (null !== $plasmid->getGenBankFile())) {
-                $em->persist($plasmid->getGenBankFile());
-            }
-
             $em->persist($plasmid);
             $em->flush();
 
@@ -133,12 +128,6 @@ class PlasmidController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-            if ((0 === $form->get('addGenBankFile')->getData()) && (null !== $plasmid->getGenBankFile())) {
-                $em->remove($plasmid->getGenBankFile());
-                $plasmid->setGenBankFile(null);
-            }
-
             $em->flush();
 
             $this->addFlash('success', 'The plasmid has been successfully edited.');
@@ -198,20 +187,23 @@ class PlasmidController extends Controller
      */
     public function downloadAction(Plasmid $plasmid)
     {
-        $file = $plasmid->getGenBankFile();
-
-        if (null === $file) {
+        if (null === $plasmid->getGenBankName()) {
             throw $this->createNotFoundException("This file doesn't exists.");
         }
 
+        // Get the absolute path of the file and the path for X-Accel-Redirect
+        $filePath = $this->get('vich_uploader.storage')->resolvePath($plasmid, 'genBankFile');
+        $xSendFilePath = $this->get('vich_uploader.storage')->resolveUri($plasmid, 'genBankFile');
+        $fileName = $plasmid->getAutoName().'_'.$plasmid->getSlug().'.'.pathinfo($filePath)['extension'];
+
+        // Return a Binary Response
         BinaryFileResponse::trustXSendfileTypeHeader();
-        $response = new BinaryFileResponse($file->getAbsolutePath());
+        $response = new BinaryFileResponse($filePath);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $plasmid->getAutoName().'-'.$plasmid->getAutoName().'.'.$file->getFileExtension()
+            $fileName
         );
-        $response->setCache(['private' => true]);
-        $response->headers->set('X-Accel-Redirect', $file->getXAccelRedirectPath());
+        $response->headers->set('X-Accel-Redirect', $xSendFilePath);
 
         return $response;
     }

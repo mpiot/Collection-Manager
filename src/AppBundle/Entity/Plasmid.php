@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Plasmid.
@@ -15,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PlasmidRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity({"name", "group"}, message="This name is already used by another plasmid.")
+ * @Vich\Uploadable
  */
 class Plasmid
 {
@@ -55,13 +58,30 @@ class Plasmid
     private $group;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\File", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     * @Assert\Valid
+     * @Vich\UploadableField(mapping="plasmid_file", fileNameProperty="genBankName", size="genBankSize")
      */
     private $genBankFile;
 
-    private $addGenBankFile = false;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $genBankName;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     *
+     * @var int
+     */
+    private $genBankSize;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $genBankUpdatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="plasmid")
@@ -223,9 +243,7 @@ class Plasmid
     }
 
     /**
-     * Set genBank file.
-     *
-     * @param File $genBankFile
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      *
      * @return Plasmid
      */
@@ -233,42 +251,61 @@ class Plasmid
     {
         $this->genBankFile = $genBankFile;
 
+        if ($genBankFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->genBankUpdatedAt = new \DateTimeImmutable();
+        }
+
         return $this;
     }
 
     /**
-     * Get genBank file.
-     *
-     * @return File
+     * @return File|null
      */
     public function getGenBankFile()
     {
         return $this->genBankFile;
     }
 
-    public function hasGenBankFile()
-    {
-        return (null !== $this->genBankFile) ? true : false;
-    }
-
     /**
-     * @param $addManual
+     * @param string $genBankName
      *
-     * @return $this
+     * @return Plasmid
      */
-    public function setAddGenBankFile($addGenBankFile)
+    public function setGenBankName($genBankName)
     {
-        $this->addGenBankFile = $addGenBankFile;
+        $this->genBankName = $genBankName;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAddGenBankFile()
+    public function getGenBankName()
     {
-        return $this->addGenBankFile;
+        return $this->genBankName;
+    }
+
+    /**
+     * @param int $genBankSize
+     *
+     * @return Plasmid
+     */
+    public function setGenBankSize($genBankSize)
+    {
+        $this->genBankSize = $genBankSize;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getGenBankSize()
+    {
+        return $this->genBankSize;
     }
 
     /**

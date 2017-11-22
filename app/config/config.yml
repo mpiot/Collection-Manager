@@ -77,3 +77,25 @@ ewz_recaptcha:
     public_key:  '%env(RECAPTCHA_PUBLIC_KEY)%'
     private_key: '%env(RECAPTCHA_PRIVATE_KEY)%'
     locale_key:  '%kernel.default_locale%'
+
+# Vich uploader
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        plasmid_file:
+            uri_prefix:         /protected-files/plasmids # Use /protected-files to serve it with X-Accel-Redirect header
+            upload_destination: '%kernel.project_dir%/files/plasmids'
+            namer:              vich_uploader.namer_uniqid
+        seller_offer:
+            uri_prefix:         /protected-files/sellers/offers # Use /protected-files to serve it with X-Accel-Redirect header
+            upload_destination: '%kernel.project_dir%/files/sellers/offers'
+            namer:              vich_uploader.namer_uniqid
+        product_quote:
+            uri_prefix:         /protected-files/products/quotes # Use /protected-files to serve it with X-Accel-Redirect header
+            upload_destination: '%kernel.project_dir%/files/products/quotes'
+            namer:              vich_uploader.namer_uniqid
+        product_manual:
+            uri_prefix:         /protected-files/products/manuals # Use /protected-files to serve it with X-Accel-Redirect header
+            upload_destination: '%kernel.project_dir%/files/products/manuals'
+            namer:              vich_uploader.namer_uniqid

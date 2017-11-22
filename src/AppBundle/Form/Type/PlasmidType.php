@@ -2,26 +2,30 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Primer;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class PlasmidType extends AbstractType
 {
     private $tokenStorage;
+    private $router;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, RouterInterface $router)
     {
         $this->tokenStorage = $tokenStorage;
+        $this->router = $router;
     }
 
     /**
@@ -44,17 +48,11 @@ class PlasmidType extends AbstractType
                 'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteGroup(),
             ])
             ->add('name')
-            ->add('addGenBankFile', ChoiceType::class, [
-                'choices' => [
-                    'No' => 0,
-                    'Yes' => 1,
-                ],
-                'multiple' => false,
-                'expanded' => true,
-                'label' => 'Send a GenBank file ?',
-            ])
-            ->add('genBankFile', UploadFileType::class, [
+            ->add('genBankFile', VichFileType::class, [
                 'required' => false,
+                'allow_delete' => false,
+                'download_uri' => false,
+                'download_label' => false,
             ])
         ;
 
@@ -99,12 +97,6 @@ class PlasmidType extends AbstractType
             function (FormEvent $event) use ($formModifier) {
                 $plasmid = $event->getData();
                 $form = $event->getForm();
-
-                if (null !== $plasmid && null !== $plasmid->getGenBankFile()) {
-                    if (null !== $plasmid->getGenBankFile()->getPath()) {
-                        $plasmid->setAddGenBankFile(true);
-                    }
-                }
 
                 // If it's a new plasmid, the default group is the FavoriteGroup of the user
                 // else, we retrieve the group from the type

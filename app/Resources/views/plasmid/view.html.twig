@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <h2>
                 Plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}
-                {% if plasmid.hasGenBankFile %}
+                {% if plasmid.genBankName is not null %}
                     <a type="button" class="btn btn-success btn-md" href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
                         <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
                         Download
@@ -43,7 +43,7 @@
     </div>
 
     <div class="row">
-        {% if plasmid.hasGenBankFile %}
+        {% if plasmid.genBankName is not null %}
             <div class="col-md-12">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
@@ -83,8 +83,7 @@
 
                     <div role="tabpanel" class="tab-pane" id="genbank">
                         <pre>
-                            {# On the left because pre display all spaces #}
-                            {{ gbkFile }}
+                            {{- gbkFile -}}
                         </pre>
                     </div>
 
