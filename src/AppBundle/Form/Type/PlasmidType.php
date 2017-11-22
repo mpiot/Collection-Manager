@@ -13,19 +13,16 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class PlasmidType extends AbstractType
 {
     private $tokenStorage;
-    private $router;
 
-    public function __construct(TokenStorageInterface $tokenStorage, RouterInterface $router)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
-        $this->router = $router;
     }
 
     /**

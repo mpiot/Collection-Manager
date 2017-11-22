@@ -17,7 +17,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class StrainGmoType extends AbstractType
 {
     private $tokenStorage;
-    private $strainId;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {

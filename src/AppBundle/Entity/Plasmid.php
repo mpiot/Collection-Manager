@@ -309,6 +309,14 @@ class Plasmid
     }
 
     /**
+     * @return \Datetime
+     */
+    public function getGenBankUpdatedAt()
+    {
+        return $this->genBankUpdatedAt;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getStrainPlasmids()

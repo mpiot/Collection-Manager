@@ -257,6 +257,14 @@ class Seller
     }
 
     /**
+     * @return \Datetime
+     */
+    public function getOfferUpdatedAt()
+    {
+        return $this->offerUpdatedAt;
+    }
+
+    /**
      * Get products.
      *
      * @return ArrayCollection

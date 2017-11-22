@@ -516,6 +516,14 @@ class Product
     }
 
     /**
+     * @return \Datetime
+     */
+    public function getQuoteUpdatedAt()
+    {
+        return $this->quoteUpdatedAt;
+    }
+
+    /**
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      *
      * @return Product
@@ -579,6 +587,14 @@ class Product
     public function getManualSize()
     {
         return $this->manualSize;
+    }
+
+    /**
+     * @return \Datetime
+     */
+    public function getManualUpdatedAt()
+    {
+        return $this->manualUpdatedAt;
     }
 
     /**
