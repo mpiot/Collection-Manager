@@ -122,38 +122,47 @@ class IndexFilter
         switch ($class) {
             case Box::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->group, $this->tokenStorage->getToken()->getUser());
+
                 break;
 
             case Brand::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page);
+
                 break;
 
             case Plasmid::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->group, $this->tokenStorage->getToken()->getUser());
+
                 break;
 
             case Primer::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->group, $this->tokenStorage->getToken()->getUser());
+
                 break;
 
             case Product::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->group, $this->tokenStorage->getToken()->getUser());
+
                 break;
 
             case Seller::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page);
+
                 break;
 
             case Species::class:
                 $elasticQuery = $repository->searchByScientificNameQuery($parameters->query, $parameters->page);
+
                 break;
 
             case Strain::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->group, $this->tokenStorage->getToken()->getUser());
+
                 break;
 
             case User::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $this->tokenStorage->getToken()->getUser());
+
                 break;
 
             default:
