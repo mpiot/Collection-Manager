@@ -381,8 +381,10 @@ class Plasmid
      */
     public function addTube(Tube $tube)
     {
-        $tube->setPlasmid($this);
-        $this->tubes->add($tube);
+        if (!$this->tubes->contains($tube)) {
+            $tube->setPlasmid($this);
+            $this->tubes->add($tube);
+        }
 
         return $this;
     }
@@ -396,7 +398,9 @@ class Plasmid
      */
     public function removeTube(Tube $tube)
     {
-        $this->tubes->removeElement($tube);
+        if ($this->tubes->contains($tube)) {
+            $this->tubes->removeElement($tube);
+        }
 
         return $this;
     }

@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Tube.
@@ -269,24 +267,6 @@ class Tube
     {
         return $this->updatedBy;
     }
-
-//    /**
-//     * @Assert\Callback
-//     */
-//    public function validate(ExecutionContextInterface $context)
-//    {
-//        // Check tubes
-//        $tubes = $this->strain->getTubes();
-//        $tubes2 = $this->plasmid->getTubes();
-//
-//        dump($tubes, $tubes2);
-//
-//        if (count(array_keys($tubes->toArray(), $this)) > 1) {
-//            $context->buildViolation('You can\'t have many tubes in the same cell.')
-//                ->atPath('cell')
-//                ->addViolation();
-//        }
-//    }
 
     /**
      * Before persist.

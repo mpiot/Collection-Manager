@@ -409,8 +409,10 @@ class Primer
      */
     public function addTube(Tube $tube)
     {
-        $tube->setPrimer($this);
-        $this->tubes->add($tube);
+        if (!$this->tubes->contains($tube)) {
+            $tube->setPrimer($this);
+            $this->tubes->add($tube);
+        }
 
         return $this;
     }
@@ -424,7 +426,9 @@ class Primer
      */
     public function removeTube(Tube $tube)
     {
-        $this->tubes->removeElement($tube);
+        if ($this->tubes->contains($tube)) {
+            $this->tubes->removeElement($tube);
+        }
 
         return $this;
     }

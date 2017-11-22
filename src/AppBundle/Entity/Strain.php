@@ -493,8 +493,10 @@ class Strain
      */
     public function addTube(Tube $tube)
     {
-        $tube->setStrain($this);
-        $this->tubes->add($tube);
+        if (!$this->tubes->contains($tube)) {
+            $tube->setStrain($this);
+            $this->tubes->add($tube);
+        }
 
         return $this;
     }
@@ -508,7 +510,9 @@ class Strain
      */
     public function removeTube(Tube $tube)
     {
-        $this->tubes->removeElement($tube);
+        if ($this->tubes->contains($tube)) {
+            $this->tubes->removeElement($tube);
+        }
 
         return $this;
     }
