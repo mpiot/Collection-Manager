@@ -8,9 +8,31 @@
 
     <fieldset>
         <legend>References</legend>
-        {{ form_row(form.seller) }}
+        <div class="form-group">
+            {{ form_label(form.seller) }}
+
+            <div class="col-sm-9">
+                {{ form_widget(form.seller) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add-seller">
+                    <span class="glyphicon glyphicon-plus"></span> Add a seller
+                </button>
+            </div>
+        </div>
         {{ form_row(form.sellerReference) }}
-        {{ form_row(form.brand) }}
+        <div class="form-group">
+            {{ form_label(form.brand) }}
+
+            <div class="col-sm-9">
+                {{ form_widget(form.brand) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#add-brand">
+                    <span class="glyphicon glyphicon-plus"></span> Add a brand
+                </button>
+            </div>
+        </div>
         {{ form_row(form.brandReference) }}
     </fieldset>
 
@@ -44,3 +66,31 @@
 
     {{ form_rest(form) }}
 {{ form_end(form) }}
+
+<div class="modal fade" id="add-seller" tabindex="-1" role="dialog" aria-labelledby="add-seller-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add-seller-label">Add a seller</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('AppBundle:Seller:embdedAdd')) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-brand" tabindex="-1" role="dialog" aria-labelledby="add-brand-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add-brand-label">Add a brand</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('AppBundle:Brand:embdedAdd')) }}
+            </div>
+        </div>
+    </div>
+</div>

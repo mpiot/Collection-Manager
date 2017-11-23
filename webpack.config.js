@@ -23,6 +23,7 @@ Encore
         './assets/js/delay.js',
         './assets/js/form-handle.js',
         './assets/js/form-primer.js',
+        './assets/js/form-product.js',
         './assets/js/form-send.js',
         './assets/js/form-species.js',
         './assets/js/form-strain.js',

@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -83,6 +84,36 @@ class BrandController extends Controller
         }
 
         return $this->render('brand/add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/add-ajax", name="brand_embded_add", condition="request.isXmlHttpRequest()")
+     * @Method("post")
+     * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
+     */
+    public function embdedAddAction(Request $request)
+    {
+        $brand = new Brand();
+        $form = $this->createForm(BrandType::class, $brand, [
+            'action' => $this->generateUrl('brand_embded_add'),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($brand);
+            $em->flush();
+            // return a json response with the new type
+            return new JsonResponse([
+                'success' => true,
+                'id' => $brand->getId(),
+                'name' => $brand->getName(),
+            ]);
+        }
+
+        return $this->render('brand/_form.html.twig', [
             'form' => $form->createView(),
         ]);
     }

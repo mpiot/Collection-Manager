@@ -11,13 +11,13 @@
 {% block brand_body %}
     <h2 class="sub-header">Edit a brand</h2>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" class="btn btn-default" value="Save changes"/>
+    {% embed 'brand/_form.html.twig' %}
+        {% block button %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-default" value="Save changes"/>
+                </div>
             </div>
-        </div>
-    {{ form_end(form) }}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

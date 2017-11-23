@@ -3,7 +3,6 @@ import googleMaps from 'googleMaps';
 require('jquery-ui');
 require('jquery-ui/ui/widgets/autocomplete');
 
-var formHandle = require('./form-handle');
 var collectionType = require('./collection-type');
 var onBoxChange = require('./strain-tubes-dynamic-on-box-change');
 var charMap = require('./charmap');
