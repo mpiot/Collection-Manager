@@ -31,10 +31,9 @@ Encore
         './assets/js/images.js',
         './assets/js/list-filter.js',
         './assets/js/modal-confirmation-message.js',
-        './assets/js/plasmid-add-gbk-file.js',
         './assets/js/popover.js',
         './assets/js/select2-conf.js',
-        './assets/js/strain-tubes-dynamic-on-box-change.js',
+        './assets/js/strain-tubes-dynamic-on-box-change.js'
     ])
     .addStyleEntry('css/app', ['./assets/scss/app.scss'])
 ;
