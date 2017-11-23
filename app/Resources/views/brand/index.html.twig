@@ -18,19 +18,10 @@
 
     <h2 class="sub-header">Brands list</h2>
 
-    <div class="row">
-        <form id="brand-search-form" method="get">
-            <div class="col-md-3">
-                <input type="text" id="brand-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
-            </div>
-
-            <div class="col-md-1">
-                <button id="brand-search-button" class="btn btn-default" type="submit">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                </button>
-            </div>
-        </form>
-    </div>
+    {% include '_list_filter.html.twig' with {
+        'url': url('brand_index', {'q': '__query__', 'p': '__page__'}),
+        'ajaxUrl': url('brand_index_ajax', {'q': '__query__', 'p': '__page__'})
+    } %}
 
     {{ list.content|raw }}
 {% endblock %}

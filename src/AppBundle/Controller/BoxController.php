@@ -33,7 +33,7 @@ class BoxController extends Controller
         return $this->render('box/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
-            'group' => $request->get('group'),
+            'queryGroup' => $request->get('group'),
         ]);
     }
 
@@ -45,11 +45,7 @@ class BoxController extends Controller
         $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Box::class, true, true, [Group::class]);
 
         return $this->render('box/_list.html.twig', [
-            'boxList' => $results->results,
-            'query' => $results->query,
-            'page' => $results->page,
-            'nbPages' => $results->nbPages,
-            'group' => $results->filters->group,
+            'results' => $results,
         ]);
     }
 

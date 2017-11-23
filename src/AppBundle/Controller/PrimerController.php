@@ -30,6 +30,7 @@ class PrimerController extends Controller
         return $this->render('primer/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
+            'queryGroup' => $request->get('group'),
         ]);
     }
 

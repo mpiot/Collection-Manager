@@ -34,6 +34,7 @@ class PlasmidController extends Controller
         return $this->render('plasmid/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
+            'queryGroup' => $request->get('group'),
         ]);
     }
 

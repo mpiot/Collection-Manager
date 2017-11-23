@@ -8,23 +8,10 @@
 {% endblock %}
 
 {% block product_body %}
-    <div class="row">
-        <form id="product-order-search-form" method="get">
-            <div class="col-md-2">
-                <select id="product-order-group-field" name="group" class="form-control col-md-3">
-                    {% for group in app.user.groups %}
-                        <option value="{{ group.id }}"{{ app.user.isFavoriteGroup(group) ? 'selected="selected"' }}>{{ group.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="col-md-1">
-                <button id="product-order-search-button" class="btn btn-default" type="submit">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                </button>
-            </div>
-        </form>
-    </div>
+    {% include '_list_filter.html.twig' with {
+        'url': url('product_order', {'group': '__group__'}),
+        'ajaxUrl': url('product_order_ajax', {'group': '__group__'})
+    } %}
 
     <h2>Product to order</h2>
 

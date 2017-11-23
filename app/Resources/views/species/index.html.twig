@@ -18,21 +18,10 @@
 
     <h2 class="sub-header">Species List</h2>
 
-    <div class="row">
-        <form id="species-search-form" method="get">
-            <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="text" id="species-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
-                        <span class="input-group-btn">
-                            <button id="species-search-button" class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </button>
-                        </span>
-                    </div>
-            </div>
-        </form>
-    </div>
+    {% include '_list_filter.html.twig' with {
+        'url': url('species_index', {'q': '__query__', 'p': '__page__'}),
+        'ajaxUrl': url('species_index_ajax', {'q': '__query__', 'p': '__page__'})
+    } %}
 
     {{ list.content|raw }}
 {% endblock %}
-

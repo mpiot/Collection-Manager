@@ -18,27 +18,10 @@
 
     <h2 class="sub-header">Products list</h2>
 
-    <div class="row">
-        <form id="product-search-form" method="get">
-            <div class="col-md-3">
-                <input type="text" id="product-search-field" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
-            </div>
-
-            <div class="col-md-2">
-                <select id="product-group-field" name="group" class="form-control col-md-3">
-                    {% for group in app.user.groups %}
-                        <option value="{{ group.id }}"{{ app.user.isFavoriteGroup(group) ? 'selected="selected"' }}>{{ group.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="col-md-1">
-                <button id="product-search-button" class="btn btn-default" type="submit">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                </button>
-            </div>
-        </form>
-    </div>
+    {% include '_list_filter.html.twig' with {
+        'url': url('product_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),
+        'ajaxUrl': url('product_index_ajax', {'q': '__query__', 'group': '__group__', 'p': '__page__'})
+    } %}
 
     {{ list.content|raw }}
 {% endblock %}

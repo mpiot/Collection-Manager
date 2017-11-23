@@ -32,7 +32,7 @@ class StrainController extends Controller
         return $this->render('strain/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
-            'groupRequest' => $request->get('group'),
+            'queryGroup' => $request->get('group'),
         ]);
     }
 

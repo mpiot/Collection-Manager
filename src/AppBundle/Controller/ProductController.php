@@ -32,6 +32,7 @@ class ProductController extends Controller
         return $this->render('product/index.html.twig', [
             'list' => $list,
             'query' => $request->get('q'),
+            'queryGroup' => $request->get('group'),
         ]);
     }
 
@@ -160,6 +161,7 @@ class ProductController extends Controller
 
         return $this->render('product/order.html.twig', [
             'list' => $list,
+            'queryGroup' => $request->get('group'),
         ]);
     }
 
