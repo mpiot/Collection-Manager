@@ -37,7 +37,8 @@
         "excelwebzone/recaptcha-bundle": "^1.4",
         "friendsofsymfony/jsrouting-bundle": "^1.6",
         "stof/doctrine-extensions-bundle": "^1.2",
-        "doctrine/doctrine-migrations-bundle": "^1.0"
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "vich/uploader-bundle": "^1.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
