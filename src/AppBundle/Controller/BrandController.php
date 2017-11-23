@@ -39,10 +39,7 @@ class BrandController extends Controller
         $results = $this->get('AppBundle\Utils\IndexFilter')->filter(Brand::class, true, true);
 
         return $this->render('brand/_list.html.twig', [
-            'brandsList' => $results->results,
-            'query' => $results->query,
-            'page' => $results->page,
-            'nbPages' => $results->nbPages,
+            'results' => $results,
         ]);
     }
 

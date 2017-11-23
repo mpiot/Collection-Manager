@@ -48,37 +48,5 @@
         </table>
     </div>
 
-    <ul class="pagination">
-        {% set nbExtremPages, nbBorderPages = 3, 2 %}
-
-        {% if results.nbPages > 1 %}
-            <li{% if results.page == 1 %} class="disabled"{% endif %}>
-                <a href="{{ path('seller_index', {'q': results.query, 'p': results.page - 1}) }}">&laquo;</a>
-            </li>
-
-            {% for p in range(1, results.nbPages) %}
-                {% if
-                ( p <= nbExtremPages ) or
-                ( p < results.page and (p >= (results.page - nbBorderPages)) ) or
-                ( p == results.page ) or
-                ( p > results.page and (p <= (results.page + nbBorderPages)) ) or
-                ( p > (results.nbPages - nbExtremPages) )
-                %}
-                    <li{% if p == results.page %} class="active"{% endif %}>
-                        <a href="{{ path('seller_index', {'q': results.query, 'p': p}) }}">{{ p }}</a>
-                    </li>
-                {% elseif
-                ((p == (results.page - nbBorderPages - 1)) or (p == (results.page + nbBorderPages + 1 )))
-                %}
-                    <li>
-                        <span>...</span>
-                    </li>
-                {% endif %}
-            {% endfor %}
-
-            <li{% if results.page == results.nbPages %} class="disabled"{% endif %}>
-                <a href="{{ path('seller_index', {'q': results.query, 'p': results.page + 1}) }}" >&raquo;</a>
-            </li>
-        {% endif %}
-    </ul>
+    {% include '_list_pagination.html.twig' with { 'url': path('seller_index', {'q': '__query__', 'p': '__page__' }) } %}
 </div>
