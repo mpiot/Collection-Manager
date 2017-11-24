@@ -2,7 +2,6 @@
 
 namespace AppBundle\Utils;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TaxId
