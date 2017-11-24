@@ -15,7 +15,8 @@
 {% block body %}
     <h1 class="page-header">Add a location</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-    {{ form_end(form) }}
+    {% embed 'location/_form.html.twig' %}
+        {% block button %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
