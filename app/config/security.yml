@@ -53,6 +53,7 @@ security:
             logout:
                 path:   /logout
                 target: /
+                csrf_token_generator: security.csrf.token_manager
 
             anonymous:    true
             switch_user:  true
