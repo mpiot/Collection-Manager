@@ -2,20 +2,11 @@
 
 namespace AppBundle\Utils;
 
-use AppBundle\Entity\Genus;
-use AppBundle\Entity\Species;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TaxId
 {
-    private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->em = $entityManager;
-    }
-
     /**
      * A constant that contain the api url.
      */
@@ -100,48 +91,5 @@ class TaxId
         }
 
         return $response;
-    }
-
-    public function getSpecies(int $taxid)
-    {
-        $array = $this->getArray($taxid);
-
-        if (array_key_exists('error', $array)) {
-            return $array['error'];
-        }
-
-        // Set the mainSpecies
-        $mainSpecies = $this->setSpecies($array['genus'], $array['name'], $taxid, null);
-
-        // Set the synonyms
-        if (array_key_exists('synonyms', $array)) {
-            foreach ($array['synonyms'] as $synonym) {
-                $species = $this->setSpecies($synonym['genus'], $synonym['name'], null, $mainSpecies);
-                $mainSpecies->addSynonym($species);
-            }
-        }
-
-        return $mainSpecies;
-    }
-
-    private function setSpecies($genusName, $speciesName, $taxid = null, $mainSpecies = null)
-    {
-        // Is a genus already exist for this species ?
-        $genus = $this->em->getRepository('AppBundle:Genus')->findOneByName($genusName);
-
-        if (null === $genus) {
-            $genus = new Genus();
-            $genus->setName($genusName);
-        }
-
-        $species = new Species();
-        $species->setGenus($genus);
-        $species->setName($speciesName);
-        $species->setTaxId($taxid);
-        if ($mainSpecies) {
-            $species->setMainSpecies($mainSpecies);
-        }
-
-        return $species;
     }
 }
