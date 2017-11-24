@@ -22,28 +22,20 @@ class ResettingController extends Controller
             $email = $form->getData()['email'];
 
             // Get user
-            $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('AppBundle:User')->findOneByEmail($email);
+            $userManager = $this->get('AppBundle\Utils\UserManager');
+            $user = $userManager->findUserBy(['email' => $email]);
 
-            if (null === $user) {
-                $this->addFlash('warning', 'There is no user with this email address.');
+            if (null !== $user && $user->isEnabled()) {
+                // Generate a token, to reset password
+                $userManager->generateToken($user);
+                $userManager->updateUser($user);
 
-                return $this->redirectToRoute('user_resetting_request');
+                // Send an email with the reset link
+                $this->get('AppBundle\Utils\Mailer')->sendPasswordResetting($user);
             }
 
-            if (!$user->isEnabled()) {
-                $this->addFlash('warning', 'Your account is not activated.');
-
-                return $this->redirectToRoute('login');
-            }
-
-            // Generate a token, to activate account
-            $tokenGenerator = $this->get('AppBundle\Utils\TokenGenerator');
-            $user->setConfirmationToken($tokenGenerator->generateToken());
-            $em->flush();
-
-            // Send an email with the reset link
-            $this->get('AppBundle\Utils\Mailer')->sendPasswordResetting($user);
+            // Alway return the same redirection and flash message
+            $this->addFlash('success', 'An email containing the password reset procedure has been sent to you.');
 
             return $this->redirectToRoute('login');
         }
@@ -62,17 +54,15 @@ class ResettingController extends Controller
         $username = rawurldecode($username);
         $token = rawurldecode($token);
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneByEmail($username);
+        // Get user
+        $userManager = $this->get('AppBundle\Utils\UserManager');
+        $user = $userManager->findUserBy(['email' => $username]);
 
-        if (!$user->isEnabled()) {
-            $this->addFlash('warning', 'Your account is not activated.');
-
-            return $this->redirectToRoute('login');
-        }
-
-        if (null === $user->getConfirmationToken() ||
-            !hash_equals($user->getConfirmationToken(), $token)
+        // Check the User
+        if (null === $user
+            || !$user->isEnabled()
+            || null === $user->getConfirmationToken()
+            || !hash_equals($user->getConfirmationToken(), $token)
         ) {
             $this->addFlash('warning', 'The confirmation token is not valid.');
 
@@ -82,13 +72,11 @@ class ResettingController extends Controller
         $form = $this->createForm(ResetPasswordType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the password
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            // Delete the token
-            $user->setConfirmationToken(null);
-            $em->flush();
+            // Update the password
+            $userManager->removeToken($user);
+            $userManager->updateUser($user);
 
+            // Add a flash message
             $this->addFlash('success', 'Your password have been successfully changed. You can now log in with this new one.');
 
             return $this->redirectToRoute('login');
