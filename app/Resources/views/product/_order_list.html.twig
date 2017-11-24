@@ -10,7 +10,7 @@
                         <tr class="info">
                             <th colspan="8">
                                 {{ product.seller.name }} {% if product.seller.offerReference is not empty %} (Offer n°{{ product.seller.offerReference }}) {% endif %}
-                                {% if product.seller.offerFile is not null %}
+                                {% if product.seller.offerName is not null %}
                                     <a type="button" class="btn btn-primary btn-xs pull-right" href="{{ path('seller_download_offer', { 'id': product.seller.id }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download offer
                                     </a>
