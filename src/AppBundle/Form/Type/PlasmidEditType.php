@@ -32,7 +32,11 @@ class PlasmidEditType extends AbstractType
                     return $this->router->generate('plasmid_download', ['id' => $plasmid->getId(), 'slug' => $plasmid->getSlug()]);
                 },
                 'download_label' => function (Plasmid $plasmid) {
-                    return $plasmid->getAutoName().'_'.$plasmid->getSlug().'.'.pathinfo($plasmid->getGenBankName())['extension'];
+                    if (null !== $plasmid->getGenBankName()) {
+                        return $plasmid->getAutoName().'_'.$plasmid->getSlug().'.'.pathinfo($plasmid->getGenBankName())['extension'];
+                    } else {
+                        return null;
+                    }
                 },
             ])
         ;

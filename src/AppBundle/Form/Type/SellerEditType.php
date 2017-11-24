@@ -31,7 +31,11 @@ class SellerEditType extends AbstractType
                     return $this->router->generate('seller_download_offer', ['id' => $seller->getId()]);
                 },
                 'download_label' => function (Seller $seller) {
-                    return $seller->getSlug().'.'.pathinfo($seller->getOfferName())['extension'];
+                    if (null !== $seller->getOfferName()) {
+                        return $seller->getSlug().'.'.pathinfo($seller->getOfferName())['extension'];
+                    } else {
+                        return null;
+                    }
                 },
             ])
         ;
