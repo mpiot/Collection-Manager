@@ -1,6 +1,10 @@
-{% extends "species/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Species: {{ species.scientificName }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -8,11 +12,10 @@
     <li class="active">{{ species.scientificName }}</li>
 {% endblock %}
 
-{% block species_body %}
-
+{% block body %}
     <div class="row">
         <div class="col-md-10">
-            <h2 class="sub-header">{{ species.scientificName }}</h2>
+            <h1 class="page-header">{{ species.scientificName }}</h1>
         </div>
 
         {% if is_granted('ROLE_ADMIN') %}

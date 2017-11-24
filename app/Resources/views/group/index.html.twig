@@ -1,4 +1,4 @@
-{% extends "group/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}AppBundle:Group:index{% endblock %}
 
@@ -7,8 +7,8 @@
     <li class="active">Groups</li>
 {% endblock %}
 
-{% block group_body %}
-    <h2>Groups list</h2>
+{% block body %}
+    <h1 class="page-header">Groups list</h1>
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div>

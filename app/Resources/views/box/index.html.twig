@@ -1,13 +1,19 @@
-{% extends "box/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Boxes list{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">Boxes list</li>
 {% endblock %}
 
-{% block box_body %}
+{% block body %}
+    <h1 class="page-header">Boxes list</h1>
+
     {% if app.user.isInGroup() %}
         <div>
             <a class="btn btn-default" href="{{ path('box_add') }}">
@@ -15,8 +21,6 @@
             </a>
         </div>
     {% endif %}
-
-    <h2 class="sub-header">Boxes list</h2>
 
     {% include '_list_filter.html.twig' with {
         'url': url('box_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),

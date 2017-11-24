@@ -1,4 +1,4 @@
-{% extends "primer/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Add a primer{% endblock %}
 
@@ -8,17 +8,13 @@
     <li class="active">Add a primer</li>
 {% endblock %}
 
-{% block primer_body %}
-    <div class="row">
-        <h2 class="sub-header">Add a primer</h2>
+{% block body %}
+    <h1 class="page-header">Add a primer</h1>
 
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
-        {{ form_end(form) }}
-    </div>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
 
-    <div class="row">
-        <br />
-        {% include 'primer/sequence_letters_table.html.twig' %}
-    </div>
+    <br />
+    {% include 'primer/sequence_letters_table.html.twig' %}
 {% endblock %}

@@ -1,6 +1,10 @@
-{% extends "box/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Edit the box: {{ box.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -9,8 +13,8 @@
     <li class="active">Edit</li>
 {% endblock %}
 
-{% block box_body %}
-    <h2 class="sub-header">Edit a box</h2>
+{% block body %}
+    <h1 class="page-header">Edit a box</h1>
     {{ form_start(form) }}
         {{ form_widget(form) }}
 

@@ -1,13 +1,19 @@
-{% extends "strain/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Strains list{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">Strains</li>
 {% endblock %}
 
-{% block strain_body %}
+{% block body %}
+    <h1 class="page-header">Strains list</h1>
+
     {% if app.user.isInGroup() %}
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -19,9 +25,7 @@
             </ul>
         </div>
     {% endif %}
-
-    <h2 class="sub-header">Strains list</h2>
-
+    <br />
     {% include '_list_filter.html.twig' with {
         'url': url('strain_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),
         'ajaxUrl': url('strain_index_ajax', {'q': '__query__', 'group': '__group__', 'p': '__page__'})

@@ -1,6 +1,10 @@
-{% extends "product/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}{{ product.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -8,12 +12,9 @@
     <li class="active">{{ product.name }}</li>
 {% endblock %}
 
-{% block product_body %}
+{% block body %}
+    <h1 class="page-header">{{ product.name }}</h1>
     <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h2>{{ product.name }}</h2>
-        </div>
-
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-5">

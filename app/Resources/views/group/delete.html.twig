@@ -1,4 +1,4 @@
-{% extends "group/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Delete the group: {{ group.name }}{% endblock %}
 
@@ -9,15 +9,15 @@
     <li class="active">Delete</li>
 {% endblock %}
 
-{% block group_body %}
+{% block body %}
+    <h1 class="page-header">Delete the group: {{ group.name }}</h1>
+
     <div>
         <a type="button" class="btn btn-default" href="{{ path('group_index') }}">
             <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
             Groups list
         </a>
     </div>
-
-    <h2>Delete the group: {{ group.name }}</h2>
 
     <div class="alert alert-danger" role="alert"><b>WARNING !</b> You delete a group !</div>
 

@@ -1,6 +1,10 @@
-{% extends "location/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Delete the location: {{ location.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -8,8 +12,8 @@
     <li class="active">Delete</li>
 {% endblock %}
 
-{% block location_body %}
-    <h1>Delete the location: {{ location.name }}</h1>
+{% block body %}
+    <h1 class="page-header">Delete the location: {{ location.name }}</h1>
 
     <div class="alert alert-danger" role="alert">
         <b>CAUTION !</b> You are about to delete a location !<br>

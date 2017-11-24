@@ -1,4 +1,4 @@
-{% extends "primer/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Primers list{% endblock %}
 
@@ -7,7 +7,9 @@
     <li class="active">Primers list</li>
 {% endblock %}
 
-{% block primer_body %}
+{% block body %}
+    <h1 class="page-header">Primers list</h1>
+
     {% if app.user.isInGroup %}
         <div>
             <a class="btn btn-default" href="{{ path('primer_add') }}">
@@ -15,8 +17,6 @@
             </a>
         </div>
     {% endif %}
-
-    <h2 class="sub-header">Primers list</h2>
 
     {% include '_list_filter.html.twig' with {
         'url': url('primer_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),

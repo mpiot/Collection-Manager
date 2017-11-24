@@ -1,13 +1,19 @@
-{% extends "product/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Products list{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">Products list</li>
 {% endblock %}
 
-{% block product_body %}
+{% block body %}
+    <h1 class="page-header">Products list</h1>
+
     {% if app.user.isInGroup() %}
         <div>
             <a class="btn btn-default" href="{{ path('product_add') }}">
@@ -15,8 +21,6 @@
             </a>
         </div>
     {% endif %}
-
-    <h2 class="sub-header">Products list</h2>
 
     {% include '_list_filter.html.twig' with {
         'url': url('product_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),

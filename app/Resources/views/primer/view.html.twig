@@ -1,4 +1,4 @@
-{% extends "primer/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
 
@@ -8,10 +8,10 @@
     <li class="active">{{ primer.autoName }} - {{ primer.name }}</li>
 {% endblock %}
 
-{% block primer_body %}
+{% block body %}
     <div class="row">
         <div class="col-md-8">
-            <h2 class="sub-header">Primer: {{ primer.autoName }} - {{ primer.name }}</h2>
+            <h1 class="page-header">Primer: {{ primer.autoName }} - {{ primer.name }}</h1>
         </div>
 
         <div class="col-md-4">

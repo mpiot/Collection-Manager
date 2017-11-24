@@ -1,6 +1,10 @@
-{% extends "seller/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Edit the seller: {{ seller.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -8,8 +12,8 @@
     <li class="active">Edit</li>
 {% endblock %}
 
-{% block seller_body %}
-    <h2 class="sub-header">Edit a seller</h2>
+{% block body %}
+    <h1 class="page-header">Edit a seller</h1>
 
     {% embed  'seller/_form.html.twig' %}
         {% block button %}

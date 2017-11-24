@@ -5,7 +5,6 @@
     <li class="active">User list</li>
 {% endblock %}
 
-
 {% block body %}
     {% include '_list_filter.html.twig' with {
     'url': url('user_index', {'q': '__query__', 'p': '__page__'}),

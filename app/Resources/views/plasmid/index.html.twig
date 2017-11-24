@@ -1,4 +1,4 @@
-{% extends "plasmid/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Plasmid{% endblock %}
 
@@ -7,7 +7,7 @@
     <li class="active">Plasmids list</li>
 {% endblock %}
 
-{% block plasmid_body %}
+{% block body %}
     {% if app.user.isInGroup %}
         <div>
             <a class="btn btn-default" href="{{ path('plasmid_add') }}">

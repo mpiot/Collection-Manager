@@ -1,6 +1,10 @@
-{% extends "species/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Edit the species: {{ species.genus.name }} {{ species.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -9,8 +13,8 @@
     <li class="active">Edit</li>
 {% endblock %}
 
-{% block species_body %}
-    <h2 class="sub-header">Edit a species</h2>
+{% block body %}
+    <h1 class="page-header">Edit a species</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

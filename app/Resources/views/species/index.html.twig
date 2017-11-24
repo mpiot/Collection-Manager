@@ -1,13 +1,19 @@
-{% extends "species/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Species list{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">Species list</li>
 {% endblock %}
 
-{% block species_body %}
+{% block body %}
+    <h1 class="page-header">Species List</h1>
+
     {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
             <a class="btn btn-default" href="{{ path('species_add') }}">
@@ -15,8 +21,6 @@
             </a>
         </div>
     {% endif %}
-
-    <h2 class="sub-header">Species List</h2>
 
     {% include '_list_filter.html.twig' with {
         'url': url('species_index', {'q': '__query__', 'p': '__page__'}),

@@ -1,6 +1,10 @@
-{% extends "product/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Add a product{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -8,8 +12,8 @@
     <li class="active">Add</li>
 {% endblock %}
 
-{% block product_body %}
-    <h2 class="sub-header">Add a product</h2>
+{% block body %}
+    <h1 class="page-header">Add a product</h1>
 
     {% embed 'product/_form.html.twig' %}
     {% endembed %}

@@ -1,6 +1,10 @@
-{% extends "strain/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Strain {{ strain.autoName }} - {{ strain.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -8,11 +12,10 @@
     <li class="active">{{ strain.autoName }} - {{ strain.name }}</li>
 {% endblock %}
 
-{% block strain_body %}
-
+{% block body %}
     <div class="row">
         <div class="col-md-8">
-            <h2 class="sub-header">{{ strain.fullName }}</h2>
+            <h1 class="page-header">{{ strain.fullName }}</h1>
         </div>
 
         <div class="col-md-2">

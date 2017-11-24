@@ -1,19 +1,24 @@
-{% extends "product/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Products order{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">Products order</li>
 {% endblock %}
 
-{% block product_body %}
+{% block body %}
+    <h1 class="page-header">Product to order</h1>
+
     {% include '_list_filter.html.twig' with {
         'url': url('product_order', {'group': '__group__'}),
         'ajaxUrl': url('product_order_ajax', {'group': '__group__'})
     } %}
 
-    <h2>Product to order</h2>
-
+    <br />
     {{ list.content|raw }}
 {% endblock %}

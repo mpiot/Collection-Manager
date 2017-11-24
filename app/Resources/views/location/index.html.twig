@@ -1,13 +1,19 @@
-{% extends "location/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Locations list{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">Locations list</li>
 {% endblock %}
 
-{% block location_body %}
+{% block body %}
+    <h1 class="page-header">Locations list</h1>
+
     {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
             <a class="btn btn-default" href="{{ path('location_add') }}">

@@ -1,4 +1,4 @@
-{% extends "group/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Edit a group{% endblock %}
 
@@ -9,8 +9,8 @@
     <li class="active">Edit</li>
 {% endblock %}
 
-{% block group_body %}
-    <h2 class="sub-header">Edit the group: {{ group.name }}</h2>
+{% block body %}
+    <h1 class="page-header">Edit the group: {{ group.name }}</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

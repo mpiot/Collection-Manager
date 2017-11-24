@@ -1,7 +1,9 @@
-{% extends 'strain/base.html.twig' %}
+{% extends "base.html.twig" %}
 
-{% block title %}
-    Add a strain - {{ parent() }}
+{% block title %}Add a strain - {{ parent() }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -10,8 +12,8 @@
     <li class="active">Add a strain</li>
 {% endblock %}
 
-{% block strain_body %}
-    <h2>Add a strain</h2>
+{% block body %}
+    <h1 class="page-header">Add a strain</h1>
 
     {{ include('strain/_form.html.twig') }}
 {% endblock %}

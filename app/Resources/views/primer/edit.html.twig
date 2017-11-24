@@ -1,4 +1,4 @@
-{% extends "primer/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Edit the primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
 
@@ -9,9 +9,9 @@
     <li class="active">Edit</li>
 {% endblock %}
 
-{% block primer_body %}
+{% block body %}
     <div class="row">
-        <h2 class="sub-header">Edit a primer</h2>
+        <h1 class="page-header">Edit a primer</h1>
 
         {{ form_start(form) }}
             {{ form_widget(form) }}

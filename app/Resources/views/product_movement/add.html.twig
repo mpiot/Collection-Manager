@@ -1,6 +1,10 @@
-{% extends "product_movement/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block title %}Add a product movement{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
@@ -9,8 +13,8 @@
     <li class="active">Add a movement</li>
 {% endblock %}
 
-{% block product_movement_body %}
-    <h2 class="sub-header">Add a product movement</h2>
+{% block body %}
+    <h1 class="page-header">Add a product movement</h1>
 
     {% embed 'product_movement/_form.html.twig' %}
     {% endembed %}
