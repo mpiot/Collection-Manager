@@ -15,7 +15,7 @@
 {% block body %}
     <h1 class="page-header">Add a species</h1>
 
-    {{ form_start(form) }}
+    {{ form_start(form, { 'attr': { 'data-url': path('species_getjson', {'taxid': '__taxid__'}) } }) }}
         {{ form_widget(form) }}
     {{ form_end(form) }}
 {% endblock %}

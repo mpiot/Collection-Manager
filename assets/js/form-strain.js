@@ -10,13 +10,13 @@ var charMap = require('./charmap');
 $( function() {
     var form = $('form[name^="strain_"]');
     var $group = $('#strain_gmo_group, #strain_wild_group');
-    var $name = $('#strain_gmo_name, #strain_wild_name');
+    var name = $('#strain_gmo_name, #strain_wild_name');
     var strainDisc = form.data('strain-discriminator');
 
     collectionType($('div#strain_gmo_tubes, div#strain_wild_tubes'), 'Add a tube', null, true, [onBoxChange]);
     collectionType($('div#strain_gmo_strainPlasmids'), 'Add a plasmid', 'add-plasmid');
     collectionType($('div#strain_gmo_parents'), 'Add a parent', 'add-parent');
-    charMap($name);
+    charMap(name);
     charMap($('#strain_gmo_genotype'));
     applySelect2();
 
@@ -62,11 +62,19 @@ $( function() {
 
     });
 
-    $name.autocomplete({
+    // Retrieve the urlScheme
+    var urlScheme = name.data('url');
+    name.autocomplete({
         minLength: 2,
         source: function (request, response) {
+            var group = $('#strain_gmo_group, #strain_wild_group').val();
+            var name = $('#strain_gmo_name, #strain_wild_name').val();
+            var url = urlScheme
+                .replace(/__group__/g, group)
+                .replace(/__name__/g, name);
+
             $.ajax({
-                url: Routing.generate('strain_name_autocomplete', { group: $('#strain_gmo_group, #strain_wild_group').val(), name: $('#strain_gmo_name, #strain_wild_name').val() }),
+                url: url,
                 dataType: 'json',
                 success: function (data) {
                     var items = [];

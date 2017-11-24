@@ -13,6 +13,9 @@ $(document).ready(function() {
     var button = $ ('<div class="col-sm-1"><a href="#" id="taxid-send" class="btn btn-info btn-sm"><span class="fa fa-refresh"></span></a><span style="display:none;" id="taxid-send-loader" class="btn btn-info btn-sm" disabled="true"><span class="fa fa-refresh fa-spin fa-fw" title="Ajax loader"></span></span></div>');
     taxidDiv.append(button);
 
+    // Retrieve the URL scheme
+    var urlScheme = taxidDiv.closest('form').data('url');
+
     // When someone click on the button
     button.click(function (e) {
         // To prevent a # in the URL
@@ -23,8 +26,10 @@ $(document).ready(function() {
 
         // If the visitor click on the button with something written in the input field
         if (taxid.length > 0) {
+            var url = urlScheme.replace(/__taxid__/g, taxid);
+
             $.ajax({
-                url: Routing.generate('species_getjson', { taxid: taxid }),
+                url: url,
                 dataType: 'json',
                 beforeSend: function () {
                     // Replace the button by a loader
