@@ -1,6 +1,13 @@
 var formSend = require('./form-send');
 
-module.exports = function formHandle(targetField, modal, form, formSelector) {
+module.exports = function formHandle(targetField, modal, formSelector) {
+    // If target field is empty, exit
+    if (1 !== targetField.length) {
+        return;
+    }
+
+    var form = $( formSelector );
+
     form.find(':submit').click( function( e ){
         e.preventDefault();
 
@@ -10,7 +17,6 @@ module.exports = function formHandle(targetField, modal, form, formSelector) {
                     .append($('<option>', {value: response.id, text: response.name}))
                     .val(response.id);
                 modal.modal('hide');
-
             }
             else {
                 // Unbind the click event on the button
@@ -19,7 +25,7 @@ module.exports = function formHandle(targetField, modal, form, formSelector) {
                 modal.find('.modal-body').html(response);
 
                 // Recall this method on a new event
-                formHandle(targetField, modal, $( formSelector ), formSelector);
+                formHandle(targetField, modal, formSelector);
             }
         });
     });
