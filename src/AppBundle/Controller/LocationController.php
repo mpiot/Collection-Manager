@@ -27,52 +27,10 @@ class LocationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('AppBundle:Location');
-        $location = $repo->findOneByName('Location');
 
-        $options = [
-            'decorate' => true,
-            'rootOpen' => '<ul>',
-            'rootClose' => '</ul>',
-            'childOpen' => '<li>',
-            'childClose' => '</li>',
-            'nodeDecorator' => function ($node) {
-                $label = htmlspecialchars($node['name']);
-
-                if (
-                    true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')
-                    || $this->getUser()->isInGroup()
-                ) {
-                    $moveUpUrl = $this->generateUrl('location_move_up', [
-                        'id' => $node['id'],
-                    ]);
-
-                    $moveDownUrl = $this->generateUrl('location_move_down', [
-                        'id' => $node['id'],
-                    ]);
-
-                    $label .= ' <a class="btn btn-default btn-xs" href="'.$moveUpUrl.'"><span class="fa fa-arrow-up"></span></a><a class="btn btn-default btn-xs" href="'.$moveDownUrl.'"><span class="fa fa-arrow-down"></span></a>';
-                }
-
-                if (true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-                    $editUrl = $this->generateUrl('location_edit', [
-                        'id' => $node['id'],
-                    ]);
-                    $label .= ' <a class="btn btn-warning btn-xs" href="'.$editUrl.'">Edit</a>';
-
-                    $deleteUrl = $this->generateUrl('location_delete', [
-                        'id' => $node['id'],
-                    ]);
-                    $label .= ' <a class="btn btn-danger btn-xs" href="'.$deleteUrl.'">Delete</a>';
-                }
-
-                return $label;
-            },
-        ];
-        $locations = $em->getRepository('AppBundle:Location')->childrenHierarchy(
-            $location, // Starting from root nodes
-            false, // true: load all children, false: only direct
-            $options
-        );
+        $rootNode = $repo->findOneByName('Location');
+        $locations = $repo->getNodesHierarchy($rootNode);
+        $locations = $repo->buildTreeArray($locations);
 
         return $this->render('location/index.html.twig', [
             'locations' => $locations,

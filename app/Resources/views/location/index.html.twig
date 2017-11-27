@@ -22,11 +22,40 @@
         </div><br>
     {% endif %}
 
-    {% if '' != locations %}
-        {{ locations|raw }}
-    {% else %}
-        <div class="alert alert-info">
-            There are no locations.
-        </div>
-    {% endif %}
+    {% macro locationTree(locations) %}
+        {% import _self as tree %}
+
+        <ul>
+            {% for location in locations %}
+                <li>
+                    {{ location.name }}
+                    {# Add links #}
+                    {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-default btn-xs" href="{{ path('location_move_up', { 'id': location.id }) }}">
+                            <span class="fa fa-arrow-up"></span>
+                        </a>
+                        <a class="btn btn-default btn-xs" href="{{ path('location_move_down', { 'id': location.id }) }}">
+                            <span class="fa fa-arrow-down"></span>
+                        </a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="btn btn-warning btn-xs" href="{{ path('location_edit', { 'id': location.id }) }}">
+                            Edit
+                        </a>
+                        <a class="btn btn-danger btn-xs" href="{{ path('location_delete', { 'id': location.id }) }}">
+                            Delete
+                        </a>
+                    {% endif %}
+
+                    {% if location.__children %}
+                        {{ tree.locationTree(location.__children) }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endmacro %}
+
+    {% import _self as tree %}
+    {{ tree.locationTree(locations) }}
 {% endblock %}
