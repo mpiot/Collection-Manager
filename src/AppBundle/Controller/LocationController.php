@@ -36,7 +36,7 @@ class LocationController extends Controller
             'childOpen' => '<li>',
             'childClose' => '</li>',
             'nodeDecorator' => function ($node) {
-                $label = $node['name'];
+                $label = htmlspecialchars($node['name']);
 
                 if (
                     true === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')
