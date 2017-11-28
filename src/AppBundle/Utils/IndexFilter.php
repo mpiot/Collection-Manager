@@ -4,6 +4,7 @@ namespace AppBundle\Utils;
 
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Brand;
+use AppBundle\Entity\Equipment;
 use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Primer;
 use AppBundle\Entity\Product;
@@ -24,6 +25,7 @@ class IndexFilter
     const ALLOWED_CLASS = [
         Box::class,
         Brand::class,
+        Equipment::class,
         Plasmid::class,
         Primer::class,
         Product::class,
@@ -127,6 +129,11 @@ class IndexFilter
 
             case Brand::class:
                 $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page);
+
+                break;
+
+            case Equipment::class:
+                $elasticQuery = $repository->searchByNameQuery($parameters->query, $parameters->page, $parameters->filters->group, $this->tokenStorage->getToken()->getUser());
 
                 break;
 

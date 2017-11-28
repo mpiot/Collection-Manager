@@ -1,0 +1,29 @@
+<div id="filtered-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-8">Name</th>
+            </tr>
+            </thead>
+            {% if results.results is not empty %}
+                {% for equipment in results.results %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{{ path('equipment_show', { 'id': equipment.id }) }}">{{ equipment.name }}</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5"  style="text-align:center;">There is no equipment</td>
+                </tr>
+            {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    {% include '_list_pagination.html.twig' with { 'url': path('equipment_index', {'q': '__query__', 'group': '__group__', 'p': '__page__' }) } %}
+</div>
