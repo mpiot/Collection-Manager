@@ -6,6 +6,7 @@ use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Group;
 use AppBundle\Form\Type\PlasmidEditType;
 use AppBundle\Form\Type\PlasmidType;
+use Doctrine\DBAL\Platforms\Keywords\PostgreSQLKeywords;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -96,17 +97,20 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/{id}-{slug}", name="plasmid_view", requirements={"id": "\d+"})
+     * @Method("GET")
      * @ParamConverter("plasmid", options={"repository_method" = "findOneWithAll"})
      * @Security("plasmid.getGroup().isMember(user)")
      */
     public function viewAction(Plasmid $plasmid)
     {
         $gbk = new PlasmidGenBank($plasmid);
+        $deleteForm = $this->createDeleteForm($plasmid);
 
         return $this->render('plasmid/view.html.twig', [
             'plasmid' => $plasmid,
             'gbkFile' => $gbk->getFile(),
             'gbk' => $gbk->getArray(),
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -146,8 +150,8 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/delete", name="plasmid_delete", requirements={"id": "\d+"})
-     * @Method("POST")
+     * @Route("/{id}", name="plasmid_delete")
+     * @Method("DELETE")
      * @Security("plasmid.isAuthor(user) or plasmid.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Plasmid $plasmid, Request $request)
@@ -162,24 +166,34 @@ class PlasmidController extends Controller
             ]);
         }
 
-        // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('plasmid_delete', $request->request->get('token'))) {
-            $this->addFlash('warning', 'The CSRF token is invalid.');
+        $form = $this->createDeleteForm($plasmid);
+        $form->handleRequest($request);
 
-            return $this->redirectToRoute('plasmid_view', [
-                'id' => $plasmid->getId(),
-                'slug' => $plasmid->getSlug(),
-            ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($plasmid);
+            $em->flush();
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $entityManager->remove($plasmid);
-        $entityManager->flush();
 
         $this->addFlash('success', 'The plasmid has been deleted successfully.');
 
         return $this->redirectToRoute('plasmid_index');
+    }
+
+    /**
+     * Creates a form to delete a plasmid entity.
+     *
+     * @param Plasmid $plasmid The plasmid entity
+     *
+     * @return \Symfony\Component\Form\FormInterface The form
+     */
+    private function createDeleteForm(Plasmid $plasmid)
+    {
+        return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
+            ->setAction($this->generateUrl('plasmid_delete', ['id' => $plasmid->getId()]))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 
     /**
