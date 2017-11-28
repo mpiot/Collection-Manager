@@ -6,7 +6,6 @@ use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Group;
 use AppBundle\Form\Type\PlasmidEditType;
 use AppBundle\Form\Type\PlasmidType;
-use Doctrine\DBAL\Platforms\Keywords\PostgreSQLKeywords;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

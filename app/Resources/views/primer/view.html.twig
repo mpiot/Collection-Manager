@@ -9,65 +9,92 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-8">
-            <h1 class="page-header">Primer: {{ primer.autoName }} - {{ primer.name }}</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>{{ primer.autoName }} - {{ primer.name }}</h2>
         </div>
 
-        <div class="col-md-4">
-            {% if primer.isAuthor(app.user) or primer.getGroup().isAdministrator(app.user) %}
-                <div class="text-right">
-                    {% embed "primer/_delete_form.html.twig" with { primer: primer } only %}
-                        {% block btn %}
-                            <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id, 'slug': primer.slug }) }}">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                            </a>
-                        {% endblock %}
-                    {% endembed %}
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-8">
+                    <p class="text-right">
+                        Created the {{ primer.created|date("m/d/Y") }} by {{ primer.createdBy.fullName }}<br>
+                        Edited the {{ primer.updated|date("m/d/Y") }} by {{ primer.updatedBy.fullName }}
+                    </p>
                 </div>
-            {% endif %}
+            </div>
 
-            <p class="text-right">
-                Created the {{ primer.created|date("m/d/Y") }} by {{ primer.createdBy.fullName }}<br>
-                Edited the {{ primer.updated|date("m/d/Y") }} by {{ primer.updatedBy.fullName }}
-            </p>
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Informations</div>
+                        <!-- List group -->
+                        <ul class="list-group">
+                            <li class="list-group-item">AutoName: {{ primer.autoName }}</li>
+                            <li class="list-group-item">Name: {{ primer.name }}</li>
+                            <li class="list-group-item">Orientation: {{ primer.orientation|capitalize }}</li>
+                            {% if primer.hybridationTemp is not null %}
+                                <li class="list-group-item">Hybridation temperature: {{ primer.hybridationTemp }}°C</li>
+                            {% endif %}
+                        </ul>
+                        <div class="panel-body">
+                            <p>Description:</p>
+                            <p>{{ primer.description ? primer.description : 'N/A' }}</p>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Informations</div>
-                <!-- List group -->
-                <ul class="list-group">
-                    <li class="list-group-item">AutoName: {{ primer.autoName }}</li>
-                    <li class="list-group-item">Name: {{ primer.name }}</li>
-                    <li class="list-group-item">Orientation: {{ primer.orientation|capitalize }}</li>
-                    {% if primer.hybridationTemp is not null %}
-                        <li class="list-group-item">Hybridation temperature: {{ primer.hybridationTemp }}°C</li>
-                    {% endif %}
-                </ul>
-                <div class="panel-body">
-                    <p>Description:</p>
-                    <p>{{ primer.description ? primer.description : 'N/A' }}</p>
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Sequence</div>
+                        <!-- List group -->
+                        <div class="panel-body">
+                            <span class="five-prime-extension">{{ primer.fivePrimeExtension }}</span>{{ primer.sequence }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% include 'primer/_nucleotides_table.html.twig' %}
                 </div>
             </div>
         </div>
 
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Sequence</div>
-                <!-- List group -->
-                <div class="panel-body">
-                    <span class="five-prime-extension">{{ primer.fivePrimeExtension }}</span>{{ primer.sequence }}
-                </div>
+        {% if primer.isAuthor(app.user) or primer.getGroup().isAdministrator(app.user) %}
+            <div class="panel-footer text-right">
+                {{ form_start(delete_form) }}
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id, 'slug': primer.slug }) }}">
+                            <span class="fa fa-edit"></span> Edit
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <span class="fa fa-trash"></span> Delete
+                        </button>
+                    </div>
+                {{ form_end(delete_form) }}
             </div>
-        </div>
+        {% endif %}
     </div>
 
-    <div class="row">
-        {% include 'primer/sequence_letters_table.html.twig' %}
-    </div>
+    {% include '_delete_confirmation.html.twig' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

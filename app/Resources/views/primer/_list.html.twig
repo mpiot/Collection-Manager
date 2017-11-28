@@ -15,10 +15,10 @@
                     <tr>
                         <td>{{ loop.index }}</td>
 
-                        <td>{{ primer.name }}</td>
+                        <td><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.name }}</a></td>
                         <td><span class="five-prime-extension">{{ primer.fivePrimeExtension }}</span>{{ primer.sequence }}</td>
                         <td>{{ primer.orientation|capitalize }}</td>
-                        <td><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.autoName }}</a></td>
+                        <td>{{ primer.autoName }}</td>
                     </tr>
                 {% endfor %}
             {% else %}

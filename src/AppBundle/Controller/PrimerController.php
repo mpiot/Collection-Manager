@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class primerController.
+ * Class primer controller.
  *
  * @Route("/primer")
  */
@@ -91,13 +91,17 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="primer_view", requirements={"id": "\d+"})
+     * @Route("/{id}-{slug}", name="primer_view")
+     * @Method("GET")
      * @Security("primer.getGroup().isMember(user)")
      */
     public function viewAction(Primer $primer)
     {
+        $deleteForm = $this->createDeleteForm($primer);
+
         return $this->render('primer/view.html.twig', [
             'primer' => $primer,
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -130,29 +134,39 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/delete", name="primer_delete", requirements={"id": "\d+"})
-     * @Method("POST")
+     * @Route("/{id}", name="primer_delete")
+     * @Method("DELETE")
      * @Security("primer.isAuthor(user) or primer.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Primer $primer, Request $request)
     {
-        // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('primer_delete', $request->request->get('token'))) {
-            $this->addFlash('warning', 'The CSRF token is invalid.');
+        $form = $this->createDeleteForm($primer);
+        $form->handleRequest($request);
 
-            return $this->redirectToRoute('primer_view', [
-                'id' => $primer->getId(),
-                'slug' => $primer->getSlug(),
-            ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($primer);
+            $em->flush();
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $entityManager->remove($primer);
-        $entityManager->flush();
 
         $this->addFlash('success', 'The primer has been deleted successfully.');
 
         return $this->redirectToRoute('primer_index');
+    }
+
+    /**
+     * Creates a form to delete a primer entity.
+     *
+     * @param Primer $primer The primer entity
+     *
+     * @return \Symfony\Component\Form\FormInterface The form
+     */
+    private function createDeleteForm(Primer $primer)
+    {
+        return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
+            ->setAction($this->generateUrl('primer_delete', ['id' => $primer->getId()]))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 }
