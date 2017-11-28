@@ -88,11 +88,6 @@ class Equipment
     private $group;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductMovement", mappedBy="product")
-     */
-    private $movements;
-
-    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
