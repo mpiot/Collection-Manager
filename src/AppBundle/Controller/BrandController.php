@@ -144,7 +144,6 @@ class BrandController extends Controller
 
     /**
      * @Route("/{id}/delete", name="brand_delete")
-     * @Method("POST")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Brand $brand, Request $request)
@@ -157,7 +156,7 @@ class BrandController extends Controller
         }
 
         // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('brand_delete', $request->request->get('token'))) {
+        if (!$this->isCsrfTokenValid('brand_delete', $request->get('token'))) {
             $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $this->redirectToRoute('brand_index');

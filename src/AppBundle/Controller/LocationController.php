@@ -171,23 +171,19 @@ class LocationController extends Controller
      */
     public function deleteAction(Location $location, Request $request)
     {
-        $form = $this->createFormBuilder()
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($location);
-            $em->flush();
-
-            $this->addFlash('success', 'The location has been successfully deleted.');
+        // If the CSRF token is invalid, redirect user
+        if (!$this->isCsrfTokenValid('location_delete', $request->get('token'))) {
+            $this->addFlash('warning', 'The CSRF token is invalid.');
 
             return $this->redirectToRoute('location_index');
         }
 
-        return $this->render('location/delete.html.twig', [
-            'form' => $form->createView(),
-            'location' => $location,
-        ]);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($location);
+        $em->flush();
+
+        $this->addFlash('success', 'The location has been successfully deleted.');
+
+        return $this->redirectToRoute('location_index');
     }
 }

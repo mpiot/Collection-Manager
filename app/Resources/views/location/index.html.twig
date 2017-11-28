@@ -43,7 +43,7 @@
                         <a class="btn btn-warning btn-xs" href="{{ path('location_edit', { 'id': location.id }) }}">
                             Edit
                         </a>
-                        <a class="btn btn-danger btn-xs" href="{{ path('location_delete', { 'id': location.id }) }}">
+                        <a class="btn btn-danger btn-xs" href="{{ path('location_delete', { 'id': location.id, 'token': csrf_token('location_delete') }) }}" data-confirmation="1">
                             Delete
                         </a>
                     {% endif %}
@@ -58,4 +58,6 @@
 
     {% import _self as tree %}
     {{ tree.locationTree(locations) }}
+
+    {% include '_delete_confirmation.html.twig' %}
 {% endblock %}
