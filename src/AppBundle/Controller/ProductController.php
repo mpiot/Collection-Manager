@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
- * Class brandController.
+ * Class product controller.
  *
  * @Route("/product")
  */
@@ -98,11 +98,13 @@ class ProductController extends Controller
      */
     public function viewAction(Product $product)
     {
+        $deleteForm = $this->createDeleteForm($product);
         $locationPath = $this->getDoctrine()->getManager()->getRepository('AppBundle:Location')->getPath($product->getLocation());
 
         return $this->render('product/view.html.twig', [
             'product' => $product,
             'locationPath' => $locationPath,
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -120,7 +122,7 @@ class ProductController extends Controller
 
             $this->addFlash('success', 'The product has been edited successfully.');
 
-            return $this->redirectToRoute('product_index');
+            return $this->redirectToRoute('product_view', ['id' => $product->getId()]);
         }
 
         return $this->render('product/edit.html.twig', [
@@ -130,26 +132,42 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", requirements={"id": "\d+"}, name="product_delete")
-     * @Method("POST")
+     * Deletes a product entity.
+     *
+     * @Route("/{id}/delete", name="product_delete")
+     * @Method("DELETE")
      * @Security("product.getGroup().isMember(user)")
      */
     public function deleteAction(Product $product, Request $request)
     {
-        // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('product_delete', $request->request->get('token'))) {
-            $this->addFlash('warning', 'The CSRF token is invalid.');
+        $form = $this->createDeleteForm($product);
+        $form->handleRequest($request);
 
-            return $this->redirectToRoute('product_index');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($product);
+            $em->flush();
+
+            $this->addFlash('success', 'The product has been deleted successfully.');
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($product);
-        $em->flush();
-
-        $this->addFlash('success', 'The product has been deleted successfully.');
-
         return $this->redirectToRoute('product_index');
+    }
+
+    /**
+     * Creates a form to delete a equipment entity.
+     *
+     * @param Product $product The product entity
+     *
+     * @return \Symfony\Component\Form\FormInterface The form
+     */
+    private function createDeleteForm(Product $product)
+    {
+        return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
+            ->setAction($this->generateUrl('product_delete', ['id' => $product->getId()]))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 
     /**

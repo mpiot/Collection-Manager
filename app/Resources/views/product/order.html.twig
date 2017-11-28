@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Products order{% endblock %}
+{% block title %}Products to order{% endblock %}
 
 {% block nav %}
     {% include "nav/product.html.twig" %}
@@ -8,11 +8,11 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Products order</li>
+    <li class="active">Products to order</li>
 {% endblock %}
 
 {% block body %}
-    <h1 class="page-header">Product to order</h1>
+    <h1 class="page-header">Products to order</h1>
 
     {% include '_list_filter.html.twig' with {
         'url': url('product_order', {'group': '__group__'}),

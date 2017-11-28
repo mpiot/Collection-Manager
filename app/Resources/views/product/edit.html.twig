@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Edit the product: {{ product.name }}{% endblock %}
+{% block title %}Edit a product{% endblock %}
 
 {% block nav %}
     {% include "nav/product.html.twig" %}
@@ -9,7 +9,8 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('product_index') }}">Products list</a></li>
-    <li class="active">Edit</li>
+    <li><a href="{{ path('product_view', { 'id': product.id }) }}">{{ product.name }}</a></li>
+    <li class="active">Edit a product</li>
 {% endblock %}
 
 {% block body %}

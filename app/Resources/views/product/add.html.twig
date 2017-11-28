@@ -9,11 +9,11 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('product_index') }}">Products list</a></li>
-    <li class="active">Add</li>
+    <li class="active">Create a new product</li>
 {% endblock %}
 
 {% block body %}
-    <h1 class="page-header">Add a product</h1>
+    <h1>Create a product</h1>
 
     {% embed 'product/_form.html.twig' %}
     {% endembed %}

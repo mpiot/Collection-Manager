@@ -193,7 +193,7 @@ class Product
     private $group;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductMovement", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductMovement", mappedBy="product", cascade={"remove" })
      */
     private $movements;
 

@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Products list{% endblock %}
+{% block title %}Product list{% endblock %}
 
 {% block nav %}
     {% include "nav/product.html.twig" %}
@@ -8,16 +8,16 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Products list</li>
+    <li class="active">Product list</li>
 {% endblock %}
 
 {% block body %}
-    <h1 class="page-header">Products list</h1>
+    <h1 class="page-header">Product list</h1>
 
     {% if app.user.isInGroup() %}
         <div>
             <a class="btn btn-default" href="{{ path('product_add') }}">
-                <span class="glyphicon glyphicon-plus"></span> Add a product
+                <span class="glyphicon glyphicon-plus"></span> Create a new product
             </a>
         </div>
     {% endif %}

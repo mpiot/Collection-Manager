@@ -9,13 +9,14 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('product_index') }}">Products list</a></li>
-    <li><a href="{{ path('product_view', { 'id': product.id }) }}">Product</a></li>
-    <li class="active">Add a movement</li>
+    <li><a href="{{ path('product_view', { 'id': product.id }) }}">{{ product.name }}</a></li>
+    <li class="active">Create a new movement</li>
 {% endblock %}
 
 {% block body %}
-    <h1 class="page-header">Add a product movement</h1>
+    <h1 class="page-header">Create a new movement</h1>
 
-    {% embed 'product_movement/_form.html.twig' %}
-    {% endembed %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
 {% endblock %}

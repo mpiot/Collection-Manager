@@ -4,38 +4,31 @@
             <thead>
                 <tr>
                     <th class="col-md-1">#</th>
-                    <th class="col-md">Name</th>
-                    <th class="col-md">Brand</th>
-                    <th class="col-md">Stock</th>
-                    <th class="col-md">Seller ref</th>
-                    <th class="col-md-2">Actions</th>
+                    <th class="col-md-3">Name</th>
+                    <th class="col-md-2">Brand</th>
+                    <th class="col-md-2">Brand ref.</th>
+                    <th class="col-md-2">Stock</th>
+                    <th class="col-md-2">Manual</th>
                 </tr>
             </thead>
             {% if results.results is not empty %}
                 {% for product in results.results %}
-                    {% if product.stock <= product.stockDangerAlert %}
-                        <tr class="danger">
-                    {% elseif product.stock <= product.stockWarningAlert %}
-                        <tr class="warning">
-                    {% else %}
-                        <tr>
-                    {% endif %}
-
+                    <tr {{ (product.stock <= product.stockDangerAlert) ? 'class="danger"' : (product.stock <= product.stockWarningAlert) ? 'class="warning"' : '' }}>
                         <td>{{ loop.index }}</td>
                         <td>
                             <a href="{{ path('product_view', { 'id': product.id }) }}">{{ product.name }}</a>
                         </td>
                         <td>{{ product.brand.name }}</td>
+                        <td>{{ product.brandReference }}</td>
                         <td>{{ product.stock }} {{ product.storageUnit }}</td>
-                        <td>{{ product.sellerReference }}</td>
                         <td>
-                            {% embed "product/_delete_form.html.twig" with { product: product } only %}
-                                {% block btn %}
-                                    <a class="btn btn-warning" href="{{ path('product_edit', { 'id': product.id}) }}">
-                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                                    </a>
-                                {% endblock %}
-                            {% endembed %}
+                            {% if product.manualName is not null %}
+                                <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_manual', { 'id': product.id }) }}">
+                                    <span class="glyphicon glyphicon-download"></span> Download manual
+                                </a>
+                            {% else %}
+                                -
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
