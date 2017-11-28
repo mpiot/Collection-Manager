@@ -168,13 +168,6 @@ class Product
     /**
      * @var int
      *
-     * @ORM\Column(name="stock", type="integer")
-     */
-    private $stock;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="stockWarningAlert", type="integer")
      */
     private $stockWarningAlert;
@@ -670,30 +663,6 @@ class Product
     }
 
     /**
-     * Set stock.
-     *
-     * @param int $stock
-     *
-     * @return Product
-     */
-    public function setStock($stock)
-    {
-        $this->stock = $stock;
-
-        return $this;
-    }
-
-    /**
-     * Get stock.
-     *
-     * @return int
-     */
-    public function getStock()
-    {
-        return $this->stock;
-    }
-
-    /**
      * Set stockWarningAlert.
      *
      * @param int $stockWarningAlert
@@ -773,6 +742,21 @@ class Product
     public function getMovements()
     {
         return $this->movements;
+    }
+
+    /**
+     * Get stock.
+     *
+     * @return int
+     */
+    public function getStock()
+    {
+        $stock = 0;
+        foreach ($this->movements as $movement) {
+            $stock += $movement->getMovement();
+        }
+
+        return $stock;
     }
 
     /**

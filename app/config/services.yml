@@ -81,7 +81,3 @@ services:
     AppBundle\EventListener\UserSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
-
-    AppBundle\EventListener\ProductMovementSubscriber:
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
