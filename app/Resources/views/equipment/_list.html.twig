@@ -12,7 +12,7 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>
-                            <a href="{{ path('equipment_show', { 'id': equipment.id }) }}">{{ equipment.name }}</a></td>
+                            <a href="{{ path('equipment_view', { 'id': equipment.id }) }}">{{ equipment.name }}</a></td>
                     </tr>
                 {% endfor %}
             {% else %}

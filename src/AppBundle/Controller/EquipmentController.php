@@ -48,12 +48,12 @@ class EquipmentController extends Controller
     }
 
     /**
-     * Creates a new equipment entity.
+     * Add an equipment entity.
      *
-     * @Route("/new", name="equipment_new")
+     * @Route("/add", name="equipment_add")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function addAction(Request $request)
     {
         $equipment = new Equipment();
         $form = $this->createForm(EquipmentType::class, $equipment);
@@ -66,10 +66,10 @@ class EquipmentController extends Controller
 
             $this->addFlash('success', 'The equipment has been created successfully.');
 
-            return $this->redirectToRoute('equipment_show', ['id' => $equipment->getId()]);
+            return $this->redirectToRoute('equipment_view', ['id' => $equipment->getId()]);
         }
 
-        return $this->render('equipment/new.html.twig', [
+        return $this->render('equipment/add.html.twig', [
             'equipment' => $equipment,
             'form' => $form->createView(),
         ]);
@@ -78,15 +78,15 @@ class EquipmentController extends Controller
     /**
      * Finds and displays a equipment entity.
      *
-     * @Route("/{id}", name="equipment_show")
+     * @Route("/{id}", name="equipment_view")
      * @Method("GET")
      */
-    public function showAction(Equipment $equipment)
+    public function viewAction(Equipment $equipment)
     {
         $deleteForm = $this->createDeleteForm($equipment);
         $locationPath = $this->getDoctrine()->getManager()->getRepository('AppBundle:Location')->getPath($equipment->getLocation());
 
-        return $this->render('equipment/show.html.twig', [
+        return $this->render('equipment/view.html.twig', [
             'equipment' => $equipment,
             'locationPath' => $locationPath,
             'delete_form' => $deleteForm->createView(),
@@ -109,7 +109,7 @@ class EquipmentController extends Controller
 
             $this->addFlash('success', 'The equipment has been edited successfully.');
 
-            return $this->redirectToRoute('equipment_show', ['id' => $equipment->getId()]);
+            return $this->redirectToRoute('equipment_view', ['id' => $equipment->getId()]);
         }
 
         return $this->render('equipment/edit.html.twig', [

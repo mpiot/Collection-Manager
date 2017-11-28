@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Create a new equipment
+    Add an equipment
 {% endblock %}
 
 {% block nav %}
@@ -11,17 +11,17 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('equipment_index') }}">Equipments</a></li>
-    <li class="active">Create a new equipment</li>
+    <li class="active">Add an equipment</li>
 {% endblock %}
 
 {% block body %}
-    <h1>Equipment creation</h1>
+    <h1>Add an equipment</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" class="btn btn-default" value="Create" />
+                <input type="submit" class="btn btn-default" value="Save" />
             </div>
         </div>
     {{ form_end(form) }}
