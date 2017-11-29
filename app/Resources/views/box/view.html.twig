@@ -13,167 +13,166 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="page-header">Boxes list</h1>
-
-    <div class="row">
-        <div class="col-md-8">
-            <h2 class="sub-header">{{ box.name }}</h2>
-
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>{{ box.name }}</h2>
         </div>
 
-        <div class="col-md-2">
-            <div class="btn-group btn-group-xs" role="group">
-                <a class="btn btn-info" href="{{ path('box_import', { 'id': box.id, 'slug': box.slug}) }}">
-                    <span class="glyphicon glyphicon-import" aria-hidden="true"></span> Import
-                </a>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Informations</div>
+                        <div class="panel-body">
+                            <p>{{ box.description }}</p>
+                        </div>
 
-                <a class="btn btn-info" href="{{ path('box_export', { 'id': box.id, 'slug': box.slug}) }}">
-                    <span class="glyphicon glyphicon-export" aria-hidden="true"></span> Export
-                </a>
-            </div>
-        </div>
-
-        <div class="cold-md-2">
-            {% if box.isAuthor(app.user) or box.getGroup().isAdministrator(app.user) %}
-                {% embed "box/_delete_form.html.twig" with { box: box } only %}
-                    {% block btn %}
-                        <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id, 'slug': box.slug}) }}">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                        </a>
-                    {% endblock %}
-                {% endembed %}
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Informations</div>
-                <div class="panel-body">
-                    <p>{{ box.description }}</p>
+                        <!-- List group -->
+                        <ul class="list-group">
+                            <li class="list-group-item">Congélateur: {{ box.freezer }}</li>
+                            <li class="list-group-item">Emplacement dans le congélateur: {{ box.location }}</li>
+                        </ul>
+                    </div>
                 </div>
-
-                <!-- List group -->
-                <ul class="list-group">
-                    <li class="list-group-item">Congélateur: {{ box.freezer }}</li>
-                    <li class="list-group-item">Emplacement dans le congélateur: {{ box.location }}</li>
-                </ul>
             </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-5">
-            {% set letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'] %}
-            {% set cellWidth, cellHeight = 50, 50 %}
-            {% set width = cellWidth * (box.colNumber + 1) %}
+            <div class="row">
+                <div class="col-md-5">
+                    {% set letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'] %}
+                    {% set cellWidth, cellHeight = 50, 50 %}
+                    {% set width = cellWidth * (box.colNumber + 1) %}
 
-            <table class="table table-bordered table-boxes-mapping" width="{{ width }}">
-                {% set cellCounter = 0 %}
-                {% for r in 0..box.rowNumber %}
-                    <tr>
-                        {% for c in 0..box.colNumber %}
-                            {% if r != 0 %}
-                                {% if c != 0 %}
-                                    {% if tubes[cellCounter] is defined %}
-                                        {% if tubes[cellCounter].content is strain %}
-                                            <td
-                                                style="background-color:greenyellow;"
-                                                data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
-                                                title="Strain {{ tubes[cellCounter].strain.autoName }}"
-                                                data-content="{{ tubes[cellCounter].strain.name }}">
-                                                {{ cellCounter + 1 }}
-                                            </td>
-                                        {% elseif tubes[cellCounter].content is plasmid %}
-                                            <td
-                                                style="background-color:deepskyblue;"
-                                                data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
-                                                title="Plasmid {{ tubes[cellCounter].plasmid.autoName }}"
-                                                data-content="{{ tubes[cellCounter].plasmid.name }}">
-                                                {{ cellCounter + 1 }}
-                                            </td>
-                                        {% elseif tubes[cellCounter].content is primer %}
-                                            <td
-                                                style="background-color:deeppink;"
-                                                data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
-                                                title="Primer {{ tubes[cellCounter].primer.autoName }}"
-                                                data-content="{{ tubes[cellCounter].primer.name }}">
-                                                {{ cellCounter + 1 }}
-                                            </td>
+                    <table class="table table-bordered table-boxes-mapping" width="{{ width }}">
+                        {% set cellCounter = 0 %}
+                        {% for r in 0..box.rowNumber %}
+                            <tr>
+                                {% for c in 0..box.colNumber %}
+                                    {% if r != 0 %}
+                                        {% if c != 0 %}
+                                            {% if tubes[cellCounter] is defined %}
+                                                {% if tubes[cellCounter].content is strain %}
+                                                    <td
+                                                            style="background-color:greenyellow;"
+                                                            data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
+                                                            title="Strain {{ tubes[cellCounter].strain.autoName }}"
+                                                            data-content="{{ tubes[cellCounter].strain.name }}">
+                                                        {{ cellCounter + 1 }}
+                                                    </td>
+                                                {% elseif tubes[cellCounter].content is plasmid %}
+                                                    <td
+                                                            style="background-color:deepskyblue;"
+                                                            data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
+                                                            title="Plasmid {{ tubes[cellCounter].plasmid.autoName }}"
+                                                            data-content="{{ tubes[cellCounter].plasmid.name }}">
+                                                        {{ cellCounter + 1 }}
+                                                    </td>
+                                                {% elseif tubes[cellCounter].content is primer %}
+                                                    <td
+                                                            style="background-color:deeppink;"
+                                                            data-toggle="popover" data-placement="top" data-trigger="hover" data-container="body"
+                                                            title="Primer {{ tubes[cellCounter].primer.autoName }}"
+                                                            data-content="{{ tubes[cellCounter].primer.name }}">
+                                                        {{ cellCounter + 1 }}
+                                                    </td>
+                                                {% endif %}
+                                            {% else %}
+                                                <td>
+                                                    {{ cellCounter + 1 }}
+                                                </td>
+                                            {% endif %}
+
+                                            {% set cellCounter = cellCounter + 1 %}
+                                        {% else %}
+                                            {% if r != 0 %}
+                                                <th class="text-center" height="{{ cellHeight }}" width="{{ cellWidth }}">{{ letters[r-1] }}</th>
+                                            {% endif %}
                                         {% endif %}
                                     {% else %}
-                                        <td>
-                                            {{ cellCounter + 1 }}
-                                        </td>
+                                        {% if c != 0 %}
+                                            <th class="text-center" height="{{ cellHeight }}" width="{{ cellWidth }}">{{ c }}</th>
+                                        {% else %}
+                                            <th></th>
+                                        {% endif %}
                                     {% endif %}
-
-                                    {% set cellCounter = cellCounter + 1 %}
-                                {% else %}
-                                    {% if r != 0 %}
-                                        <th class="text-center" height="{{ cellHeight }}" width="{{ cellWidth }}">{{ letters[r-1] }}</th>
-                                    {% endif %}
-                                {% endif %}
-                            {% else %}
-                                {% if c != 0 %}
-                                    <th class="text-center" height="{{ cellHeight }}" width="{{ cellWidth }}">{{ c }}</th>
-                                {% else %}
-                                    <th></th>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-        <div class="col-md-7">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Content list</div>
-                <table class="table table-striped">
-                    <tr>
-                        <th>Cell</th>
-                        <th>Name</th>
-                        <th>Auto Name</th>
-                        <th>Type</th>
-                    </tr>
-
-                    {% if box.tubes is not empty %}
-                        {% for tube in box.tubes %}
-                            <tr>
-                                <td>{{ tube.cellName }}</td>
-                                <td>
-                                    {{ tube.content.name }}
-                                </td>
-                                <td>
-                                    {% if tube.content is strain %}
-                                        <a href="{{ path('strain_view', { 'id': tube.strain.id, 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
-                                    {% elseif tube.content is plasmid %}
-                                        <a href="{{ path('plasmid_view', { 'id': tube.plasmid.id, 'slug': tube.plasmid.slug }) }}">{{ tube.plasmid.autoName }}</a>
-                                    {% elseif tube.content is primer %}
-                                        <a href="{{ path('primer_view', { 'id': tube.primer.id, 'slug': tube.primer.slug }) }}">{{ tube.primer.autoName }}</a>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if tube.content is strain %}
-                                        Strain
-                                    {% elseif tube.content is plasmid %}
-                                        Plasmid
-                                    {% elseif tube.content is primer %}
-                                        Primer
-                                    {% endif %}
-                                </td>
+                                {% endfor %}
                             </tr>
                         {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td colspan="3" class="text-center">There is no tube.</td>
-                        </tr>
-                    {% endif %}
-                </table>
+                    </table>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Content list</div>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Cell</th>
+                                <th>Name</th>
+                                <th>Auto Name</th>
+                                <th>Type</th>
+                            </tr>
+
+                            {% if box.tubes is not empty %}
+                                {% for tube in box.tubes %}
+                                    <tr>
+                                        <td>{{ tube.cellName }}</td>
+                                        <td>
+                                            {{ tube.content.name }}
+                                        </td>
+                                        <td>
+                                            {% if tube.content is strain %}
+                                                <a href="{{ path('strain_view', { 'id': tube.strain.id, 'slug': tube.strain.slug }) }}">{{ tube.strain.autoName }}</a>
+                                            {% elseif tube.content is plasmid %}
+                                                <a href="{{ path('plasmid_view', { 'id': tube.plasmid.id, 'slug': tube.plasmid.slug }) }}">{{ tube.plasmid.autoName }}</a>
+                                            {% elseif tube.content is primer %}
+                                                <a href="{{ path('primer_view', { 'id': tube.primer.id, 'slug': tube.primer.slug }) }}">{{ tube.primer.autoName }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tube.content is strain %}
+                                                Strain
+                                            {% elseif tube.content is plasmid %}
+                                                Plasmid
+                                            {% elseif tube.content is primer %}
+                                                Primer
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="3" class="text-center">There is no tube.</td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+
+        {% if box.isAuthor(app.user) or box.getGroup().isAdministrator(app.user) %}
+            <div class="panel-footer text-right">
+                {{ form_start(delete_form) }}
+                <div class="btn-group btn-group-sm" role="group">
+                    <a class="btn btn-info" href="{{ path('box_import', { 'id': box.id, 'slug': box.slug}) }}">
+                        <span class="glyphicon glyphicon-import" aria-hidden="true"></span> Import
+                    </a>
+
+                    <a class="btn btn-info" href="{{ path('box_export', { 'id': box.id, 'slug': box.slug}) }}">
+                        <span class="glyphicon glyphicon-export" aria-hidden="true"></span> Export
+                    </a>
+                    <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id, 'slug': box.slug}) }}">
+                        <span class="fa fa-edit" aria-hidden="true"></span> Edit
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <span class="fa fa-trash"></span> Delete
+                    </button>
+                </div>
+                {{ form_end(delete_form) }}
+            </div>
+        {% endif %}
     </div>
+
+    {% include '_delete_confirmation.html.twig' %}
 {% endblock %}

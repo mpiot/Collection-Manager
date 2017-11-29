@@ -92,6 +92,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/{slug}", name="species_view")
+     * @Method("GET")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenusAndSynonyms"})
      * @Security("is_granted('ROLE_USER')")
      */
@@ -101,8 +102,11 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_view', ['slug' => $species->getMainSpecies()->getSlug()]);
         }
 
+        $deleteForm = $this->createDeleteForm($species);
+
         return $this->render('species/view.html.twig', [
             'species' => $species,
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -133,8 +137,8 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{slug}/delete", name="species_delete")
-     * @Method("POST")
+     * @Route("/{slug}", name="species_delete")
+     * @Method("DELETE")
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
      * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
@@ -147,21 +151,34 @@ class SpeciesController extends Controller
             return $this->redirectToRoute('species_view', ['slug' => $species->getSlug()]);
         }
 
-        // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('species_delete', $request->request->get('token'))) {
-            $this->addFlash('warning', 'The CSRF token is invalid.');
+        $form = $this->createDeleteForm($species);
+        $form->handleRequest($request);
 
-            return $this->redirectToRoute('species_view', ['slug' => $species->getSlug()]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($species);
+            $em->flush();
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $entityManager->remove($species);
-        $entityManager->flush();
 
         $this->addFlash('success', 'The species has been deleted successfully.');
 
         return $this->redirectToRoute('species_index');
+    }
+
+    /**
+     * Creates a form to delete a sepcies entity.
+     *
+     * @param Species $species The species entity
+     *
+     * @return \Symfony\Component\Form\FormInterface The form
+     */
+    private function createDeleteForm(Species $species)
+    {
+        return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
+            ->setAction($this->generateUrl('species_delete', ['slug' => $species->getSlug()]))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 
     /**

@@ -13,54 +13,61 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-10">
-            <h1 class="page-header">{{ species.scientificName }}</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>{{ species.scientificName }}</h2>
         </div>
 
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="col-md-2">
-                {% embed "species/_delete_form.html.twig" with { species: species } only %}
-                    {% block btn %}
-                        <a class="btn btn-warning" href="{{ path('species_edit', { 'slug': species.slug}) }}">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                        </a>
-                    {% endblock %}
-                {% endembed %}
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">General</div>
-                <ul class="list-group">
-                    <li class="list-group-item">Genus: {{ species.genus.name }}</li>
-                    <li class="list-group-item">Species: {{ species.name }}</li>
-                    <li class="list-group-item">TaxId:
-                        <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id={{ species.taxId }}" target="_blank">
-                            {{ species.taxId }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">Synonyms</div>
-                <ul class="list-group">
-                    {% if species.synonyms is not empty %}
-                        {% for synonym in species.synonyms %}
-                            <li class="list-group-item">
-                                {{ synonym.scientificName }}
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">General</div>
+                        <ul class="list-group">
+                            <li class="list-group-item">Genus: {{ species.genus.name }}</li>
+                            <li class="list-group-item">Species: {{ species.name }}</li>
+                            <li class="list-group-item">TaxId:
+                                <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id={{ species.taxId }}" target="_blank">
+                                    {{ species.taxId }}
+                                </a>
                             </li>
-                        {% endfor %}
-                    {% else %}
-                        <li class="list-group-item text-center">There is no synonym</li>
-                    {% endif %}
-                </ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Synonyms</div>
+                        <ul class="list-group">
+                            {% if species.synonyms is not empty %}
+                                {% for synonym in species.synonyms %}
+                                    <li class="list-group-item">
+                                        {{ synonym.scientificName }}
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="list-group-item text-center">There is no synonym</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="panel-footer text-right">
+            {{ form_start(delete_form) }}
+                <div class="btn-group btn-group-sm" role="group">
+                    <a class="btn btn-warning" href="{{ path('species_edit', { 'slug': species.slug }) }}">
+                        <span class="fa fa-edit"></span> Edit
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <span class="fa fa-trash"></span> Delete
+                    </button>
+                </div>
+            {{ form_end(delete_form) }}
+        </div>
     </div>
+
+    {% include '_delete_confirmation.html.twig' %}
 {% endblock %}

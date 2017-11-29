@@ -51,6 +51,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"})
+     * @Method("GET")
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findOneWithStrains"
      * })
@@ -65,9 +66,12 @@ class BoxController extends Controller
             $tubes[$tube->getCell()] = $tube;
         }
 
+        $deleteForm = $this->createDeleteForm($box);
+
         return $this->render('box/view.html.twig', [
             'box' => $box,
             'tubes' => $tubes,
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -141,40 +145,47 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/delete", name="box_delete")
-     * @Method("POST")
+     * @Route("/{id}-{slug}", name="box_delete")
+     * @Method("DELETE")
      * @Security("box.isAuthor(user) or box.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Box $box, Request $request)
     {
-        // If the box is already deleted
-        if ($box->isDeleted()) {
-            $this->addFlash('warning', 'The box has been already deleted.');
+        // Check if the box is Empty of not
+        if (!$box->isEmpty()) {
+            $this->addFlash('warning', 'The box contains tubes, it cannot be removed.');
 
-            return $this->redirectToRoute('box_index');
+            return $this->redirectToRoute('box_view', ['id' => $box->getId(), 'slug' => $box->getSlug()]);
         }
 
-        // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('box_delete', $request->request->get('token'))) {
-            $this->addFlash('warning', 'The CSRF token is invalid.');
+        $form = $this->createDeleteForm($box);
+        $form->handleRequest($request);
 
-            return $this->redirectToRoute('box_index');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($box);
+            $em->flush();
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-
-        // If the box is not empty, soft delete it of the database
-        if (!$box->getTubes()->isEmpty()) {
-            $box->setDeleted(true);
-        } else { // Else, delete it
-            $entityManager->remove($box);
-        }
-
-        $entityManager->flush();
 
         $this->addFlash('success', 'The box has been deleted successfully.');
 
         return $this->redirectToRoute('box_index');
+    }
+
+    /**
+     * Creates a form to delete a box entity.
+     *
+     * @param Box $box The box entity
+     *
+     * @return \Symfony\Component\Form\FormInterface The form
+     */
+    private function createDeleteForm(Box $box)
+    {
+        return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
+            ->setAction($this->generateUrl('box_delete', ['id' => $box->getId(), 'slug' => $box->getSlug()]))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 
     /**

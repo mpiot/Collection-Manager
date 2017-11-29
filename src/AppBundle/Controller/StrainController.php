@@ -122,8 +122,11 @@ class StrainController extends Controller
      */
     public function viewAction(Strain $strain)
     {
+        $deleteForm = $this->createDeleteForm($strain);
+
         return $this->render('strain/view.html.twig', [
             'strain' => $strain,
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
@@ -178,23 +181,34 @@ class StrainController extends Controller
      */
     public function deleteAction(Strain $strain, Request $request)
     {
-        // If the CSRF token is invalid, redirect user
-        if (!$this->isCsrfTokenValid('strain_delete', $request->request->get('token'))) {
-            $this->addFlash('warning', 'The CSRF token is invalid.');
+        $form = $this->createDeleteForm($strain);
+        $form->handleRequest($request);
 
-            return $this->redirectToRoute('strain_view', [
-                'id' => $strain->getId(),
-                'slug' => $strain->getSlug(),
-            ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($strain);
+            $em->flush();
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($strain);
-        $entityManager->flush();
 
         $this->addFlash('success', 'The strain has been deleted successfully.');
 
         return $this->redirectToRoute('strain_index');
+    }
+
+    /**
+     * Creates a form to delete a strain entity.
+     *
+     * @param Strain $strain The strain entity
+     *
+     * @return \Symfony\Component\Form\FormInterface The form
+     */
+    private function createDeleteForm(Strain $strain)
+    {
+        return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
+            ->setAction($this->generateUrl('strain_delete', ['id' => $strain->getId(), 'slug' => $strain->getSlug()]))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 
     /**

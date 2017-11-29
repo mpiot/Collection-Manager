@@ -443,6 +443,16 @@ class Box
     }
 
     /**
+     * Is the box empty ?
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->tubes->isEmpty();
+    }
+
+    /**
      * Get empty cells.
      *
      * @param null $keepCell
