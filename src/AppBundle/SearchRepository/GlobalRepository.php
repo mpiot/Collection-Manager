@@ -76,10 +76,12 @@ class GlobalRepository
             if (null !== $author && '' !== $author) {
                 $plasmidBoolQuery->addFilter($authorQuery);
             }
+            if (null !== $group && '' !== $group) {
+                $plasmidBoolQuery->addFilter($groupQuery);
+            }
 
             // Add the Plasmid BoolQuery to the main BoolQuery
-            // Set a boost on 2, because there is 2 fields in "should"
-            $query->addShould($plasmidBoolQuery->setBoost(2));
+            $query->addShould($plasmidBoolQuery);
         }
 
         // For primer
@@ -103,10 +105,12 @@ class GlobalRepository
             if (null !== $author && '' !== $author) {
                 $primerBoolQuery->addFilter($authorQuery);
             }
+            if (null !== $group && '' !== $group) {
+                $primerBoolQuery->addFilter($groupQuery);
+            }
 
             // Add the Primer BoolQuery to the main BoolQuery
-            // Set a boost on 3, because there is 3 fields in "should"
-            $query->addShould($primerBoolQuery->setBoost(3));
+            $query->addShould($primerBoolQuery);
         }
 
         // For Gmo Strain
@@ -140,8 +144,7 @@ class GlobalRepository
             }
 
             // Add the Gmo BoolQuery to the main BoolQuery
-            // Set a boost on 2, because there is 2 fields in "should"
-            $query->addShould($gmoStrainBoolQuery->setBoost(2));
+            $query->addShould($gmoStrainBoolQuery);
         }
 
         // For wild strain
@@ -178,8 +181,59 @@ class GlobalRepository
             }
 
             // Add the Gmo BoolQuery to the main BoolQuery
-            // Set a boost on 2, because there is 2 fields in "should"
-            $query->addShould($wildStrainBoolQuery->setBoost(2));
+            $query->addShould($wildStrainBoolQuery);
+        }
+
+        // For product
+        if (null === $category || in_array('product', $category)) {
+            // Set a specific filter, for this type
+            $productTypeQuery = new \Elastica\Query\Type();
+            $productTypeQuery->setType('product');
+
+            // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
+            $productBoolQuery = new \Elastica\Query\BoolQuery();
+
+            // First, define required queries like: type, security
+            $productBoolQuery->addFilter($groupsSecureQuery);
+            $productBoolQuery->addFilter($productTypeQuery);
+
+            // Then, all conditional queries
+            if (null !== $keyword) {
+                $productBoolQuery->addShould($keywordQuery);
+                $productBoolQuery->setMinimumShouldMatch(1);
+            }
+            if (null !== $group && '' !== $group) {
+                $productBoolQuery->addFilter($groupQuery);
+            }
+
+            // Add the Primer BoolQuery to the main BoolQuery
+            $query->addShould($productBoolQuery);
+        }
+
+        // For equipment
+        if (null === $category || in_array('equipment', $category)) {
+            // Set a specific filter, for this type
+            $equipmentTypeQuery = new \Elastica\Query\Type();
+            $equipmentTypeQuery->setType('equipment');
+
+            // Create the BoolQuery, and set a MinNumShouldMatch, to avoid have all results in database
+            $equipmentBoolQuery = new \Elastica\Query\BoolQuery();
+
+            // First, define required queries like: type, security
+            $equipmentBoolQuery->addFilter($groupsSecureQuery);
+            $equipmentBoolQuery->addFilter($equipmentTypeQuery);
+
+            // Then, all conditional queries
+            if (null !== $keyword) {
+                $equipmentBoolQuery->addShould($keywordQuery);
+                $equipmentBoolQuery->setMinimumShouldMatch(1);
+            }
+            if (null !== $group && '' !== $group) {
+                $equipmentBoolQuery->addFilter($groupQuery);
+            }
+
+            // Add the Primer BoolQuery to the main BoolQuery
+            $query->addShould($equipmentBoolQuery);
         }
 
         return $query;

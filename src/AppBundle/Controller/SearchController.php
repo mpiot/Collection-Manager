@@ -35,6 +35,8 @@ class SearchController extends Controller
         $search->addType('plasmid');
         $search->addType('primer');
         $search->addType('strain');
+        $search->addType('product');
+        $search->addType('equipment');
         $resultSet = $search->search($query, self::HITS_PER_PAGE);
         $transformer = $this->get('fos_elastica.elastica_to_model_transformer.collection.app');
         $results = $transformer->transform($resultSet->getResults());
@@ -69,6 +71,8 @@ class SearchController extends Controller
             $search->addType('plasmid');
             $search->addType('primer');
             $search->addType('strain');
+            $search->addType('product');
+            $search->addType('equipment');
             $resultSet = $search->search($query, self::HITS_PER_PAGE);
             $transformer = $this->get('fos_elastica.elastica_to_model_transformer.collection.app');
             $results = $transformer->transform($resultSet->getResults());

@@ -2,8 +2,10 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Entity\Equipment;
 use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Primer;
+use AppBundle\Entity\Product;
 use AppBundle\Entity\Strain;
 
 class InstanceOfExtension extends \Twig_Extension
@@ -19,6 +21,12 @@ class InstanceOfExtension extends \Twig_Extension
             }),
             new \Twig_SimpleTest('strain', function ($event) {
                 return $event instanceof Strain;
+            }),
+            new \Twig_SimpleTest('product', function ($event) {
+                return $event instanceof Product;
+            }),
+            new \Twig_SimpleTest('equipment', function ($event) {
+                return $event instanceof Equipment;
             }),
         ];
     }

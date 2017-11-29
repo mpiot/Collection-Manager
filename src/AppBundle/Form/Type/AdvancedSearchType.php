@@ -40,10 +40,12 @@ class AdvancedSearchType extends AbstractType
                     'Wild' => 'wild',
                     'Plasmid' => 'plasmid',
                     'Primer' => 'primer',
+                    'Product' => 'product',
+                    'Equipment' => 'equipment',
                 ],
                 'expanded' => true,
                 'multiple' => true,
-                'data' => ['gmo', 'wild', 'plasmid', 'primer'],
+                'data' => ['gmo', 'wild', 'plasmid', 'primer', 'product', 'equipment'],
                 'constraints' => [
                     new Count(['min' => 1, 'minMessage' => 'Select at least one element.']),
                 ],

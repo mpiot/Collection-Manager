@@ -22,6 +22,16 @@
                         <span class="category">{{ result.group.name }} - Primer</span><br />
                         Sequence: {{ result.sequence }}
                     </p>
+                {% elseif result is product %}
+                    <h4><a href="{{ path('product_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }}</a></h4>
+                    <p>
+                        <span class="category">{{ result.group.name }} - Product</span><br />
+                    </p>
+                {% elseif result is equipment %}
+                    <h4><a href="{{ path('equipment_view', { 'id': result.id, 'slug': result.slug }) }}">{{ result.name }}</a></h4>
+                    <p>
+                        <span class="category">{{ result.group.name }} - Equipment</span><br />
+                    </p>
                 {% endif %}
             </div>
         {% endfor %}
