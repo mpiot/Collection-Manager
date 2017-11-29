@@ -30,8 +30,8 @@ class Box
     private $id;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     * @Gedmo\Slug(fields={"name"}, unique=false)
+     * @ORM\Column(name="slug", type="string", length=128)
      */
     private $slug;
 
@@ -39,6 +39,7 @@ class Box
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -53,6 +54,7 @@ class Box
      * @var string
      *
      * @ORM\Column(name="freezer", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $freezer;
 

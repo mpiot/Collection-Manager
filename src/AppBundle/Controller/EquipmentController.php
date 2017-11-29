@@ -69,7 +69,7 @@ class EquipmentController extends Controller
 
             $this->addFlash('success', 'The equipment has been created successfully.');
 
-            return $this->redirectToRoute('equipment_view', ['id' => $equipment->getId()]);
+            return $this->redirectToRoute('equipment_view', ['id' => $equipment->getId(), 'slug' => $equipment->getSlug()]);
         }
 
         return $this->render('equipment/add.html.twig', [
@@ -81,7 +81,7 @@ class EquipmentController extends Controller
     /**
      * Finds and displays a equipment entity.
      *
-     * @Route("/{id}", name="equipment_view")
+     * @Route("/{id}-{slug}", name="equipment_view")
      * @Method("GET")
      * @Security("equipment.getGroup().isMember(user)")
      */
@@ -100,7 +100,7 @@ class EquipmentController extends Controller
     /**
      * Displays a form to edit an existing equipment entity.
      *
-     * @Route("/{id}/edit", name="equipment_edit")
+     * @Route("/{id}-{slug}/edit", name="equipment_edit")
      * @Method({"GET", "POST"})
      * @Security("equipment.getGroup().isMember(user)")
      */
@@ -114,7 +114,7 @@ class EquipmentController extends Controller
 
             $this->addFlash('success', 'The equipment has been edited successfully.');
 
-            return $this->redirectToRoute('equipment_view', ['id' => $equipment->getId()]);
+            return $this->redirectToRoute('equipment_view', ['id' => $equipment->getId(), 'slug' => $equipment->getSlug()]);
         }
 
         return $this->render('equipment/edit.html.twig', [
@@ -126,7 +126,7 @@ class EquipmentController extends Controller
     /**
      * Deletes a equipment entity.
      *
-     * @Route("/{id}", name="equipment_delete")
+     * @Route("/{id}-{slug}", name="equipment_delete")
      * @Method("DELETE")
      * @Security("equipment.getGroup().isMember(user)")
      */
@@ -156,7 +156,7 @@ class EquipmentController extends Controller
     private function createDeleteForm(Equipment $equipment)
     {
         return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
-            ->setAction($this->generateUrl('equipment_delete', ['id' => $equipment->getId()]))
+            ->setAction($this->generateUrl('equipment_delete', ['id' => $equipment->getId(), 'slug' => $equipment->getId()]))
             ->setMethod('DELETE')
             ->getForm()
         ;

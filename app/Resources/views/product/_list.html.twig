@@ -16,14 +16,14 @@
                     <tr {{ (product.stock <= product.stockDangerAlert) ? 'class="danger"' : (product.stock <= product.stockWarningAlert) ? 'class="warning"' : '' }}>
                         <td>{{ loop.index }}</td>
                         <td>
-                            <a href="{{ path('product_view', { 'id': product.id }) }}">{{ product.name }}</a>
+                            <a href="{{ path('product_view', { 'id': product.id, 'slug': product.slug }) }}">{{ product.name }}</a>
                         </td>
                         <td>{{ product.brand.name }}</td>
                         <td>{{ product.brandReference }}</td>
                         <td>{{ product.stock }} {{ product.storageUnit }}</td>
                         <td>
                             {% if product.manualName is not null %}
-                                <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_manual', { 'id': product.id }) }}">
+                                <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}">
                                     <span class="glyphicon glyphicon-download"></span> Download manual
                                 </a>
                             {% else %}

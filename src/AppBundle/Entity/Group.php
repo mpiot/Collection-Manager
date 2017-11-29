@@ -28,17 +28,18 @@ class Group
     private $id;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(length=128, unique=true)
-     */
-    private $slug;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     private $name;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", length=128, unique=true)
+     */
+    private $slug;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="administeredGroups")
@@ -124,16 +125,6 @@ class Group
     }
 
     /**
-     * Get slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
      * Set name.
      *
      * @param string $name
@@ -155,6 +146,16 @@ class Group
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**

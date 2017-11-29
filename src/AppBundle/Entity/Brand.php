@@ -37,6 +37,12 @@ class Brand
     private $name;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="brand")
      */
     private $products;
@@ -112,6 +118,16 @@ class Brand
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**

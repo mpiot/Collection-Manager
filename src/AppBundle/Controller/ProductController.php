@@ -96,7 +96,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/{id}", requirements={"id": "\d+"}, name="product_view")
+     * @Route("/{id}-{slug}", requirements={"id": "\d+"}, name="product_view")
      * @Method("GET")
      * @Security("product.getGroup().isMember(user)")
      */
@@ -113,7 +113,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", requirements={"id": "\d+"}, name="product_edit")
+     * @Route("/{id}-{slug}/edit", requirements={"id": "\d+"}, name="product_edit")
      * @Method({"GET", "POST"})
      * @Security("product.getGroup().isMember(user)")
      */
@@ -127,7 +127,7 @@ class ProductController extends Controller
 
             $this->addFlash('success', 'The product has been edited successfully.');
 
-            return $this->redirectToRoute('product_view', ['id' => $product->getId()]);
+            return $this->redirectToRoute('product_view', ['id' => $product->getId(), 'slug' => $product->getSlug()]);
         }
 
         return $this->render('product/edit.html.twig', [
@@ -139,7 +139,7 @@ class ProductController extends Controller
     /**
      * Deletes a product entity.
      *
-     * @Route("/{id}/delete", name="product_delete")
+     * @Route("/{id}-{slug}/delete", name="product_delete")
      * @Method("DELETE")
      * @Security("product.getGroup().isMember(user)")
      */
@@ -169,7 +169,7 @@ class ProductController extends Controller
     private function createDeleteForm(Product $product)
     {
         return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
-            ->setAction($this->generateUrl('product_delete', ['id' => $product->getId()]))
+            ->setAction($this->generateUrl('product_delete', ['id' => $product->getId(), 'slug' => $product->getSlug()]))
             ->setMethod('DELETE')
             ->getForm()
             ;
@@ -213,8 +213,8 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/{id}/download-quote", name="product_download_quote")
-     * @Route("/{id}/download-manual", name="product_download_manual")
+     * @Route("/{id}-{slug}/download-quote", name="product_download_quote")
+     * @Route("/{id}-{slug}/download-manual", name="product_download_manual")
      * @Method("GET")
      * @Security("product.getGroup().isMember(user)")
      */

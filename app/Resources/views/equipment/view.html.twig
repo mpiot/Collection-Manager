@@ -61,7 +61,7 @@
         <div class="panel-footer text-right">
             {{ form_start(delete_form) }}
                 <div class="btn-group btn-group-sm" role="group">
-                    <a class="btn btn-warning" href="{{ path('equipment_edit', { 'id': equipment.id }) }}">
+                    <a class="btn btn-warning" href="{{ path('equipment_edit', { 'id': equipment.id, 'slug': equipment.slug }) }}">
                         <span class="fa fa-edit"></span> Edit
                     </a>
                     <button type="submit" class="btn btn-danger">

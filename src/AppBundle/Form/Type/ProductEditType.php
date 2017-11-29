@@ -28,7 +28,7 @@ class ProductEditType extends AbstractType
                 'required' => false,
                 'allow_delete' => true,
                 'download_uri' => function (Product $product) {
-                    return $this->router->generate('product_download_quote', ['id' => $product->getId()]);
+                    return $this->router->generate('product_download_quote', ['id' => $product->getId(), 'slug' => $product->getSlug()]);
                 },
                 'download_label' => function (Product $product) {
                     if (null !== $product->getQuoteName()) {
@@ -42,7 +42,7 @@ class ProductEditType extends AbstractType
                 'required' => false,
                 'allow_delete' => true,
                 'download_uri' => function (Product $product) {
-                    return $this->router->generate('product_download_manual', ['id' => $product->getId()]);
+                    return $this->router->generate('product_download_manual', ['id' => $product->getId(), 'slug' => $product->getSlug()]);
                 },
                 'download_label' => function (Product $product) {
                     if (null !== $product->getManualName()) {

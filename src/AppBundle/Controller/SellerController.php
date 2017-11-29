@@ -126,7 +126,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="seller_edit")
+     * @Route("/{slug}/edit", name="seller_edit")
      * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -151,7 +151,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="seller_delete")
+     * @Route("/{slug}/delete", name="seller_delete")
      * @Method("GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -181,7 +181,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/{id}/download-offer", name="seller_download_offer")
+     * @Route("/{slug}/download-offer", name="seller_download_offer")
      * @Method("GET")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */

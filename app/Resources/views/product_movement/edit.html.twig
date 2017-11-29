@@ -9,7 +9,7 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li><a href="{{ path('product_index') }}">Products list</a></li>
-    <li><a href="{{ path('product_view', { 'id': productMovement.product.id }) }}">{{ productMovement.product.name }}</a></li>
+    <li><a href="{{ path('product_view', { 'id': productMovement.product.id, 'slug': productMovement.product.slug }) }}">{{ productMovement.product.name }}</a></li>
     <li class="active">Edit a movement</li>
 {% endblock %}
 

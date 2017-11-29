@@ -62,6 +62,7 @@ class ProductMovementController extends Controller
             } else {
                 return $this->redirectToRoute('product_view', [
                     'id' => $product->getId(),
+                    'slug' => $product->getSlug(),
                 ]);
             }
         }
@@ -90,6 +91,7 @@ class ProductMovementController extends Controller
 
             return $this->redirectToRoute('product_view', [
                 'id' => $productMovement->getProduct()->getId(),
+                'slug' => $productMovement->getProduct()->getSlug(),
             ]);
         }
 
@@ -120,6 +122,7 @@ class ProductMovementController extends Controller
 
         return $this->redirectToRoute('product_view', [
             'id' => $productMovement->getProduct()->getId(),
+            'slug' => $productMovement->getProduct()->getSlug(),
         ]);
     }
 

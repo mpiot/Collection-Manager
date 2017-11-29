@@ -28,7 +28,7 @@ class SellerEditType extends AbstractType
                 'required' => false,
                 'allow_delete' => true,
                 'download_uri' => function (Seller $seller) {
-                    return $this->router->generate('seller_download_offer', ['id' => $seller->getId()]);
+                    return $this->router->generate('seller_download_offer', ['slug' => $seller->getSlug()]);
                 },
                 'download_label' => function (Seller $seller) {
                     if (null !== $seller->getOfferName()) {

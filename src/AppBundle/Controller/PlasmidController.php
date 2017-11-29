@@ -153,7 +153,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="plasmid_delete")
+     * @Route("/{id}-{slug}", name="plasmid_delete")
      * @Method("DELETE")
      * @Security("plasmid.isAuthor(user) or plasmid.getGroup().isAdministrator(user)")
      */
@@ -193,7 +193,7 @@ class PlasmidController extends Controller
     private function createDeleteForm(Plasmid $plasmid)
     {
         return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
-            ->setAction($this->generateUrl('plasmid_delete', ['id' => $plasmid->getId()]))
+            ->setAction($this->generateUrl('plasmid_delete', ['id' => $plasmid->getId(), 'slug' => $plasmid->getSlug()]))
             ->setMethod('DELETE')
             ->getForm()
             ;

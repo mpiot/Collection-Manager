@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class brandController.
+ * Class brand controller.
  *
  * @Route("/brand")
  */
@@ -122,7 +122,7 @@ class BrandController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="brand_edit")
+     * @Route("/{slug}/edit", name="brand_edit")
      * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -147,7 +147,7 @@ class BrandController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="brand_delete")
+     * @Route("/{slug}/delete", name="brand_delete")
      * @Method("GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */

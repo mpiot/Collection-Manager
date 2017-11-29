@@ -19,10 +19,10 @@
                             <td>
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <div class="btn-group btn-group-xs" role="group">
-                                        <a class="btn btn-warning" href="{{ path('brand_edit', { 'id': brand.id}) }}">
+                                        <a class="btn btn-warning" href="{{ path('brand_edit', { 'slug': brand.slug}) }}">
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                                         </a>
-                                        <a class="btn btn-danger" href="{{ path('brand_delete', { 'id': brand.id, 'token': csrf_token('brand_delete') }) }}" data-confirmation="1">
+                                        <a class="btn btn-danger" href="{{ path('brand_delete', { 'slug': brand.slug, 'token': csrf_token('brand_delete') }) }}" data-confirmation="1">
                                             <span class="fa fa-trash" aria-hidden="true"></span> Delete
                                         </a>
                                     </div>

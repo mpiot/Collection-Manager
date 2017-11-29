@@ -44,7 +44,7 @@
                             <li class="list-group-item"><u>Negotiated price:</u> {{ product.negotiatedPrice }} €</li>
                             <li class="list-group-item">
                                 {% if product.quoteName is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_quote', { 'id': product.id }) }}">
+                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_quote', { 'id': product.id, 'slug': product.slug }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download quote
                                     </a>
                                 {% else %}
@@ -55,7 +55,7 @@
                             </li>
                             <li class="list-group-item">
                                 {% if product.manualName is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_manual', { 'id': product.id }) }}">
+                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download manual
                                     </a>
                                 {% else %}
@@ -93,7 +93,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <span class="h4">Stock</span>
-                            <a href="{{ path("product_movement_add", {'product_id': product.id }) }}" class="btn btn-xs btn-primary pull-right">
+                            <a href="{{ path("product_movement_add", {'product_id': product.id}) }}" class="btn btn-xs btn-primary pull-right">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 Create a new movement
                             </a>
@@ -140,7 +140,7 @@
         <div class="panel-footer text-right">
             {{ form_start(delete_form) }}
             <div class="btn-group btn-group-sm" role="group">
-                <a class="btn btn-warning" href="{{ path('product_edit', { 'id': product.id }) }}">
+                <a class="btn btn-warning" href="{{ path('product_edit', { 'id': product.id, 'slug': product.slug }) }}">
                     <span class="fa fa-edit"></span> Edit
                 </a>
                 <button type="submit" class="btn btn-danger">

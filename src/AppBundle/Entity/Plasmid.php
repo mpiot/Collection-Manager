@@ -5,7 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -16,7 +15,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="plasmid")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PlasmidRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity({"name", "group"}, message="This name is already used by another plasmid.")
  * @Vich\Uploadable
  */
 class Plasmid
@@ -33,8 +31,8 @@ class Plasmid
     private $id;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     * @Gedmo\Slug(fields={"name"}, unique=false)
+     * @ORM\Column(name="slug", type="string", length=128)
      */
     private $slug;
 
@@ -49,6 +47,7 @@ class Plasmid
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 

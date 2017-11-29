@@ -138,7 +138,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="primer_delete")
+     * @Route("/{id}-{slug}", name="primer_delete")
      * @Method("DELETE")
      * @Security("primer.isAuthor(user) or primer.getGroup().isAdministrator(user)")
      */
@@ -168,7 +168,7 @@ class PrimerController extends Controller
     private function createDeleteForm(Primer $primer)
     {
         return $this->createFormBuilder(null, ['attr' => ['data-confirmation' => true]])
-            ->setAction($this->generateUrl('primer_delete', ['id' => $primer->getId()]))
+            ->setAction($this->generateUrl('primer_delete', ['id' => $primer->getId(), 'slug' => $primer->getSlug()]))
             ->setMethod('DELETE')
             ->getForm()
             ;

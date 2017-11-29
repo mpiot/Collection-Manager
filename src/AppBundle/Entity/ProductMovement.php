@@ -43,6 +43,7 @@ class ProductMovement
      * @var string
      *
      * @ORM\Column(name="comment", type="text")
+     * @Assert\NotBlank()
      */
     private $comment;
 

@@ -149,7 +149,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="box_delete")
+     * @Route("/{id}-{slug}/delete", name="box_delete")
      * @Method("DELETE")
      * @Security("box.isAuthor(user) or box.getGroup().isAdministrator(user)")
      */

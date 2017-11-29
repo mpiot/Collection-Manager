@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Primer.
@@ -14,7 +13,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="primer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrimerRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity({"name", "group"}, message="This name is already used by another primer.")
  */
 class Primer
 {
@@ -30,8 +28,8 @@ class Primer
     private $id;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(name="slug", type="string", length=128, unique=true)
+     * @Gedmo\Slug(fields={"name"}, unique=false)
+     * @ORM\Column(name="slug", type="string", length=128)
      */
     private $slug;
 
@@ -46,6 +44,7 @@ class Primer
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
