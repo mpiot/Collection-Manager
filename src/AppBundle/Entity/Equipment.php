@@ -32,6 +32,12 @@ class Equipment
     private $name;
 
     /**
+     * @Gedmo\Slug(fields={"name"}, unique=false)
+     * @ORM\Column(name="slug", type="string", length=128)
+     */
+    private $slug;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
@@ -153,6 +159,16 @@ class Equipment
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
