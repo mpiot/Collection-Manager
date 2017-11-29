@@ -65,7 +65,7 @@ class ProductType extends AbstractType
                         ->orderBy('brand.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'Select a brand',
+                'placeholder' => '-- select a brand --',
             ])
             ->add('brandReference')
             ->add('seller', EntityType::class, [
@@ -75,7 +75,7 @@ class ProductType extends AbstractType
                         ->orderBy('seller.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'placeholder' => 'Select a seller',
+                'placeholder' => '-- select a seller --',
             ])
             ->add('sellerReference')
             ->add('catalogPrice', MoneyType::class)

@@ -45,12 +45,22 @@ class EquipmentType extends AbstractType
             ])
             ->add('brand', EntityType::class, [
                 'class' => 'AppBundle\Entity\Brand',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('brand')
+                        ->orderBy('brand.name', 'ASC');
+                },
                 'choice_label' => 'name',
+                'placeholder' => '-- select a brand --',
             ])
             ->add('model')
             ->add('seller', EntityType::class, [
                 'class' => 'AppBundle\Entity\Seller',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('seller')
+                        ->orderBy('seller.name', 'ASC');
+                },
                 'choice_label' => 'name',
+                'placeholder' => '-- select a seller --',
             ])
             ->add('inventoryNumber')
             ->add('location', EntityType::class, [
