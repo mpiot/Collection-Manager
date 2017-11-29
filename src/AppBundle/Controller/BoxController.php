@@ -25,6 +25,7 @@ class BoxController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="box_index")
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
@@ -39,6 +40,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="box_index_ajax")
+     * @Method("GET")
      */
     public function listAction(Request $request)
     {
@@ -50,33 +52,8 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"})
-     * @Method("GET")
-     * @ParamConverter("box", class="AppBundle:Box", options={
-     *     "repository_method" = "findOneWithStrains"
-     * })
-     * @Security("box.getGroup().isMember(user)")
-     */
-    public function viewAction(Box $box)
-    {
-        $tubesList = $box->getTubes()->toArray();
-        $tubes = [];
-
-        foreach ($tubesList as $tube) {
-            $tubes[$tube->getCell()] = $tube;
-        }
-
-        $deleteForm = $this->createDeleteForm($box);
-
-        return $this->render('box/view.html.twig', [
-            'box' => $box,
-            'tubes' => $tubes,
-            'delete_form' => $deleteForm->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/add", name="box_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -120,7 +97,34 @@ class BoxController extends Controller
     }
 
     /**
+     * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"})
+     * @Method("GET")
+     * @ParamConverter("box", class="AppBundle:Box", options={
+     *     "repository_method" = "findOneWithStrains"
+     * })
+     * @Security("box.getGroup().isMember(user)")
+     */
+    public function viewAction(Box $box)
+    {
+        $tubesList = $box->getTubes()->toArray();
+        $tubes = [];
+
+        foreach ($tubesList as $tube) {
+            $tubes[$tube->getCell()] = $tube;
+        }
+
+        $deleteForm = $this->createDeleteForm($box);
+
+        return $this->render('box/view.html.twig', [
+            'box' => $box,
+            'tubes' => $tubes,
+            'delete_form' => $deleteForm->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/{id}-{slug}/edit", name="box_edit")
+     * @Method({"GET", "POST"})
      * @Security("box.isAuthor(user) or box.getGroup().isAdministrator(user)")
      */
     public function editAction(Box $box, Request $request)
@@ -190,6 +194,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/{id}-{slug}/export", name="box_export")
+     * @Method("GET")
      * @ParamConverter("box", class="AppBundle:Box", options={
      *     "repository_method" = "findForCSVExport"
      * })
@@ -213,6 +218,7 @@ class BoxController extends Controller
 
     /**
      * @Route("/{id}-{slug}/import", name="box_import")
+     * @Method({"GET", "POST"})
      * @Security("box.getGroup().isMember(user)")
      */
     public function importAction(Box $box, Request $request)

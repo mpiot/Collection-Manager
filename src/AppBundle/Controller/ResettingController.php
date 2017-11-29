@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\ResetPasswordType;
 use AppBundle\Form\Type\ResettingType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ class ResettingController extends Controller
 {
     /**
      * @Route("/resetting/request", name="user_resetting_request")
+     * @Method({"GET", "POST"})
      */
     public function resettingRequestAction(Request $request)
     {
@@ -48,6 +50,7 @@ class ResettingController extends Controller
 
     /**
      * @Route("/resetting/{username}/{token}", name="user_resetting")
+     * @Method({"GET", "POST"})
      */
     public function resettingAction($username, $token, Request $request)
     {

@@ -24,6 +24,7 @@ class ProductController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="product_index")
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
@@ -38,6 +39,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_index_ajax")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -50,6 +52,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/add", name="product_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -94,6 +97,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}", requirements={"id": "\d+"}, name="product_view")
+     * @Method("GET")
      * @Security("product.getGroup().isMember(user)")
      */
     public function viewAction(Product $product)
@@ -110,6 +114,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/{id}/edit", requirements={"id": "\d+"}, name="product_edit")
+     * @Method({"GET", "POST"})
      * @Security("product.getGroup().isMember(user)")
      */
     public function editAction(Product $product, Request $request)
@@ -172,6 +177,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/order", options={"expose"=true}, name="product_order")
+     * @Method("GET")
      */
     public function orderAction(Request $request)
     {
@@ -185,6 +191,7 @@ class ProductController extends Controller
 
     /**
      * @Route("/order/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_order_ajax")
+     * @Method("GET")
      */
     public function orderListAction(Request $request)
     {
@@ -208,6 +215,7 @@ class ProductController extends Controller
     /**
      * @Route("/{id}/download-quote", name="product_download_quote")
      * @Route("/{id}/download-manual", name="product_download_manual")
+     * @Method("GET")
      * @Security("product.getGroup().isMember(user)")
      */
     public function downloadAction(Product $product, Request $request)

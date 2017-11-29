@@ -24,6 +24,7 @@ class SellerController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="seller_index")
+     * @Method("GET")
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
@@ -38,6 +39,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()",name="seller_index_ajax")
+     * @Method("GET")
      * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()
@@ -51,6 +53,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/add", name="seller_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -94,7 +97,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/add-ajax", name="seller_embded_add", condition="request.isXmlHttpRequest()")
-     * @Method("post")
+     * @Method("POST")
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function embdedAddAction(Request $request)
@@ -124,6 +127,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/{id}/edit", name="seller_edit")
+     * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Seller $seller, Request $request)
@@ -148,6 +152,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/{id}/delete", name="seller_delete")
+     * @Method("GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Seller $seller, Request $request)
@@ -177,6 +182,7 @@ class SellerController extends Controller
 
     /**
      * @Route("/{id}/download-offer", name="seller_download_offer")
+     * @Method("GET")
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function downloadOfferAction(Seller $seller)

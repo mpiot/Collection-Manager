@@ -24,6 +24,7 @@ class StrainController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="strain_index")
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
@@ -38,6 +39,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain_index_ajax")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -52,6 +54,7 @@ class StrainController extends Controller
      * @Route("/add/gmo", name="strain_add_gmo")
      * @Route("/add/wild", name="strain_add_wild")
      * @Route("/add/{id}-{slug}", name="strain_add_from_model", requirements={"id": "\d+"})
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request, Strain $strainModel = null)
@@ -117,6 +120,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/{id}-{slug}", name="strain_view", requirements={"id": "\d+"})
+     * @Method("GET")
      * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
      * @Security("strain.getGroup().isMember(user)")
      */
@@ -132,6 +136,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/{id}-{slug}/edit", name="strain_edit", requirements={"id": "\d+"})
+     * @Method({"GET", "POST"})
      * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
      * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
@@ -175,8 +180,8 @@ class StrainController extends Controller
 
     /**
      * @Route("/{id}-{slug}/delete", name="strain_delete", requirements={"id": "\d+"})
+     * @Method("DELETE")
      * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
-     * @Method("POST")
      * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Strain $strain, Request $request)
@@ -213,6 +218,7 @@ class StrainController extends Controller
 
     /**
      * @Route("/autocomplete/group/{group}/name/{name}", name="strain_name_autocomplete", options={"expose"=true}, condition="request.isXmlHttpRequest()")
+     * @Method("GET")
      */
     public function nameAutocompleteAction($group, $name)
     {

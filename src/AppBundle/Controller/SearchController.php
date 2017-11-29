@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\AdvancedSearchType;
 use AppBundle\SearchRepository\GlobalRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class SearchController extends Controller
 
     /**
      * @Route("/search", name="quick-search")
+     * @Method("GET")
      */
     public function quickSearchAction(Request $request)
     {
@@ -46,6 +48,7 @@ class SearchController extends Controller
 
     /**
      * @Route("/advanced-search", name="advanced-search")
+     * @Method({"GET", "POST"})
      */
     public function advancedSearchAction(Request $request)
     {

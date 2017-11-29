@@ -22,6 +22,7 @@ class PrimerController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="primer_index")
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
@@ -36,6 +37,7 @@ class PrimerController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="primer_index_ajax")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -48,6 +50,7 @@ class PrimerController extends Controller
 
     /**
      * @Route("/add", name="primer_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -107,6 +110,7 @@ class PrimerController extends Controller
 
     /**
      * @Route("/{id}-{slug}/edit", name="primer_edit", requirements={"id": "\d+"})
+     * @Method({"GET", "POST"})
      * @Security("primer.isAuthor(user) or primer.getGroup().isAdministrator(user)")
      */
     public function editAction(Primer $primer, Request $request)

@@ -22,6 +22,7 @@ class SpeciesController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="species_index")
+     * @Method("GET")
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
@@ -36,6 +37,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_index_ajax")
+     * @Method("GET")
      * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()
@@ -49,6 +51,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/add", name="species_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -112,6 +115,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/{slug}/edit", name="species_edit")
+     * @Method({"GET", "POST"})
      * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
      * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
@@ -183,6 +187,7 @@ class SpeciesController extends Controller
 
     /**
      * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson")
+     * @Method("GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function getJsonAction($taxid)

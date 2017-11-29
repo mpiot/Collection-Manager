@@ -38,6 +38,7 @@ class EquipmentController extends Controller
 
     /**
      * @Route("/list", condition="request.isXmlHttpRequest()", name="equipment_index_ajax")
+     * @Method("GET")
      */
     public function listAction()
     {

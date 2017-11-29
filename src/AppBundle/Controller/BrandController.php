@@ -21,6 +21,7 @@ class BrandController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="brand_index")
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
@@ -34,6 +35,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="brand_index_ajax")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -46,6 +48,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/add", name="brand_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -90,7 +93,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/add-ajax", name="brand_embded_add", condition="request.isXmlHttpRequest()")
-     * @Method("post")
+     * @Method("POST")
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function embdedAddAction(Request $request)
@@ -120,6 +123,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/{id}/edit", name="brand_edit")
+     * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Brand $brand, Request $request)
@@ -144,6 +148,7 @@ class BrandController extends Controller
 
     /**
      * @Route("/{id}/delete", name="brand_delete")
+     * @Method("GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Brand $brand, Request $request)

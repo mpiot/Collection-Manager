@@ -26,6 +26,7 @@ class PlasmidController extends Controller
 {
     /**
      * @Route("/", options={"expose"=true}, name="plasmid_index")
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
@@ -40,6 +41,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="plasmid_index_ajax")
+     * @Method("GET")
      */
     public function listAction()
     {
@@ -52,6 +54,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/add", name="plasmid_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -115,6 +118,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/{id}-{slug}/edit", name="plasmid_edit", requirements={"id": "\d+"})
+     * @Method({"GET", "POST"})
      * @Security("plasmid.isAuthor(user) or plasmid.getGroup().isAdministrator(user)")
      */
     public function editAction(Plasmid $plasmid, Request $request)
@@ -197,6 +201,7 @@ class PlasmidController extends Controller
 
     /**
      * @Route("/{id}-{slug}/download", name="plasmid_download")
+     * @Method("GET")
      * @Security("plasmid.getGroup().isMember(user)")
      */
     public function downloadAction(Plasmid $plasmid)

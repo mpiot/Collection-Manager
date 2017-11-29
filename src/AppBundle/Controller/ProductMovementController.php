@@ -22,6 +22,7 @@ class ProductMovementController extends Controller
 {
     /**
      * @Route("/add/{product_id}", name="product_movement_add")
+     * @Method({"GET", "POST"})
      * @ParamConverter("product", options={"mapping": {"product_id": "id"}})
      * @Security("product.getGroup().isMember(user)")
      */
@@ -73,6 +74,7 @@ class ProductMovementController extends Controller
 
     /**
      * @Route("/{id}/edit", name="product_movement_edit")
+     * @Method({"GET", "POST"})
      * @Security("productMovement.getProduct().getGroup().isMember(user)")
      */
     public function editAction(ProductMovement $productMovement, Request $request)

@@ -21,6 +21,7 @@ class LocationController extends Controller
 {
     /**
      * @Route("/", name="location_index")
+     * @Method("GET")
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction()
@@ -39,6 +40,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/add", name="location_add")
+     * @Method({"GET", "POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -84,7 +86,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/add-ajax", name="location_embded_add", condition="request.isXmlHttpRequest()")
-     * @Method("post")
+     * @Method("POST")
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function embdedAddAction(Request $request)
@@ -114,6 +116,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-up", name="location_move_up")
+     * @Method("GET")
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function moveUpAction(Location $location)
@@ -128,6 +131,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/move-down", name="location_move_down")
+     * @Method("GET")
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function moveDownAction(Location $location)
@@ -142,6 +146,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/edit", name="location_edit")
+     * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Location $location, Request $request)
@@ -167,6 +172,7 @@ class LocationController extends Controller
 
     /**
      * @Route("/{id}/delete", name="location_delete")
+     * @Method("GET")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Location $location, Request $request)

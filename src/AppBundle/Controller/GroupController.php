@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Group;
 use AppBundle\Form\Type\GroupType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -20,6 +21,7 @@ class GroupController extends Controller
 {
     /**
      * @Route("/", name="group_index")
+     * @Method("GET")
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction()
@@ -34,6 +36,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/add", name="group_add")
+     * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function addAction(Request $request)
@@ -78,6 +81,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/{slug}", name="group_view")
+     * @Method("GET")
      * @ParamConverter("group", options={"repository_method" = "findOneWithMembers"})
      * @Security("is_granted('ROLE_USER')")
      */
@@ -90,6 +94,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/{slug}/edit", name="group_edit")
+     * @Method({"GET", "POST"})
      * @ParamConverter("group", options={"repository_method" = "findOneWithMembers"})
      * @Security("group.isAdministrator(user) or is_granted('ROLE_SUPER_ADMIN')")
      */
@@ -115,6 +120,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/{slug}/delete", name="group_delete")
+     * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Group $group, Request $request)
@@ -140,6 +146,7 @@ class GroupController extends Controller
 
     /**
      * @Route("/{slug}/favorite", name="group_favorite")
+     * @Method("GET")
      * @Security("group.isMember(user)")
      */
     public function favoriteAction(Group $group)
