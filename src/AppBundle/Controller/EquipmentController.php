@@ -6,6 +6,7 @@ use AppBundle\Entity\Equipment;
 use AppBundle\Entity\Group;
 use AppBundle\Form\Type\EquipmentEditType;
 use AppBundle\Form\Type\EquipmentType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -52,6 +53,7 @@ class EquipmentController extends Controller
      *
      * @Route("/add", name="equipment_add")
      * @Method({"GET", "POST"})
+     * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
     {
@@ -80,6 +82,7 @@ class EquipmentController extends Controller
      *
      * @Route("/{id}", name="equipment_view")
      * @Method("GET")
+     * @Security("equipment.getGroup().isMember(user)")
      */
     public function viewAction(Equipment $equipment)
     {
@@ -98,6 +101,7 @@ class EquipmentController extends Controller
      *
      * @Route("/{id}/edit", name="equipment_edit")
      * @Method({"GET", "POST"})
+     * @Security("equipment.getGroup().isMember(user)")
      */
     public function editAction(Request $request, Equipment $equipment)
     {
@@ -123,6 +127,7 @@ class EquipmentController extends Controller
      *
      * @Route("/{id}", name="equipment_delete")
      * @Method("DELETE")
+     * @Security("equipment.getGroup().isMember(user)")
      */
     public function deleteAction(Request $request, Equipment $equipment)
     {

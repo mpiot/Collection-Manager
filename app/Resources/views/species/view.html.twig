@@ -55,18 +55,20 @@
             </div>
         </div>
 
-        <div class="panel-footer text-right">
-            {{ form_start(delete_form) }}
-                <div class="btn-group btn-group-sm" role="group">
-                    <a class="btn btn-warning" href="{{ path('species_edit', { 'slug': species.slug }) }}">
-                        <span class="fa fa-edit"></span> Edit
-                    </a>
-                    <button type="submit" class="btn btn-danger">
-                        <span class="fa fa-trash"></span> Delete
-                    </button>
-                </div>
-            {{ form_end(delete_form) }}
-        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="panel-footer text-right">
+                {{ form_start(delete_form) }}
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a class="btn btn-warning" href="{{ path('species_edit', { 'slug': species.slug }) }}">
+                            <span class="fa fa-edit"></span> Edit
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <span class="fa fa-trash"></span> Delete
+                        </button>
+                    </div>
+                {{ form_end(delete_form) }}
+            </div>
+        {% endif %}
     </div>
 
     {% include '_delete_confirmation.html.twig' %}
