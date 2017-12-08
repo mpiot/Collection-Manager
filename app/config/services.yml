@@ -70,13 +70,17 @@ services:
             $index: '@fos_elastica.index.app'
 
 # Listeners
-    AppBundle\EventListener\SpeciesListener:
-        tags:
-            - { name: doctrine.event_listener, event: postRemove }
-
     AppBundle\EventListener\GroupListener:
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+    AppBundle\EventListener\ProductMovementSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    AppBundle\EventListener\SpeciesListener:
+        tags:
+            - { name: doctrine.event_listener, event: postRemove }
 
     AppBundle\EventListener\UserSubscriber:
         tags:
