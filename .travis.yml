@@ -22,6 +22,8 @@ before_install:
 install:
   - composer install
   - ./vendor/bin/simple-phpunit install
+  # Fix Argon2i password hasher in TravisCi PHP version
+  - composer require paragonie/sodium_compat
 
 script:
   - ./vendor/bin/simple-phpunit
