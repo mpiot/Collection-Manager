@@ -679,8 +679,10 @@ class Product
     public function setStock($stock)
     {
         $this->stock = $stock;
+
         return $this;
     }
+
     /**
      * Get stock.
      *

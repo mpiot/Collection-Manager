@@ -1,16 +1,21 @@
 <?php
+
 namespace AppBundle\EventListener;
+
 use AppBundle\Entity\ProductMovement;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\EntityManagerInterface;
+
 class ProductMovementSubscriber implements EventSubscriber
 {
     private $entityManager;
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
+
     public function getSubscribedEvents()
     {
         return [
@@ -19,6 +24,7 @@ class ProductMovementSubscriber implements EventSubscriber
             'postRemove',
         ];
     }
+
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
@@ -28,6 +34,7 @@ class ProductMovementSubscriber implements EventSubscriber
         }
         $this->calculateStock($entity);
     }
+
     public function postUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
@@ -37,6 +44,7 @@ class ProductMovementSubscriber implements EventSubscriber
         }
         $this->calculateStock($entity);
     }
+
     public function postRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getObject();
@@ -46,6 +54,7 @@ class ProductMovementSubscriber implements EventSubscriber
         }
         $this->calculateStock($entity);
     }
+
     private function calculateStock(ProductMovement $productMovement)
     {
         // Get the product
