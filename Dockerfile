@@ -2,13 +2,16 @@ FROM php:7.2.0-fpm
 
 # To avoid a bug with the intl extension compilation
 # PHP_CPPFLAGS are used by the docker-php-ext-* scripts
-ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
+ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
+    SYMFONY_ENV="prod" \
+    SYMFONY_DEBUG=0
 
 # Install git, supervisor, yarn and libraries needed by php extensions
 RUN apt-get update && \
     apt-get install -y \
             zlib1g-dev \
-            git && \
+            git \
+            supervisor && \
     rm -rf /var/lib/apt/lists/*
 
 # Compile ICU (required by intl php extension)
@@ -41,14 +44,17 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Install app dependencies
-RUN composer install --no-suggest --optimize-autoloader && \
-    chown -R www-data:www-data /var/www/html
+RUN composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader
 
 # Copy script and supervisor conf
 COPY ./docker/init.sh /opt/app/init.sh
+COPY ./docker/supervisor-programs.conf /etc/supervisor/conf.d/supervisor-programs.conf
 
 # Clean installation (remove the Docker folder and empty the /tmp)
 RUN rm -R ./docker /tmp/*
 
 # Define the /var/www/html folder as volume
 VOLUME /var/www/html
+
+# Execute the sript
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]

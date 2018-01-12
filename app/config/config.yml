@@ -11,10 +11,10 @@ parameters:
 
 framework:
     #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
+    #translator:      { fallbacks: ["%locale%"] }
     secret:          '%env(SYMFONY_SECRET)%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
@@ -25,9 +25,8 @@ framework:
     default_locale:  "%locale%"
     trusted_hosts:   ~
     session:
-        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id:  session.handler.native_file
-        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
     fragments:       ~
     http_method_override: true
     assets:
@@ -35,16 +34,23 @@ framework:
 
 # Twig Configuration
 twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
     form_themes:
         - form/fields.html.twig
 
 # Doctrine Configuration
 doctrine:
     dbal:
-        url: '%env(DATABASE_URL)%'
-        charset: UTF8
+        default_connection:   default
+        connections:
+            default:
+                dbname: '%env(DATABASE_NAME)%'
+                host: '%env(DATABASE_HOST)%'
+                port: '%env(DATABASE_PORT)%'
+                user: '%env(DATABASE_USER)%'
+                password: '%env(DATABASE_PASSWORD)%'
+                charset:              UTF8
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -69,7 +75,12 @@ doctrine_migrations:
 
 # Swiftmailer Configuration
 swiftmailer:
-    url: '%env(MAILER_URL)%'
+    host: '%env(SMTP_HOST)%'
+    port: '%env(SMTP_PORT)%'
+    username: '%env(SMTP_USER)%'
+    password: '%env(SMTP_PASSWORD)%'
+    encryption: tls
+    auth_mode: login
     spool:     { type: memory }
 
 # ReCaptcha

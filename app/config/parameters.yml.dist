@@ -3,18 +3,24 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     # Database settings
-    env(DATABASE_URL):              mysql://collection-manager:collection-manager@db:3306/collection-manager
+    env(DATABASE_NAME):             collection-manager
+    env(DATABASE_HOST):             db
+    env(DATABASE_PORT):             3306
+    env(DATABASE_USER):             collection-manager
+    env(DATABASE_PASSWORD):         collection-manager
 
     # ElasticSearch settings
-    env(ELASTICSEARCH_URL):         http://es1:9200
+    env(ELASTICSEARCH_HOST):        es1
+    env(ELASTICSEARCH_PORT):        9200
 
     # Mailer settings
-    env(MAILER_URL):                smtp://login:password@host:587?encryption=tls&auth_mode=login
+    env(SMTP_HOST):                 host
+    env(SMTP_PORT):                 587
+    env(SMTP_USER):                 login
+    env(SMTP_PASSWORD):             password
+
     env(MAILER_SENDER_ADDRESS):     me@myhost.tld
     env(MAILER_SENDER_NAME):        My site name
-
-    mailer_from:       ~
-    mailer_name:       ~
 
     # A secret key that's used to generate certain security-related tokens
     env(SYMFONY_SECRET):            ThisTokenIsNotSoSecretChangeIt
