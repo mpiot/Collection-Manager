@@ -6,6 +6,7 @@ use AppBundle\Entity\Strain;
 use AppBundle\Entity\Group;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -121,7 +122,7 @@ class StrainController extends Controller
     /**
      * @Route("/{id}-{slug}", name="strain_view", requirements={"id": "\d+"})
      * @Method("GET")
-     * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
+     * @Entity("strain", expr="repository.findOneById(id)")
      * @Security("strain.getGroup().isMember(user)")
      */
     public function viewAction(Strain $strain)
@@ -137,7 +138,7 @@ class StrainController extends Controller
     /**
      * @Route("/{id}-{slug}/edit", name="strain_edit", requirements={"id": "\d+"})
      * @Method({"GET", "POST"})
-     * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
+     * @Entity("strain", expr="repository.findOneById(id)")
      * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
     public function editAction(Strain $strain, Request $request)
@@ -181,7 +182,7 @@ class StrainController extends Controller
     /**
      * @Route("/{id}-{slug}/delete", name="strain_delete", requirements={"id": "\d+"})
      * @Method("DELETE")
-     * @ParamConverter("strain", options={"repository_method" = "findOneBySlug"})
+     * @Entity("strain", expr="repository.findOneById(id)")
      * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Strain $strain, Request $request)

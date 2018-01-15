@@ -21,19 +21,19 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
         return $qb;
     }
 
-    public function findOneWithGenus($param)
+    public function findOneWithGenus($slug)
     {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.genus', 'genus')
                 ->addSelect('genus')
             ->where('species.slug = :slug')
-            ->setParameter('slug', $param['slug'])
+            ->setParameter('slug', $slug)
             ->getQuery();
 
         return $query->getOneOrNullResult();
     }
 
-    public function findOneWithGenusAndSynonyms($param)
+    public function findOneWithGenusAndSynonyms($slug)
     {
         $query = $this->createQueryBuilder('species')
             ->leftJoin('species.genus', 'genus')
@@ -41,7 +41,7 @@ class SpeciesRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('species.synonyms', 'synonyms')
                 ->addSelect('synonyms')
             ->where('species.slug = :slug')
-                ->setParameter('slug', $param['slug'])
+                ->setParameter('slug', $slug)
             ->getQuery();
 
         return $query->getOneOrNullResult();

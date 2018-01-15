@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Group;
 use AppBundle\Form\Type\GroupType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -82,7 +83,7 @@ class GroupController extends Controller
     /**
      * @Route("/{slug}", name="group_view")
      * @Method("GET")
-     * @ParamConverter("group", options={"repository_method" = "findOneWithMembers"})
+     * @Entity("group", class="AppBundle:Group", expr="repository.findOneWithMembers(slug)")
      * @Security("is_granted('ROLE_USER')")
      */
     public function viewAction(Group $group)
@@ -95,7 +96,7 @@ class GroupController extends Controller
     /**
      * @Route("/{slug}/edit", name="group_edit")
      * @Method({"GET", "POST"})
-     * @ParamConverter("group", options={"repository_method" = "findOneWithMembers"})
+     * @Entity("group", class="AppBundle:Group", expr="repository.findOneWithMembers(slug)")
      * @Security("group.isAdministrator(user) or is_granted('ROLE_SUPER_ADMIN')")
      */
     public function editAction(Group $group, Request $request)

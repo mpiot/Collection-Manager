@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductMovement;
 use AppBundle\Form\Type\ProductMovementType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,7 +24,9 @@ class ProductMovementController extends Controller
     /**
      * @Route("/add/{product_id}", name="product_movement_add")
      * @Method({"GET", "POST"})
-     * @ParamConverter("product", options={"mapping": {"product_id": "id"}})
+     * @Entity("product", class="AppBundle:Product", options={
+     *     "mapping": {"product_id": "id"},
+     * })
      * @Security("product.getGroup().isMember(user)")
      */
     public function addAction(Product $product, Request $request)

@@ -25,7 +25,7 @@ class GroupRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
 
-    public function findOneWithMembers($param)
+    public function findOneWithMembers($slug)
     {
         $query = $this->createQueryBuilder('g')
             ->leftJoin('g.administrators', 'administrators')
@@ -37,7 +37,7 @@ class GroupRepository extends \Doctrine\ORM\EntityRepository
                     ->orderBy('members.firstName', 'ASC')
                     ->addOrderBy('members.lastName', 'ASC')
             ->where('g.slug = :slug')
-                ->setParameter('slug', $param['slug'])
+                ->setParameter('slug', $slug)
             ->getQuery();
 
         return $query->getOneOrNullResult();

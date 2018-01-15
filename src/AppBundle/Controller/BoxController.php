@@ -7,6 +7,7 @@ use AppBundle\Entity\Group;
 use AppBundle\Form\Type\BoxEditType;
 use AppBundle\Form\Type\BoxImportType;
 use AppBundle\Form\Type\BoxType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -99,9 +100,7 @@ class BoxController extends Controller
     /**
      * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"})
      * @Method("GET")
-     * @ParamConverter("box", class="AppBundle:Box", options={
-     *     "repository_method" = "findOneWithStrains"
-     * })
+     * @Entity("box", expr="repository.findOneWithStrains(id)")
      * @Security("box.getGroup().isMember(user)")
      */
     public function viewAction(Box $box)
@@ -195,9 +194,7 @@ class BoxController extends Controller
     /**
      * @Route("/{id}-{slug}/export", name="box_export")
      * @Method("GET")
-     * @ParamConverter("box", class="AppBundle:Box", options={
-     *     "repository_method" = "findForCSVExport"
-     * })
+     * @Entity("box", expr="repository.findForCSVExport(id)")
      * @Security("box.getGroup().isMember(user)")
      */
     public function exportAction(Box $box)

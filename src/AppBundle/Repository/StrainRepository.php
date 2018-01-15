@@ -9,7 +9,7 @@ use AppBundle\Entity\Strain;
  */
 class StrainRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findOneBySlug($id)
+    public function findOneById($id)
     {
         $query = $this->createQueryBuilder('strain')
             ->leftJoin('strain.strainPlasmids', 'strainPlasmids')

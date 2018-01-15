@@ -6,6 +6,7 @@ use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Group;
 use AppBundle\Form\Type\PlasmidEditType;
 use AppBundle\Form\Type\PlasmidType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -100,7 +101,7 @@ class PlasmidController extends Controller
     /**
      * @Route("/{id}-{slug}", name="plasmid_view", requirements={"id": "\d+"})
      * @Method("GET")
-     * @ParamConverter("plasmid", options={"repository_method" = "findOneWithAll"})
+     * @Entity("plasmid", class="AppBundle:Plasmid", expr="repository.findOneWithAll(id)")
      * @Security("plasmid.getGroup().isMember(user)")
      */
     public function viewAction(Plasmid $plasmid)

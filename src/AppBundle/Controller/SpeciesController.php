@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Species;
 use AppBundle\Form\Type\SpeciesType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -96,7 +97,7 @@ class SpeciesController extends Controller
     /**
      * @Route("/{slug}", name="species_view")
      * @Method("GET")
-     * @ParamConverter("species", options={"repository_method" = "findOneWithGenusAndSynonyms"})
+     * @Entity("species", class="AppBundle:Species", expr="repository.findOneWithGenusAndSynonyms(slug)")
      * @Security("is_granted('ROLE_USER')")
      */
     public function viewAction(Species $species)
@@ -116,7 +117,7 @@ class SpeciesController extends Controller
     /**
      * @Route("/{slug}/edit", name="species_edit")
      * @Method({"GET", "POST"})
-     * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
+     * @Entity("species", class="AppBundle:Species", expr="repository.findOneWithGenus(slug)")
      * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
     public function editAction(Species $species, Request $request)
@@ -143,7 +144,7 @@ class SpeciesController extends Controller
     /**
      * @Route("/{slug}", name="species_delete")
      * @Method("DELETE")
-     * @ParamConverter("species", options={"repository_method" = "findOneWithGenus"})
+     * @Entity("species", class="AppBundle:Species", expr="repository.findOneWithGenus(slug)")
      * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
     public function deleteAction(Species $species, Request $request)
