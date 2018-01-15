@@ -13,7 +13,6 @@ class BoxEditType extends AbstractType
             ->remove('group')
             ->remove('colNumber')
             ->remove('rowNumber')
-            ->add('deleted')
         ;
     }
 
