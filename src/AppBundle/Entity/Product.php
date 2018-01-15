@@ -187,7 +187,7 @@ class Product
     private $stockDangerAlert;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      */
     private $group;

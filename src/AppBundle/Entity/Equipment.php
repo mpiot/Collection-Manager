@@ -90,7 +90,7 @@ class Equipment
     private $location;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group", inversedBy="equipments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $group;

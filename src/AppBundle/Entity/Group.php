@@ -92,6 +92,16 @@ class Group
     private $lastPrimerNumber;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="group")
+     */
+    private $products;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Equipment", mappedBy="group")
+     */
+    private $equipments;
+
+    /**
      * Group constructor.
      */
     public function __construct()
@@ -107,6 +117,8 @@ class Group
         $this->lastPlasmidNumber = 0;
         $this->primers = new ArrayCollection();
         $this->lastPrimerNumber = 0;
+        $this->products = new ArrayCollection();
+        $this->equipments = new ArrayCollection();
     }
 
     public function __toString()
@@ -393,5 +405,25 @@ class Group
     public function getLastPrimerNumber()
     {
         return $this->lastPrimerNumber;
+    }
+
+    /**
+     * Get products.
+     *
+     * @return ArrayCollection
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * Get equipments.
+     *
+     * @return ArrayCollection
+     */
+    public function getEquipments()
+    {
+        return $this->equipments;
     }
 }
