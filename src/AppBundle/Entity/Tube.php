@@ -216,6 +216,17 @@ class Tube
         }
     }
 
+    public function getContentDiscr()
+    {
+        if (null !== $this->strain) {
+            return 'strain';
+        } elseif (null !== $this->plasmid) {
+            return 'plasmid';
+        } else {
+            return 'primer';
+        }
+    }
+
     /**
      * Get created.
      *

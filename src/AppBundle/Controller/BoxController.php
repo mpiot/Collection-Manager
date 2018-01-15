@@ -209,11 +209,9 @@ class BoxController extends Controller
             $this->get('AppBundle\Utils\CSVExporter')->exportBox($box);
         });
 
-        $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
         $response->headers->set('Content-Disposition', 'attachment; filename="'.$fileName.'.csv"');
-
-        return $response;
+        $response->send();
     }
 
     /**

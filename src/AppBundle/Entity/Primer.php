@@ -154,6 +154,16 @@ class Primer
     }
 
     /**
+     * To string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->autoName.' - '.$this->name;
+    }
+
+    /**
      * Get id.
      *
      * @return int
