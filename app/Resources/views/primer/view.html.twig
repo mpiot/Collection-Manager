@@ -55,6 +55,32 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Tubes</div>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Box</th>
+                                <th>Cell</th>
+                            </tr>
+                            {% for tube in primer.tubes %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('box_view', { 'id': tube.box.id, 'slug': tube.box.slug }) }}">
+                                            {{ tube.box.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ tube.cellName }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="text-center" colspan="2">There is no tubes.</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
