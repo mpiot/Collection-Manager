@@ -14,21 +14,29 @@ matrix:
   fast_finish: true
   include:
     - php: 7.2
+    - php: nightly
+  allow_failures:
+    - php: nightly
 
 before_install:
-  - phpenv config-rm xdebug.ini
+  # Manually compile the libsodium library
+  - git clone -b stable https://github.com/jedisct1/libsodium.git
+  - cd libsodium && sudo ./configure && sudo make check && sudo make install && cd ..
+  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || phpenv config-rm xdebug.ini'
   - composer self-update
-  # Fix Argon2i password hasher in TravisCi PHP version
-  - composer require paragonie/sodium_compat
 
 install:
+  # Manually install libsodium, because the TravicCi image doesn't provide PHP7.2 with libsodium
+  - pecl install libsodium
+  - echo "extension=sodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Continue like before
   - composer install
   - ./vendor/bin/simple-phpunit install
 
 script:
   - ./vendor/bin/simple-phpunit
   # this checks that the source code follows the Symfony Code Syntax rules
-  - ./vendor/bin/php-cs-fixer fix --diff --dry-run -v
+  - '[[ "$TRAVIS_PHP_VERSION" == "nightly" ]] || ./vendor/bin/php-cs-fixer fix --diff --dry-run -v'
   # this checks that the YAML config files contain no syntax errors
   - ./bin/console lint:yaml app
   # this checks that the Twig template files contain no syntax errors
