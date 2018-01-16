@@ -3,8 +3,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="col-md-1">#</th>
-                <th class="col-md-10">Name</th>
+                <th class="col-md-1">Unique code</th>
+                <th class="col-md-9">Name</th>
                 <th class="col-md-1">GMO/Wild</th>
                 <th class="col-md-1">Auto name</th>
             </tr>
@@ -12,7 +12,7 @@
             {% if results.results is not empty %}
                 {% for strain in results.results %}
                     <tr>
-                        <td>{{ loop.index }}</td>
+                        <td>{{ strain.uniqueCode }}</td>
                         <td>{{ strain.name }}</td>
                         <td>
                             {{ 'gmo' == strain.discriminator ? 'GMO' : 'Wild'  }}
