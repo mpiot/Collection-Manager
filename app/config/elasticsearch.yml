@@ -44,6 +44,9 @@ fos_elastica:
                         autoName:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer
+                        uniqueCode:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
                         name:
                             analyzer :        ngram_index_analyzer
                             search_analyzer : search_analyzer

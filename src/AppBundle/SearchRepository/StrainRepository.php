@@ -24,7 +24,7 @@ class StrainRepository extends Repository
 
         if (null !== $q) {
             $queryString = new \Elastica\Query\QueryString();
-            $queryString->setFields(['name', 'autoName']);
+            $queryString->setFields(['name', 'autoName', 'uniqueCode']);
             $queryString->setDefaultOperator('AND');
             $queryString->setQuery($q);
 
