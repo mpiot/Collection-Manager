@@ -91,6 +91,7 @@ class CSVImporter
             $strain->setComment($value['comment']);
             $strain->setDescription($value['description']);
             $strain->setGenotype($value['genotype']);
+            $strain->setBiologicalOrigin($value['biologicalOrigin']);
             $strain->setSource($value['source']);
             $strain->setLatitude($value['lat']);
             $strain->setLongitude($value['long']);
@@ -121,6 +122,7 @@ class CSVImporter
                     $validObjects['species'][$value['genus'].' '.$value['species']] = $species;
                 }
             }
+
             if (null !== $species = $validObjects['species'][$value['genus'].' '.$value['species']]) {
                 $strain->setSpecies($species);
             }
