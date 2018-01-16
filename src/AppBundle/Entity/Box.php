@@ -109,7 +109,7 @@ class Box
     /**
      * @var ArrayCollection of Tube
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="box")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tube", mappedBy="box", cascade={"remove"})
      */
     private $tubes;
 

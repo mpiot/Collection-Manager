@@ -83,7 +83,7 @@ class Plasmid
     private $genBankUpdatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="plasmid")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StrainPlasmid", mappedBy="plasmid", cascade={"remove"})
      */
     private $strainPlasmids;
 

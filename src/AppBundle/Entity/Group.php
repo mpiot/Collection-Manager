@@ -57,12 +57,12 @@ class Group
     private $members;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Box", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Box", mappedBy="group", cascade={"remove"})
      */
     private $boxes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Strain", mappedBy="group", cascade={"remove"})
      */
     private $strains;
 
@@ -72,7 +72,7 @@ class Group
     private $lastStrainNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Plasmid", mappedBy="group", cascade={"remove"})
      */
     private $plasmids;
 
@@ -82,7 +82,7 @@ class Group
     private $lastPlasmidNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Primer", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Primer", mappedBy="group", cascade={"remove"})
      */
     private $primers;
 
@@ -92,12 +92,12 @@ class Group
     private $lastPrimerNumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="group", cascade={"remove"})
      */
     private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Equipment", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Equipment", mappedBy="group", cascade={"remove"})
      */
     private $equipments;
 

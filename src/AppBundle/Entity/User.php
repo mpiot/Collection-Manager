@@ -104,6 +104,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Group")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $favoriteGroup;
 
