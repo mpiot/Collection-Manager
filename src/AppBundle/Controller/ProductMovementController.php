@@ -6,7 +6,6 @@ use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductMovement;
 use AppBundle\Form\Type\ProductMovementType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
