@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Table(name="strain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StrainRepository")
+ * @UniqueEntity({"uniqueCode", "group"}, message="A strain already exist with the unique code: {{ value }}.")
  * @ORM\HasLifecycleCallbacks()
  */
 class Strain
@@ -59,6 +61,13 @@ class Strain
      * @Assert\NotBlank()
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unique_code", type="string", length=255, nullable=true)
+     */
+    private $uniqueCode;
 
     /**
      * @var string
@@ -352,6 +361,30 @@ class Strain
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set unique code.
+     *
+     * @param $uniqueCode
+     *
+     * @return $this
+     */
+    public function setUniqueCode($uniqueCode)
+    {
+        $this->uniqueCode = $uniqueCode;
+
+        return $this;
+    }
+
+    /**
+     * Get unique code.
+     *
+     * @return string
+     */
+    public function getUniqueCode()
+    {
+        return $this->uniqueCode;
     }
 
     /**

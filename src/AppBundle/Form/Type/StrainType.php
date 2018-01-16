@@ -6,7 +6,9 @@ use AppBundle\Entity\Genus;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -60,8 +62,18 @@ class StrainType extends AbstractType
                     'data-help' => 'The name you want use to communicate about this strain.',
                 ],
             ])
-            ->add('comment')
-            ->add('sequenced')
+            ->add('uniqueCode', TextType::class, [
+                'attr' => [
+                    'data-help' => 'A unique code for this strain.',
+                ],
+                'required' => false,
+            ])
+            ->add('comment', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add('sequenced', CheckboxType::class, [
+                'required' => false,
+            ])
         ;
 
         $formModifier = function (FormInterface $form, $group) {

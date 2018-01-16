@@ -7,6 +7,7 @@
         <legend>General information</legend>
         {{ form_row(form.species) }}
         {{ form_row(form.name, { 'attr': { 'data-url': path('strain_name_autocomplete', { 'group': '__group__', 'name': '__name__' }) } }) }}
+        {{ form_row(form.uniqueCode) }}
         {{ form_row(form.comment) }}
         {{ form_row(form.sequenced) }}
     </fieldset>
