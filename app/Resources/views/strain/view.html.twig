@@ -63,9 +63,12 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Biological informations</div>
                         <ul class="list-group">
-                            <li class="list-group-item">Species: {{ strain.species.genus.name }} {{ strain.species.name }}</li>
-                            <li class="list-group-item">Sequenced: {{ strain.sequenced ? 'yes' : 'no' }}</li>
-
+                            <li class="list-group-item">
+                                Species: {{ strain.species is not null ? strain.species.scientificName : 'Unknow species' }}
+                            </li>
+                            <li class="list-group-item">
+                                Sequenced: {{ strain.sequenced ? 'yes' : 'no' }}
+                            </li>
                             {% if 'wild' == strain.discriminator %}
                                 <li class="list-group-item">Biological origin: {{ strain.biologicalOrigin }}</li>
                                 <li class="list-group-item">Source: {{ strain.source }}</li>

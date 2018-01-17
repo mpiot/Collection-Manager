@@ -55,6 +55,7 @@ class StrainType extends AbstractType
                 'placeholder' => '-- select a species --',
                 'choice_label' => 'scientificName',
                 'label' => 'Species',
+                'required' => false,
             ])
             ->add('name', TextType::class, [
                 'attr' => [

@@ -89,7 +89,7 @@ class Strain
      * @var Species
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Species", inversedBy="strains")
-     * @ORM\JoinColumn(name="species", nullable=false)
+     * @ORM\JoinColumn(name="species", nullable=true)
      */
     private $species;
 
@@ -903,7 +903,7 @@ class Strain
         // Define the main Species
         $species = $this->getSpecies();
 
-        if (!$species->isMainSpecies()) {
+        if (null !== $species && !$species->isMainSpecies()) {
             $this->setSpecies($species->getMainSpecies());
         }
     }
