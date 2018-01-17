@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="strain")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StrainRepository")
  * @UniqueEntity({"uniqueCode", "group"}, message="A strain already exist with the unique code: {{ value }}.")
+ * @UniqueEntity({"autoName", "group"}, message="A strain already exist with the auto name: {{ value }}.")
  * @ORM\HasLifecycleCallbacks()
  */
 class Strain
@@ -50,7 +51,7 @@ class Strain
     /**
      * @var string
      *
-     * @ORM\Column(name="auto_name", type="string", length=255, unique=true)
+     * @ORM\Column(name="auto_name", type="string", length=255)
      */
     private $autoName;
 
