@@ -1,60 +1,73 @@
-FROM php:7.2.0-fpm
+FROM php:7.2.2-fpm
 
-# To avoid a bug with the intl extension compilation
-# PHP_CPPFLAGS are used by the docker-php-ext-* scripts
+# PHP_CPPFLAGS is used by the docker-php-ext-* scripts (avoid bug during compilation)
 ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
     SYMFONY_ENV="prod" \
     SYMFONY_DEBUG=0
 
-# Install git, supervisor, yarn and libraries needed by php extensions
-RUN apt-get update && \
-    apt-get install -y \
+# Install packages dependencies
+RUN set -ex; \
+    \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
             zlib1g-dev \
             git \
-            supervisor && \
+    ; \
+    # Compile ICU (required by intl php extension)
+    curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/59.1/icu4c-59_1-src.tgz; \
+    tar -zxf /tmp/icu.tar.gz -C /tmp; \
+    cd /tmp/icu/source ; \
+    ./configure --prefix=/usr/local; \
+    make clean; \
+    make ; \
+    make install; \
+    # Install the PHP extensions
+    \
+    docker-php-source extract; \
+    docker-php-ext-configure intl --with-icu-dir=/usr/local; \
+    docker-php-ext-install  -j "$(nproc)" \
+            intl \
+            pdo \
+            pdo_mysql \
+            zip \
+            bcmath \
+    ; \
+    pecl install \
+            apcu-5.1.8 \
+    ; \
+    docker-php-ext-enable \
+            opcache \
+            apcu \
+    ; \
+    docker-php-source delete; \
+    \
+    apt-get purge -y --auto-remove; \
     rm -rf /var/lib/apt/lists/*
 
-# Compile ICU (required by intl php extension)
-RUN curl -sS -o /tmp/icu.tar.gz -L http://download.icu-project.org/files/icu4c/59.1/icu4c-59_1-src.tgz && \
-    tar -zxf /tmp/icu.tar.gz -C /tmp && \
-    cd /tmp/icu/source && \
-    ./configure --prefix=/usr/local && \
-    make clean && \
-    make && \
-    make install
-
-# Configure, install and enable php extensions
-RUN docker-php-source extract && \
-    docker-php-ext-configure intl --with-icu-dir=/usr/local && \
-    docker-php-ext-install intl pdo pdo_mysql zip bcmath && \
-    pecl install apcu-5.1.8 && \
-    docker-php-ext-enable opcache apcu && \
-    docker-php-source delete
-
 # Install Composer
-RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
+RUN set -ex; \
+    \
+    php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer; \
+    chmod +x /usr/local/bin/composer
 
-# Copy the php.ini file
-COPY ["./docker/php.ini", "./docker/php-cli.ini", "/usr/local/etc/php/"]
-
-# Define the working directory
 WORKDIR /var/www/html
 
-# Copy the source code
+# Set php.ini configs
+COPY ["./docker/prod/php.ini", "./docker/prod/php_cli.ini", "/usr/local/etc/php/"]
+
+# Install the application
 COPY . /var/www/html/
 
-# Install app dependencies
-RUN composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader
+# Remove useless folder
+RUN set -ex; \
+    \
+    rm -R ./docker
 
-# Copy script and supervisor conf
-COPY ./docker/init.sh /opt/app/init.sh
-COPY ./docker/supervisor-programs.conf /etc/supervisor/conf.d/supervisor-programs.conf
+RUN set -ex; \
+    \
+    composer install --no-dev --no-scripts --no-progress --no-suggest --optimize-autoloader; \
+    chown -R www-data:www-data /var/www
 
-# Clean installation (remove the Docker folder and empty the /tmp)
-RUN rm -R ./docker /tmp/*
+ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
 
-# Define the /var/www/html folder as volume
-VOLUME /var/www/html
-
-# Execute the sript
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["php-fpm"]
