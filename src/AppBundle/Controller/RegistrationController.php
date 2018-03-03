@@ -63,8 +63,7 @@ class RegistrationController extends Controller
         }
 
         // Active the account and remove the token
-        $user->setIsActive(true);
-        $user->setConfirmationToken(null);
+        $user->setEnabled(true);
         $userManager->updateUser($user);
 
         // Add notification
