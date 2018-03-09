@@ -188,7 +188,7 @@ class SpeciesController extends Controller
     /**
      * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson")
      * @Method("GET")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function getJsonAction($taxid)
     {

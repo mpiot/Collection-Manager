@@ -10,7 +10,7 @@ $(document).ready(function() {
     $('.col-sm-10', taxidDiv).removeClass('col-sm-10').addClass('col-sm-9');
 
     // Add a button and a hidden loader
-    var button = $ ('<div class="col-sm-1"><a href="#" id="taxid-send" class="btn btn-info btn-sm"><span class="fa fa-refresh"></span></a><span style="display:none;" id="taxid-send-loader" class="btn btn-info btn-sm" disabled="true"><span class="fa fa-refresh fa-spin fa-fw" title="Ajax loader"></span></span></div>');
+    var button = $ ('<div class="col-sm-1"><a href="#" id="taxid-send" class="btn btn-info btn-sm"><span class="fas fa-sync-alt"></span></a><span style="display:none;" id="taxid-send-loader" class="btn btn-info btn-sm" disabled="true"><span class="fas fa-sync-alt fa-spin" title="Ajax loader"></span></span></div>');
     taxidDiv.append(button);
 
     // Retrieve the URL scheme
