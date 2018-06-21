@@ -18,3 +18,4 @@
 /vendor/
 /web/build
 /web/bundles/
+docker-compose.override.yml

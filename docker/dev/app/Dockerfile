@@ -1,7 +1,8 @@
 FROM php:7.2.5-fpm
 
 # PHP_CPPFLAGS is used by the docker-php-ext-* scripts (avoid bug during compilation)
-ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
+ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
+    COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /app
 
@@ -44,21 +45,18 @@ RUN set -ex; \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;\
     curl -SS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
 
-COPY . /app
+# Install Node
+ENV NODE_VERSION=10.1.0
 
-COPY docker/prod/app/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN set -ex; \
+    curl -L -o /tmp/nodejs.tar.gz https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz && \
+    tar xfvz /tmp/nodejs.tar.gz -C /usr/local --strip-components=1 && \
+    rm -f /tmp/nodejs.tar.gz && \
+    npm install yarn -g
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+COPY php.ini /usr/local/etc/php/
+COPY php-cli.ini /usr/local/etc/php/
 
-RUN SYMFONY_ENV=prod composer install --optimize-autoloader --no-interaction --no-ansi --no-dev && \
-    SYMFONY_ENV=prod bin/console cache:clear --no-warmup && \
-    SYMFONY_ENV=prod bin/console cache:warmup && \
-    \
-    chown -R www-data:www-data var files && \
-    \
-    rm -rf docker
-
-COPY docker/prod/app/php.ini /usr/local/etc/php/
-COPY docker/prod/app/php-cli.ini /usr/local/etc/php/
+RUN apt-get update && apt-get install -qy python
 
 CMD ["php-fpm"]

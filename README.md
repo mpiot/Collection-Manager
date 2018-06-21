@@ -1,76 +1,57 @@
-# Collection Manager
-
-Collection Manager is a website intended to manage strains in microbiological laboratories,
-it provides the management of:
-* Strains (GMO and Wild)
-* Plasmids
-* Primers
+# Collection-Manager
 
 ### Summary
-1. How to install the project ?
-2. How to control your code syntax ?
-3. Follow the best practice
+1. Install the development app
+2. Follow the best practice
+3. How to control your code syntax ?
+4. About docker images
 
-## 1. How to install to develop the app ?
-These explanations are for install the project with Docker.
+## 1. Install the development app
 
-1. Install Docker and Docker compose on your computer (see the doc)
-3. For use elasticsearch in docker, the vm_map_max_count setting should be set permanently in /etc/sysctl.conf:
-    ```
-    $ grep vm.max_map_count /etc/sysctl.conf
-    vm.max_map_count=262144
-    ```
-    To apply the setting on a live system type: `sysctl -w vm.max_map_count=262144`
-4. Copy the file docker-compose.yml.dist to docker-compose.yml
-4. You can changes ports exposure in the docker-compose.yml file, or other things
-5. Built the images `docker-compose build`
-6. Built containers, volume, network and start all `docker-compose up -d`
-7. The first time, you need to use `docker-compose up -d` to create containers, networks and volumes. Next, just use `docker-compose start`
+### 1. Install Docker and docker-compose
+The development app use docker and docker-compose, before continue to follow the guide, please install these requirements.
+* https://docs.docker.com/install/
+* https://docs.docker.com/compose/install/
 
-Now you have containers with nginx, php, mariadb and elasticsearch, config the app to work with the containers, and init the app:
+### 2. Fork the app
+1. Fork
 
-1. Install CSS, JS, and Fonts with Bower and Grunt `bower install` and `grunt default` (you need to have Bower and GruntJS installed)
-1. Set the rights to allow PHP create files (in container www-data user have UID 33):
-    ```bash
-    setfacl -R -m u:33:rwX -m u:`whoami`:rwX var/ uploads/
-    setfacl -dR -m u:33:rwX -m u:`whoami`:rwX var/ uploads/
-    ```
+    Click on the fork button at the top of the page.
 
-2. Next command, must be execute in the container, execute it to go in the PHP container:
-    ```bash
-    docker exec -it collection-manager-php bash
-    ```
+2. Clone your repository (after fork)
 
-3. Install Vendors
-    ```bash
-    composer install
-    ```
+        git clone git@github.com:USERNAME/collection-manager.git
 
-    Answer to questions in console, all per default, just change secret, and reCaptcha
-      * The secret is a 40 random string, you can generate key here: http://nux.net/secret
-      * Get Google ReCaptcha keys here: https://www.google.com/recaptcha (Set the correct domaine name when you register)
-4. Generate the schema in the Database
-    ```bash
-    bin/console doctrine:schema:update --force
-    ```
+3. Create the upstream remote
 
-5. Load DataFixtures (example data)
-    ```bash
-    bin/console doctrine:fixtures:load
-    ```
+        cd collection-manager
+        git remote add upstream git://github.com/mpiot/collection-manager.git
 
-6. Populate Elasticsearch
-    ```bash
-    bin/console fos:elastica:populate
-    ```
+4. Some infos, to work with upstream and origin remote
 
-8. Clear the cache
-    ```bash
-    bin/console cache:clear --no-warmup
-    bin/console cache:warmup
-    ```
+    https://symfony.com/doc/current/contributing/code/patches.html
 
-Any files and folders created by PHP or in the container are root on the host machine. You have to do a chown command each time you want edit files (eg: with the bin/console doctrine:entity).
+### 3. Configure the app
+
+Now, we will configure the application on your machine, there is 2 files that permit it:
+ - parameters.yml: configure credential for db, Google ReCaptcha, SMTP credentials, ...
+ - docker-compose.override.ym: configure daemon access like the forwarded ports of nginx to access your app, and db ports
+ for debug.
+ 
+ 
+    cp /app/parameters.yml.dist /app/parameters.yml
+    vi /app/parameters.yml
+    
+    cp docker-compose.override.yml.dist docker-compose.override.yml
+    vi docker-compose.override.yml
+
+### 4. Install
+
+That's finish in a few time, now, just execute:
+
+    make install
+    
+And voilà !!! Your app is installed and ready to use.
 
 ## 2. Follow the best practice
 There is a **beautiful** guide about the best practice :) You can find it on the [Symfony Documentation - Best Practice](http://symfony.com/doc/current/best_practices/index.html).
@@ -84,31 +65,19 @@ In the project you have a php-cs-fixer.phar file, [the program's documentation](
 Some commands:
    * List files with mistakes
 
-    php php-cs-fixer.phar fix --dry-run
+    make php-cs
 
    * Fix files:
 
-    php php-cs-fixer.phar fix
+    make php-cs-fix
 
-   * View difference beetween your code and the corected code:
+## 3. About docker images
 
-    php php-cs-fixer.phar fix --diff --dry-run path/yo/file.php
+In the project, docker images are automatically generated. There is a *.travis-ci.yml* file, that execute some test on each
+PullRequest to validate the code. When the code is merged in the **master branch** of the project, then it save a new **dev** image
+and a **dev-{docker-folder-hash}**. If we add a tag on a commit, then Travis-Ci generate the **prod** image and a **prod-{TAG}** image.
 
-## 3. How to control your code syntax ?
-For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
-You can found some informations on [the synfony documentation page](http://symfony.com/doc/current/contributing/code/standards.html).
+The **dev** and **dev-{docker-folder-hash}** are the same image, **dev** is the latest dev image. And in prod it's the 
+same **prod** and **prod-{TAG}** are identical. The **prod** image are always the latest prod image.
 
-To control your syntax, you can use a program called php-cs-fixer, you can install it by following [the program's documentation](http://cs.sensiolabs.org/).
-
-Some commands:
-   * List files with mistakes
-
-    php-cs-fixer fix --dry-run
-
-   * Fix files:
-
-    php-cs-fixer fix
-
-   * View difference beetween your code and the corected code:
-
-    php-cs-fixer fix --diff --dry-run path/yo/file.php
+All this images are pushed on the docker hub repository:  https://hub.docker.com/r/mapiot/collection-manager/

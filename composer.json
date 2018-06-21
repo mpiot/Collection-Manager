@@ -33,10 +33,10 @@
         "vich/uploader-bundle": "^1.6"
     },
     "require-dev": {
-        "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
-        "friendsofphp/php-cs-fixer": "^2.8"
+        "friendsofphp/php-cs-fixer": "^2.11",
+        "sensio/generator-bundle": "^3.0",
+        "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [

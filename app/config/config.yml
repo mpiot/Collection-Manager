@@ -50,7 +50,12 @@ doctrine:
                 port: '%env(DATABASE_PORT)%'
                 user: '%env(DATABASE_USER)%'
                 password: '%env(DATABASE_PASSWORD)%'
-                charset:              UTF8
+                charset: utf8mb4
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                driver: 'pdo_mysql'
+                server_version: '5.7'
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"

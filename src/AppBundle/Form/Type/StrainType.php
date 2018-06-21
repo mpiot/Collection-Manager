@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Entity\Genus;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
