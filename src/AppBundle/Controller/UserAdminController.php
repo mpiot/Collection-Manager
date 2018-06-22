@@ -57,7 +57,7 @@ class UserAdminController extends Controller
 
             $this->addFlash('success', 'The user\'s roles have been successfully edited.');
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/admin/roles.html.twig', [
