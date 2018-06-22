@@ -46,18 +46,25 @@ class StrainGmoType extends AbstractType
                     'choice_label' => 'fullName',
                     'placeholder' => '-- select a parent --',
                     'query_builder' => function (EntityRepository $er) use ($group, $strainId) {
-                        return $er->createQueryBuilder('strain')
+                        $query = $er->createQueryBuilder('strain')
                             ->leftJoin('strain.group', 'g')
                             ->leftJoin('g.members', 'members')
                             ->where('members = :user')
-                            ->andWhere('strain.id <> :strainId')
                             ->andWhere('g = :group')
-                                ->setParameters([
-                                    'user' => $this->tokenStorage->getToken()->getUser(),
-                                    'group' => $group,
-                                    'strainId' => $strainId,
-                                ])
-                            ->orderBy('strain.autoName', 'ASC');
+                            ->setParameters([
+                                'user' => $this->tokenStorage->getToken()->getUser(),
+                                'group' => $group,
+                            ]);
+
+                        if (null !== $strainId) {
+                            $query
+                                ->andWhere('strain.id <> :strainId')
+                                ->setParameter('strainId', $strainId);
+                        }
+
+                        $query->orderBy('strain.autoName', 'ASC');
+
+                        return $query;
                     },
                 ],
                 'allow_add' => true,
