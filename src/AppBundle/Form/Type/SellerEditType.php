@@ -33,9 +33,9 @@ class SellerEditType extends AbstractType
                 'download_label' => function (Seller $seller) {
                     if (null !== $seller->getOfferName()) {
                         return $seller->getSlug().'.'.pathinfo($seller->getOfferName())['extension'];
-                    } else {
-                        return null;
                     }
+
+                    return null;
                 },
             ])
         ;

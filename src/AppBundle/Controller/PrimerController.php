@@ -2,14 +2,14 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Primer;
 use AppBundle\Entity\Group;
+use AppBundle\Entity\Primer;
 use AppBundle\Form\Type\PrimerEditType;
 use AppBundle\Form\Type\PrimerType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 

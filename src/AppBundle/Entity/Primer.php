@@ -288,7 +288,7 @@ class Primer
      */
     public function setSequence($sequence)
     {
-        $this->sequence = strtoupper($sequence);
+        $this->sequence = mb_strtoupper($sequence);
 
         return $this;
     }
@@ -312,7 +312,7 @@ class Primer
      */
     public function setFivePrimeExtension($fivePrimeExtension)
     {
-        $this->fivePrimeExtension = strtoupper($fivePrimeExtension);
+        $this->fivePrimeExtension = mb_strtoupper($fivePrimeExtension);
 
         return $this;
     }

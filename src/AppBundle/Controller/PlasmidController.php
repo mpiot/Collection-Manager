@@ -2,19 +2,19 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Group;
+use AppBundle\Entity\Plasmid;
 use AppBundle\Form\Type\PlasmidEditType;
 use AppBundle\Form\Type\PlasmidType;
+use AppBundle\Utils\PlasmidGenBank;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Utils\PlasmidGenBank;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**

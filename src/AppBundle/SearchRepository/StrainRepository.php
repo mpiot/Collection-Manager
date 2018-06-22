@@ -8,7 +8,7 @@ use FOS\ElasticaBundle\Repository;
 
 class StrainRepository extends Repository
 {
-    public function searchByNameQuery($q, $p = null, $groupId, User $user)
+    public function searchByNameQuery($q, $p, $groupId, User $user)
     {
         $query = new \Elastica\Query();
         $boolQuery = new \Elastica\Query\BoolQuery();

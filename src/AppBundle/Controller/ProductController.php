@@ -2,14 +2,14 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Product;
 use AppBundle\Entity\Group;
+use AppBundle\Entity\Product;
 use AppBundle\Form\Type\ProductEditType;
 use AppBundle\Form\Type\ProductType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;

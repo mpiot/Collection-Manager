@@ -2,15 +2,15 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Strain;
 use AppBundle\Entity\Group;
+use AppBundle\Entity\Strain;
 use AppBundle\Form\Type\StrainGmoType;
 use AppBundle\Form\Type\StrainWildType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,9 +107,9 @@ class StrainController extends Controller
                 return $this->redirectToRoute('strain_add_'.$strain->getDiscriminator());
             } elseif ($form->get('saveAndCopy')->isClicked()) {
                 return $this->redirectToRoute('strain_add_from_model', ['id' => $strain->getId(), 'slug' => $strain->getSlug()]);
-            } else {
-                return $this->redirectToRoute('strain_view', ['id' => $strain->getId(), 'slug' => $strain->getSlug()]);
             }
+
+            return $this->redirectToRoute('strain_view', ['id' => $strain->getId(), 'slug' => $strain->getSlug()]);
         }
 
         return $this->render('strain/add.html.twig', [
@@ -229,7 +229,7 @@ class StrainController extends Controller
 
         $data = [];
         foreach ($results as $result) {
-            if (!in_array($result->getName(), $data)) {
+            if (!in_array($result->getName(), $data, true)) {
                 $data[] = $result->getName();
             }
         }

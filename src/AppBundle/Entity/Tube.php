@@ -3,8 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Tube.
@@ -211,9 +211,9 @@ class Tube
             return $this->strain;
         } elseif (null !== $this->plasmid) {
             return $this->plasmid;
-        } else {
-            return $this->primer;
         }
+
+        return $this->primer;
     }
 
     public function getContentDiscr()
@@ -222,9 +222,9 @@ class Tube
             return 'strain';
         } elseif (null !== $this->plasmid) {
             return 'plasmid';
-        } else {
-            return 'primer';
         }
+
+        return 'primer';
     }
 
     /**

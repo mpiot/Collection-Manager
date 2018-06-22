@@ -43,7 +43,7 @@ class CSVImporter
         // Change all empty values by null
         array_walk_recursive($data, function (&$value) {
             $value = trim($value);
-            if ('' == $value) {
+            if ('' === $value) {
                 $value = null;
             }
         });

@@ -7,7 +7,7 @@ use AppBundle\Entity\User;
 
 class GlobalRepository
 {
-    public function searchQuery($keyword = null, User $user, $category = null, $country = null, Group $group = null, User $author = null)
+    public function searchQuery($keyword, User $user, $category = null, $country = null, Group $group = null, User $author = null)
     {
         // Create the search query
         $query = new \Elastica\Query\BoolQuery();
@@ -28,7 +28,7 @@ class GlobalRepository
         if (null !== $country && '' !== $country) {
             $countryQuery = new \Elastica\Query\Term();
             // We can't use an analyzer on a term, then we need to lower it here.
-            $countryQuery->setTerm('country', strtolower($country));
+            $countryQuery->setTerm('country', mb_strtolower($country));
         }
 
         // Set the group filter
@@ -56,7 +56,7 @@ class GlobalRepository
         //-------------------------------------------//
 
         // For plasmid
-        if (null === $category || in_array('plasmid', $category)) {
+        if (null === $category || in_array('plasmid', $category, true)) {
             // Set a specific filter, for this type
             $plasmidTypeQuery = new \Elastica\Query\Type();
             $plasmidTypeQuery->setType('plasmid');
@@ -85,7 +85,7 @@ class GlobalRepository
         }
 
         // For primer
-        if (null === $category || in_array('primer', $category)) {
+        if (null === $category || in_array('primer', $category, true)) {
             // Set a specific filter, for this type
             $primerTypeQuery = new \Elastica\Query\Type();
             $primerTypeQuery->setType('primer');
@@ -114,7 +114,7 @@ class GlobalRepository
         }
 
         // For Gmo Strain
-        if (null === $category || in_array('gmo', $category)) {
+        if (null === $category || in_array('gmo', $category, true)) {
             // Set a specific filter, for this type
             $strainTypeQuery = new \Elastica\Query\Type();
             $strainTypeQuery->setType('strain');
@@ -148,7 +148,7 @@ class GlobalRepository
         }
 
         // For wild strain
-        if (null === $category || in_array('wild', $category)) {
+        if (null === $category || in_array('wild', $category, true)) {
             // Set a specific filter, for this type
             $wildTypeQuery = new \Elastica\Query\Type();
             $wildTypeQuery->setType('strain');
@@ -185,7 +185,7 @@ class GlobalRepository
         }
 
         // For product
-        if (null === $category || in_array('product', $category)) {
+        if (null === $category || in_array('product', $category, true)) {
             // Set a specific filter, for this type
             $productTypeQuery = new \Elastica\Query\Type();
             $productTypeQuery->setType('product');
@@ -211,7 +211,7 @@ class GlobalRepository
         }
 
         // For equipment
-        if (null === $category || in_array('equipment', $category)) {
+        if (null === $category || in_array('equipment', $category, true)) {
             // Set a specific filter, for this type
             $equipmentTypeQuery = new \Elastica\Query\Type();
             $equipmentTypeQuery->setType('equipment');

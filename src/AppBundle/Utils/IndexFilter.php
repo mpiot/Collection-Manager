@@ -5,13 +5,13 @@ namespace AppBundle\Utils;
 use AppBundle\Entity\Box;
 use AppBundle\Entity\Brand;
 use AppBundle\Entity\Equipment;
+use AppBundle\Entity\Group;
 use AppBundle\Entity\Plasmid;
 use AppBundle\Entity\Primer;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Seller;
 use AppBundle\Entity\Species;
 use AppBundle\Entity\Strain;
-use AppBundle\Entity\Group;
 use AppBundle\Entity\User;
 use Elastica\Index;
 use Elastica\Query;
@@ -84,7 +84,7 @@ class IndexFilter
 
         if (!empty($filteredClass)) {
             foreach ($filteredClass as $class) {
-                if (!in_array($class, self::ALLOWED_FILTERED_CLASS)) {
+                if (!in_array($class, self::ALLOWED_FILTERED_CLASS, true)) {
                     throw new \RuntimeException('There is no filter for the class '.$class.'.');
                 }
 
@@ -99,7 +99,7 @@ class IndexFilter
 
     private function getResults($class, \stdClass $parameters)
     {
-        if (!in_array($class, self::ALLOWED_CLASS)) {
+        if (!in_array($class, self::ALLOWED_CLASS, true)) {
             throw new \RuntimeException('The class '.$class.' is not supported by the IndexFilter util.');
         }
 

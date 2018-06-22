@@ -2,8 +2,8 @@
 
 namespace AppBundle\Utils;
 
-use Symfony\Component\Finder\Finder;
 use AppBundle\Entity\Plasmid;
+use Symfony\Component\Finder\Finder;
 
 class PlasmidGenBank
 {
@@ -97,7 +97,7 @@ class PlasmidGenBank
             }
         }
 
-        $array['length'] = array_key_exists('fasta', $array) ? strlen($array['fasta']) : null;
+        $array['length'] = array_key_exists('fasta', $array) ? mb_strlen($array['fasta']) : null;
 
         return $array;
     }

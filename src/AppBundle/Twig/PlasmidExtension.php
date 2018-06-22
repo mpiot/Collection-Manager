@@ -137,9 +137,9 @@ class PlasmidExtension extends \Twig_Extension
                 return 'middle';
             } elseif ($angle < 330) {
                 return 'end';
-            } else {
-                return 'middle';
             }
+
+            return 'middle';
         }
 
         function add_feature($feature, $length, $cx, $cy, $rayon, $param)

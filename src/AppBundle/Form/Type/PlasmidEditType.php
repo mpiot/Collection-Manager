@@ -34,9 +34,9 @@ class PlasmidEditType extends AbstractType
                 'download_label' => function (Plasmid $plasmid) {
                     if (null !== $plasmid->getGenBankName()) {
                         return $plasmid->getAutoName().'_'.$plasmid->getSlug().'.'.pathinfo($plasmid->getGenBankName())['extension'];
-                    } else {
-                        return null;
                     }
+
+                    return null;
                 },
             ])
         ;

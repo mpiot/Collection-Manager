@@ -33,9 +33,9 @@ class ProductEditType extends AbstractType
                 'download_label' => function (Product $product) {
                     if (null !== $product->getQuoteName()) {
                         return $product->getSlug().'-quote.'.pathinfo($product->getQuoteName())['extension'];
-                    } else {
-                        return null;
                     }
+
+                    return null;
                 },
             ])
             ->add('manualFile', VichFileType::class, [
@@ -47,9 +47,9 @@ class ProductEditType extends AbstractType
                 'download_label' => function (Product $product) {
                     if (null !== $product->getManualName()) {
                         return $product->getSlug().'-manual.'.pathinfo($product->getManualName())['extension'];
-                    } else {
-                        return null;
                     }
+
+                    return null;
                 },
             ])
         ;

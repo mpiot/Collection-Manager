@@ -6,10 +6,10 @@ use AppBundle\Entity\Product;
 use AppBundle\Entity\ProductMovement;
 use AppBundle\Form\Type\ProductMovementType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -61,12 +61,12 @@ class ProductMovementController extends Controller
                 return $this->redirectToRoute('product_movement_add', [
                     'product_id' => $product->getId(),
                 ]);
-            } else {
-                return $this->redirectToRoute('product_view', [
+            }
+
+            return $this->redirectToRoute('product_view', [
                     'id' => $product->getId(),
                     'slug' => $product->getSlug(),
                 ]);
-            }
         }
 
         return $this->render('product_movement/add.html.twig', [

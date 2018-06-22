@@ -6,9 +6,9 @@ use AppBundle\Entity\Group;
 use AppBundle\Form\Type\GroupType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -69,9 +69,9 @@ class GroupController extends Controller
 
             if ($form->get('saveAndAdd')->isClicked()) {
                 return $this->redirectToRoute('group_add');
-            } else {
-                return $this->redirectToRoute('group_view', ['slug' => $group->getSlug()]);
             }
+
+            return $this->redirectToRoute('group_view', ['slug' => $group->getSlug()]);
         }
 
         return $this->render('group/add.html.twig', [

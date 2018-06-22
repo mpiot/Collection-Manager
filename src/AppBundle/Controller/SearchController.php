@@ -5,8 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Form\Type\AdvancedSearchType;
 use AppBundle\SearchRepository\GlobalRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

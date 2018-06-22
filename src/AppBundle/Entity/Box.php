@@ -4,8 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -481,7 +481,7 @@ class Box
         $cells = array_combine($cellKeys, $cellValues);
 
         foreach ($this->tubes as $tube) {
-            $cellName = array_search($tube->getCell(), $cells);
+            $cellName = array_search($tube->getCell(), $cells, true);
 
             if ($tube->getCell() !== $keepCell) {
                 unset($cells[$cellName]);
