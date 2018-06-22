@@ -45,9 +45,8 @@ tty:                                                                            
 
 clear: perm                                                                                            ## Remove all the cache, the logs, the sessions and the built assets
 	$(EXEC) rm -rf var/cache/*
-	$(EXEC) $(CONSOLE) redis:flushall -n
-	rm -rf var/log/*
-	rm -rf public/build
+	rm -rf var/logs/*
+	rm -rf web/build
 	rm -f var/.php_cs.cache
 
 clean: clear                                                                                           ## Clear and remove dependencies
