@@ -1,19 +1,15 @@
-// Because we disable resolveUrlLoader, we need to override the fonts location
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$fa-font-path: "~font-awesome/fonts";
-
 @import "custom";
-@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
-// jQueryUI styles (for autocomplete)
+//// jQueryUI styles (for autocomplete)
 @import "~jquery-ui/themes/base/core.css";
 @import "~jquery-ui/themes/base/autocomplete.css";
 @import "~jquery-ui/themes/base/menu.css";
 @import "~jquery-ui/themes/base/theme.css";
 
-// Select2 styles
+//// Select2 styles
 @import "~select2/src/scss/core";
-@import "~select2-bootstrap-theme/src/select2-bootstrap";
+@import "~select2-bootstrap4-theme/src/select2-bootstrap4";
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
@@ -43,14 +39,13 @@ body {
 }
 
 /*
- * Sidebar
+ * Sidebar (display only on screen >720px)
  */
-/* Hide for mobile, show later */
 .sidebar {
   display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 720px) {
   .sidebar {
     position: fixed;
     top: 51px;
@@ -66,7 +61,7 @@ body {
   }
 }
 
-/* Sidebar navigation */
+///* Sidebar navigation */
 .nav-sidebar {
   margin-right: -21px; /* 20px padding + 1px border */
   margin-bottom: 20px;
@@ -88,13 +83,6 @@ body {
  */
 .main {
   padding: 20px;
-}
-
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
 }
 
 .main .page-header {

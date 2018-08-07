@@ -2,97 +2,114 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>
-            {% block title %}
-                Collection Manager
-            {% endblock %}
-        </title>
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
+
+        <title>{% block title %}Collection Manager{% endblock %}</title>
 
         {% block stylesheets %}
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
             <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
         {% endblock %}
-
-        <link rel="icon" href="{{ asset('favicon.ico') }}">
-
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script async defer src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-            <script async defer src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
     </head>
 
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top hidden-print">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('homepage') }}">
-                        CollectionManager <small>v{{ app_version }} </small>
-                    </a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        {% if app.user and app.user.isInGroup() %}
-                            <li><a href="{{ path('strain_index') }}">Strains</a></li>
-                            <li><a href="{{ path('plasmid_index') }}">Plasmids</a></li>
-                            <li><a href="{{ path('primer_index') }}">Primers</a></li>
-                            <li><a href="{{ path('product_index') }}">Products</a></li>
-                            <li><a href="{{ path('equipment_index') }}">Equipments</a></li>
-                        {% endif %}
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if app.user %}
-                            <li><a href="{{ path('advanced-search') }}">Advanced search</a></li>
-                            <li><a href="{{ path('faq') }}">FAQ</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My account <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <div class="dropdown-header">
-                                        Signed in as <strong>{{ app.user.username }}</strong>
-                                    </div>
-                                    <li role="separator" class="divider"></li>
-                                    {% if is_granted('ROLE_SUPER_ADMIN')  %}
-                                        <li><a href="{{ path('user_index') }}">Users list</a></li>
-                                        <li role="separator" class="divider"></li>
-                                    {% endif %}
-                                    <li><a href="{{ path('group_index') }}">Groups list</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="{{ path('user_profile') }}">My profile</a></li>
-                                    <li><a href="{{ logout_url('main') }}">Log out</a></li>
-                                </ul>
-                            </li>
-                        {% else %}
-                            <a type="button" class="btn btn-default navbar-btn" href="{{ path('login') }}">Log in</a>
-                            <a type="button" class="btn btn-success navbar-btn sign-up-button" href="{{ path('user_registration') }}">Register</a>
-                        {% endif %}
+        <noscript>
+            <div id="js-disclaimer" class="alert alert-danger text-center">
+                Please use <a rel="nofollow" href="http://browsehappy.com/">a modern browser</a> with JavaScript activated to navigate through this website
+            </div>
+        </noscript>
 
-                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                            <li><a href="{{ path('user_index', {'_switch_user': '_exit'}) }}">Exit impersonation</a></li>
-                        {% endif %}
-                    </ul>
-                    {% if app.user %}
-                        <form class="navbar-form navbar-right hidden-sm hidden-md" role="search" action="{{ path('quick-search') }}" method="GET">
-                            <div class="form-group has-feedback">
-                                <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
-                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                            </div>
-                        </form>
+        <nav class="navbar fixed-top navbar-expand navbar-dark bg-dark d-print-none">
+            <a class="navbar-brand" href="{{ path('homepage') }}">CollectionManager <small>v{{ app_version }} </small></a>
+            <button class="navbar-toggler d-print-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if app.user and app.user.isInGroup() %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('strain_index') }}">Strains</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('plasmid_index') }}">Plasmids</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('primer_index') }}">Primers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('product_index') }}">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('equipment_index') }}">Equipments</a>
+                        </li>
                     {% endif %}
-                </div>
+                </ul>
+
+                {% if app.user %}
+                    {# Form in navbar, when screen to small, don't display #}
+                    <form class="form-inline d-none d-md-block" role="search" action="{{ path('quick-search') }}" method="GET">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
+                            <button class="btn input-group-addon" type="submit" >
+                                <span class="fas fa-search" title="Search"></span>
+                                <span class="sr-only">Search</span>
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
+
+                <ul class="navbar-nav">
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('advanced-search') }}">Advanced search</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('faq') }}">FAQ</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownToolsLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="fas fa-cogs fa-fw" aria-hidden="true"></span>  My account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownToolsLink">
+                                <h6 class="dropdown-header">Signed in as <strong>{{ app.user.username }}</strong></h6>
+                                {% if is_granted('ROLE_SUPER_ADMIN')  %}
+                                    <a class="dropdown-item" href="{{ path("user_index") }}">Users list</a>
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
+                                <a class="dropdown-item" href="{{ path("group_index") }}">Groups list</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path("user_profile") }}">My profile</a>
+                                <a class="dropdown-item" href="{{ logout_url('main') }}">Log out</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <a type="button" class="btn btn-default navbar-btn" href="{{ path('login') }}">Log in</a>
+                        <a type="button" class="btn btn-success navbar-btn sign-up-button" href="{{ path('user_registration') }}">Register</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <li><a href="{{ path('user_index', {'_switch_user': '_exit'}) }}">Exit impersonation</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </nav>
 
-        <div class="container-fluid">
+        {# Form in body, when screen to small, display it #}
+        <div class="container mb-3 d-md-none d-print-none">
+            <form role="search" action="{{ path('quick-search') }}" method="GET">
+                <div class="input-group">
+                    <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
+                    <button class="btn input-group-addon" type="submit" >
+                        <span class="fas fa-search" title="Search"></span>
+                        <span class="sr-only">Search</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar hidden-print">
                     <ul class="nav nav-sidebar">
@@ -102,26 +119,21 @@
                     {% block nav %}
                     {% endblock %}
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                     {# On affiche tous les messages flash dont le nom est « success » #}
-                    {% for flash_message in app.session.flashbag.get('success') %}
-                        <div class="alert alert-success alert-dismissible" role="alert" data-toggle="auto-dismiss">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Success!</strong> {{ flash_message }}
-                        </div>
+
+                <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 main">
+                    {# List flashes messages #}
+                    {% for label, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }} alert-dismissible d-print-none" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>{{ label|capitalize }}!</strong> {{ message }}
+                            </div>
+                        {% endfor %}
                     {% endfor %}
 
-                     {# On affiche tous les messages flash dont le nom est « warning » #}
-                    {% for flash_message in app.session.flashbag.get('warning') %}
-                        <div class="alert alert-warning alert-dismissible" role="alert" data-toggle="auto-dismiss">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Warning!</strong> {{ flash_message }}
-                        </div>
-                    {% endfor %}
-
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb d-print-none">
                         {% block breadcrumb %}
-                            <li><a href="{{ path('homepage') }}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><span class="fas fa-home" aria-hidden="true"></span> Home</a></li>
                         {% endblock %}
                     </ol>
 
@@ -133,7 +145,7 @@
 
         {% block javascripts %}
             <script src="https://maps.googleapis.com/maps/api/js?language=en&key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg"></script>
-            <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
+            <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
             <script src="{{ asset('build/manifest.js') }}"></script>
             <script src="{{ asset('build/js/vendor.js') }}"></script>
