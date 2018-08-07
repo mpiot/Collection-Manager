@@ -10,9 +10,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('equipment_index') }}">Equipments</a></li>
-    <li><a href="{{ path('equipment_view', { 'id': equipment.id, 'slug': equipment.slug }) }}">{{ equipment.name }}</a></li>
-    <li class="active">Edit an equipment</li>
+    <li class="breadcrumb-item"><a href="{{ path('equipment_index') }}">Equipments</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('equipment_view', { 'id': equipment.id, 'slug': equipment.slug }) }}">{{ equipment.name }}</a></li>
+    <li class="breadcrumb-item active">Edit an equipment</li>
 {% endblock %}
 
 {% block body %}

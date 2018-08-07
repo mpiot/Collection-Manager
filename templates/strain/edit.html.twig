@@ -8,9 +8,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('strain_index') }}">Strains</a></li>
-    <li><a href="{{ path('strain_view', { 'id': strain.id, 'slug': strain.slug }) }}">{{ strain.autoName }} - {{ strain.name }}</a></li>
-    <li class="active">Edit</li>
+    <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('strain_view', { 'id': strain.id, 'slug': strain.slug }) }}">{{ strain.autoName }} - {{ strain.name }}</a></li>
+    <li class="breadcrumb-item active">Edit</li>
 {% endblock %}
 
 {% block body %}

@@ -4,8 +4,8 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('group_index') }}">Groups</a></li>
-    <li class="active">{{ group.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('group_index') }}">Groups</a></li>
+    <li class="breadcrumb-item active">{{ group.name }}</li>
 {% endblock %}
 
 {% block body %}

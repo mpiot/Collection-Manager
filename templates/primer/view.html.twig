@@ -4,8 +4,8 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('primer_index') }}">Primers list</a></li>
-    <li class="active">{{ primer.autoName }} - {{ primer.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('primer_index') }}">Primers list</a></li>
+    <li class="breadcrumb-item active">{{ primer.autoName }} - {{ primer.name }}</li>
 {% endblock %}
 
 {% block body %}

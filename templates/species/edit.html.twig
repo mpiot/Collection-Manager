@@ -8,9 +8,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('species_index') }}">Species list</a></li>
-    <li><a href="{{ path('species_view', { 'slug': species.slug }) }}">{{ species.scientificName }}</a></li>
-    <li class="active">Edit</li>
+    <li class="breadcrumb-item"><a href="{{ path('species_index') }}">Species list</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('species_view', { 'slug': species.slug }) }}">{{ species.scientificName }}</a></li>
+    <li class="breadcrumb-item active">Edit</li>
 {% endblock %}
 
 {% block body %}
