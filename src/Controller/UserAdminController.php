@@ -4,17 +4,15 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\RoleType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserAdminController extends Controller
 {
     /**
-     * @Route("/users", options={"expose"=true}, name="user_index")
-     * @Method("GET")
+     * @Route("/users", options={"expose"=true}, name="user_index", methods={"GET"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction(Request $request)
@@ -28,8 +26,7 @@ class UserAdminController extends Controller
     }
 
     /**
-     * @Route("/users/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="user_index_ajax")
-     * @Method("GET")
+     * @Route("/users/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="user_index_ajax", methods={"GET"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function listAction()
@@ -42,8 +39,7 @@ class UserAdminController extends Controller
     }
 
     /**
-     * @Route("/user/roles/{id}", name="user_roles")
-     * @Method({"GET", "POST"})
+     * @Route("/user/roles/{id}", name="user_roles", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function rolesAction(User $user, Request $request)

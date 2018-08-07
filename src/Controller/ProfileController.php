@@ -4,17 +4,15 @@ namespace App\Controller;
 
 use App\Form\Type\ChangePasswordType;
 use App\Form\Type\ProfileType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends Controller
 {
     /**
-     * @Route("/my-profile", name="user_profile")
-     * @Method("GET")
+     * @Route("/my-profile", name="user_profile", methods={"GET"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function profileAction()
@@ -27,8 +25,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/my-profile/edit", name="user_profile_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/my-profile/edit", name="user_profile_edit", methods={"GET", "POST"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function profileEditAction(Request $request)
@@ -52,8 +49,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/my-profile/password/edit", name="user_password_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/my-profile/password/edit", name="user_password_edit", methods={"GET", "POST"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function editPasswordAction(Request $request)

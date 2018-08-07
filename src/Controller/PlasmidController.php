@@ -8,14 +8,13 @@ use App\Form\Type\PlasmidEditType;
 use App\Form\Type\PlasmidType;
 use App\Utils\PlasmidGenBank;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class plasmidController.
@@ -25,8 +24,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class PlasmidController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="plasmid_index")
-     * @Method("GET")
+     * @Route("/", options={"expose"=true}, name="plasmid_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -40,8 +38,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="plasmid_index_ajax")
-     * @Method("GET")
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="plasmid_index_ajax", methods={"GET"})
      */
     public function listAction()
     {
@@ -53,8 +50,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/add", name="plasmid_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="plasmid_add", methods={"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -98,8 +94,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="plasmid_view", requirements={"id": "\d+"})
-     * @Method("GET")
+     * @Route("/{id}-{slug}", name="plasmid_view", requirements={"id": "\d+"}, methods={"GET"})
      * @Entity("plasmid", class="App:Plasmid", expr="repository.findOneWithAll(id)")
      * @Security("plasmid.getGroup().isMember(user)")
      */
@@ -117,8 +112,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/edit", name="plasmid_edit", requirements={"id": "\d+"})
-     * @Method({"GET", "POST"})
+     * @Route("/{id}-{slug}/edit", name="plasmid_edit", requirements={"id": "\d+"}, methods={"GET", "POST"})
      * @Security("plasmid.isAuthor(user) or plasmid.getGroup().isAdministrator(user)")
      */
     public function editAction(Plasmid $plasmid, Request $request)
@@ -153,8 +147,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="plasmid_delete")
-     * @Method("DELETE")
+     * @Route("/{id}-{slug}", name="plasmid_delete", methods={"DELETE"})
      * @Security("plasmid.isAuthor(user) or plasmid.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Plasmid $plasmid, Request $request)
@@ -200,8 +193,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/download", name="plasmid_download")
-     * @Method("GET")
+     * @Route("/{id}-{slug}/download", name="plasmid_download", methods={"GET"})
      * @Security("plasmid.getGroup().isMember(user)")
      */
     public function downloadAction(Plasmid $plasmid)

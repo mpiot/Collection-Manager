@@ -6,12 +6,11 @@ use App\Entity\Product;
 use App\Entity\ProductMovement;
 use App\Form\Type\ProductMovementType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class product movement controller.
@@ -21,8 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductMovementController extends Controller
 {
     /**
-     * @Route("/add/{product_id}", name="product_movement_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add/{product_id}", name="product_movement_add", methods={"GET", "POST"})
      * @Entity("product", class="App:Product", options={
      *     "mapping": {"product_id": "id"},
      * })
@@ -76,8 +74,7 @@ class ProductMovementController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="product_movement_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="product_movement_edit", methods={"GET", "POST"})
      * @Security("productMovement.getProduct().getGroup().isMember(user)")
      */
     public function editAction(ProductMovement $productMovement, Request $request)
@@ -105,8 +102,7 @@ class ProductMovementController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="product_movement_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="product_movement_delete", methods={"DELETE"})
      * @Security("productMovement.getProduct().getGroup().isMember(user)")
      */
     public function deleteAction(ProductMovement $productMovement, Request $request)

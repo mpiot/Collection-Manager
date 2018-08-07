@@ -8,13 +8,12 @@ use App\Form\Type\BoxEditType;
 use App\Form\Type\BoxImportType;
 use App\Form\Type\BoxType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class BoxController.
@@ -24,8 +23,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class BoxController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="box_index")
-     * @Method("GET")
+     * @Route("/", options={"expose"=true}, name="box_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -39,8 +37,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="box_index_ajax")
-     * @Method("GET")
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="box_index_ajax", methods={"GET"})
      */
     public function listAction(Request $request)
     {
@@ -52,8 +49,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/add", name="box_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="box_add", methods={"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -97,8 +93,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"})
-     * @Method("GET")
+     * @Route("/{id}-{slug}", name="box_view", requirements={"id": "\d+"}, methods={"GET"})
      * @Entity("box", expr="repository.findOneWithStrains(id)")
      * @Security("box.getGroup().isMember(user)")
      */
@@ -121,8 +116,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/edit", name="box_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}-{slug}/edit", name="box_edit", methods={"GET", "POST"})
      * @Security("box.isAuthor(user) or box.getGroup().isAdministrator(user)")
      */
     public function editAction(Box $box, Request $request)
@@ -147,8 +141,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/delete", name="box_delete")
-     * @Method("DELETE")
+     * @Route("/{id}-{slug}/delete", name="box_delete", methods={"DELETE"})
      * @Security("box.isAuthor(user) or box.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Box $box, Request $request)
@@ -191,8 +184,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/export", name="box_export")
-     * @Method("GET")
+     * @Route("/{id}-{slug}/export", name="box_export", methods={"GET"})
      * @Entity("box", expr="repository.findForCSVExport(id)")
      * @Security("box.getGroup().isMember(user)")
      */
@@ -211,8 +203,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/import", name="box_import")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}-{slug}/import", name="box_import", methods={"GET", "POST"})
      * @Security("box.getGroup().isMember(user)")
      */
     public function importAction(Box $box, Request $request)

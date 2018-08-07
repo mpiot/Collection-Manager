@@ -5,13 +5,12 @@ namespace App\Controller;
 use App\Entity\Species;
 use App\Form\Type\SpeciesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class SpeciesController.
@@ -21,8 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SpeciesController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="species_index")
-     * @Method("GET")
+     * @Route("/", options={"expose"=true}, name="species_index", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
@@ -36,8 +34,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_index_ajax")
-     * @Method("GET")
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_index_ajax", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()
@@ -50,8 +47,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/add", name="species_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="species_add", methods={"GET", "POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -94,8 +90,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{slug}", name="species_view")
-     * @Method("GET")
+     * @Route("/{slug}", name="species_view", methods={"GET"})
      * @Entity("species", class="App:Species", expr="repository.findOneWithGenusAndSynonyms(slug)")
      * @Security("is_granted('ROLE_USER')")
      */
@@ -114,8 +109,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{slug}/edit", name="species_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{slug}/edit", name="species_edit", methods={"GET", "POST"})
      * @Entity("species", class="App:Species", expr="repository.findOneWithGenus(slug)")
      * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
@@ -141,8 +135,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/{slug}", name="species_delete")
-     * @Method("DELETE")
+     * @Route("/{slug}", name="species_delete", methods={"DELETE"})
      * @Entity("species", class="App:Species", expr="repository.findOneWithGenus(slug)")
      * @Security("is_granted('ROLE_ADMIN') and null === species.getMainSpecies()")
      */
@@ -186,8 +179,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson")
-     * @Method("GET")
+     * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson", methods={"GET"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function getJsonAction($taxid)

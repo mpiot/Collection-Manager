@@ -4,13 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Location;
 use App\Form\Type\LocationType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class locationController.
@@ -20,8 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class LocationController extends Controller
 {
     /**
-     * @Route("/", name="location_index")
-     * @Method("GET")
+     * @Route("/", name="location_index", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction()
@@ -39,8 +37,7 @@ class LocationController extends Controller
     }
 
     /**
-     * @Route("/add", name="location_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="location_add", methods={"GET", "POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -85,8 +82,7 @@ class LocationController extends Controller
     }
 
     /**
-     * @Route("/add-ajax", name="location_embded_add", condition="request.isXmlHttpRequest()")
-     * @Method("POST")
+     * @Route("/add-ajax", name="location_embded_add", condition="request.isXmlHttpRequest()", methods={"POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function embdedAddAction(Request $request)
@@ -115,8 +111,7 @@ class LocationController extends Controller
     }
 
     /**
-     * @Route("/{id}/move-up", name="location_move_up")
-     * @Method("GET")
+     * @Route("/{id}/move-up", name="location_move_up", methods={"GET"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function moveUpAction(Location $location)
@@ -130,8 +125,7 @@ class LocationController extends Controller
     }
 
     /**
-     * @Route("/{id}/move-down", name="location_move_down")
-     * @Method("GET")
+     * @Route("/{id}/move-down", name="location_move_down", methods={"GET"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function moveDownAction(Location $location)
@@ -145,8 +139,7 @@ class LocationController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="location_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/edit", name="location_edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Location $location, Request $request)
@@ -171,8 +164,7 @@ class LocationController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete", name="location_delete")
-     * @Method("GET")
+     * @Route("/{id}/delete", name="location_delete", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Location $location, Request $request)

@@ -5,12 +5,11 @@ namespace App\Controller;
 use App\Entity\Group;
 use App\Form\Type\GroupType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class GroupController.
@@ -20,8 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class GroupController extends Controller
 {
     /**
-     * @Route("/", name="group_index")
-     * @Method("GET")
+     * @Route("/", name="group_index", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction()
@@ -35,8 +33,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Route("/add", name="group_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="group_add", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function addAction(Request $request)
@@ -80,8 +77,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Route("/{slug}", name="group_view")
-     * @Method("GET")
+     * @Route("/{slug}", name="group_view", methods={"GET"})
      * @Entity("group", class="App:Group", expr="repository.findOneWithMembers(slug)")
      * @Security("is_granted('ROLE_USER')")
      */
@@ -93,8 +89,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Route("/{slug}/edit", name="group_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{slug}/edit", name="group_edit", methods={"GET", "POST"})
      * @Entity("group", class="App:Group", expr="repository.findOneWithMembers(slug)")
      * @Security("group.isAdministrator(user) or is_granted('ROLE_SUPER_ADMIN')")
      */
@@ -119,8 +114,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Route("/{slug}/delete", name="group_delete")
-     * @Method({"GET", "POST"})
+     * @Route("/{slug}/delete", name="group_delete", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function deleteAction(Group $group, Request $request)
@@ -145,8 +139,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Route("/{slug}/favorite", name="group_favorite")
-     * @Method("GET")
+     * @Route("/{slug}/favorite", name="group_favorite", methods={"GET"})
      * @Security("group.isMember(user)")
      */
     public function favoriteAction(Group $group)

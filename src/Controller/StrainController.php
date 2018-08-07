@@ -7,13 +7,12 @@ use App\Entity\Strain;
 use App\Form\Type\StrainGmoType;
 use App\Form\Type\StrainWildType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class StrainController.
@@ -23,8 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 class StrainController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="strain_index")
-     * @Method("GET")
+     * @Route("/", options={"expose"=true}, name="strain_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -38,8 +36,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain_index_ajax")
-     * @Method("GET")
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain_index_ajax", methods={"GET"})
      */
     public function listAction()
     {
@@ -53,8 +50,7 @@ class StrainController extends Controller
     /**
      * @Route("/add/gmo", name="strain_add_gmo")
      * @Route("/add/wild", name="strain_add_wild")
-     * @Route("/add/{id}-{slug}", name="strain_add_from_model", requirements={"id": "\d+"})
-     * @Method({"GET", "POST"})
+     * @Route("/add/{id}-{slug}", name="strain_add_from_model", requirements={"id": "\d+"}, methods={"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request, Strain $strainModel = null)
@@ -119,8 +115,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="strain_view", requirements={"id": "\d+"})
-     * @Method("GET")
+     * @Route("/{id}-{slug}", name="strain_view", requirements={"id": "\d+"}, methods={"GET"})
      * @Entity("strain", expr="repository.findOneById(id)")
      * @Security("strain.getGroup().isMember(user)")
      */
@@ -135,8 +130,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/edit", name="strain_edit", requirements={"id": "\d+"})
-     * @Method({"GET", "POST"})
+     * @Route("/{id}-{slug}/edit", name="strain_edit", requirements={"id": "\d+"}, methods={"GET", "POST"})
      * @Entity("strain", expr="repository.findOneById(id)")
      * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
@@ -179,8 +173,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/delete", name="strain_delete", requirements={"id": "\d+"})
-     * @Method("DELETE")
+     * @Route("/{id}-{slug}/delete", name="strain_delete", requirements={"id": "\d+"}, methods={"DELETE"})
      * @Entity("strain", expr="repository.findOneById(id)")
      * @Security("strain.isAuthor(user) or strain.getGroup().isAdministrator(user)")
      */
@@ -217,8 +210,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/autocomplete/group/{group}/name/{name}", name="strain_name_autocomplete", options={"expose"=true}, condition="request.isXmlHttpRequest()")
-     * @Method("GET")
+     * @Route("/autocomplete/group/{group}/name/{name}", name="strain_name_autocomplete", options={"expose"=true}, condition="request.isXmlHttpRequest()", methods={"GET"})
      */
     public function nameAutocompleteAction($group, $name)
     {

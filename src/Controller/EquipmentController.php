@@ -6,11 +6,10 @@ use App\Entity\Equipment;
 use App\Entity\Group;
 use App\Form\Type\EquipmentEditType;
 use App\Form\Type\EquipmentType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Equipment controller.
@@ -22,8 +21,7 @@ class EquipmentController extends Controller
     /**
      * Lists all equipment entities.
      *
-     * @Route("/", name="equipment_index")
-     * @Method("GET")
+     * @Route("/", name="equipment_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -37,8 +35,7 @@ class EquipmentController extends Controller
     }
 
     /**
-     * @Route("/list", condition="request.isXmlHttpRequest()", name="equipment_index_ajax")
-     * @Method("GET")
+     * @Route("/list", condition="request.isXmlHttpRequest()", name="equipment_index_ajax", methods={"GET"})
      */
     public function listAction()
     {
@@ -52,8 +49,7 @@ class EquipmentController extends Controller
     /**
      * Add an equipment entity.
      *
-     * @Route("/add", name="equipment_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="equipment_add", methods={"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -81,8 +77,7 @@ class EquipmentController extends Controller
     /**
      * Finds and displays a equipment entity.
      *
-     * @Route("/{id}-{slug}", name="equipment_view")
-     * @Method("GET")
+     * @Route("/{id}-{slug}", name="equipment_view", methods={"GET"})
      * @Security("equipment.getGroup().isMember(user)")
      */
     public function viewAction(Equipment $equipment)
@@ -100,8 +95,7 @@ class EquipmentController extends Controller
     /**
      * Displays a form to edit an existing equipment entity.
      *
-     * @Route("/{id}-{slug}/edit", name="equipment_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}-{slug}/edit", name="equipment_edit", methods={"GET", "POST"})
      * @Security("equipment.getGroup().isMember(user)")
      */
     public function editAction(Request $request, Equipment $equipment)
@@ -126,8 +120,7 @@ class EquipmentController extends Controller
     /**
      * Deletes a equipment entity.
      *
-     * @Route("/{id}-{slug}", name="equipment_delete")
-     * @Method("DELETE")
+     * @Route("/{id}-{slug}", name="equipment_delete", methods={"DELETE"})
      * @Security("equipment.getGroup().isMember(user)")
      */
     public function deleteAction(Request $request, Equipment $equipment)

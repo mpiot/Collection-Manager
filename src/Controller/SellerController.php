@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Entity\Seller;
 use App\Form\Type\SellerEditType;
 use App\Form\Type\SellerType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,6 +12,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class sellerController.
@@ -23,8 +22,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class SellerController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="seller_index")
-     * @Method("GET")
+     * @Route("/", options={"expose"=true}, name="seller_index", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
@@ -38,8 +36,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()",name="seller_index_ajax")
-     * @Method("GET")
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()",name="seller_index_ajax", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()
@@ -52,8 +49,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/add", name="seller_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="seller_add", methods={"GET", "POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function addAction(Request $request)
@@ -96,8 +92,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/add-ajax", name="seller_embded_add", condition="request.isXmlHttpRequest()")
-     * @Method("POST")
+     * @Route("/add-ajax", name="seller_embded_add", condition="request.isXmlHttpRequest()", methods={"POST"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function embdedAddAction(Request $request)
@@ -126,8 +121,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/{slug}/edit", name="seller_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/{slug}/edit", name="seller_edit", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function editAction(Seller $seller, Request $request)
@@ -151,8 +145,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/{slug}/delete", name="seller_delete")
-     * @Method("GET")
+     * @Route("/{slug}/delete", name="seller_delete", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function deleteAction(Seller $seller, Request $request)
@@ -181,8 +174,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/{slug}/download-offer", name="seller_download_offer")
-     * @Method("GET")
+     * @Route("/{slug}/download-offer", name="seller_download_offer", methods={"GET"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function downloadOfferAction(Seller $seller)

@@ -6,12 +6,11 @@ use App\Entity\Group;
 use App\Entity\Primer;
 use App\Form\Type\PrimerEditType;
 use App\Form\Type\PrimerType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class primer controller.
@@ -21,8 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PrimerController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="primer_index")
-     * @Method("GET")
+     * @Route("/", options={"expose"=true}, name="primer_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -36,8 +34,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="primer_index_ajax")
-     * @Method("GET")
+     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="primer_index_ajax", methods={"GET"})
      */
     public function listAction()
     {
@@ -49,8 +46,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/add", name="primer_add")
-     * @Method({"GET", "POST"})
+     * @Route("/add", name="primer_add", methods={"GET", "POST"})
      * @Security("user.isInGroup()")
      */
     public function addAction(Request $request)
@@ -94,8 +90,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="primer_view")
-     * @Method("GET")
+     * @Route("/{id}-{slug}", name="primer_view", methods={"GET"})
      * @Security("primer.getGroup().isMember(user)")
      */
     public function viewAction(Primer $primer)
@@ -109,8 +104,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}/edit", name="primer_edit", requirements={"id": "\d+"})
-     * @Method({"GET", "POST"})
+     * @Route("/{id}-{slug}/edit", name="primer_edit", requirements={"id": "\d+"}, methods={"GET", "POST"})
      * @Security("primer.isAuthor(user) or primer.getGroup().isAdministrator(user)")
      */
     public function editAction(Primer $primer, Request $request)
@@ -138,8 +132,7 @@ class PrimerController extends Controller
     }
 
     /**
-     * @Route("/{id}-{slug}", name="primer_delete")
-     * @Method("DELETE")
+     * @Route("/{id}-{slug}", name="primer_delete", methods={"DELETE"})
      * @Security("primer.isAuthor(user) or primer.getGroup().isAdministrator(user)")
      */
     public function deleteAction(Primer $primer, Request $request)

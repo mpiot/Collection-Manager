@@ -3,16 +3,14 @@
 namespace App\Controller;
 
 use App\Form\Type\RegistrationType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends Controller
 {
     /**
-     * @Route("/register", name="user_registration")
-     * @Method({"GET", "POST"})
+     * @Route("/register", name="user_registration", methods={"GET", "POST"})
      */
     public function registerAction(Request $request)
     {
@@ -39,8 +37,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/register/confirm/{token}", name="user_activation")
-     * @Method("GET")
+     * @Route("/register/confirm/{token}", name="user_activation", methods={"GET"})
      */
     public function activateAction($token)
     {
