@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
     nginx:
-        build: docker/dev/nginx
+        build: docker/common/nginx
         depends_on:
             - app
         networks:
@@ -13,8 +13,6 @@ services:
     app:
         build: docker/dev/app
         depends_on:
-            - redis
-            - rabbitmq
             - db
             - es1
         networks:
@@ -66,33 +64,12 @@ services:
         networks:
             - backend
 
-    rabbitmq:
-        image: rabbitmq:3.7.3
-        environment:
-            - RABBITMQ_DEFAULT_USER=collection-manager
-            - RABBITMQ_DEFAULT_PASS=collection-manager
-        volumes:
-            - rabbitmq_data:/var/lib/rabbitmq
-        networks:
-            - backend
-
-    redis:
-        image: redis:4.0.8
-        volumes:
-            - redis_data:/data
-        networks:
-            - backend
-
 volumes:
     db_data:
         driver: local
     es1_data:
         driver: local
     es2_data:
-        driver: local
-    rabbitmq_data:
-        driver: local
-    redis_data:
         driver: local
 
 networks:

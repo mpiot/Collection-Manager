@@ -1,0 +1,272 @@
+parameters:
+    # Adds a fallback ELASTICSEARCH_HOST ELASTICSEARCH_PORT
+    # and  if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(ELASTICSEARCH_HOST): ''
+    env(ELASTICSEARCH_PORT): ''
+
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/Resources/doc/setup.md
+fos_elastica:
+    clients:
+        default: { host: '%env(ELASTICSEARCH_HOST)%', port: '%env(ELASTICSEARCH_PORT)%' }
+    indexes:
+        app:
+            client: default
+            finder: ~
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            search_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [standard, lowercase, asciifolding]
+                            ngram_index_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [standard, lowercase, asciifolding, edge_ngram]
+                            ngram_sequence_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [standard, lowercase, asciifolding, sequence_ngram]
+                        filter:
+                            edge_ngram:
+                                type: edgeNGram
+                                side: front
+                                min_gram: 1
+                                max_gram: 20
+                            sequence_ngram:
+                                type: nGram
+                                min_gram: 10
+                                max_gram: 60
+            types:
+                strain:
+                    properties:
+                        discriminator:
+                        autoName:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        uniqueCode:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        country:
+                        group_id:
+                            property_path:    group.id
+                        author_id:
+                            property_path:    createdBy.id
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Strain
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\StrainRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                plasmid:
+                    properties:
+                        autoName:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            type:             string
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        group_id:
+                            property_path:    group.id
+                        author_id:
+                            property_path:    createdBy.id
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Plasmid
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\PlasmidRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                primer:
+                    properties:
+                        autoName:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        group_id:
+                            property_path:    group.id
+                        author_id:
+                            property_path:    createdBy.id
+                        sequence:
+                            analyzer :        ngram_sequence_analyzer
+                            search_analyzer : search_analyzer
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Primer
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\PrimerRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                species:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    scientificName
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    scientificName
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Species
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\SpeciesRepository
+                        elastica_to_model_transformer:
+                            query_builder_method: createSearchQueryBuilder
+                            ignore_missing: true
+                box:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        description:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        group_id:
+                            property_path:    group.id
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Box
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\BoxRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                user:
+                    properties:
+                        email:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        email_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    email
+                        fullName:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                        fullName_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    fullName
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\User
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\UserRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                brand:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    name
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Brand
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\BrandRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                seller:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    name
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Seller
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\SellerRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                product:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    name
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        group_id:
+                            property_path:    group.id
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Product
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\ProductRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
+                equipment:
+                    properties:
+                        name:
+                            analyzer :        ngram_index_analyzer
+                            search_analyzer : search_analyzer
+                            property_path:    name
+                        name_raw:
+                            type:             string
+                            index:            not_analyzed
+                            property_path:    name
+                        group_id:
+                            property_path:    group.id
+                    persistence:
+                        driver:                 orm
+                        model:                  AppBundle\Entity\Equipment
+                        provider:               ~
+                        listener:               ~
+                        finder:                 ~
+                        repository:             AppBundle\SearchRepository\EquipmentRepository
+                        elastica_to_model_transformer:
+                            ignore_missing: true
