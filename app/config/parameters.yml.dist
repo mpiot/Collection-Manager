@@ -2,6 +2,9 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
+    # App version
+    env(APP_VERSION):                    0.1
+
     # Database settings
     env(DATABASE_NAME):             collection-manager
     env(DATABASE_HOST):             db

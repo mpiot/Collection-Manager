@@ -38,6 +38,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
         - form/fields.html.twig
+    globals:
+        app_version: '%env(APP_VERSION)%'
 
 # Doctrine Configuration
 doctrine:
