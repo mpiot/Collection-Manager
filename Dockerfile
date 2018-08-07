@@ -62,4 +62,6 @@ RUN SYMFONY_ENV=prod composer install --optimize-autoloader --no-interaction --n
 COPY docker/prod/app/php.ini /usr/local/etc/php/
 COPY docker/prod/app/php-cli.ini /usr/local/etc/php/
 
+VOLUME /app
+
 CMD ["php-fpm"]
