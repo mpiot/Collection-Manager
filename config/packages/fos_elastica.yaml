@@ -61,11 +61,11 @@ fos_elastica:
                             property_path:    createdBy.id
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Strain
+                        model:                  App\Entity\Strain
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\StrainRepository
+                        repository:             App\SearchRepository\StrainRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 plasmid:
@@ -87,11 +87,11 @@ fos_elastica:
                             property_path:    createdBy.id
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Plasmid
+                        model:                  App\Entity\Plasmid
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\PlasmidRepository
+                        repository:             App\SearchRepository\PlasmidRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 primer:
@@ -115,11 +115,11 @@ fos_elastica:
                             search_analyzer : search_analyzer
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Primer
+                        model:                  App\Entity\Primer
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\PrimerRepository
+                        repository:             App\SearchRepository\PrimerRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 species:
@@ -134,11 +134,11 @@ fos_elastica:
                             property_path:    scientificName
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Species
+                        model:                  App\Entity\Species
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\SpeciesRepository
+                        repository:             App\SearchRepository\SpeciesRepository
                         elastica_to_model_transformer:
                             query_builder_method: createSearchQueryBuilder
                             ignore_missing: true
@@ -158,11 +158,11 @@ fos_elastica:
                             property_path:    group.id
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Box
+                        model:                  App\Entity\Box
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\BoxRepository
+                        repository:             App\SearchRepository\BoxRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 user:
@@ -183,11 +183,11 @@ fos_elastica:
                             property_path:    fullName
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\User
+                        model:                  App\Entity\User
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\UserRepository
+                        repository:             App\SearchRepository\UserRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 brand:
@@ -202,11 +202,11 @@ fos_elastica:
                             property_path:    name
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Brand
+                        model:                  App\Entity\Brand
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\BrandRepository
+                        repository:             App\SearchRepository\BrandRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 seller:
@@ -221,11 +221,11 @@ fos_elastica:
                             property_path:    name
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Seller
+                        model:                  App\Entity\Seller
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\SellerRepository
+                        repository:             App\SearchRepository\SellerRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 product:
@@ -242,11 +242,11 @@ fos_elastica:
                             property_path:    group.id
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Product
+                        model:                  App\Entity\Product
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\ProductRepository
+                        repository:             App\SearchRepository\ProductRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
                 equipment:
@@ -263,10 +263,10 @@ fos_elastica:
                             property_path:    group.id
                     persistence:
                         driver:                 orm
-                        model:                  AppBundle\Entity\Equipment
+                        model:                  App\Entity\Equipment
                         provider:               ~
                         listener:               ~
                         finder:                 ~
-                        repository:             AppBundle\SearchRepository\EquipmentRepository
+                        repository:             App\SearchRepository\EquipmentRepository
                         elastica_to_model_transformer:
                             ignore_missing: true
