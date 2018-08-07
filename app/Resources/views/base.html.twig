@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -14,7 +14,7 @@
 
         {% block stylesheets %}
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-            <link rel="stylesheet" href="{{ preload(asset('build/css/app.css')) }}">
+            <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
         {% endblock %}
 
         <link rel="icon" href="{{ asset('favicon.ico') }}">
@@ -103,7 +103,7 @@
                     {% endblock %}
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    {# On affiche tous les messages flash dont le nom est « success » #}
+                     {# On affiche tous les messages flash dont le nom est « success » #}
                     {% for flash_message in app.session.flashbag.get('success') %}
                         <div class="alert alert-success alert-dismissible" role="alert" data-toggle="auto-dismiss">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -111,7 +111,7 @@
                         </div>
                     {% endfor %}
 
-                    {# On affiche tous les messages flash dont le nom est « warning » #}
+                     {# On affiche tous les messages flash dont le nom est « warning » #}
                     {% for flash_message in app.session.flashbag.get('warning') %}
                         <div class="alert alert-warning alert-dismissible" role="alert" data-toggle="auto-dismiss">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -135,9 +135,9 @@
             <script src="https://maps.googleapis.com/maps/api/js?language=en&key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg"></script>
             <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
 
-            <script src="{{ preload(asset('build/manifest.js')) }}"></script>
-            <script src="{{ preload(asset('build/js/vendor.js')) }}"></script>
-            <script src="{{ preload(asset('build/js/app.js')) }}"></script>
+            <script src="{{ asset('build/manifest.js') }}"></script>
+            <script src="{{ asset('build/js/vendor.js') }}"></script>
+            <script src="{{ asset('build/js/app.js') }}"></script>
         {% endblock %}
     </body>
 </html>

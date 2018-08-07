@@ -34,13 +34,14 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash docker/scripts/deploy-dev
+    script: bash docker/scripts/deploy-develop
+    on:
+      repo: mpiot/collection-manager
+      branch: develop
+  - provider: script
+    skip_cleanup: true
+    script: bash docker/scripts/deploy-master
     on:
       repo: mpiot/collection-manager
       branch: master
-  - provider: script
-    skip_cleanup: true
-    script: bash docker/scripts/deploy-prod
-    on:
-      repo: mpiot/collection-manager
       tags: true

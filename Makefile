@@ -83,7 +83,7 @@ db-validate: vendor wait-for-db                                                 
 ##---------------------------------------------------------------------------
 
 wait-for-es:
-	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('es1',9200)){break;}echo \"Waiting for MySQL\n\";sleep(1);}"
+	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('es1',9200)){break;}echo \"Waiting for Elasticsearch\n\";sleep(1);}"
 
 es-populate: vendor wait-for-es                                                                            ## Populate Elasticsearch
 	$(EXEC) $(CONSOLE) fos:elastica:populate
