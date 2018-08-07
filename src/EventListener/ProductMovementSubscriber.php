@@ -8,7 +8,6 @@ use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 class ProductMovementSubscriber implements EventSubscriber
 {
-
     public function getSubscribedEvents()
     {
         return [
@@ -20,7 +19,6 @@ class ProductMovementSubscriber implements EventSubscriber
 
     public function postPersist(LifecycleEventArgs $args)
     {
-
         $this->calculateStock($args);
     }
 

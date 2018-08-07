@@ -3,7 +3,6 @@
 namespace App\Utils;
 
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
  * Service Mailer, permettant d'envoyer les mails.
