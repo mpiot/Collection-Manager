@@ -101,7 +101,7 @@ assets: node_modules                                                            
 	$(EXEC) yarn dev
 
 assets-build: node_modules                                                                              ## Build the production version of the assets
-	$(EXEC) yarn prod
+	$(EXEC) yarn build
 
 ##
 ## Tests
