@@ -12,5 +12,5 @@
 {% block body %}
     <h2 class="sub-header">Edit the plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}</h2>
 
-    {{ include('plasmid/_form.html.twig') }}
+    {% include 'plasmid/_form.html.twig' %}
 {% endblock %}
