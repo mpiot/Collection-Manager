@@ -1,7 +1,8 @@
 FROM php:7.2.5-fpm
 
 # PHP_CPPFLAGS is used by the docker-php-ext-* scripts (avoid bug during compilation)
-ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11"
+ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
+    COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /app
 
