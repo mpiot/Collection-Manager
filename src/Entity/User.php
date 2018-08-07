@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  */
-class User implements AdvancedUserInterface, \Serializable
+class User implements UserInterface, \Serializable
 {
     const ROLE_DEFAULT = 'ROLE_USER';
     const NUM_ITEMS = 10;
@@ -132,7 +132,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function __construct()
     {
         $this->roles = [];
-        $this->isActive = false;
+        $this->enabled = false;
         $this->groups = new ArrayCollection();
         $this->administeredGroups = new ArrayCollection();
         $this->strains = new ArrayCollection();
@@ -344,36 +344,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function eraseCredentials()
     {
         $this->plainPassword = null;
-    }
-
-    /**
-     * Is account non expired ?
-     *
-     * @return bool
-     */
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    /**
-     * Is account non locked ?
-     *
-     * @return bool
-     */
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    /**
-     * Is credential non expired ?
-     *
-     * @return bool
-     */
-    public function isCredentialsNonExpired()
-    {
-        return true;
     }
 
     /**

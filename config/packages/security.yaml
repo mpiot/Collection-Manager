@@ -22,6 +22,8 @@ security:
         main:
             pattern: ^/
 
+            user_checker: App\Security\UserChecker
+
             form_login:
                 # login and check paths
                 check_path: /login
