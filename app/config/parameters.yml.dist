@@ -20,7 +20,7 @@ parameters:
     env(SMTP_PASSWORD):             password
 
     env(MAILER_SENDER_ADDRESS):     me@myhost.tld
-    env(MAILER_SENDER_NAME):        My site name
+    env(MAILER_SENDER_NAME):        Collection Manager
 
     # A secret key that's used to generate certain security-related tokens
     env(SYMFONY_SECRET):            ThisTokenIsNotSoSecretChangeIt
