@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Plasmid{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Plasmids list</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Plasmids list</h1>
+
+    {% if app.user.isInGroup %}
+        <div>
+            <a class="btn btn-secondary" href="{{ path('plasmid_add') }}">
+                <span class="fas fa-plus"></span> Add a plasmid
+            </a>
+        </div>
+    {% endif %}
+
+    {% include '_list_filter.html.twig' with {
+        'url': url('plasmid_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),
+        'ajaxUrl': url('plasmid_index_ajax', {'q': '__query__', 'group': '__group__', 'p': '__page__'})
+    } %}
+
+    {{ list.content|raw }}
+{% endblock %}

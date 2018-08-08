@@ -1,0 +1,121 @@
+{{ form_start(form) }}
+    <fieldset>
+        <legend>General</legend>
+        {{ form_row(form.group) }}
+        {{ form_row(form.name) }}
+        <div class="form-group">
+            {{ form_label(form.location) }}
+
+            <div class="col-sm-9">
+                {{ form_widget(form.location) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#add-location">
+                    <span class="fas fa-plus"></span> Add a location
+                </button>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>References</legend>
+        <div class="form-group">
+            {{ form_label(form.seller) }}
+
+            <div class="col-sm-9">
+                {{ form_widget(form.seller) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#add-seller">
+                    <span class="fas fa-plus"></span> Add a seller
+                </button>
+            </div>
+        </div>
+        {{ form_row(form.sellerReference) }}
+        <div class="form-group">
+            {{ form_label(form.brand) }}
+
+            <div class="col-sm-9">
+                {{ form_widget(form.brand) }}
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#add-brand">
+                    <span class="fas fa-plus"></span> Add a brand
+                </button>
+            </div>
+        </div>
+        {{ form_row(form.brandReference) }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Prices</legend>
+        {{ form_row(form.catalogPrice) }}
+        {{ form_row(form.negotiatedPrice) }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Files</legend>
+        {{ form_row(form.quoteFile) }}
+        {{ form_row(form.manualFile) }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Packaging</legend>
+        {{ form_row(form.packedBy) }}
+        {{ form_row(form.packagingUnit) }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Stock management</legend>
+        {{ form_row(form.storageUnit) }}
+        {{ form_row(form.stockWarningAlert) }}
+        {{ form_row(form.stockDangerAlert) }}
+    </fieldset>
+
+    {% block button %}
+    {% endblock %}
+
+    {{ form_rest(form) }}
+{{ form_end(form) }}
+
+<div class="modal fade" id="add-location" tabindex="-1" role="dialog" aria-labelledby="add-location-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add-location-label">Add a location</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('AppBundle:Location:embdedAdd')) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-seller" tabindex="-1" role="dialog" aria-labelledby="add-seller-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add-seller-label">Add a seller</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('AppBundle:Seller:embdedAdd')) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-brand" tabindex="-1" role="dialog" aria-labelledby="add-brand-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add-brand-label">Add a brand</h4>
+            </div>
+            <div class="modal-body">
+                {{ render(controller('AppBundle:Brand:embdedAdd')) }}
+            </div>
+        </div>
+    </div>
+</div>

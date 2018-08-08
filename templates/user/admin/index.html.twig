@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">User list</li>
+{% endblock %}
+
+{% block body %}
+    {% include '_list_filter.html.twig' with {
+    'url': url('user_index', {'q': '__query__', 'p': '__page__'}),
+    'ajaxUrl': url('user_index_ajax', {'q': '__query__', 'p': '__page__'})
+    } %}
+
+    {{ list.content|raw }}
+{% endblock %}

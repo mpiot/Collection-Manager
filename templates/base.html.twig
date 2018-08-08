@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
+
+        <title>{% block title %}Collection Manager{% endblock %}</title>
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+            <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+        {% endblock %}
+    </head>
+
+    <body>
+        <noscript>
+            <div id="js-disclaimer" class="alert alert-danger text-center">
+                Please use <a rel="nofollow" href="http://browsehappy.com/">a modern browser</a> with JavaScript activated to navigate through this website
+            </div>
+        </noscript>
+
+        <nav class="navbar fixed-top navbar-expand navbar-dark bg-dark d-print-none">
+            <a class="navbar-brand" href="{{ path('homepage') }}">CollectionManager <small>v{{ app_version }} </small></a>
+            <button class="navbar-toggler d-print-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if app.user and app.user.isInGroup() %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('strain_index') }}">Strains</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('plasmid_index') }}">Plasmids</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('primer_index') }}">Primers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('product_index') }}">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('equipment_index') }}">Equipments</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                {% if app.user %}
+                    {# Form in navbar, when screen to small, don't display #}
+                    <form class="form-inline d-none d-md-block" role="search" action="{{ path('quick-search') }}" method="GET">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
+                            <button class="btn input-group-addon" type="submit" >
+                                <span class="fas fa-search" title="Search"></span>
+                                <span class="sr-only">Search</span>
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
+
+                <ul class="navbar-nav">
+                    {% if app.user %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('advanced-search') }}">Advanced search</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('faq') }}">FAQ</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownToolsLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                My account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownToolsLink">
+                                <h6 class="dropdown-header">Signed in as <strong>{{ app.user.username }}</strong></h6>
+                                {% if is_granted('ROLE_SUPER_ADMIN')  %}
+                                    <a class="dropdown-item" href="{{ path("user_index") }}">Users list</a>
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
+                                <a class="dropdown-item" href="{{ path("group_index") }}">Groups list</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path("user_profile") }}">My profile</a>
+                                <a class="dropdown-item" href="{{ logout_url('main') }}">Log out</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <a class="btn btn-secondary navbar-btn" href="{{ path('login') }}" role="button">Log in</a>
+                        <a class="btn btn-success navbar-btn sign-up-button" href="{{ path('user_registration') }}" role="button">Register</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <li><a href="{{ path('user_index', {'_switch_user': '_exit'}) }}">Exit impersonation</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        {# Form in body, when screen to small, display it #}
+        <div class="container mb-3 d-md-none d-print-none">
+            <form role="search" action="{{ path('quick-search') }}" method="GET">
+                <div class="input-group">
+                    <input type="search" class="form-control" name="q" aria-label="Search" placeholder="Search..." >
+                    <button class="btn input-group-addon" type="submit" >
+                        <span class="fas fa-search" title="Search"></span>
+                        <span class="sr-only">Search</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row mt-3">
+                <div class="col-sm-3 col-md-2 hidden-print">
+                    <nav class="nav flex-column nav-pills">
+                        <a class="nav-link" href="{{ path('homepage') }}">Home</a>
+                    </nav>
+
+                    {% block nav %}
+                    {% endblock %}
+                </div>
+
+                <div class="col-sm-9 col-md-10">
+                    {# List flashes messages #}
+                    {% for label, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }} alert-dismissible d-print-none" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>{{ label|capitalize }}!</strong> {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    <ol class="breadcrumb d-print-none">
+                        {% block breadcrumb %}
+                            <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><span class="fas fa-home" aria-hidden="true"></span> Home</a></li>
+                        {% endblock %}
+                    </ol>
+
+                    {% block body %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        {% block javascripts %}
+            <script src="https://maps.googleapis.com/maps/api/js?language=en&key=AIzaSyDLgVZEm3cdipu1fZ9wuSH2N0JAP7fXDzg"></script>
+            <script defer src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+            <script src="{{ asset('build/manifest.js') }}"></script>
+            <script src="{{ asset('build/js/vendor.js') }}"></script>
+            <script src="{{ asset('build/js/app.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

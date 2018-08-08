@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Plasmid{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('plasmid_index') }}">Plasmids list</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('plasmid_view', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">{{ plasmid.autoName }} - {{ plasmid.name }}</a></li>
+    <li class="breadcrumb-item active">Edit</li>
+{% endblock %}
+
+{% block body %}
+    <h2 class="sub-header">Edit the plasmid: {{ plasmid.autoName }} - {{ plasmid.name }}</h2>
+
+    {% include 'plasmid/_form.html.twig' %}
+{% endblock %}

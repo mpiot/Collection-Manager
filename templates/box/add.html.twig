@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a box{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('box_index') }}">Boxes list</a></li>
+    <li class="breadcrumb-item active">Add</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Add a box</h1>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

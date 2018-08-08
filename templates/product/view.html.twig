@@ -1,0 +1,155 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('product_index') }}">Products list</a></li>
+    <li class="breadcrumb-item active">{{ product.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-primary mb-3">
+        <div class="card-header bg-primary">
+            <h2>{{ product.name }}</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Product informations</h4>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <u>Location:</u>
+                                {% for location in locationPath %}
+                                    {% if not loop.first and not loop.last %}
+                                        {{ location.name }} /
+                                    {% elseif loop.last %}
+                                        {{ location.name }}
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
+                            <li class="list-group-item"><u>Brand:</u> {{ product.brand.name }}</li>
+                            <li class="list-group-item"><u>Brand reference:</u> {{ product.brandReference }}</li>
+                            <li class="list-group-item"><u>Seller reference:</u> {{ product.sellerReference }}</li>
+                            <li class="list-group-item"><u>Packaging:</u> {{ product.packedBy }} {{ product.packagingUnit }}</li>
+                            <li class="list-group-item"><u>Catalog price:</u> {{ product.catalogPrice }} €</li>
+                            <li class="list-group-item"><u>Negotiated price:</u> {{ product.negotiatedPrice }} €</li>
+                            <li class="list-group-item">
+                                {% if product.quoteName is not null %}
+                                    <a class="btn btn-primary btn-sm" href="{{ path('product_download_quote', { 'id': product.id, 'slug': product.slug }) }}" role="button">
+                                        <span class="fas fa-download"></span> Download quote
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-primary btn-sm disabled" disabled>
+                                        <span class="fas fa-download"></span> Download quote
+                                    </button>
+                                {% endif %}
+                            </li>
+                            <li class="list-group-item">
+                                {% if product.manualName is not null %}
+                                    <a class="btn btn-primary btn-sm" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}" role="button">
+                                        <span class="fas fa-download"></span> Download manual
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-primary btn-sm disabled" disabled>
+                                        <span class="fas fa-download"></span> Download manual
+                                    </button>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-md-offset-3">
+                    <div class="card border-info">
+                        <div class="card-header bg-info"><h4>Paramètres de stock</h4></div>
+
+                        <ul class="list-group">
+                            {% if product.stock <= product.stockDangerAlert %}
+                                <li class="list-group-item list-group-item-danger"><u>Disponible:</u> {{ product.stock }} {{ product.storageUnit }}</li>
+                            {% elseif (product.stock > product.stockDangerAlert) and (product.stock <= product.stockWarningAlert) %}
+                                <li class="list-group-item list-group-item-warning"><u>Disponible:</u> {{ product.stock }} {{ product.storageUnit }}</li>
+                            {% else %}
+                                <li class="list-group-item list-group-item-success"><u>Disponible:</u> {{ product.stock }} {{ product.storageUnit }}</li>
+                            {% endif %}
+
+                            <li class="list-group-item"><u>Limite alerte:</u> {{ product.stockWarningAlert }} {{ product.storageUnit }}</li>
+                            <li class="list-group-item"><u>Limite danger:</u> {{ product.stockDangerAlert }} {{ product.storageUnit }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="h4">Stock</span>
+                            <a href="{{ path("product_movement_add", {'product_id': product.id}) }}" class="btn btn-sm btn-primary float-right">
+                                <span class="fas fa-plus"></span>
+                                Create a new movement
+                            </a>
+                        </div>
+                        <table class="table">
+                            <tr>
+                                <th>Added by</th>
+                                <th>Added</th>
+                                <th>Comment</th>
+                                <th>Movement</th>
+                                <th>Actions</th>
+                            </tr>
+
+                            {% if product.movements is not empty %}
+                                {% for movement in product.movements %}
+                                    <tr>
+                                        <td>{{ movement.createdBy.fullName|capitalize }}</td>
+                                        <td>{{ movement.created|date('d/m/Y') }}</td>
+                                        <td>{{ movement.comment }}</td>
+                                        {% if movement.movement >= 0 %}
+                                            <td style="color: green;">{{ movement.movement }}</td>
+                                        {% else %}
+                                            <td style="color: red;">{{ movement.movement }}</td>
+                                        {% endif %}
+
+                                        <td>
+                                            <a class="btn btn-secondary btn-sm" href="{{ path("product_movement_edit", {'id': movement.id}) }}">
+                                                <span class="fas fa-edit"></span> Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan='5' class='text-center'>There is no movements.</td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-right">
+            {{ form_start(delete_form) }}
+            <div class="btn-group btn-group-sm" role="group">
+                <a class="btn btn-warning" href="{{ path('product_edit', { 'id': product.id, 'slug': product.slug }) }}">
+                    <span class="fa fa-edit"></span> Edit
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <span class="fa fa-trash"></span> Delete
+                </button>
+            </div>
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+
+    {% include '_delete_confirmation.html.twig' %}
+{% endblock %}

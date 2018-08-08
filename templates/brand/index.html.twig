@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Brands list{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Brands list</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Brands list</h1>
+
+    {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
+        <div>
+            <a class="btn btn-secondary" href="{{ path('brand_add') }}">
+                <span class="fas fa-plus"></span> Add a brand
+            </a>
+        </div>
+    {% endif %}
+
+    {% include '_list_filter.html.twig' with {
+        'url': url('brand_index', {'q': '__query__', 'p': '__page__'}),
+        'ajaxUrl': url('brand_index_ajax', {'q': '__query__', 'p': '__page__'})
+    } %}
+
+    {{ list.content|raw }}
+{% endblock %}

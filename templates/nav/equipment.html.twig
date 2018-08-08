@@ -1,0 +1,11 @@
+<nav class="nav flex-column nav-pills">
+    <a class="nav-link" href="{{ path('brand_index') }}">Brands</a>
+    <a class="nav-link" href="{{ path('seller_index') }}">Sellers</a>
+    <a class="nav-link" href="{{ path('location_index') }}">Locations</a>
+</nav>
+
+{% if app.user.isInGroup %}
+    <nav class="nav flex-column nav-pills">
+        <a class="nav-link" href="{{ path('equipment_index') }}">Equipment list</a>
+    </nav>
+{% endif %}

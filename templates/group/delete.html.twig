@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Delete the group: {{ group.name }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('group_index') }}">Groups</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('group_view', { 'slug': group.slug }) }}">{{ group.name }}</a></li>
+    <li class="breadcrumb-item active">Delete</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Delete the group: {{ group.name }}</h1>
+
+    <div>
+        <a class="btn btn-secondary" href="{{ path('group_index') }}" role="button">
+            <span class="fas fa-chevron-left"></span>
+            Groups list
+        </a>
+    </div>
+
+    <div class="alert alert-danger" role="alert"><b>WARNING !</b> You delete a group !</div>
+
+    <p>Do you confirm the deletion of the group: <b>{{ group.name }}</b> ?</p>
+
+    <form action="{{ path('group_delete', {'slug': group.slug}) }}" method="post">
+        {# Ceci va générer le champ CSRF #}
+        {{ form_rest(form) }}
+
+        <a class="btn btn-success" href="{{ path('group_index') }}">
+            <i class="fas fa-chevron-left"></i>
+            <b>Cancel !</b> Comeback in a safe area :)
+        </a>
+
+        {# Ici j'ai écrit le bouton de soumission à la main #}
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+{% endblock %}

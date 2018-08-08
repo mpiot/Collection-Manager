@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a group{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('group_index') }}">Groups</a></li>
+    <li class="breadcrumb-item active">Add</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Add a group</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

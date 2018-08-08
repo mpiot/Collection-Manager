@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if app.user is not null %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        My groups
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for group in groups %}
+                            <li  class="list-group-item">
+                                <a href="{{ path('group_view', { 'slug': group.slug }) }}">{{ group.name }}</a>
+                                {{ group.administrators.contains(app.user) ? '(admin)' }}
+                                {% if app.user.isFavoriteGroup(group) %}
+                                    <span class="fas fa-star favorite-group float-right"></span>
+                                {% else %}
+                                    <a href="{{ path('group_favorite', { 'slug': group.slug }) }}">
+                                        <span class="far fa-star float-right"></span>
+                                    </a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

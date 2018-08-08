@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">My profile</li>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="btn-group btn-group-xs float-right" role="group">
+            <a class="btn btn-secondary" href="{{ path('user_password_edit') }}">
+                <span class="fas fa-edit"></span>
+                Change password
+            </a>
+
+            <a class="btn btn-warning" href="{{ path('user_profile_edit') }}">
+                <span class="fas fa-edit"></span>
+                Edit
+            </a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-8">
+            <h3>{{ user.username }}</h3>
+            <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+        </div>
+    </div>
+{% endblock %}

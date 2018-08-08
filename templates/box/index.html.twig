@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Boxes list{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Boxes list</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Boxes list</h1>
+
+    {% if app.user.isInGroup() %}
+        <div>
+            <a class="btn btn-secondary" href="{{ path('box_add') }}">
+                <span class="fas fa-plus"></span> Add a box
+            </a>
+        </div>
+    {% endif %}
+
+    {% include '_list_filter.html.twig' with {
+        'url': url('box_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),
+        'ajaxUrl': url('box_index_ajax', {'q': '__query__', 'group': '__group__', 'p': '__page__'})
+    } %}
+
+    {{ list.content|raw }}
+{% endblock %}

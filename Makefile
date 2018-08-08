@@ -45,9 +45,10 @@ tty:                                                                            
 
 clear: perm                                                                                            ## Remove all the cache, the logs, the sessions and the built assets
 	$(EXEC) rm -rf var/cache/*
-	rm -rf var/logs/*
-	rm -rf web/build
+	$(EXEC) $(CONSOLE) redis:flushall -n
+	rm -rf var/log/*
 	rm -f var/.php_cs.cache
+	rm -rf public/build
 
 clean: clear                                                                                           ## Clear and remove dependencies
 	rm -rf vendor node_modules
@@ -85,7 +86,7 @@ db-validate: vendor wait-for-db                                                 
 wait-for-es:
 	$(EXEC) php -r "set_time_limit(60);for(;;){if(@fsockopen('es1',9200)){break;}echo \"Waiting for Elasticsearch\n\";sleep(1);}"
 
-es-populate: vendor wait-for-es                                                                            ## Populate Elasticsearch
+es-populate: vendor wait-for-es                                                                       ## Populate Elasticsearch
 	$(EXEC) $(CONSOLE) fos:elastica:populate
 
 
@@ -100,7 +101,7 @@ assets: node_modules                                                            
 	$(EXEC) yarn dev
 
 assets-build: node_modules                                                                              ## Build the production version of the assets
-	$(EXEC) yarn prod
+	$(EXEC) yarn build
 
 ##
 ## Tests
@@ -111,10 +112,10 @@ lint: lint-symfony php-cs                                                       
 lint-symfony: lint-yaml lint-twig                                                                      ## Lint Symfony (Twig and YAML) files
 
 lint-yaml:                                                                                             ## Lint YAML files
-	$(EXEC) $(CONSOLE) lint:yaml app/config
+	$(EXEC) $(CONSOLE) lint:yaml config
 
 lint-twig:                                                                                             ## Lint Twig files
-	$(EXEC) $(CONSOLE) lint:twig app/Resources/
+	$(EXEC) $(CONSOLE) lint:twig templates
 
 php-cs: vendor                                                                                         ## Lint PHP code
 	$(PHPCSFIXER) fix --diff --dry-run --no-interaction -v
@@ -145,8 +146,8 @@ up:
 	$(DOCKER_COMPOSE) up -d --remove-orphans
 
 perm:
-	$(EXEC) chmod -R 777 var files web/build node_modules vendor
-	$(EXEC) chown -R www-data:root var files web/build node_modules vendor
+	$(EXEC) chmod -R 777 var files public/build node_modules vendor
+	$(EXEC) chown -R www-data:root var files public/build node_modules vendor
 
 # Rules from files
 

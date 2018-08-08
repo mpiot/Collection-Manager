@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Delete the location: {{ location.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('location_index') }}">Locations list</a></li>
+    <li class="breadcrumb-item active">Delete</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Delete the location: {{ location.name }}</h1>
+
+    <div class="alert alert-danger" role="alert">
+        <b>CAUTION !</b> You are about to delete a location !<br>
+        {% if location.children|length > 0 %}
+            This location is a parent of other locations, if you delete it, all children will be deleted.
+        {% endif %}
+    </div>
+
+
+    <p>Are you sure you want to delete the location :"<b>{{ location.name }}</b>" ?</p>
+
+    <form action="{{ path('location_delete', {'id': location.id}) }}" method="post">
+        <div class="btn-group" role="group">
+            <a class="btn btn-primary" href="{{ path('location_index') }}" role="button">
+                <span class="fa fa-chevron-left" aria-hidden="true"></span>
+                Back
+            </a>
+            <input class="btn btn-danger" value="I'm sure, DELETE IT" type="submit" />
+        </div>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

@@ -1,0 +1,38 @@
+<div id="filtered-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% if results.results is not empty %}
+                    {% for user in results.results %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.fullName }}</td>
+                            <td>{{ user.roles|join(',') }}</td>
+                            <td>
+                                {% if app.user != user %}
+                                    <a href="{{ path('homepage', { '_switch_user': user.username }) }}">Impersonate</a>
+                                {% endif %}
+                                <a href="{{ path('user_roles', { 'id': user.id }) }}">Edit roles</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td class="text-center" colspan="5">There is no results.</td>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include '_list_pagination.html.twig' with { 'url': path('user_index', {'q': '__query__', 'p': '__page__' }) } %}
+</div>

@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a location{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('location_index') }}">Locations list</a></li>
+    <li class="breadcrumb-item active">Add</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Add a location</h1>
+
+    {% embed 'location/_form.html.twig' %}
+        {% block button %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

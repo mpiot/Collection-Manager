@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Edit a product movement{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('product_index') }}">Products list</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('product_view', { 'id': productMovement.product.id, 'slug': productMovement.product.slug }) }}">{{ productMovement.product.name }}</a></li>
+    <li class="breadcrumb-item active">Edit a movement</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Edit a movement</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-secondary" value="Save changes"/>
+            </div>
+        </div>
+    {{ form_end(edit_form) }}
+
+    {{ form_start(delete_form) }}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-danger">
+                    <span class="fa fa-trash"></span> Delete
+                </button>
+            </div>
+        </div>
+    {{ form_end(delete_form) }}
+
+    {% include '_delete_confirmation.html.twig' %}
+{% endblock %}

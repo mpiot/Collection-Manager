@@ -1,0 +1,33 @@
+<div id="filtered-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Sequence</th>
+                <th>Orientation</th>
+                <th>AutoName</th>
+            </tr>
+            </thead>
+            {% if results.results is not empty %}
+                {% for primer in results.results %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+
+                        <td><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.name }}</a></td>
+                        <td><span class="five-prime-extension">{{ primer.fivePrimeExtension }}</span>{{ primer.sequence }}</td>
+                        <td>{{ primer.orientation|capitalize }}</td>
+                        <td>{{ primer.autoName }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td class="text-center" colspan="6">There is no primers.</td>
+            {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    {% include '_list_pagination.html.twig' with { 'url': path('primer_index', {'q': '__query__', 'group': '__group__', 'p': '__page__' }) } %}
+</div>

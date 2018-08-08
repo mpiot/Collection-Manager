@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a product movement{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('product_index') }}">Products list</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('product_view', { 'id': product.id, 'slug': product.slug }) }}">{{ product.name }}</a></li>
+    <li class="breadcrumb-item active">Create a new movement</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Create a new movement</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

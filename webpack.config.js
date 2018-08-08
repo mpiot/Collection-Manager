@@ -1,21 +1,22 @@
 var Encore = require('@symfony/webpack-encore');
 
 Encore
-    .setOutputPath('web/build/')
+    .setOutputPath('public/build/')
     .setPublicPath('/build')
     .cleanupOutputBeforeBuild()
     .autoProvidejQuery()
     .autoProvideVariables({
         $: 'jquery',
         jQuery: 'jquery',
-        'window.jQuery': 'jquery'
+        'window.jQuery': 'jquery',
+        Popper: ['popper.js', 'default']
     })
     .enableVersioning()
     .enableSourceMaps(!Encore.isProduction())
     .enableSassLoader(function(sassOptions) {}, {
         resolveUrlLoader: false
     })
-    .createSharedEntry('js/vendor', ['jquery', 'jquery-ui', 'bootstrap-sass', 'select2'])
+    .createSharedEntry('js/vendor', ['jquery', 'popper.js', 'bootstrap', 'jquery-ui', 'select2'])
     .addEntry('js/app', [
         './assets/js/advanced-search.js',
         './assets/js/charmap.js',

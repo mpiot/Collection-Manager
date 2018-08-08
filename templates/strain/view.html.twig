@@ -1,0 +1,238 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Strain {{ strain.autoName }} - {{ strain.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="breadcrumb-item active">{{ strain.autoName }} - {{ strain.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-primary my-3">
+        <div class="card-header bg-primary text-white">
+            <h2>{{ strain.fullName }}</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Registration informations
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">Name: {{ strain.name }}</li>
+                            <li class="list-group-item">Unique code: {{ strain.uniqueCode }}</li>
+                            <li class="list-group-item">Auto name: {{ strain.autoName }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Tubes
+                        </div>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Box</th>
+                                <th>Cell</th>
+                            </tr>
+                            {% for tube in strain.tubes %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('box_view', { 'id': tube.box.id, 'slug': tube.box.slug }) }}">
+                                            {{ tube.box.name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ tube.cellName }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="text-center" colspan="2">There are no tubes</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Biological informations
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Species: {{ strain.species is not null ? strain.species.scientificName : 'Unknow species' }}
+                            </li>
+                            <li class="list-group-item">
+                                Sequenced: {{ strain.sequenced ? 'yes' : 'no' }}
+                            </li>
+                            {% if 'wild' == strain.discriminator %}
+                                <li class="list-group-item">Biological origin: {{ strain.biologicalOrigin }}</li>
+                                <li class="list-group-item">Source: {{ strain.source }}</li>
+                            {% endif %}
+                        </ul>
+
+                        <div class="card-body">
+                            <p><u>Genotype:</u></p>
+                            <p>{{ strain.genotype }}</p>
+                        </div>
+
+                        <div class="card-body">
+                            <p><u>Description:</u></p>
+                            <p>{{ strain.description }}</p>
+                        </div>
+
+                        <div class="card-body">
+                            <p><u>Comment:</u></p>
+                            <p>{{ strain.comment }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {% if 'gmo' == strain.discriminator %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Used plasmids
+                            </div>
+                            <table class="table">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Name</th>
+                                    <th>State</th>
+                                </tr>
+                                {% if strain.strainPlasmids is not empty%}
+                                    {% for strainPlasmid in strain.strainPlasmids %}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            <td><a href="{{ path('plasmid_view', {'id': strainPlasmid.plasmid.id, 'slug': strainPlasmid.plasmid.slug }) }}">{{ strainPlasmid.plasmid.autoName }}</a></td>
+                                            <td>{{ strainPlasmid.plasmid.name }}</td>
+                                            <td>{{ strainPlasmid.state }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" style="text-align:center;">There is no plasmids.</td>
+                                    </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if
+                'wild' == strain.discriminator
+                and (strain.address or strain.country or (strain.latitude and strain.longitude))
+                %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                Map
+                            </div>
+                            {% if strain.address or strain.country %}
+                                <div class="card-body">
+                                    Address: {{ strain.address }}<br>
+                                    Country: {{ strain.country|country(app.request.locale) }}<br>
+                                </div>
+                            {% endif %}
+
+                            {% if strain.latitude and strain.longitude %}
+                                <div id ="map" class="card-body" style="height:400px;">
+                                </div>
+
+                                <div class="card-footer">
+                                    Latitude: {{ strain.latitude }}  -  Longitude: {{ strain.longitude }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">Parents</div>
+                        <ul class="list-group">
+                            {% for parent in strain.parents %}
+                                <li class="list-group-item"><a href="{{ path('strain_view', { 'id': parent.id, 'slug': parent.slug }) }}">{{ parent.fullName }}</a></li>
+                            {% else %}
+                                <li class="list-group-item">There are no parents.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">Children</div>
+                        <ul class="list-group">
+                            {% for child in strain.children %}
+                                <li class="list-group-item"><a href="{{ path('strain_view', { 'id': child.id, 'slug': child.slug }) }}">{{ child.fullName }}</a></li>
+                            {% else %}
+                                <li class="list-group-item">There are no children.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-right">
+            {{ form_start(delete_form) }}
+                <div class="btn-group btn-group-sm" role="group">
+                    <a class="btn btn-sm btn-success" href="{{ path('strain_add_from_model', { 'id': strain.id, 'slug': strain.slug }) }}">
+                        <span class="fa fa-plus" aria-hidden="true"></span> Copy this strain
+                    </a>
+                    {% if strain.isAuthor(app.user) or strain.getGroup().isAdministrator(app.user) %}
+                        <a class="btn btn-warning" href="{{ path('strain_edit', { 'id': strain.id, 'slug': strain.slug }) }}">
+                            <span class="fa fa-edit" aria-hidden="true"></span> Edit
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <span class="fa fa-trash"></span> Delete
+                        </button>
+                    {% endif %}
+                </div>
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+
+    {% include '_delete_confirmation.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% if 'wild' == strain.discriminator and strain.latitude is defined and strain.longitude is defined %}
+        <script type="text/javascript">
+            var map;
+            function initMap() {
+                var myLatLng = {lat: {{ strain.latitude }}, lng: {{ strain.longitude}}};
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 5
+                });
+
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: '{{ strain.autoName }}'
+                });
+            }
+            initMap();
+        </script>
+    {% endif %}
+{% endblock %}

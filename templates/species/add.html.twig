@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a species{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('species_index') }}">Species list</a></li>
+    <li class="breadcrumb-item active">Add</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Add a species</h1>
+
+    {{ form_start(form, { 'attr': { 'data-url': path('species_getjson', {'taxid': '__taxid__'}) } }) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

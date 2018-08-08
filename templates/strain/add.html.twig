@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a strain - {{ parent() }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="breadcrumb-item active">Add a strain</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Add a strain</h1>
+
+    {% include 'strain/_form.html.twig' %}
+{% endblock %}

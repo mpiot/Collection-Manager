@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{%block title %}
+    Search Results - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Quick search</li>
+{% endblock %}
+
+{% block body %}
+    <h1>Results for "<i>{{ search }}</i>"</h1>
+    <h3>Too many results ? Try the <a href="{{ path('advanced-search') }}">Advanced Search</a></h3>
+
+    {% include "search/_results.html.twig" %}
+{% endblock %}

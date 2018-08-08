@@ -1,0 +1,44 @@
+<div id="filtered-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Brand ref.</th>
+                    <th>Stock</th>
+                    <th>Manual</th>
+                </tr>
+            </thead>
+            {% if results.results is not empty %}
+                {% for product in results.results %}
+                    <tr {{ (product.stock <= product.stockDangerAlert) ? 'class="danger"' : (product.stock <= product.stockWarningAlert) ? 'class="warning"' : '' }}>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{{ path('product_view', { 'id': product.id, 'slug': product.slug }) }}">{{ product.name }}</a>
+                        </td>
+                        <td>{{ product.brand.name }}</td>
+                        <td>{{ product.brandReference }}</td>
+                        <td>{{ product.stock }} {{ product.storageUnit }}</td>
+                        <td>
+                            {% if product.manualName is not null %}
+                                <a class="btn btn-primary btn-sm" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}" role="button" >
+                                    <span class="fas fa-download"></span> Download manual
+                                </a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <td class="text-center" colspan="5">There is no products.</td>
+            {% endif %}
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    {% include '_list_pagination.html.twig' with { 'url': path('product_index', {'q': '__query__', 'p': '__page__' }) } %}
+</div>

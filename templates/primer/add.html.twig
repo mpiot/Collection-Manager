@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Add a primer{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('primer_index') }}">Primer list</a></li>
+    <li class="breadcrumb-item active">Add a primer</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Add a primer</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    {% include 'primer/_nucleotides_table.html.twig' %}
+{% endblock %}

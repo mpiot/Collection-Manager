@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Edit the primer: {{ primer.autoName }} - {{ primer.name }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('primer_index') }}">Primers list</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('primer_view', { 'id': primer.id, 'slug': primer.slug }) }}">{{ primer.autoName }} - {{ primer.name }}</a></li>
+    <li class="breadcrumb-item active">Edit</li>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <h1 class="page-header">Edit a primer</h1>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-secondary" value="Save changes" />
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="row">
+        {% include 'primer/_nucleotides_table.html.twig' %}
+    </div>
+{% endblock %}

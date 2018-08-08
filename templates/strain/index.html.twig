@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Strains list{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Strains</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Strains list</h1>
+
+    {% if app.user.isInGroup() %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="fas fa-plus"></span> Add a strain
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="{{ path('strain_add_gmo') }}">GMO</a></li>
+                <li><a href="{{ path('strain_add_wild') }}">Wild</a></li>
+            </ul>
+        </div>
+    {% endif %}
+    <br />
+    {% include '_list_filter.html.twig' with {
+        'url': url('strain_index', {'q': '__query__', 'group': '__group__', 'p': '__page__'}),
+        'ajaxUrl': url('strain_index_ajax', {'q': '__query__', 'group': '__group__', 'p': '__page__'})
+    } %}
+
+    {{ list.content|raw }}
+{% endblock %}

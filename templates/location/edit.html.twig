@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Edit the location: {{ location.name }}{% endblock %}
+
+{% block nav %}
+    {% include "nav/product.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('location_index') }}">Locations list</a></li>
+    <li class="breadcrumb-item active">Edit</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Edit a location</h1>
+
+    {% embed 'location/_form.html.twig' %}
+        {% block button %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-secondary" value="Save changes"/>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Import data{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('box_index') }}">Boxes list</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('box_view', { 'id': box.id, 'slug': box.slug }) }}">{{ box.name }}</a></li>
+    <li class="breadcrumb-item active">Import data</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Import data in {{ box.name }}</h1>
+
+    <div class="alert alert-info" role="alert">
+        <h4><span class="fas fa-info-circle"></span> Notice on the importation</h4>
+        <p>
+            The importation only work with CSV files and for a box. You can use it in a non-empty box, but the number of strains in your file doesn't exceed the number of free cells.
+            The script use free cells in the order it find them, then if you have some free cells in the middle of a box, it use it.
+        </p>
+
+        <p><b><span class="fas fa-download"></span> You can download the empty file <a href="{{ asset('files/box_import.csv') }}">here</a>.</b></p>
+
+        <section>
+            <h5>Table columns description:</h5>
+            <ul>
+                <li><b>disc</b>: The discriminator must be 'gmo' or 'wild' (required)</li>
+                <li><b>genus</b>: The genus must be available for the group that own the box (required)</li>
+                <li><b>species</b>: The species must be available for the group that own the box (required)</li>
+                <li><b>name</b>: The name of the strain (required)</li>
+                <li><b>comment</b>: A comment</li>
+                <li><b>sequenced</b>: Is strain sequenced ? Must be 'yes' or 'no'</li>
+                <li><b>cells</b>: In which cell is the strains ? Must be like:
+                    <ul>
+                        <li>Single tube: 'A1'</li>
+                        <li>Multiple tubes: 'A1,A2,B8'</li>
+                    </ul>
+                </li>
+
+                <section>
+                    <h5>GMO strain only:</h5>
+                    <ul>
+                        <li><b>description</b>: A description of the strain</li>
+                        <li><b>genotype</b>: The genotype of the strain</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h5>Wild strain only:</h5>
+                    <ul>
+                        <li><b>biologicalOrigin</b>: The biological origin (required)</li>
+                        <li><b>source</b>: The source, who give you the strain ?</li>
+                        <li><b>lat</b>: The latitude</li>
+                        <li><b>long</b>: The longitude</li>
+                        <li><b>address</b>: The address, like 'Pyramides, 75001 Paris, France'</li>
+                        <li><b>country</b>: The ISO 3166-1 alpha-2 country code (2 letters). (<a href="https://countrycode.org/" target="_blank">https://countrycode.org/</a>)</li>
+                    </ul>
+                </section>
+            </ul>
+        </section>
+    </div>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="login" class="btn btn-secondary" value="Import" />
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

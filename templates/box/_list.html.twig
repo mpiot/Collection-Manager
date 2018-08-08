@@ -1,0 +1,33 @@
+<div id="filtered-list">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Free space</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% if results.results is not empty %}
+                {% for box in results.results %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ path('box_view', { 'id': box.id, 'slug': box.slug }) }}">{{ box.name }}</a></td>
+                        <td>{{ box.description|truncate(50, true) }}</td>
+                        <td>{{ box.freeSpace }} / {{ box.cellNumber }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">There are no boxes.</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include '_list_pagination.html.twig' with { 'url': path('box_index', {'q': '__query__', 'group': '__group__', 'p': '__page__' }) } %}
+</div>

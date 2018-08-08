@@ -40,8 +40,7 @@ deploy:
       branch: develop
   - provider: script
     skip_cleanup: true
-    script: bash docker/scripts/deploy-master
+    script: bash docker/scripts/deploy-prod
     on:
       repo: mpiot/collection-manager
-      branch: master
       tags: true

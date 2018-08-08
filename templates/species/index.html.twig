@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Species list{% endblock %}
+
+{% block nav %}
+    {% include "nav/strain.html.twig" %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item active">Species list</li>
+{% endblock %}
+
+{% block body %}
+    <h1 class="page-header">Species List</h1>
+
+    {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
+        <div>
+            <a class="btn btn-secondary" href="{{ path('species_add') }}">
+                <span class="fas fa-plus"></span> Add a species
+            </a>
+        </div>
+    {% endif %}
+
+    {% include '_list_filter.html.twig' with {
+        'url': url('species_index', {'q': '__query__', 'p': '__page__'}),
+        'ajaxUrl': url('species_index_ajax', {'q': '__query__', 'p': '__page__'})
+    } %}
+
+    {{ list.content|raw }}
+{% endblock %}

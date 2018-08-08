@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ group.name }} - {{ parent() }}{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="breadcrumb-item"><a href="{{ path('group_index') }}">Groups</a></li>
+    <li class="breadcrumb-item active">{{ group.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h2 class="page-header">{{ group.name }}</h2>
+
+    {% if group.isAdministrator(app.user) or is_granted('ROLE_SUPER_ADMIN') %}
+        <div>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a class="btn btn-secondary btn-danger btn-sm float-right" value="Edit" href="{{ path("group_delete", {'slug': group.slug }) }}" role="button">
+                    <span class="far fa-trash-alt"></span>
+                </a>
+            {% endif %}
+
+            <a class="btn btn-secondary btn-warning btn-sm float-right" value="Edit" href="{{ path("group_edit", {'slug': group.slug }) }}" role="button">
+                <span class="fas fa-edit"></span>
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="row my-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Administrators
+                </div>
+                <ul class="list-group">
+                    {% for administrator in group.administrators %}
+                        <li class="list-group-item">{{ administrator.firstName }} {{ administrator.lastName }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info">
+                    Members
+                </div>
+                <ul class="list-group">
+                    {% for member in group.members %}
+                        <li class="list-group-item">{{ member.firstName }} {{ member.lastName }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
