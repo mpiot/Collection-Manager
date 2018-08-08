@@ -1,10 +1,5 @@
-<ul class="nav nav-sidebar">
-    <li><a href="{{ path('species_index') }}">Species</a></li>
-</ul>
-<ul class="nav nav-sidebar">
-    <li><a href="{{ path('box_index') }}">Boxes</a></li>
-</ul>
-
-<ul class="nav nav-sidebar">
-    <li><a href="{{ path('strain_index') }}">Strains</a></li>
-</ul>
+<nav class="nav flex-column nav-pills">
+    <a class="nav-link" href="{{ path('species_index') }}">Species</a>
+    <a class="nav-link" href="{{ path('box_index') }}">Boxes</a>
+    <a class="nav-link" href="{{ path('strain_index') }}">Strains</a>
+</nav>
