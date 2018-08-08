@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Storage\FileSystemStorage;
 
 /**
  * Class sellerController.
@@ -177,15 +178,15 @@ class SellerController extends Controller
      * @Route("/{slug}/download-offer", name="seller_download_offer", methods={"GET"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
-    public function downloadOfferAction(Seller $seller)
+    public function downloadOfferAction(Seller $seller, FileSystemStorage $storage)
     {
         if (null === $seller->getOfferName()) {
             throw $this->createNotFoundException("This file doesn't exists.");
         }
 
         // Get the absolute path of the file and the path for X-Accel-Redirect
-        $filePath = $this->get('vich_uploader.storage')->resolvePath($seller, 'offerFile');
-        $xSendFilePath = $this->get('vich_uploader.storage')->resolveUri($seller, 'offerFile');
+        $filePath = $storage->resolvePath($seller, 'offerFile');
+        $xSendFilePath = $storage->resolveUri($seller, 'offerFile');
         $fileName = $seller->getSlug().'.'.pathinfo($filePath)['extension'];
 
         // Return a Binary Response

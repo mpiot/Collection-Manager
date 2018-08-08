@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Storage\FileSystemStorage;
 
 /**
  * Class plasmidController.
@@ -196,15 +197,15 @@ class PlasmidController extends Controller
      * @Route("/{id}-{slug}/download", name="plasmid_download", methods={"GET"})
      * @Security("plasmid.getGroup().isMember(user)")
      */
-    public function downloadAction(Plasmid $plasmid)
+    public function downloadAction(Plasmid $plasmid, FileSystemStorage $storage)
     {
         if (null === $plasmid->getGenBankName()) {
             throw $this->createNotFoundException("This file doesn't exists.");
         }
 
         // Get the absolute path of the file and the path for X-Accel-Redirect
-        $filePath = $this->get('vich_uploader.storage')->resolvePath($plasmid, 'genBankFile');
-        $xSendFilePath = $this->get('vich_uploader.storage')->resolveUri($plasmid, 'genBankFile');
+        $filePath = $storage->resolvePath($plasmid, 'genBankFile');
+        $xSendFilePath = $storage->resolveUri($plasmid, 'genBankFile');
         $fileName = $plasmid->getAutoName().'_'.$plasmid->getSlug().'.'.pathinfo($filePath)['extension'];
 
         // Return a Binary Response

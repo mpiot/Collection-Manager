@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Storage\FileSystemStorage;
 
 /**
  * Class product controller.
@@ -209,7 +210,7 @@ class ProductController extends Controller
 
      * @Security("product.getGroup().isMember(user)")
      */
-    public function downloadAction(Product $product, Request $request)
+    public function downloadAction(Product $product, Request $request, FileSystemStorage $storage)
     {
         // If user want Quote
         if ('product_download_quote' === $request->get('_route')) {
@@ -231,8 +232,8 @@ class ProductController extends Controller
         }
 
         // Get the absolute path of the file and the path for X-Accel-Redirect
-        $filePath = $this->get('vich_uploader.storage')->resolvePath($product, $fieldName);
-        $xSendFilePath = $this->get('vich_uploader.storage')->resolveUri($product, $fieldName);
+        $filePath = $storage->resolvePath($product, $fieldName);
+        $xSendFilePath = $storage->resolveUri($product, $fieldName);
         $fileName = $product->getSlug().'-'.$name.'.'.pathinfo($filePath)['extension'];
 
         // Return a Binary Response
