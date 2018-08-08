@@ -85,8 +85,8 @@
                             </div>
                         </li>
                     {% else %}
-                        <a type="button" class="btn btn-secondary navbar-btn" href="{{ path('login') }}">Log in</a>
-                        <a type="button" class="btn btn-success navbar-btn sign-up-button" href="{{ path('user_registration') }}">Register</a>
+                        <a class="btn btn-secondary navbar-btn" href="{{ path('login') }}" role="button">Log in</a>
+                        <a class="btn btn-success navbar-btn sign-up-button" href="{{ path('user_registration') }}" role="button">Register</a>
                     {% endif %}
 
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}

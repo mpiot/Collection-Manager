@@ -19,7 +19,7 @@
                 <div class="col-md-2">
                     {% if plasmid.genBankName is not null %}
                         <div class="push-right">
-                            <a type="button" class="btn btn-success btn-md" href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
+                            <a class="btn btn-success btn-md" href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}" role="button">
                                 <span class="fas fa-download"></span>
                                 Download
                             </a>
