@@ -59,4 +59,7 @@ COPY php-cli.ini /usr/local/etc/php/
 
 RUN apt-get update && apt-get install -qy python
 
+# Set version
+ENV APP_VERSION=0.1
+
 CMD ["php-fpm"]
