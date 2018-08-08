@@ -45,22 +45,22 @@
                             <li class="list-group-item">
                                 {% if product.quoteName is not null %}
                                     <a type="button" class="btn btn-primary btn-sm" href="{{ path('product_download_quote', { 'id': product.id, 'slug': product.slug }) }}">
-                                        <span class="glyphicon glyphicon-download"></span> Download quote
+                                        <span class="fas fa-download"></span> Download quote
                                     </a>
                                 {% else %}
                                     <button class="btn btn-primary btn-sm disabled" disabled>
-                                        <span class="glyphicon glyphicon-download"></span> Download quote
+                                        <span class="fas fa-download"></span> Download quote
                                     </button>
                                 {% endif %}
                             </li>
                             <li class="list-group-item">
                                 {% if product.manualName is not null %}
                                     <a type="button" class="btn btn-primary btn-sm" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}">
-                                        <span class="glyphicon glyphicon-download"></span> Download manual
+                                        <span class="fas fa-download"></span> Download manual
                                     </a>
                                 {% else %}
                                     <button class="btn btn-primary btn-sm disabled" disabled>
-                                        <span class="glyphicon glyphicon-download"></span> Download manual
+                                        <span class="fas fa-download"></span> Download manual
                                     </button>
                                 {% endif %}
                             </li>
@@ -94,7 +94,7 @@
                         <div class="card-header">
                             <span class="h4">Stock</span>
                             <a href="{{ path("product_movement_add", {'product_id': product.id}) }}" class="btn btn-sm btn-primary float-right">
-                                <i class="glyphicon glyphicon-plus"></i>
+                                <span class="fas fa-plus"></span>
                                 Create a new movement
                             </a>
                         </div>
@@ -121,7 +121,7 @@
 
                                         <td>
                                             <a class="btn btn-secondary btn-sm" href="{{ path("product_movement_edit", {'id': movement.id}) }}">
-                                                <span class="glyphicon glyphicon-edit"></span> Edit
+                                                <span class="fas fa-edit"></span> Edit
                                             </a>
                                         </td>
                                     </tr>

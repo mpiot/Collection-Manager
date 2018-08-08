@@ -22,7 +22,7 @@
                             <td>
                                 {% if seller.offerName is not null %}
                                     <a href="{{ path('seller_download_offer', { 'slug': seller.slug }) }}">
-                                        <span class=" glyphicon glyphicon-download" aria-hidden="true"></span> Document
+                                        <span class=" fas fa-download"></span> Document
                                     </a>
                                 {% else %}
                                     No file
@@ -32,7 +32,7 @@
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <div class="btn-group btn-group-xs" role="group">
                                         <a class="btn btn-warning" href="{{ path('seller_edit', { 'slug': seller.slug}) }}">
-                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                            <span class="fas fa-edit"></span> Edit
                                         </a>
                                         <a class="btn btn-danger" href="{{ path('seller_delete', { 'slug': seller.slug, 'token': csrf_token('seller_delete') }) }}" data-confirmation="1">
                                             <span class="fa fa-trash" aria-hidden="true"></span> Delete

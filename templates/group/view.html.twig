@@ -15,12 +15,12 @@
         <div>
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <a type="button" class="btn btn-secondary btn-danger btn-sm float-right" value="Edit" href="{{ path("group_delete", {'slug': group.slug }) }}">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    <span class="far fa-trash-alt"></span>
                 </a>
             {% endif %}
 
             <a type="button" class="btn btn-secondary btn-warning btn-sm float-right" value="Edit" href="{{ path("group_edit", {'slug': group.slug }) }}">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                <span class="fas fa-edit"></span>
             </a>
         </div>
     {% endif %}

@@ -24,7 +24,7 @@
                         <td>
                             {% if product.manualName is not null %}
                                 <a type="button" class="btn btn-primary btn-sm" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}">
-                                    <span class="glyphicon glyphicon-download"></span> Download manual
+                                    <span class="fas fa-download"></span> Download manual
                                 </a>
                             {% else %}
                                 -

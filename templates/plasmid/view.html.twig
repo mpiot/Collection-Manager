@@ -20,7 +20,7 @@
                     {% if plasmid.genBankName is not null %}
                         <div class="push-right">
                             <a type="button" class="btn btn-success btn-md" href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
-                                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                                <span class="fas fa-download"></span>
                                 Download
                             </a>
                         </div>
@@ -91,7 +91,7 @@
                     </div>
                 {% else %}
                     <div class="alert alert-info" role="alert">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        <span class="fas fa-info-circle"></span>
                         There is no GenBank file attached to this plasmid.
                     </div>
                 {% endif %}
