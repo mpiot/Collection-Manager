@@ -51,9 +51,9 @@ COPY docker/prod/app/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-RUN SYMFONY_ENV=prod composer install --optimize-autoloader --no-interaction --no-ansi --no-dev && \
-    SYMFONY_ENV=prod bin/console cache:clear --no-warmup && \
-    SYMFONY_ENV=prod bin/console cache:warmup && \
+RUN APP_ENV=prod composer install --optimize-autoloader --no-interaction --no-ansi --no-dev && \
+    APP_ENV=prod bin/console cache:clear --no-warmup && \
+    APP_ENV=prod bin/console cache:warmup && \
     \
     chown -R www-data:www-data var files && \
     \
