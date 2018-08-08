@@ -48,11 +48,11 @@
             <legend>Geographic origin</legend>
             {{ form_row(form.latitude) }}
             {{ form_row(form.longitude) }}
-            <input type="button" id="reverseGeocode" class="btn btn-default" value="Reverse Geocode">
+            <input type="button" id="reverseGeocode" class="btn btn-secondary" value="Reverse Geocode">
             <hr>
             {{ form_row(form.address) }}
             {{ form_row(form.country) }}
-            <input type="button" id="geocodeAddress" class="btn btn-default" value="Geocode">
+            <input type="button" id="geocodeAddress" class="btn btn-secondary" value="Geocode">
             <hr>
         </fieldset>
     {% endif %}

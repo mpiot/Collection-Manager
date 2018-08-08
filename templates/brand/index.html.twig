@@ -16,7 +16,7 @@
 
     {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
-            <a class="btn btn-default" href="{{ path('brand_add') }}">
+            <a class="btn btn-secondary" href="{{ path('brand_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a brand
             </a>
         </div>

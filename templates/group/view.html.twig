@@ -14,12 +14,12 @@
     {% if group.isAdministrator(app.user) or is_granted('ROLE_SUPER_ADMIN') %}
         <div>
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <a type="button" class="btn btn-default btn-danger btn-xs pull-right" value="Edit" href="{{ path("group_delete", {'slug': group.slug }) }}">
+                <a type="button" class="btn btn-secondary btn-danger btn-sm pull-right" value="Edit" href="{{ path("group_delete", {'slug': group.slug }) }}">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
             {% endif %}
 
-            <a type="button" class="btn btn-default btn-warning btn-xs pull-right" value="Edit" href="{{ path("group_edit", {'slug': group.slug }) }}">
+            <a type="button" class="btn btn-secondary btn-warning btn-sm pull-right" value="Edit" href="{{ path("group_edit", {'slug': group.slug }) }}">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
             </a>
         </div>

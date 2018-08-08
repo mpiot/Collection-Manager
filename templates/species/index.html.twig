@@ -16,7 +16,7 @@
 
     {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
-            <a class="btn btn-default" href="{{ path('species_add') }}">
+            <a class="btn btn-secondary" href="{{ path('species_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a species
             </a>
         </div>

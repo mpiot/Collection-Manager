@@ -16,7 +16,7 @@
 
     {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
-            <a class="btn btn-default" href="{{ path('location_add') }}">
+            <a class="btn btn-secondary" href="{{ path('location_add') }}">
                 <span class="glyphicon glyphicon-plus"></span> Add a Location
             </a>
         </div><br>
@@ -31,19 +31,19 @@
                     {{ location.name }}
                     {# Add links #}
                     {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-default btn-xs" href="{{ path('location_move_up', { 'id': location.id }) }}">
+                        <a class="btn btn-secondary btn-sm" href="{{ path('location_move_up', { 'id': location.id }) }}">
                             <span class="fa fa-arrow-up"></span>
                         </a>
-                        <a class="btn btn-default btn-xs" href="{{ path('location_move_down', { 'id': location.id }) }}">
+                        <a class="btn btn-secondary btn-sm" href="{{ path('location_move_down', { 'id': location.id }) }}">
                             <span class="fa fa-arrow-down"></span>
                         </a>
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a class="btn btn-warning btn-xs" href="{{ path('location_edit', { 'id': location.id }) }}">
+                        <a class="btn btn-warning btn-sm" href="{{ path('location_edit', { 'id': location.id }) }}">
                             Edit
                         </a>
-                        <a class="btn btn-danger btn-xs" href="{{ path('location_delete', { 'id': location.id, 'token': csrf_token('location_delete') }) }}" data-confirmation="1">
+                        <a class="btn btn-danger btn-sm" href="{{ path('location_delete', { 'id': location.id, 'token': csrf_token('location_delete') }) }}" data-confirmation="1">
                             Delete
                         </a>
                     {% endif %}

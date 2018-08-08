@@ -193,7 +193,7 @@
         <div class="card-footer text-right">
             {{ form_start(delete_form) }}
                 <div class="btn-group btn-group-sm" role="group">
-                    <a class="btn btn-xs btn-success" href="{{ path('strain_add_from_model', { 'id': strain.id, 'slug': strain.slug }) }}">
+                    <a class="btn btn-sm btn-success" href="{{ path('strain_add_from_model', { 'id': strain.id, 'slug': strain.slug }) }}">
                         <span class="fa fa-plus" aria-hidden="true"></span> Copy this strain
                     </a>
                     {% if strain.isAuthor(app.user) or strain.getGroup().isAdministrator(app.user) %}

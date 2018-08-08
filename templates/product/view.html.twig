@@ -44,22 +44,22 @@
                             <li class="list-group-item"><u>Negotiated price:</u> {{ product.negotiatedPrice }} €</li>
                             <li class="list-group-item">
                                 {% if product.quoteName is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_quote', { 'id': product.id, 'slug': product.slug }) }}">
+                                    <a type="button" class="btn btn-primary btn-sm" href="{{ path('product_download_quote', { 'id': product.id, 'slug': product.slug }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download quote
                                     </a>
                                 {% else %}
-                                    <button class="btn btn-primary btn-xs disabled" disabled>
+                                    <button class="btn btn-primary btn-sm disabled" disabled>
                                         <span class="glyphicon glyphicon-download"></span> Download quote
                                     </button>
                                 {% endif %}
                             </li>
                             <li class="list-group-item">
                                 {% if product.manualName is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}">
+                                    <a type="button" class="btn btn-primary btn-sm" href="{{ path('product_download_manual', { 'id': product.id, 'slug': product.slug }) }}">
                                         <span class="glyphicon glyphicon-download"></span> Download manual
                                     </a>
                                 {% else %}
-                                    <button class="btn btn-primary btn-xs disabled" disabled>
+                                    <button class="btn btn-primary btn-sm disabled" disabled>
                                         <span class="glyphicon glyphicon-download"></span> Download manual
                                     </button>
                                 {% endif %}
@@ -93,7 +93,7 @@
                     <div class="card">
                         <div class="card-header">
                             <span class="h4">Stock</span>
-                            <a href="{{ path("product_movement_add", {'product_id': product.id}) }}" class="btn btn-xs btn-primary float-right">
+                            <a href="{{ path("product_movement_add", {'product_id': product.id}) }}" class="btn btn-sm btn-primary float-right">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 Create a new movement
                             </a>
@@ -120,7 +120,7 @@
                                         {% endif %}
 
                                         <td>
-                                            <a class="btn btn-default btn-xs" href="{{ path("product_movement_edit", {'id': movement.id}) }}">
+                                            <a class="btn btn-secondary btn-sm" href="{{ path("product_movement_edit", {'id': movement.id}) }}">
                                                 <span class="glyphicon glyphicon-edit"></span> Edit
                                             </a>
                                         </td>
