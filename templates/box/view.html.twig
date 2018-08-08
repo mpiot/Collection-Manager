@@ -13,23 +13,21 @@
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary my-3">
+        <div class="card-header bg-primary text-white">
             <h2>{{ box.name }}</h2>
         </div>
-
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Informations</div>
-                        <div class="panel-body">
+                    <div class="card">
+                        <div class="card-header">
+                            Informations
+                        </div>
+                        <div class="card-body">
                             <p>{{ box.description }}</p>
                         </div>
-
-                        <!-- List group -->
-                        <ul class="list-group">
+                        <ul class="list-group list-group-flush">
                             <li class="list-group-item">Congélateur: {{ box.freezer }}</li>
                             <li class="list-group-item">Emplacement dans le congélateur: {{ box.location }}</li>
                         </ul>
@@ -37,8 +35,8 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-5">
+            <div class="row mt-3">
+                <div class="col-md-6">
                     {% set letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'] %}
                     {% set cellWidth, cellHeight = 50, 50 %}
                     {% set width = cellWidth * (box.colNumber + 1) %}
@@ -101,10 +99,11 @@
                     </table>
                 </div>
 
-                <div class="col-md-7">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Content list</div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Content list
+                        </div>
                         <table class="table table-striped">
                             <tr>
                                 <th>Cell</th>
@@ -152,15 +151,15 @@
         </div>
 
         {% if box.isAuthor(app.user) or box.getGroup().isAdministrator(app.user) %}
-            <div class="panel-footer text-right">
+            <div class="card-footer text-right">
                 {{ form_start(delete_form) }}
                 <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-info" href="{{ path('box_import', { 'id': box.id, 'slug': box.slug}) }}">
-                        <span class="glyphicon glyphicon-import" aria-hidden="true"></span> Import
+                        <span class="fas fa-file-import" aria-hidden="true"></span> Import
                     </a>
 
                     <a class="btn btn-info" href="{{ path('box_export', { 'id': box.id, 'slug': box.slug}) }}">
-                        <span class="glyphicon glyphicon-export" aria-hidden="true"></span> Export
+                        <span class="fas fa-file-export" aria-hidden="true"></span> Export
                     </a>
                     <a class="btn btn-warning" href="{{ path('box_edit', { 'id': box.id, 'slug': box.slug}) }}">
                         <span class="fa fa-edit" aria-hidden="true"></span> Edit

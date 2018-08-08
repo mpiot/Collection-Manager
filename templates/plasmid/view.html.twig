@@ -9,12 +9,12 @@
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary mb-3">
+        <div class="card-header bg-primary">
             <h2>{{ plasmid.autoName }} - {{ plasmid.name }}</h2>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-2">
                     {% if plasmid.genBankName is not null %}
@@ -99,8 +99,8 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Tubes</div>
+                    <div class="card">
+                        <div class="card-header">Tubes</div>
                         <table class="table table-striped">
                             <tr>
                                 <th>Box</th>
@@ -125,11 +125,10 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row my-3">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">This plasmid is used in</div>
+                    <div class="card">
+                        <div class="card-header">This plasmid is used in</div>
 
                         <!-- Table -->
                         <table class="table">
@@ -158,9 +157,8 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Primers</div>
+                    <div class="card">
+                        <div class="card-header">Primers</div>
 
                         <!-- Table -->
                         <table class="table">
@@ -191,7 +189,7 @@
         </div>
 
         {% if plasmid.isAuthor(app.user) or plasmid.getGroup().isAdministrator(app.user) %}
-            <div class="panel-footer text-right">
+            <div class="card-footer text-right">
                 {{ form_start(delete_form) }}
                     <div class="btn-group btn-group-sm" role="group">
                         <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">

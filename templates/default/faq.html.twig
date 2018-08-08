@@ -8,18 +8,19 @@
 {% block body %}
     <h1>FAQ <sub>Frequently Asked Questions</sub></h1>
 
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> What is the difference between buttons: Save, Save & Add, Save & Copy ?
-                    </a>
+    <div class="accordion" id="accordion">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="far fa-question-circle"></span> What is the difference between buttons: Save, Save & Add, Save & Copy ?
+                    </button>
                 </h4>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
-                    <h5><span class="label label-primary">Answer</span></h5>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <h5><span class="badge badge-primary">Answer</span></h5>
                     The button Save, save the record, then redirect you to the page that display this content, or to a list.<br>
                     The Save & Add button, save the record too, but redirect you to a new blank form.<br>
                     The Save & Copy, save the record, and redirect you to a new form that already contains your previous data.
@@ -27,50 +28,55 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingTwo">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> What is a Type in the Strain section ?
-                    </a>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="far fa-question-circle"></span> What is a Type in the Strain section ?
+                    </button>
                 </h4>
             </div>
-            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
-                    <h5><span class="label label-primary">Answer</span></h5>
+
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <h5><span class="badge badge-primary">Answer</span></h5>
                     In the strain section, you always must choose a Type for your Strain, a type is the type of strain. E.g: a yeast, a bacteria, ... Types are defined for each group, then you can organize it as you wish.
                 </div>
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingFour">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> What is a Categories/Biological Origin Category in the Strain section ?
-                    </a>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="far fa-question-circle"></span> What is a Categories/Biological Origin Category in the Strain section ?
+                    </button>
                 </h4>
             </div>
-            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                <div class="panel-body">
-                    <h5><span class="label label-primary">Answer</span></h5>
+
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <h5><span class="badge badge-primary">Answer</span></h5>
                     First of all, Category and Biological Origin Category are the same thing.<br>
                     In the strain section, you always must choose a Category for your Strain, this is a maneer to filter wild strain by their biological origin. E.g: an insect, the soil, a plant, ... Categories are defined for each group, then you can organize it as you wish.
                 </div>
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Primer search by sequence don't work ?
-                    </a>
+        <div class="card">
+            <div class="card-header">
+
+
+                <h4 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne">
+                        <span class="far fa-question-circle"></span> Primer search by sequence don't work ?
+                    </button>
                 </h4>
             </div>
-            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
-                    <h5><span class="label label-primary">Answer</span></h5>
+
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="card-body">
+                    <h5><span class="badge badge-primary">Answer</span></h5>
                     In the Quick search and the Advanced search you can find primers by their sequences, but sometimes you don't find them, what ? Primers are indexed in chains with a size between 10 and 60 nucleotides. Then if you search a primer with a "keyword" that contain less than 10 or more than 60 nucleotides, the search engine can't find them.<br >
                 </div>
             </div>

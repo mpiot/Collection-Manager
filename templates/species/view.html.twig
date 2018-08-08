@@ -13,16 +13,16 @@
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary mb-3">
+        <div class="card-header bg-primary">
             <h2>{{ species.scientificName }}</h2>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">General</div>
+                    <div class="card">
+                        <div class="card-header">General</div>
                         <ul class="list-group">
                             <li class="list-group-item">Genus: {{ species.genus.name }}</li>
                             <li class="list-group-item">Species: {{ species.name }}</li>
@@ -35,10 +35,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Synonyms</div>
+                    <div class="card">
+                        <div class="card-header">Synonyms</div>
                         <ul class="list-group">
                             {% if species.synonyms is not empty %}
                                 {% for synonym in species.synonyms %}
@@ -56,7 +56,7 @@
         </div>
 
         {% if is_granted('ROLE_ADMIN') %}
-            <div class="panel-footer text-right">
+            <div class="card-footer text-right">
                 {{ form_start(delete_form) }}
                     <div class="btn-group btn-group-sm" role="group">
                         <a class="btn btn-warning" href="{{ path('species_edit', { 'slug': species.slug }) }}">

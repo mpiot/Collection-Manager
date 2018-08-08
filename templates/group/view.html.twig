@@ -25,10 +25,12 @@
         </div>
     {% endif %}
 
-    <div class="row">
+    <div class="row my-3">
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Administrators</div>
+            <div class="card">
+                <div class="card-header">
+                    Administrators
+                </div>
                 <ul class="list-group">
                     {% for administrator in group.administrators %}
                         <li class="list-group-item">{{ administrator.firstName }} {{ administrator.lastName }}</li>
@@ -38,8 +40,10 @@
         </div>
 
         <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">Members</div>
+            <div class="card">
+                <div class="card-header bg-info">
+                    Members
+                </div>
                 <ul class="list-group">
                     {% for member in group.members %}
                         <li class="list-group-item">{{ member.firstName }} {{ member.lastName }}</li>
