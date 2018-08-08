@@ -1,15 +1,14 @@
-<br />
-<div class="row">
-    <form id="list-filter-form" method="get" data-url="{{ url }}" data-ajax-url="{{ ajaxUrl }}">
+<form id="list-filter-form" class="my-1" method="get" data-url="{{ url }}" data-ajax-url="{{ ajaxUrl }}">
+    <div class="form-row">
         {% if query is defined %}
-            <div class="col-md-3">
+            <div class="col">
                 <input type="text" id="query" name="q" class="form-control" placeholder="Search for..." autocomplete="off" value="{{ query }}">
             </div>
         {% endif %}
 
         {% if queryGroup is defined %}
-            <div class="col-md-2">
-                <select id="group-filter" name="group" class="form-control col-md-3">
+            <div class="col">
+                <select id="group-filter" name="group" class="form-control">
                     {% for group in app.user.groups %}
                         {% if queryGroup is not null and group.id == queryGroup %}
                             <option value="{{ group.id }}" selected="selected">{{ group.name }}</option>
@@ -23,10 +22,10 @@
             </div>
         {% endif %}
 
-        <div class="col-md-1">
-            <button class="btn btn-default" type="submit">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+        <div class="col">
+            <button class="btn btn-secondary" type="submit">
+                <span class="fas fa-search"></span> Search
             </button>
         </div>
-    </form>
-</div>
+    </div>
+</form>

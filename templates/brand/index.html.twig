@@ -8,7 +8,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Brands list</li>
+    <li class="breadcrumb-item active">Brands list</li>
 {% endblock %}
 
 {% block body %}
@@ -16,8 +16,8 @@
 
     {% if app.user.isInGroup() or is_granted('ROLE_ADMIN') %}
         <div>
-            <a class="btn btn-default" href="{{ path('brand_add') }}">
-                <span class="glyphicon glyphicon-plus"></span> Add a brand
+            <a class="btn btn-secondary" href="{{ path('brand_add') }}">
+                <span class="fas fa-plus"></span> Add a brand
             </a>
         </div>
     {% endif %}

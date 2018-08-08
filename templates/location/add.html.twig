@@ -8,8 +8,8 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('location_index') }}">Locations list</a></li>
-    <li class="active">Add</li>
+    <li class="breadcrumb-item"><a href="{{ path('location_index') }}">Locations list</a></li>
+    <li class="breadcrumb-item active">Add</li>
 {% endblock %}
 
 {% block body %}

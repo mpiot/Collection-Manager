@@ -10,7 +10,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Equipment list</li>
+    <li class="breadcrumb-item active">Equipment list</li>
 {% endblock %}
 
 {% block body %}
@@ -18,8 +18,8 @@
 
     {% if app.user.isInGroup %}
         <div>
-            <a class="btn btn-default" href="{{ path('equipment_add') }}">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an equipment
+            <a class="btn btn-secondary" href="{{ path('equipment_add') }}">
+                <span class="fas fa-plus"></span> Add an equipment
             </a>
         </div>
     {% endif %}

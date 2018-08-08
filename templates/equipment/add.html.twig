@@ -10,8 +10,8 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('equipment_index') }}">Equipments</a></li>
-    <li class="active">Add an equipment</li>
+    <li class="breadcrumb-item"><a href="{{ path('equipment_index') }}">Equipments</a></li>
+    <li class="breadcrumb-item active">Add an equipment</li>
 {% endblock %}
 
 {% block body %}
@@ -21,7 +21,7 @@
         {{ form_widget(form) }}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" class="btn btn-default" value="Save" />
+                <input type="submit" class="btn btn-secondary" value="Save" />
             </div>
         </div>
     {{ form_end(form) }}

@@ -3,10 +3,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md">Brand</th>
+                    <th>#</th>
+                    <th>Brand</th>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <th class="col-md-2">Actions</th>
+                        <th>Actions</th>
                     {% endif %}
                 </tr>
             </thead>
@@ -20,7 +20,7 @@
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <div class="btn-group btn-group-xs" role="group">
                                         <a class="btn btn-warning" href="{{ path('brand_edit', { 'slug': brand.slug}) }}">
-                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+                                            <span class="fas fa-edit"></span> Edit
                                         </a>
                                         <a class="btn btn-danger" href="{{ path('brand_delete', { 'slug': brand.slug, 'token': csrf_token('brand_delete') }) }}" data-confirmation="1">
                                             <span class="fa fa-trash" aria-hidden="true"></span> Delete

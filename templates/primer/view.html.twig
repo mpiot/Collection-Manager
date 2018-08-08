@@ -4,19 +4,19 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('primer_index') }}">Primers list</a></li>
-    <li class="active">{{ primer.autoName }} - {{ primer.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('primer_index') }}">Primers list</a></li>
+    <li class="breadcrumb-item active">{{ primer.autoName }} - {{ primer.name }}</li>
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card my-3">
+        <div class="card-header">
             <h2>{{ primer.autoName }} - {{ primer.name }}</h2>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
-                <div class="col-md-4 col-md-offset-8">
+                <div class="col-md-4 offset-md-8">
                     <p class="text-right">
                         Created the {{ primer.created|date("m/d/Y") }} by {{ primer.createdBy.fullName }}<br>
                         Edited the {{ primer.updated|date("m/d/Y") }} by {{ primer.updatedBy.fullName }}
@@ -24,12 +24,12 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Informations</div>
-                        <!-- List group -->
+                    <div class="card">
+                        <div class="card-header">
+                            Informations
+                        </div>
                         <ul class="list-group">
                             <li class="list-group-item">AutoName: {{ primer.autoName }}</li>
                             <li class="list-group-item">Name: {{ primer.name }}</li>
@@ -38,7 +38,7 @@
                                 <li class="list-group-item">Hybridation temperature: {{ primer.hybridationTemp }}°C</li>
                             {% endif %}
                         </ul>
-                        <div class="panel-body">
+                        <div class="card-body">
                             <p>Description:</p>
                             <p>{{ primer.description ? primer.description : 'N/A' }}</p>
                         </div>
@@ -46,19 +46,19 @@
                 </div>
 
                 <div class="col-md-8">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Sequence</div>
-                        <!-- List group -->
-                        <div class="panel-body">
+                    <div class="card">
+                        <div class="card-header">
+                            Sequence
+                        </div>
+                        <div class="card-body">
                             <span class="five-prime-extension">{{ primer.fivePrimeExtension }}</span>{{ primer.sequence }}
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Tubes</div>
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            Tubes
+                        </div>
                         <table class="table table-striped">
                             <tr>
                                 <th>Box</th>
@@ -91,7 +91,7 @@
         </div>
 
         {% if primer.isAuthor(app.user) or primer.getGroup().isAdministrator(app.user) %}
-            <div class="panel-footer text-right">
+            <div class="card-footer text-right">
                 {{ form_start(delete_form) }}
                     <div class="btn-group btn-group-sm" role="group">
                         <a class="btn btn-warning" href="{{ path('primer_edit', { 'id': primer.id, 'slug': primer.slug }) }}">

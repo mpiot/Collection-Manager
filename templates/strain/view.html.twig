@@ -8,21 +8,23 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('strain_index') }}">Strains</a></li>
-    <li class="active">{{ strain.autoName }} - {{ strain.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('strain_index') }}">Strains</a></li>
+    <li class="breadcrumb-item active">{{ strain.autoName }} - {{ strain.name }}</li>
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary my-3">
+        <div class="card-header bg-primary text-white">
             <h2>{{ strain.fullName }}</h2>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Registration informations</div>
+                    <div class="card">
+                        <div class="card-header">
+                            Registration informations
+                        </div>
                         <ul class="list-group">
                             <li class="list-group-item">Name: {{ strain.name }}</li>
                             <li class="list-group-item">Unique code: {{ strain.uniqueCode }}</li>
@@ -32,8 +34,10 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Tubes</div>
+                    <div class="card">
+                        <div class="card-header">
+                            Tubes
+                        </div>
                         <table class="table table-striped">
                             <tr>
                                 <th>Box</th>
@@ -58,10 +62,12 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row my-3">
                 <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Biological informations</div>
+                    <div class="card">
+                        <div class="card-header">
+                            Biological informations
+                        </div>
                         <ul class="list-group">
                             <li class="list-group-item">
                                 Species: {{ strain.species is not null ? strain.species.scientificName : 'Unknow species' }}
@@ -75,17 +81,17 @@
                             {% endif %}
                         </ul>
 
-                        <div class="panel-body">
+                        <div class="card-body">
                             <p><u>Genotype:</u></p>
                             <p>{{ strain.genotype }}</p>
                         </div>
 
-                        <div class="panel-body">
+                        <div class="card-body">
                             <p><u>Description:</u></p>
                             <p>{{ strain.description }}</p>
                         </div>
 
-                        <div class="panel-body">
+                        <div class="card-body">
                             <p><u>Comment:</u></p>
                             <p>{{ strain.comment }}</p>
                         </div>
@@ -94,8 +100,10 @@
 
                 {% if 'gmo' == strain.discriminator %}
                     <div class="col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Used plasmids</div>
+                        <div class="card">
+                            <div class="card-header">
+                                Used plasmids
+                            </div>
                             <table class="table">
                                 <tr>
                                     <th>#</th>
@@ -127,20 +135,22 @@
                 and (strain.address or strain.country or (strain.latitude and strain.longitude))
                 %}
                     <div class="col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Map</div>
+                        <div class="card">
+                            <div class="card-header">
+                                Map
+                            </div>
                             {% if strain.address or strain.country %}
-                                <div class="panel-body">
+                                <div class="card-body">
                                     Address: {{ strain.address }}<br>
                                     Country: {{ strain.country|country(app.request.locale) }}<br>
                                 </div>
                             {% endif %}
 
                             {% if strain.latitude and strain.longitude %}
-                                <div id ="map" class="panel-body" style="height:400px;">
+                                <div id ="map" class="card-body" style="height:400px;">
                                 </div>
 
-                                <div class="panel-footer">
+                                <div class="card-footer">
                                     Latitude: {{ strain.latitude }}  -  Longitude: {{ strain.longitude }}
                                 </div>
                             {% endif %}
@@ -151,8 +161,8 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Parents</div>
+                    <div class="card">
+                        <div class="card-header">Parents</div>
                         <ul class="list-group">
                             {% for parent in strain.parents %}
                                 <li class="list-group-item"><a href="{{ path('strain_view', { 'id': parent.id, 'slug': parent.slug }) }}">{{ parent.fullName }}</a></li>
@@ -164,10 +174,10 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Children</div>
+                    <div class="card">
+                        <div class="card-header">Children</div>
                         <ul class="list-group">
                             {% for child in strain.children %}
                                 <li class="list-group-item"><a href="{{ path('strain_view', { 'id': child.id, 'slug': child.slug }) }}">{{ child.fullName }}</a></li>
@@ -180,10 +190,10 @@
             </div>
         </div>
 
-        <div class="panel-footer text-right">
+        <div class="card-footer text-right">
             {{ form_start(delete_form) }}
                 <div class="btn-group btn-group-sm" role="group">
-                    <a class="btn btn-xs btn-success" href="{{ path('strain_add_from_model', { 'id': strain.id, 'slug': strain.slug }) }}">
+                    <a class="btn btn-sm btn-success" href="{{ path('strain_add_from_model', { 'id': strain.id, 'slug': strain.slug }) }}">
                         <span class="fa fa-plus" aria-hidden="true"></span> Copy this strain
                     </a>
                     {% if strain.isAuthor(app.user) or strain.getGroup().isAdministrator(app.user) %}

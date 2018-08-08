@@ -6,7 +6,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Advanced search</li>
+    <li class="breadcrumb-item active">Advanced search</li>
 {% endblock %}
 
 {% block body %}
@@ -16,8 +16,8 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                    <button type="submit" class="btn btn-secondary">
+                        <span class="fas fa-search"></span> Search
                     </button>
                 </div>
             </div>

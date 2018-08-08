@@ -8,7 +8,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Boxes list</li>
+    <li class="breadcrumb-item active">Boxes list</li>
 {% endblock %}
 
 {% block body %}
@@ -16,8 +16,8 @@
 
     {% if app.user.isInGroup() %}
         <div>
-            <a class="btn btn-default" href="{{ path('box_add') }}">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a box
+            <a class="btn btn-secondary" href="{{ path('box_add') }}">
+                <span class="fas fa-plus"></span> Add a box
             </a>
         </div>
     {% endif %}

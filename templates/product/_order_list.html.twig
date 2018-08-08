@@ -11,8 +11,8 @@
                             <th colspan="8">
                                 {{ product.seller.name }} {% if product.seller.offerReference is not empty %} (Offer n°{{ product.seller.offerReference }}) {% endif %}
                                 {% if product.seller.offerName is not null %}
-                                    <a type="button" class="btn btn-primary btn-xs pull-right" href="{{ path('seller_download_offer', { 'slug': product.seller.slug }) }}">
-                                        <span class="glyphicon glyphicon-download"></span> Download offer
+                                    <a class="btn btn-primary btn-sm float-right" href="{{ path('seller_download_offer', { 'slug': product.seller.slug }) }}" role="button">
+                                        <span class="fas fa-download"></span> Download offer
                                     </a>
                                 {% endif %}
                             </th>
@@ -36,8 +36,8 @@
                         <td>{{ product.negotiatedPrice }} €</td>
                         <td>
                             {% if product.quoteFile is not null %}
-                                <a type="button" class="btn btn-primary btn-xs" href="{{ path('product_download_quote', { 'id': product.id, 'slug': product.slug }) }}">
-                                    <span class="glyphicon glyphicon-download"></span> Download quote
+                                <a class="btn btn-primary btn-sm" href="{{ path('product_download_quote', { 'id': product.id, 'slug': product.slug }) }}" role="button">
+                                    <span class="fas fa-download"></span> Download quote
                                 </a>
                             {% endif %}
                         </td>
@@ -47,7 +47,7 @@
         </div>
     {% else %}
         <div class="alert alert-success text-center" role="alert">
-            <h3><span class="glyphicon glyphicon-thumbs-up"></span> There are no products to order.</h3>
+            <h3><span class="far fa-thumbs-up"></span> There are no products to order.</h3>
         </div>
     {% endif %}
 </div>

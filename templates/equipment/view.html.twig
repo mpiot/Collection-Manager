@@ -10,23 +10,23 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('equipment_index') }}">Equipments</a></li>
-    <li class="active">{{ equipment.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('equipment_index') }}">Equipments</a></li>
+    <li class="breadcrumb-item active">{{ equipment.name }}</li>
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary mb-3">
+        <div class="card-header bg-primary">
             <h2>{{ equipment.name }}</h2>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <p>{{ equipment.description }}</p>
 
             <div class="row">
                 <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h4>Equipment informations</h4></div>
+                    <div class="card">
+                        <div class="card-header"><h4>Equipment informations</h4></div>
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <u>Location:</u>
@@ -47,8 +47,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><h4>Purchase informations</h4></div>
+                    <div class="card">
+                        <div class="card-header"><h4>Purchase informations</h4></div>
                         <ul class="list-group">
                             <li class="list-group-item"><u>Seller:</u> {% if equipment.seller is not null %}{{ equipment.seller.name }}{% else %} - {% endif %}</li>
                             <li class="list-group-item"><u>Purchase date:</u> {% if equipment.purchaseDate is not null %}{{ equipment.purchaseDate|date('d/m/Y') }}{% else %} - {% endif %}</li>
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <div class="panel-footer text-right">
+        <div class="card-footer text-right">
             {{ form_start(delete_form) }}
                 <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-warning" href="{{ path('equipment_edit', { 'id': equipment.id, 'slug': equipment.slug }) }}">

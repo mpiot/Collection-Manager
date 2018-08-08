@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Groups</li>
+    <li class="breadcrumb-item active">Groups</li>
 {% endblock %}
 
 {% block body %}
@@ -12,8 +12,8 @@
 
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div>
-            <a type="button" class="btn btn-default" href="{{ path('group_add') }}">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            <a class="btn btn-secondary" href="{{ path('group_add') }}" role="button">
+                <span class="fas fa-plus"></span>
                 Add a group
             </a>
         </div>
@@ -23,9 +23,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-3">Name</th>
-                    <th class="col-md-8">Administrators</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Administrators</th>
                 </tr>
             </thead>
 

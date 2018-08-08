@@ -1,11 +1,11 @@
-<ul class="nav nav-sidebar">
-    <li><a href="{{ path('brand_index') }}">Brands</a></li>
-    <li><a href="{{ path('seller_index') }}">Sellers</a></li>
-    <li><a href="{{ path('location_index') }}">Locations</a></li>
-</ul>
+<nav class="nav flex-column nav-pills">
+    <a class="nav-link" href="{{ path('brand_index') }}">Brands</a>
+    <a class="nav-link" href="{{ path('seller_index') }}">Sellers</a>
+    <a class="nav-link" href="{{ path('location_index') }}">Locations</a>
+</nav>
 
 {% if app.user.isInGroup %}
-<ul class="nav nav-sidebar">
-    <li><a href="{{ path('equipment_index') }}">Equipment list</a></li>
-</ul>
+    <nav class="nav flex-column nav-pills">
+        <a class="nav-link" href="{{ path('equipment_index') }}">Equipment list</a>
+    </nav>
 {% endif %}

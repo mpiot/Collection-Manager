@@ -4,23 +4,23 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('plasmid_index') }}">Plasmids list</a></li>
-    <li class="active">{{ plasmid.autoName }} - {{ plasmid.name }}</li>
+    <li class="breadcrumb-item"><a href="{{ path('plasmid_index') }}">Plasmids list</a></li>
+    <li class="breadcrumb-item active">{{ plasmid.autoName }} - {{ plasmid.name }}</li>
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary mb-3">
+        <div class="card-header bg-primary">
             <h2>{{ plasmid.autoName }} - {{ plasmid.name }}</h2>
         </div>
 
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-2">
                     {% if plasmid.genBankName is not null %}
                         <div class="push-right">
-                            <a type="button" class="btn btn-success btn-md" href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
-                                <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                            <a class="btn btn-success btn-md" href="{{ path('plasmid_download', { 'id': plasmid.id, 'slug': plasmid.slug }) }}" role="button">
+                                <span class="fas fa-download"></span>
                                 Download
                             </a>
                         </div>
@@ -91,7 +91,7 @@
                     </div>
                 {% else %}
                     <div class="alert alert-info" role="alert">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        <span class="fas fa-info-circle"></span>
                         There is no GenBank file attached to this plasmid.
                     </div>
                 {% endif %}
@@ -99,8 +99,8 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Tubes</div>
+                    <div class="card">
+                        <div class="card-header">Tubes</div>
                         <table class="table table-striped">
                             <tr>
                                 <th>Box</th>
@@ -125,11 +125,10 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row my-3">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">This plasmid is used in</div>
+                    <div class="card">
+                        <div class="card-header">This plasmid is used in</div>
 
                         <!-- Table -->
                         <table class="table">
@@ -158,9 +157,8 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading">Primers</div>
+                    <div class="card">
+                        <div class="card-header">Primers</div>
 
                         <!-- Table -->
                         <table class="table">
@@ -191,7 +189,7 @@
         </div>
 
         {% if plasmid.isAuthor(app.user) or plasmid.getGroup().isAdministrator(app.user) %}
-            <div class="panel-footer text-right">
+            <div class="card-footer text-right">
                 {{ form_start(delete_form) }}
                     <div class="btn-group btn-group-sm" role="group">
                         <a class="btn btn-warning" href="{{ path('plasmid_edit', { 'id': plasmid.id, 'slug': plasmid.slug }) }}">
