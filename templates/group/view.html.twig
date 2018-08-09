@@ -12,14 +12,14 @@
     <h2 class="page-header">{{ group.name }}</h2>
 
     {% if group.isAdministrator(app.user) or is_granted('ROLE_SUPER_ADMIN') %}
-        <div>
+        <div class="text-right">
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <a class="btn btn-secondary btn-danger btn-sm float-right" value="Edit" href="{{ path("group_delete", {'slug': group.slug }) }}" role="button">
+                <a class="btn btn-secondary btn-danger btn-sm" value="Edit" href="{{ path("group_delete", {'slug': group.slug }) }}" role="button">
                     <span class="far fa-trash-alt"></span>
                 </a>
             {% endif %}
 
-            <a class="btn btn-secondary btn-warning btn-sm float-right" value="Edit" href="{{ path("group_edit", {'slug': group.slug }) }}" role="button">
+            <a class="btn btn-secondary btn-warning btn-sm" value="Edit" href="{{ path("group_edit", {'slug': group.slug }) }}" role="button">
                 <span class="fas fa-edit"></span>
             </a>
         </div>

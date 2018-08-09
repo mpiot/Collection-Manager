@@ -1,42 +1,23 @@
-{% extends 'bootstrap_3_horizontal_layout.html.twig' %}
-
-{% block form_help -%}
-    {% for attrname, attrvalue in attr %}
-        {% if attrname == 'data-help' %}
-            <p class="help-block">{{ attrvalue|raw }}</p>
-        {% endif %}
-    {% endfor %}
-{%- endblock form_help %}
-
-{% block form_errors -%}
-    {{ parent() }}
-    {{- block('form_help') -}}
-{%- endblock form_errors %}
+{% extends 'bootstrap_4_horizontal_layout.html.twig' %}
 
 {% block submit_row -%}
     {% spaceless %}
-
             {% if 'btn-group' in attr %}
                 {% if 'btn-first' in attr %}
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10 btn-group">
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <div class="btn-group" role="group" aria-label="Basic example">
                 {% endif %}
 
                     {{ form_widget(form) }}
 
                 {% if 'btn-last' in attr %}
+                            </div>
                         </div>
                     </div>
                 {% endif %}
             {% else %}
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <div class="{{ block('form_label_class') }}"></div>
-                        <div class="{{ block('form_group_class') }}">
-                            {{ form_widget(form) }}
-                        </div>
-                    </div>
-                </div>
+                {{ form_widget(form) }}
             {% endif %}
     {% endspaceless %}
 {% endblock submit_row %}

@@ -18,7 +18,7 @@
                             <td>{{ brand.name }}</td>
                             <td>
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <div class="btn-group btn-group-xs" role="group">
+                                    <div class="btn-group btn-group-sm" role="group">
                                         <a class="btn btn-warning" href="{{ path('brand_edit', { 'slug': brand.slug}) }}">
                                             <span class="fas fa-edit"></span> Edit
                                         </a>

@@ -86,7 +86,7 @@
                 <h4 class="modal-title" id="add-location-label">Add a location</h4>
             </div>
             <div class="modal-body">
-                {{ render(controller('AppBundle:Location:embdedAdd')) }}
+                {{ render(controller('App\\Controller\\LocationController:embdedAddAction')) }}
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
                 <h4 class="modal-title" id="add-seller-label">Add a seller</h4>
             </div>
             <div class="modal-body">
-                {{ render(controller('AppBundle:Seller:embdedAdd')) }}
+                {{ render(controller('App\\Controller\\SellerController:embdedAddAction')) }}
             </div>
         </div>
     </div>
@@ -114,7 +114,7 @@
                 <h4 class="modal-title" id="add-brand-label">Add a brand</h4>
             </div>
             <div class="modal-body">
-                {{ render(controller('AppBundle:Brand:embdedAdd')) }}
+                {{ render(controller('App\\Controller\\BrandController:embdedAddAction')) }}
             </div>
         </div>
     </div>
