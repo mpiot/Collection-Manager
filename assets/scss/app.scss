@@ -68,7 +68,7 @@ body {
 
 /* Red * after required label
 -------------------------------------------------- */
-.control-label.required:after {
+.col-form-label.required:after {
   content: " *";
   color: red;
 }
