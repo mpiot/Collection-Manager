@@ -12,6 +12,7 @@
 .env.dist
 .php_cs.dist
 .travis.yml
+bump-version.sh
 docker-compose.ci.yml
 docker-compose.eg-prod.yml
 docker-compose.override.yml
