@@ -25,7 +25,7 @@ use Vich\UploaderBundle\Storage\FileSystemStorage;
 class PlasmidController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="plasmid_index", methods={"GET"})
+     * @Route("/",  name="plasmid_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -39,7 +39,7 @@ class PlasmidController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="plasmid_index_ajax", methods={"GET"})
+     * @Route("/list",  condition="request.isXmlHttpRequest()", name="plasmid_index_ajax", methods={"GET"})
      */
     public function listAction()
     {

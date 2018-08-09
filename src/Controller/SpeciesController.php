@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SpeciesController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="species_index", methods={"GET"})
+     * @Route("/",  name="species_index", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
@@ -34,7 +34,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_index_ajax", methods={"GET"})
+     * @Route("/list",  condition="request.isXmlHttpRequest()", name="species_index_ajax", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()
@@ -179,7 +179,7 @@ class SpeciesController extends Controller
     }
 
     /**
-     * @Route("/json/{taxid}", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="species_getjson", methods={"GET"})
+     * @Route("/json/{taxid}",  condition="request.isXmlHttpRequest()", name="species_getjson", methods={"GET"})
      * @Security("user.isInGroup() or is_granted('ROLE_ADMIN')")
      */
     public function getJsonAction($taxid)

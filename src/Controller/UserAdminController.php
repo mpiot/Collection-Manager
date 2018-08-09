@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserAdminController extends Controller
 {
     /**
-     * @Route("/users", options={"expose"=true}, name="user_index", methods={"GET"})
+     * @Route("/users",  name="user_index", methods={"GET"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function indexAction(Request $request)
@@ -26,7 +26,7 @@ class UserAdminController extends Controller
     }
 
     /**
-     * @Route("/users/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="user_index_ajax", methods={"GET"})
+     * @Route("/users/list",  condition="request.isXmlHttpRequest()", name="user_index_ajax", methods={"GET"})
      * @Security("is_granted('ROLE_SUPER_ADMIN')")
      */
     public function listAction()

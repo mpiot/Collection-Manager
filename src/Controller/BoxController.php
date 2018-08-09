@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BoxController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="box_index", methods={"GET"})
+     * @Route("/",  name="box_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -37,7 +37,7 @@ class BoxController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="box_index_ajax", methods={"GET"})
+     * @Route("/list",  condition="request.isXmlHttpRequest()", name="box_index_ajax", methods={"GET"})
      */
     public function listAction(Request $request)
     {
