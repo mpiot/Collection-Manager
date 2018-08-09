@@ -57,15 +57,13 @@ class StrainType extends AbstractType
                 'required' => false,
             ])
             ->add('name', TextType::class, [
+                'help' => 'The name you want use to communicate about this strain.',
                 'attr' => [
                     'autocomplete' => 'off',
-                    'data-help' => 'The name you want use to communicate about this strain.',
                 ],
             ])
             ->add('uniqueCode', TextType::class, [
-                'attr' => [
-                    'data-help' => 'A unique code for this strain.',
-                ],
+                'help' => 'A unique code for this strain.',
                 'required' => false,
             ])
             ->add('comment', TextareaType::class, [

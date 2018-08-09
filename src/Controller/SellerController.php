@@ -23,7 +23,7 @@ use Vich\UploaderBundle\Storage\FileSystemStorage;
 class SellerController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="seller_index", methods={"GET"})
+     * @Route("/",  name="seller_index", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function indexAction(Request $request)
@@ -37,7 +37,7 @@ class SellerController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()",name="seller_index_ajax", methods={"GET"})
+     * @Route("/list",  condition="request.isXmlHttpRequest()",name="seller_index_ajax", methods={"GET"})
      * @Security("is_granted('ROLE_USER')")
      */
     public function listAction()

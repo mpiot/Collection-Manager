@@ -50,16 +50,16 @@ class BoxType extends AbstractType
                 ],
             ])
             ->add('freezer', TextType::class, [
+                'help' => 'In which freezer is the box ?',
                 'attr' => [
                     'placeholder' => 'Emile',
-                    'data-help' => 'In which freezer is the box ?',
                 ],
             ])
             ->add('location', TextType::class, [
+                'help' => 'Where is the box in the freezer ?',
                 'label' => 'Location in the freezer',
                 'attr' => [
                     'placeholder' => '1st shelf on the top, 3rd rack on the left',
-                    'data-help' => 'Where is the box in the freezer ?',
                 ],
             ])
             ->add('colNumber', NumberType::class, [

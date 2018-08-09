@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StrainController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="strain_index", methods={"GET"})
+     * @Route("/",  name="strain_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -36,7 +36,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="strain_index_ajax", methods={"GET"})
+     * @Route("/list",  condition="request.isXmlHttpRequest()", name="strain_index_ajax", methods={"GET"})
      */
     public function listAction()
     {
@@ -210,7 +210,7 @@ class StrainController extends Controller
     }
 
     /**
-     * @Route("/autocomplete/group/{group}/name/{name}", name="strain_name_autocomplete", options={"expose"=true}, condition="request.isXmlHttpRequest()", methods={"GET"})
+     * @Route("/autocomplete/group/{group}/name/{name}", name="strain_name_autocomplete",  condition="request.isXmlHttpRequest()", methods={"GET"})
      */
     public function nameAutocompleteAction($group, $name)
     {

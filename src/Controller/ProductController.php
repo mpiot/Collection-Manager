@@ -23,7 +23,7 @@ use Vich\UploaderBundle\Storage\FileSystemStorage;
 class ProductController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="product_index", methods={"GET"})
+     * @Route("/",  name="product_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -37,7 +37,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_index_ajax", methods={"GET"})
+     * @Route("/list",  condition="request.isXmlHttpRequest()", name="product_index_ajax", methods={"GET"})
      */
     public function listAction()
     {
@@ -170,7 +170,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/order", options={"expose"=true}, name="product_order", methods={"GET"})
+     * @Route("/order",  name="product_order", methods={"GET"})
      */
     public function orderAction(Request $request)
     {
@@ -183,7 +183,7 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/order/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="product_order_ajax", methods={"GET"})
+     * @Route("/order/list",  condition="request.isXmlHttpRequest()", name="product_order_ajax", methods={"GET"})
      */
     public function orderListAction(Request $request)
     {

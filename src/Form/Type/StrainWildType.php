@@ -19,22 +19,22 @@ class StrainWildType extends AbstractType
     {
         $builder
             ->add('biologicalOrigin', TextType::class, [
+                'help' => 'Where did you find it ?',
                 'attr' => [
                     'placeholder' => 'Galeria melonella, Insect',
-                    'data-help' => 'Where did you find it ?',
                 ],
             ])
             ->add('source', TextType::class, [
+                'help' => 'Who give it to you ?',
                 'attr' => [
                     'placeholder' => 'CBS, ...',
-                    'data-help' => 'Who give it to you ?',
                 ],
                 'required' => false,
             ])
             ->add('address', TextType::class, [
+                'help' => 'The address with this format: Address, Zip code City, Country',
                 'attr' => [
                     'placeholder' => 'Pyramides, 75001 Paris, France',
-                    'data-help' => 'The address with this format: Address, Zip code City, Country',
                 ],
                 'required' => false,
             ])

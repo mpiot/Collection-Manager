@@ -10,21 +10,19 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <h1 class="page-header">Edit a primer</h1>
+    <h1 class="page-header">Edit a primer</h1>
 
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" class="btn btn-secondary" value="Save changes" />
-                </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-secondary">
+                    Save changes
+                </button>
             </div>
-        {{ form_end(form) }}
-    </div>
+        </div>
+    {{ form_end(form) }}
 
-    <div class="row">
-        {% include 'primer/_nucleotides_table.html.twig' %}
-    </div>
+    {% include 'primer/_nucleotides_table.html.twig' %}
 {% endblock %}

@@ -46,9 +46,7 @@ class PrimerType extends AbstractType
                 'data' => $this->tokenStorage->getToken()->getUser()->getFavoriteGroup(),
             ])
             ->add('name', TextType::class, [
-                'attr' => [
-                    'data-help' => 'The name you want to use.',
-                ],
+                'help' => 'The name you want to use.',
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,

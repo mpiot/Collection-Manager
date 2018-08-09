@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BrandController extends Controller
 {
     /**
-     * @Route("/", options={"expose"=true}, name="brand_index", methods={"GET"})
+     * @Route("/",  name="brand_index", methods={"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -32,7 +32,7 @@ class BrandController extends Controller
     }
 
     /**
-     * @Route("/list", options={"expose"=true}, condition="request.isXmlHttpRequest()", name="brand_index_ajax", methods={"GET"})
+     * @Route("/list",  condition="request.isXmlHttpRequest()", name="brand_index_ajax", methods={"GET"})
      */
     public function listAction()
     {
