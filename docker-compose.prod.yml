@@ -16,7 +16,7 @@ services:
             - app_data:/app/files
 
     app:
-        image: mapiot/collection-manager:0.2
+        image: mapiot/collection-manager:0.2.1
         environment:
             - MAILER_SENDER_ADDRESS=name@domain.tld
             - MAILER_SENDER_NAME=Collection-Manager
