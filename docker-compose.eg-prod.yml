@@ -2,7 +2,9 @@ version: '3.6'
 
 services:
     nginx:
-        build: docker/common/nginx
+        build:
+            context: docker
+            dockerfile: NginxDockerfile
         depends_on:
             - app
         networks:
@@ -49,7 +51,9 @@ services:
             - backend
 
     es1:
-        build: ./docker/common/elasticsearch
+        build:
+            context: docker
+            dockerfile: ElasticsearchDockerfile
         environment:
             - cluster.name=collection-manager-cluster
             - bootstrap.memory_lock=true
@@ -64,7 +68,9 @@ services:
             - backend
 
     es2:
-        build: ./docker/common/elasticsearch
+        build:
+            context: docker
+            dockerfile: ElasticsearchDockerfile
         environment:
             - cluster.name=collection-manager-cluster
             - bootstrap.memory_lock=true

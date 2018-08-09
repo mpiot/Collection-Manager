@@ -46,6 +46,29 @@ RUN set -ex; \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;\
     curl -SS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
 
+# set recommended PHP.ini settings
+RUN { \
+		echo 'date.timezone = Europe/Paris'; \
+        echo 'short_open_tag = off'; \
+        echo 'expose_php = off'; \
+        echo 'error_log = /proc/self/fd/2'; \
+        echo 'opcache.enable = 1'; \
+        echo 'opcache.enable_cli = 1'; \
+        echo 'opcache.memory_consumption = 256'; \
+        echo 'opcache.interned_strings_buffer = 16'; \
+        echo 'opcache.max_accelerated_files = 20011'; \
+        echo 'opcache.validate_timestamps = 0'; \
+        echo 'opcache.fast_shutdown = 1'; \
+        echo 'realpath_cache_size = 4096K'; \
+        echo 'realpath_cache_ttl = 600'; \
+	} > /usr/local/etc/php/php.ini
+
+RUN { \
+		echo 'date.timezone = Europe/Paris'; \
+        echo 'short_open_tag = off'; \
+        echo 'memory_limit = 8192M'; \
+	} > /usr/local/etc/php/php-cli.ini
+
 COPY --chown=www-data:www-data . /app
 
 # Set version
@@ -58,8 +81,5 @@ RUN APP_ENV=prod composer install --optimize-autoloader --no-interaction --no-an
     chown -R www-data:www-data var files && \
     \
     rm -rf docker
-
-COPY docker/prod/app/php.ini /usr/local/etc/php/
-COPY docker/prod/app/php-cli.ini /usr/local/etc/php/
 
 CMD ["php-fpm"]

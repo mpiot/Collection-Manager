@@ -104,7 +104,7 @@ Available production images on: https://hub.docker.com/r/mapiot/collection-manag
 Copy required files from GitHub for example:
 
   * docker-compose.eg-prod.yml to docker-compose.yml
-  * docker folder/common folder (respect path)
+  * docker folder
 
 Configure the environments in docker-compose.yml file, and check the version in files is the last of CollectionManager.
 
