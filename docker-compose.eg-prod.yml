@@ -1,0 +1,92 @@
+version: '3.6'
+
+services:
+    nginx:
+        build: docker/common/nginx
+        depends_on:
+            - app
+        networks:
+            - frontend
+        ports:
+            - 127.0.0.1:8080:80
+        volumes:
+            - app_source_code:/app
+            - app_data:/app/files
+
+    app:
+        image: mapiot/collection-manager:0.2
+        environment:
+            - MAILER_SENDER_ADDRESS=name@domain.tld
+            - MAILER_SENDER_NAME=Collection-Manager
+            - APP_SECRET=cc20ed8408adabbf1f8b2ff82940b5c7
+            - DATABASE_URL=mysql://collection-manager:collection-manager@db:3306/collection-manager
+            - ELASTICSEARCH_HOST=es1
+            - ELASTICSEARCH_PORT=9200
+            - MAILER_URL=null://localhost
+            - GOOGLE_RECAPTCHA_SITE_KEY=ReplaceWithYourOwnReCaptchaPublicKey
+            - GOOGLE_RECAPTCHA_SECRET=ReplaceWithYourOwnReCaptchaPrivateKey
+        depends_on:
+            - db
+            - es1
+        networks:
+            - frontend
+            - backend
+        volumes:
+            - app_source_code:/app
+            - app_data:/app/files
+            - app_sessions:/app/var/sessions
+
+    db:
+        image: mysql:5.7.21
+        environment:
+          - MYSQL_ROOT_PASSWORD=collection-manager
+          - MYSQL_USER=collection-manager
+          - MYSQL_PASSWORD=collection-manager
+          - MYSQL_DATABASE=collection-manager
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - backend
+
+    es1:
+        build: ./docker/common/elasticsearch
+        environment:
+            - cluster.name=collection-manager-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - es1_data:/usr/share/elasticsearch/data
+        networks:
+            - backend
+
+    es2:
+        build: ./docker/common/elasticsearch
+        environment:
+            - cluster.name=collection-manager-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "discovery.zen.ping.unicast.hosts=es1"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - es2_data:/usr/share/elasticsearch/data
+        networks:
+            - backend
+
+volumes:
+    app_source_code:
+    app_data:
+    app_sessions:
+    db_data:
+    es1_data:
+    es2_data:
+
+networks:
+    frontend:
+    backend:

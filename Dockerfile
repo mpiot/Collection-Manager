@@ -2,7 +2,8 @@ FROM php:7.2.5-fpm
 
 # PHP_CPPFLAGS is used by the docker-php-ext-* scripts (avoid bug during compilation)
 ENV PHP_CPPFLAGS="$PHP_CPPFLAGS -std=c++11" \
-    COMPOSER_ALLOW_SUPERUSER=1
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    APP_ENV=prod
 
 WORKDIR /app
 
@@ -45,17 +46,13 @@ RUN set -ex; \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;\
     curl -SS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
 
-COPY . /app
-
-COPY docker/prod/app/entrypoint.sh /usr/local/bin/entrypoint.sh
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+COPY --chown=www-data:www-data . /app
 
 # Set version
 ENV APP_VERSION=0.2
 
 RUN APP_ENV=prod composer install --optimize-autoloader --no-interaction --no-ansi --no-dev && \
-    APP_ENV=prod bin/console cache:clear --no-warmup && \
+    APP_ENV=prod bin/console cache:clear && \
     APP_ENV=prod bin/console cache:warmup && \
     \
     chown -R www-data:www-data var files && \
@@ -64,7 +61,5 @@ RUN APP_ENV=prod composer install --optimize-autoloader --no-interaction --no-an
 
 COPY docker/prod/app/php.ini /usr/local/etc/php/
 COPY docker/prod/app/php-cli.ini /usr/local/etc/php/
-
-VOLUME /app
 
 CMD ["php-fpm"]

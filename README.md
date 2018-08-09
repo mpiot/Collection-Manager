@@ -93,130 +93,69 @@ Images models:
   * latest: the latest prod image
   * x.y.z: specific prod image
 
-## 2. Install the production app
+## 2. Production
 
-To install the prod version, you just have to use the production image available on: https://hub.docker.com/r/mapiot/collection-manager/
+Available production images on: https://hub.docker.com/r/mapiot/collection-manager/
   * latest: the latest prod image
   * x.y.z: specific prod image
 
-docker-compose.yml example (used files are in docker folder):
+### 2.1 First install
 
-    version: '3.2'
+Copy required files from GitHub for example:
+
+  * docker-compose.eg-prod.yml to docker-compose.yml
+  * docker folder/common folder (respect path)
+
+Configure the environments in docker-compose.yml file, and check the version in files is the last of CollectionManager.
+
+Execute commands:
+
+    docker-compose up -d
+    docker-compose exec app bin/console doctrine:migrations:migrate
+    docker-compose exec app bin/console fos:elastica:populate
+
+Finished :-) You can configure a ReverseProxy to set a domain name for example (HaProxy).
+
+### 2.2. Update
+
+First, it's a good idea to dump database and save data uploaded by users:
     
-    services:
-        nginx:
-            build: docker/prod/nginx
-            depends_on:
-                - app
-            networks:
-                - frontend
-            volume_from:
-                - app
+    # Init filenames
+    DATE=$(date +"%Y-%m-%d_%H-%M-%S")
+    DB_BACKUP=$DATE.sql
+    FILES_BACKUP=$DATE.tar.gz
+
+    # Backup MySQL
+    docker-compose exec db /usr/bin/mysqldump -u root --password=PASSWORD DATABASE > $DB_BACKUP
     
-        app:
-            image: mapiot/collection-manager:x.y.z
-            environment:
-                - DATABASE_NAME=collection-manager
-                - DATABASE_HOST=db
-                - DATABASE_PORT=3306
-                - DATABASE_USER=collection-manager
-                - DATABASE_PASSWORD=collection-manager
-                - ELASTICSEARCH_HOST=es1
-                - ELASTICSEARCH_PORT=9200
-                - SMTP_HOST=host
-                - SMTP_PORT=587
-                - SMTP_USER=login
-                - SMTP_PASSWORD=password
-                - MAILER_SENDER_ADDRESS=cme@myhost.tld
-                - MAILER_SENDER_NAME='Collection Manager'
-                - SYMFONY_SECRET=ThisTokenIsNotSoSecretChangeIt
-                - RECAPTCHA_PUBLIC_KEY=ReplaceWithYourOwnReCaptchaPublicKeyForCatcha
-                - RECAPTCHA_PRIVATE_KEY=ReplaceWithYourOwnReCaptchaPrivateKeyForCatcha
-            depends_on:
-                - redis
-                - rabbitmq
-                - db
-                - es1
-            networks:
-                - frontend
-                - backend
-            volumes:
-                - app_data:/app/files
+    # Backup files
+    docker run --rm --volumes-from CONTAINER_NAME -v $(pwd):/backup ubuntu tar -P -czf /backup/$FILES_BACKUP /app/files >> /dev/null
+
+If you need to restore the db:
     
-        db:
-            image: mysql:5.7.21
-            environment:
-              - MYSQL_ROOT_PASSWORD=collection-manager
-              - MYSQL_USER=collection-manager
-              - MYSQL_PASSWORD=collection-manager
-              - MYSQL_DATABASE=collection-manager
-            volumes:
-                - db_data:/var/lib/mysql
-            networks:
-                - backend
+    # Restore MySQL
+    cat backup.sql | docker-compose exec app /usr/bin/mysql -u root --password=PASSWORD DATABASE
+
+Edit the docker-compose.yml file by changing the version of CollectionManager
+
+Stop and remove app and nginx containers (now, the service is interrupted):
+
+    docker-compose stop app nginx
+    docker-compose rm app nginx
+
+Remove the source_code volume (this volume permit to share the application source code between app and nginx):
+
+    # List volumes
+    docker volume ls
     
-        es1:
-            build: ./docker/common/elasticsearch
-            environment:
-                - cluster.name=collection-manager-cluster
-                - bootstrap.memory_lock=true
-                - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-            ulimits:
-                memlock:
-                    soft: -1
-                    hard: -1
-            volumes:
-                - es1_data:/usr/share/elasticsearch/data
-            networks:
-                - backend
-    
-        es2:
-            build: ./docker/common/elasticsearch
-            environment:
-                - cluster.name=collection-manager-cluster
-                - bootstrap.memory_lock=true
-                - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-                - "discovery.zen.ping.unicast.hosts=es1"
-            ulimits:
-                memlock:
-                    soft: -1
-                    hard: -1
-            volumes:
-                - es2_data:/usr/share/elasticsearch/data
-            networks:
-                - backend
-    
-        rabbitmq:
-            image: rabbitmq:3.7.3
-            environment:
-                - RABBITMQ_DEFAULT_USER=collection-manager
-                - RABBITMQ_DEFAULT_PASS=collection-manager
-            volumes:
-                - rabbitmq_data:/var/lib/rabbitmq
-            networks:
-                - backend
-    
-        redis:
-            image: redis:4.0.8
-            volumes:
-                - redis_data:/data
-            networks:
-                - backend
-    
-    volumes:
-        app_data:
-            driver: local
-        db_data:
-            driver: local
-        es1_data:
-            driver: local
-        es2_data:
-            driver: local
-        rabbitmq_data:
-            driver: local
-        redis_data:
-            driver: local
-    
-    networks:
-        frontend:
-        backend:
+    # Delete volume
+    docker volume rm FolderNameWhereDockerComposeFileIs_app_source_code
+
+Re-create and start containers:
+
+    docker-compose up -d app nginx
+
+Migrate database to the new schema, and re-populate Elasticsearch index (only if needed, see changelog.md)
+
+    docker-compose exec app bin/console doctrine:migrations:migrate
+    docker-compose exec app bin/console fos:elastica:populate
