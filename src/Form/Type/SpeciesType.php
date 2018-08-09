@@ -19,9 +19,7 @@ class SpeciesType extends AbstractType
     {
         $builder
             ->add('taxId', IntegerType::class, [
-                'attr' => [
-                    'data-help' => 'The taxID of the species, you can find it <a target="_blank" href="https://www.ncbi.nlm.nih.gov/taxonomy">here</a>.',
-                ],
+                'help' => 'The taxID of the species, you can find it on https://www.ncbi.nlm.nih.gov/taxonomy',
                 'required' => false,
             ])
             ->add('genus', GenusSelectorType::class)
