@@ -72,7 +72,7 @@ RUN { \
 COPY --chown=www-data:www-data . /app
 
 # Set version
-ENV APP_VERSION=0.2
+ENV APP_VERSION=0.2.1
 
 RUN APP_ENV=prod composer install --optimize-autoloader --no-interaction --no-ansi --no-dev && \
     APP_ENV=prod bin/console cache:clear && \
