@@ -55,8 +55,7 @@ RUN set -ex; \
     npm install yarn -g
 
 # set recommended PHP.ini settings
-RUN rm /usr/local/etc/php/php.ini \
-    { \
+RUN { \
 		echo 'date.timezone = Europe/Paris'; \
         echo 'short_open_tag = off'; \
         echo 'expose_php = off'; \
@@ -73,14 +72,14 @@ RUN rm /usr/local/etc/php/php.ini \
         echo 'realpath_cache_ttl = 600'; \
 	} > /usr/local/etc/php/php.ini
 
-RUN rm /usr/local/etc/php/php-cli.ini \
-    { \
+RUN { \
 		echo 'date.timezone = Europe/Paris'; \
         echo 'short_open_tag = off'; \
         echo 'memory_limit = 8192M'; \
 	} > /usr/local/etc/php/php-cli.ini
 
-RUN apt-get update && apt-get install -qy python
+RUN apt-get update && apt-get install -qy python; \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;
 
 # Set version
 ENV APP_VERSION=0.2
