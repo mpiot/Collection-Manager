@@ -9,8 +9,9 @@ env:
   global:
     - DOCKER_COMPOSE="docker-compose -f docker-compose.yml -f docker-compose.ci.yml"
     - EXEC="$DOCKER_COMPOSE exec -T app"
-    - APP_DOCKER_IMAGE_NAME="mapiot/collection-manager"
-    - APP_DEV_DOCKER_IMAGE_TAG="dev-`find docker/dev -type f -exec md5sum {} \; | sort -k 2 | md5sum | cut -d' ' -f1`"
+    - APP_PROD_DOCKER_IMAGE_NAME="mapiot/collection-manager"
+    - APP_DEV_DOCKER_IMAGE_NAME="mapiot/collection-manager-dev"
+    - APP_DEV_DOCKER_IMAGE_TAG="dev-`find docker -type f -exec md5sum {} \; | sort -k 2 | md5sum | cut -d' ' -f1`"
 
 cache:
   directories:
@@ -18,8 +19,9 @@ cache:
     - $HOME/.composer/cache/files
 
 before_script:
-  - docker pull $APP_DOCKER_IMAGE_NAME:dev || true
-  - docker pull $APP_DOCKER_IMAGE_NAME:$APP_DEV_DOCKER_IMAGE_TAG || true
+  - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
+  - docker pull $APP_DEV_DOCKER_IMAGE_NAME:dev || true
+  - docker pull $APP_DEV_DOCKER_IMAGE_NAME:$APP_DEV_DOCKER_IMAGE_TAG || true
 
 script:
   - make build
@@ -34,7 +36,7 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash docker/scripts/deploy-develop
+    script: bash docker/scripts/deploy-dev
     on:
       repo: mpiot/collection-manager
       branch: develop
