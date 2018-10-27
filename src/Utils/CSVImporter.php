@@ -28,7 +28,7 @@ class CSVImporter
         $data = [];
 
         $row = 0;
-        if (false !== ($handle = fopen($file, 'r'))) {
+        if (false !== ($handle = fopen($file, 'rb'))) {
             while (false !== ($line = fgetcsv($handle, 1000, ';'))) {
                 ++$row;
                 if (1 === $row) {
@@ -129,7 +129,7 @@ class CSVImporter
 
             // Validate the Strain object with the Validator
             $strainErrors = $this->validator->validate($strain);
-            if (count($strainErrors) > 0) {
+            if (\count($strainErrors) > 0) {
                 foreach ($strainErrors as $error) {
                     $errorString = 'Line '.($key + 2).', Column "'.$error->getPropertyPath().'": '.$error->getMessage();
 

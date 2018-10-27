@@ -84,7 +84,7 @@ class IndexFilter
 
         if (!empty($filteredClass)) {
             foreach ($filteredClass as $class) {
-                if (!in_array($class, self::ALLOWED_FILTERED_CLASS, true)) {
+                if (!\in_array($class, self::ALLOWED_FILTERED_CLASS, true)) {
                     throw new \RuntimeException('There is no filter for the class '.$class.'.');
                 }
 
@@ -99,7 +99,7 @@ class IndexFilter
 
     private function getResults($class, \stdClass $parameters)
     {
-        if (!in_array($class, self::ALLOWED_CLASS, true)) {
+        if (!\in_array($class, self::ALLOWED_CLASS, true)) {
             throw new \RuntimeException('The class '.$class.' is not supported by the IndexFilter util.');
         }
 

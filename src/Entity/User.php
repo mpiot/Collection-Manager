@@ -262,7 +262,7 @@ class User implements UserInterface, \Serializable
             return $this;
         }
 
-        if (!in_array($role, $this->roles, true)) {
+        if (!\in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
 

@@ -221,7 +221,7 @@ class StrainController extends Controller
 
         $data = [];
         foreach ($results as $result) {
-            if (!in_array($result->getName(), $data, true)) {
+            if (!\in_array($result->getName(), $data, true)) {
                 $data[] = $result->getName();
             }
         }

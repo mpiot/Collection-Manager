@@ -11,7 +11,7 @@ class CSVExporter
 {
     public function exportBox(Box $box)
     {
-        $handle = fopen('php://output', 'w+');
+        $handle = fopen('php://output', 'w+b');
 
         fputcsv($handle, ['discr', 'autoName', 'name', 'box', 'cell', 'strain species', 'strain comment', 'strain sequenced', 'strain description', 'strain genotype', 'strain plasmids', 'strain parents list', 'strain biological origin', 'strain source', 'strain latitude', 'strain longitude', 'strain address', 'strain country', 'plasmid primers list', 'primer description', 'primer orientation', 'primer sequence', 'primer 5\' extension', 'primer label marker', 'primer plasmids list', 'primer hybridation temp'], ';');
 

@@ -582,7 +582,7 @@ class Strain
      */
     public function isAllowedUser(User $user)
     {
-        return in_array($user, $this->getAllowedUsers(), true);
+        return \in_array($user, $this->getAllowedUsers(), true);
     }
 
     /**

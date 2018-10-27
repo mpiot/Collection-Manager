@@ -21,7 +21,7 @@ class SpeciesListener
         $em = $args->getEntityManager();
         $speciesList = $em->getRepository('App:Species')->findByGenus($genus->getId());
 
-        if (0 === count($speciesList)) {
+        if (0 === \count($speciesList)) {
             $em->remove($genus);
         }
     }
