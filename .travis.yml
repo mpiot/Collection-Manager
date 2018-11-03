@@ -36,7 +36,7 @@ before_deploy:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash docker/scripts/deploy-test.sh
+    script: bash docker/scripts/deploy-dev.sh
     on:
       repo: mpiot/collection-manager
       branch: develop
