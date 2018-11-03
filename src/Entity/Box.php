@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -157,20 +173,16 @@ class Box
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -179,10 +191,8 @@ class Box
      * Set name.
      *
      * @param string $name
-     *
-     * @return Box
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -191,10 +201,8 @@ class Box
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -203,10 +211,8 @@ class Box
      * Set description.
      *
      * @param string $description
-     *
-     * @return Box
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -215,10 +221,8 @@ class Box
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -227,10 +231,8 @@ class Box
      * Set freezer.
      *
      * @param string $freezer
-     *
-     * @return Box
      */
-    public function setFreezer($freezer)
+    public function setFreezer($freezer): self
     {
         $this->freezer = $freezer;
 
@@ -239,10 +241,8 @@ class Box
 
     /**
      * Get freezer.
-     *
-     * @return string
      */
-    public function getFreezer()
+    public function getFreezer(): string
     {
         return $this->freezer;
     }
@@ -251,10 +251,8 @@ class Box
      * Set location.
      *
      * @param string $location
-     *
-     * @return Box
      */
-    public function setLocation($location)
+    public function setLocation($location): self
     {
         $this->location = $location;
 
@@ -263,10 +261,8 @@ class Box
 
     /**
      * Get location.
-     *
-     * @return string
      */
-    public function getLocation()
+    public function getLocation(): string
     {
         return $this->location;
     }
@@ -275,10 +271,8 @@ class Box
      * Set colNumber.
      *
      * @param int $colNumber
-     *
-     * @return Box
      */
-    public function setColNumber($colNumber)
+    public function setColNumber($colNumber): self
     {
         $this->colNumber = $colNumber;
 
@@ -287,10 +281,8 @@ class Box
 
     /**
      * Get colNumber.
-     *
-     * @return int
      */
-    public function getColNumber()
+    public function getColNumber(): int
     {
         return $this->colNumber;
     }
@@ -299,10 +291,8 @@ class Box
      * Set rowNumber.
      *
      * @param int $rowNumber
-     *
-     * @return Box
      */
-    public function setRowNumber($rowNumber)
+    public function setRowNumber($rowNumber): self
     {
         $this->rowNumber = $rowNumber;
 
@@ -311,10 +301,8 @@ class Box
 
     /**
      * Get rowNumber.
-     *
-     * @return int
      */
-    public function getRowNumber()
+    public function getRowNumber(): int
     {
         return $this->rowNumber;
     }
@@ -323,10 +311,8 @@ class Box
      * Set freeSpace.
      *
      * @param int $freeSpace
-     *
-     * @return Box
      */
-    public function setFreeSpace($freeSpace)
+    public function setFreeSpace($freeSpace): self
     {
         $this->freeSpace = $freeSpace;
 
@@ -335,10 +321,8 @@ class Box
 
     /**
      * Get freeSpace.
-     *
-     * @return int
      */
-    public function getFreeSpace()
+    public function getFreeSpace(): int
     {
         return $this->freeSpace;
     }
@@ -351,7 +335,6 @@ class Box
     /**
      * Set group.
      *
-     * @param Group $group
      *
      * @return $this
      */
@@ -364,104 +347,80 @@ class Box
 
     /**
      * Get group.
-     *
-     * @return Group
      */
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->group;
     }
 
     /**
      * Get tubes.
-     *
-     * @return ArrayCollection
      */
-    public function getTubes()
+    public function getTubes(): ArrayCollection
     {
         return $this->tubes;
     }
 
     /**
      * Get cell number.
-     *
-     * @return int
      */
-    public function getCellNumber()
+    public function getCellNumber(): int
     {
         return $this->colNumber * $this->rowNumber;
     }
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
      * Get created by.
-     *
-     * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
 
     /**
      * Get updated by.
-     *
-     * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): User
     {
         return $this->updatedBy;
     }
 
     /**
      * Is the box empty ?
-     *
-     * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->tubes->isEmpty();
     }
 
     /**
      * Get empty cells.
-     *
-     * @param null $keepCell
-     *
-     * @return array
      */
-    public function getEmptyCells($keepCell = null)
+    public function getEmptyCells($keepCell = null): array
     {
         $availableLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         $nbCells = $this->colNumber * $this->rowNumber;

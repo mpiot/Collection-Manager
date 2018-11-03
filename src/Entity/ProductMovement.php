@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -88,10 +104,8 @@ class ProductMovement
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -100,10 +114,8 @@ class ProductMovement
      * Set movement.
      *
      * @param int $movement
-     *
-     * @return ProductMovement
      */
-    public function setMovement($movement)
+    public function setMovement($movement): self
     {
         $this->movement = $movement;
 
@@ -112,10 +124,8 @@ class ProductMovement
 
     /**
      * Get movement.
-     *
-     * @return int
      */
-    public function getMovement()
+    public function getMovement(): int
     {
         return $this->movement;
     }
@@ -124,10 +134,8 @@ class ProductMovement
      * Set comment.
      *
      * @param string $comment
-     *
-     * @return ProductMovement
      */
-    public function setComment($comment)
+    public function setComment($comment): self
     {
         $this->comment = $comment;
 
@@ -136,10 +144,8 @@ class ProductMovement
 
     /**
      * Get comment.
-     *
-     * @return string
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
@@ -148,10 +154,8 @@ class ProductMovement
      * Set created.
      *
      * @param \DateTime $created
-     *
-     * @return ProductMovement
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -160,10 +164,8 @@ class ProductMovement
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
@@ -172,10 +174,8 @@ class ProductMovement
      * Set updated.
      *
      * @param \DateTime $updated
-     *
-     * @return ProductMovement
      */
-    public function setUpdated($updated)
+    public function setUpdated($updated): self
     {
         $this->updated = $updated;
 
@@ -184,10 +184,8 @@ class ProductMovement
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
@@ -196,10 +194,8 @@ class ProductMovement
      * Set createdBy.
      *
      * @param string $createdBy
-     *
-     * @return ProductMovement
      */
-    public function setCreatedBy($createdBy)
+    public function setCreatedBy($createdBy): self
     {
         $this->createdBy = $createdBy;
 
@@ -208,22 +204,16 @@ class ProductMovement
 
     /**
      * Get createdBy.
-     *
-     * @return string
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): string
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
@@ -232,10 +222,8 @@ class ProductMovement
      * Set updatedBy.
      *
      * @param string $updatedBy
-     *
-     * @return ProductMovement
      */
-    public function setUpdatedBy($updatedBy)
+    public function setUpdatedBy($updatedBy): self
     {
         $this->updatedBy = $updatedBy;
 
@@ -244,22 +232,16 @@ class ProductMovement
 
     /**
      * Get updatedBy.
-     *
-     * @return string
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): string
     {
         return $this->updatedBy;
     }
 
     /**
      * Set product.
-     *
-     * @param Product $product
-     *
-     * @return ProductMovement
      */
-    public function setProduct(Product $product)
+    public function setProduct(Product $product): self
     {
         $this->product = $product;
 
@@ -268,10 +250,8 @@ class ProductMovement
 
     /**
      * Get product.
-     *
-     * @return \App\Entity\Product
      */
-    public function getProduct()
+    public function getProduct(): \App\Entity\Product
     {
         return $this->product;
     }

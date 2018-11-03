@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -239,10 +255,8 @@ class Product
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -251,10 +265,8 @@ class Product
      * Set name.
      *
      * @param string $name
-     *
-     * @return Product
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -263,32 +275,24 @@ class Product
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
     /**
      * Set location.
-     *
-     * @param Location $location
-     *
-     * @return Product
      */
-    public function setLocation(Location $location)
+    public function setLocation(Location $location): self
     {
         $this->location = $location;
 
@@ -297,22 +301,16 @@ class Product
 
     /**
      * Get location.
-     *
-     * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }
 
     /**
      * Set brand.
-     *
-     * @param Brand $brand
-     *
-     * @return Product
      */
-    public function setBrand(Brand $brand)
+    public function setBrand(Brand $brand): self
     {
         $this->brand = $brand;
 
@@ -321,10 +319,8 @@ class Product
 
     /**
      * Get brand.
-     *
-     * @return Brand
      */
-    public function getBrand()
+    public function getBrand(): Brand
     {
         return $this->brand;
     }
@@ -333,10 +329,8 @@ class Product
      * Set brandReference.
      *
      * @param string $brandReference
-     *
-     * @return Product
      */
-    public function setBrandReference($brandReference)
+    public function setBrandReference($brandReference): self
     {
         $this->brandReference = $brandReference;
 
@@ -345,22 +339,16 @@ class Product
 
     /**
      * Get brandReference.
-     *
-     * @return string
      */
-    public function getBrandReference()
+    public function getBrandReference(): string
     {
         return $this->brandReference;
     }
 
     /**
      * Set seller.
-     *
-     * @param Seller $seller
-     *
-     * @return Product
      */
-    public function setSeller(Seller $seller)
+    public function setSeller(Seller $seller): self
     {
         $this->seller = $seller;
 
@@ -369,10 +357,8 @@ class Product
 
     /**
      * Get seller.
-     *
-     * @return Seller
      */
-    public function getSeller()
+    public function getSeller(): Seller
     {
         return $this->seller;
     }
@@ -381,10 +367,8 @@ class Product
      * Set sellerReference.
      *
      * @param string $sellerReference
-     *
-     * @return Product
      */
-    public function setSellerReference($sellerReference)
+    public function setSellerReference($sellerReference): self
     {
         $this->sellerReference = $sellerReference;
 
@@ -393,10 +377,8 @@ class Product
 
     /**
      * Get sellerReference.
-     *
-     * @return string
      */
-    public function getSellerReference()
+    public function getSellerReference(): string
     {
         return $this->sellerReference;
     }
@@ -405,10 +387,8 @@ class Product
      * Set catalogPrice.
      *
      * @param int $catalogPrice
-     *
-     * @return Product
      */
-    public function setCatalogPrice($catalogPrice)
+    public function setCatalogPrice($catalogPrice): self
     {
         $this->catalogPrice = $catalogPrice;
 
@@ -417,10 +397,8 @@ class Product
 
     /**
      * Get catalogPrice.
-     *
-     * @return int
      */
-    public function getCatalogPrice()
+    public function getCatalogPrice(): int
     {
         return $this->catalogPrice;
     }
@@ -429,10 +407,8 @@ class Product
      * Set negotiatedPrice.
      *
      * @param int $negotiatedPrice
-     *
-     * @return Product
      */
-    public function setNegotiatedPrice($negotiatedPrice)
+    public function setNegotiatedPrice($negotiatedPrice): self
     {
         $this->negotiatedPrice = $negotiatedPrice;
 
@@ -441,20 +417,13 @@ class Product
 
     /**
      * Get negotiatedPrice.
-     *
-     * @return int
      */
-    public function getNegotiatedPrice()
+    public function getNegotiatedPrice(): int
     {
         return $this->negotiatedPrice;
     }
 
-    /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
-     *
-     * @return Product
-     */
-    public function setQuoteFile(File $quoteFile = null)
+    public function setQuoteFile(File $quoteFile = null): self
     {
         $this->quoteFile = $quoteFile;
 
@@ -467,68 +436,44 @@ class Product
         return $this;
     }
 
-    /**
-     * @return File|null
-     */
-    public function getQuoteFile()
+    public function getQuoteFile(): ?File
     {
         return $this->quoteFile;
     }
 
     /**
      * @param string $quoteName
-     *
-     * @return Product
      */
-    public function setQuoteName($quoteName)
+    public function setQuoteName($quoteName): self
     {
         $this->quoteName = $quoteName;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getQuoteName()
+    public function getQuoteName(): ?string
     {
         return $this->quoteName;
     }
 
-    /**
-     * @param int $genBankSize
-     *
-     * @return Product
-     */
-    public function setQuoteSize($quoteSize)
+    public function setQuoteSize($quoteSize): self
     {
         $this->quoteSize = $quoteSize;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getQuoteSize()
+    public function getQuoteSize(): ?int
     {
         return $this->quoteSize;
     }
 
-    /**
-     * @return \Datetime
-     */
-    public function getQuoteUpdatedAt()
+    public function getQuoteUpdatedAt(): \Datetime
     {
         return $this->quoteUpdatedAt;
     }
 
-    /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
-     *
-     * @return Product
-     */
-    public function setManualFile(File $manualFile = null)
+    public function setManualFile(File $manualFile = null): self
     {
         $this->manualFile = $manualFile;
 
@@ -541,58 +486,42 @@ class Product
         return $this;
     }
 
-    /**
-     * @return File|null
-     */
-    public function getManualFile()
+    public function getManualFile(): ?File
     {
         return $this->manualFile;
     }
 
     /**
      * @param string $manualName
-     *
-     * @return Product
      */
-    public function setManualName($manualName)
+    public function setManualName($manualName): self
     {
         $this->manualName = $manualName;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getManualName()
+    public function getManualName(): ?string
     {
         return $this->manualName;
     }
 
     /**
      * @param int $manualSize
-     *
-     * @return Product
      */
-    public function setManualSize($manualSize)
+    public function setManualSize($manualSize): self
     {
         $this->manualSize = $manualSize;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getManualSize()
+    public function getManualSize(): ?int
     {
         return $this->manualSize;
     }
 
-    /**
-     * @return \Datetime
-     */
-    public function getManualUpdatedAt()
+    public function getManualUpdatedAt(): \Datetime
     {
         return $this->manualUpdatedAt;
     }
@@ -601,10 +530,8 @@ class Product
      * Set packed by.
      *
      * @param string $packedBy
-     *
-     * @return Product
      */
-    public function setPackedBy($packedBy)
+    public function setPackedBy($packedBy): self
     {
         $this->packedBy = $packedBy;
 
@@ -613,10 +540,8 @@ class Product
 
     /**
      * Get packed by.
-     *
-     * @return int
      */
-    public function getPackedBy()
+    public function getPackedBy(): int
     {
         return $this->packedBy;
     }
@@ -625,10 +550,8 @@ class Product
      * Set packaging unit.
      *
      * @param string $packagingUnit
-     *
-     * @return Product
      */
-    public function setPackagingUnit($packagingUnit)
+    public function setPackagingUnit($packagingUnit): self
     {
         $this->packagingUnit = $packagingUnit;
 
@@ -637,10 +560,8 @@ class Product
 
     /**
      * Get packaging unit.
-     *
-     * @return string
      */
-    public function getPackagingUnit()
+    public function getPackagingUnit(): string
     {
         return $this->packagingUnit;
     }
@@ -649,10 +570,8 @@ class Product
      * Set storageUnit.
      *
      * @param string $storageUnit
-     *
-     * @return Product
      */
-    public function setStorageUnit($storageUnit)
+    public function setStorageUnit($storageUnit): self
     {
         $this->storageUnit = $storageUnit;
 
@@ -661,10 +580,8 @@ class Product
 
     /**
      * Get storageUnit.
-     *
-     * @return string
      */
-    public function getStorageUnit()
+    public function getStorageUnit(): string
     {
         return $this->storageUnit;
     }
@@ -673,10 +590,8 @@ class Product
      * Set stock.
      *
      * @param int $stock
-     *
-     * @return Product
      */
-    public function setStock($stock)
+    public function setStock($stock): self
     {
         $this->stock = $stock;
 
@@ -685,10 +600,8 @@ class Product
 
     /**
      * Get stock.
-     *
-     * @return int
      */
-    public function getStock()
+    public function getStock(): int
     {
         return $this->stock;
     }
@@ -697,10 +610,8 @@ class Product
      * Set stockWarningAlert.
      *
      * @param int $stockWarningAlert
-     *
-     * @return Product
      */
-    public function setStockWarningAlert($stockWarningAlert)
+    public function setStockWarningAlert($stockWarningAlert): self
     {
         $this->stockWarningAlert = $stockWarningAlert;
 
@@ -709,10 +620,8 @@ class Product
 
     /**
      * Get stockWarningAlert.
-     *
-     * @return int
      */
-    public function getStockWarningAlert()
+    public function getStockWarningAlert(): int
     {
         return $this->stockWarningAlert;
     }
@@ -721,10 +630,8 @@ class Product
      * Set stockDangerAlert.
      *
      * @param int $stockDangerAlert
-     *
-     * @return Product
      */
-    public function setStockDangerAlert($stockDangerAlert)
+    public function setStockDangerAlert($stockDangerAlert): self
     {
         $this->stockDangerAlert = $stockDangerAlert;
 
@@ -733,22 +640,16 @@ class Product
 
     /**
      * Get stockDangerAlert.
-     *
-     * @return int
      */
-    public function getStockDangerAlert()
+    public function getStockDangerAlert(): int
     {
         return $this->stockDangerAlert;
     }
 
     /**
      * Set group.
-     *
-     * @param Group $group
-     *
-     * @return Product
      */
-    public function setGroup(Group $group)
+    public function setGroup(Group $group): self
     {
         $this->group = $group;
 
@@ -757,72 +658,56 @@ class Product
 
     /**
      * Get group.
-     *
-     * @return Group
      */
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->group;
     }
 
     /**
      * Get movements.
-     *
-     * @return ArrayCollection
      */
-    public function getMovements()
+    public function getMovements(): ArrayCollection
     {
         return $this->movements;
     }
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
      * Get created by.
-     *
-     * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
 
     /**
      * Get updated by.
-     *
-     * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): User
     {
         return $this->updatedBy;
     }

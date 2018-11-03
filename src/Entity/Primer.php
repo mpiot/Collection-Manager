@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -155,30 +171,24 @@ class Primer
 
     /**
      * To string.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->autoName.' - '.$this->name;
     }
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -187,10 +197,8 @@ class Primer
      * Set autoName.
      *
      * @param string $autoName
-     *
-     * @return Primer
      */
-    public function setAutoName($autoName)
+    public function setAutoName($autoName): self
     {
         $this->autoName = $autoName;
 
@@ -199,10 +207,8 @@ class Primer
 
     /**
      * Get autoName.
-     *
-     * @return string
      */
-    public function getAutoName()
+    public function getAutoName(): string
     {
         return $this->autoName;
     }
@@ -211,10 +217,8 @@ class Primer
      * Set name.
      *
      * @param string $name
-     *
-     * @return Primer
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -223,10 +227,8 @@ class Primer
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -235,10 +237,8 @@ class Primer
      * Set description.
      *
      * @param string $description
-     *
-     * @return Primer
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -247,10 +247,8 @@ class Primer
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -259,10 +257,8 @@ class Primer
      * Set orientation.
      *
      * @param string $orientation
-     *
-     * @return Primer
      */
-    public function setOrientation($orientation)
+    public function setOrientation($orientation): self
     {
         $this->orientation = $orientation;
 
@@ -271,10 +267,8 @@ class Primer
 
     /**
      * Get orientation.
-     *
-     * @return string
      */
-    public function getOrientation()
+    public function getOrientation(): string
     {
         return $this->orientation;
     }
@@ -283,10 +277,8 @@ class Primer
      * Set sequence.
      *
      * @param string $sequence
-     *
-     * @return Primer
      */
-    public function setSequence($sequence)
+    public function setSequence($sequence): self
     {
         $this->sequence = mb_strtoupper($sequence);
 
@@ -295,10 +287,8 @@ class Primer
 
     /**
      * Get sequence.
-     *
-     * @return string
      */
-    public function getSequence()
+    public function getSequence(): string
     {
         return $this->sequence;
     }
@@ -307,10 +297,8 @@ class Primer
      * Set fivePrimeExtension.
      *
      * @param string $fivePrimeExtension
-     *
-     * @return Primer
      */
-    public function setFivePrimeExtension($fivePrimeExtension)
+    public function setFivePrimeExtension($fivePrimeExtension): self
     {
         $this->fivePrimeExtension = mb_strtoupper($fivePrimeExtension);
 
@@ -319,10 +307,8 @@ class Primer
 
     /**
      * Get fivePrimeExtension.
-     *
-     * @return string
      */
-    public function getFivePrimeExtension()
+    public function getFivePrimeExtension(): string
     {
         return $this->fivePrimeExtension;
     }
@@ -331,10 +317,8 @@ class Primer
      * Set LabelMarker.
      *
      * @param string $labelMarker
-     *
-     * @return Primer
      */
-    public function setLabelMarker($labelMarker)
+    public function setLabelMarker($labelMarker): self
     {
         $this->labelMarker = $labelMarker;
 
@@ -343,10 +327,8 @@ class Primer
 
     /**
      * Get LabelMarker.
-     *
-     * @return string
      */
-    public function getLabelMarker()
+    public function getLabelMarker(): string
     {
         return $this->labelMarker;
     }
@@ -355,10 +337,8 @@ class Primer
      * Set Hybridation Temperature.
      *
      * @param string $hybridationTemp
-     *
-     * @return Primer
      */
-    public function setHybridationTemp($hybridationTemp)
+    public function setHybridationTemp($hybridationTemp): self
     {
         $this->hybridationTemp = $hybridationTemp;
 
@@ -367,22 +347,16 @@ class Primer
 
     /**
      * Get Hybridation Temperature.
-     *
-     * @return string
      */
-    public function getHybridationTemp()
+    public function getHybridationTemp(): string
     {
         return $this->hybridationTemp;
     }
 
     /**
      * Set group.
-     *
-     * @param Group $group
-     *
-     * @return Primer
      */
-    public function setGroup(Group $group)
+    public function setGroup(Group $group): self
     {
         $this->group = $group;
 
@@ -391,32 +365,24 @@ class Primer
 
     /**
      * Get group.
-     *
-     * @return Group
      */
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->group;
     }
 
     /**
      * Get plasmids.
-     *
-     * @return ArrayCollection
      */
-    public function getPlasmids()
+    public function getPlasmids(): ArrayCollection
     {
         return $this->plasmids;
     }
 
     /**
      * Add tube.
-     *
-     * @param Tube $tube
-     *
-     * @return Primer
      */
-    public function addTube(Tube $tube)
+    public function addTube(Tube $tube): self
     {
         if (!$this->tubes->contains($tube)) {
             $tube->setPrimer($this);
@@ -429,7 +395,6 @@ class Primer
     /**
      * Remove tube.
      *
-     * @param Tube $tube
      *
      * @return $this
      */
@@ -454,52 +419,40 @@ class Primer
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
      * Get created by.
-     *
-     * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
 
     /**
      * Get updated by.
-     *
-     * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): User
     {
         return $this->updatedBy;
     }

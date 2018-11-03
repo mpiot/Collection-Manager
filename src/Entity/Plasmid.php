@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -151,20 +167,16 @@ class Plasmid
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -173,10 +185,8 @@ class Plasmid
      * Set autoName.
      *
      * @param string $autoName
-     *
-     * @return Plasmid
      */
-    public function setAutoName($autoName)
+    public function setAutoName($autoName): self
     {
         $this->autoName = $autoName;
 
@@ -185,10 +195,8 @@ class Plasmid
 
     /**
      * Get autoName.
-     *
-     * @return string
      */
-    public function getAutoName()
+    public function getAutoName(): string
     {
         return $this->autoName;
     }
@@ -197,10 +205,8 @@ class Plasmid
      * Set name.
      *
      * @param string $name
-     *
-     * @return Plasmid
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -209,10 +215,8 @@ class Plasmid
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -221,10 +225,8 @@ class Plasmid
      * Set group.
      *
      * @param Group $group
-     *
-     * @return Plasmid
      */
-    public function setGroup($group)
+    public function setGroup($group): self
     {
         $this->group = $group;
 
@@ -233,20 +235,13 @@ class Plasmid
 
     /**
      * Get group.
-     *
-     * @return Group
      */
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->group;
     }
 
-    /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
-     *
-     * @return Plasmid
-     */
-    public function setGenBankFile(File $genBankFile = null)
+    public function setGenBankFile(File $genBankFile = null): self
     {
         $this->genBankFile = $genBankFile;
 
@@ -259,74 +254,52 @@ class Plasmid
         return $this;
     }
 
-    /**
-     * @return File|null
-     */
-    public function getGenBankFile()
+    public function getGenBankFile(): ?File
     {
         return $this->genBankFile;
     }
 
     /**
      * @param string $genBankName
-     *
-     * @return Plasmid
      */
-    public function setGenBankName($genBankName)
+    public function setGenBankName($genBankName): self
     {
         $this->genBankName = $genBankName;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getGenBankName()
+    public function getGenBankName(): ?string
     {
         return $this->genBankName;
     }
 
     /**
      * @param int $genBankSize
-     *
-     * @return Plasmid
      */
-    public function setGenBankSize($genBankSize)
+    public function setGenBankSize($genBankSize): self
     {
         $this->genBankSize = $genBankSize;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getGenBankSize()
+    public function getGenBankSize(): ?int
     {
         return $this->genBankSize;
     }
 
-    /**
-     * @return \Datetime
-     */
-    public function getGenBankUpdatedAt()
+    public function getGenBankUpdatedAt(): \Datetime
     {
         return $this->genBankUpdatedAt;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getStrainPlasmids()
+    public function getStrainPlasmids(): ArrayCollection
     {
         return $this->strainPlasmids;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getStrains()
+    public function getStrains(): ArrayCollection
     {
         $strains = new ArrayCollection();
 
@@ -339,8 +312,6 @@ class Plasmid
 
     /**
      * Add primer.
-     *
-     * @param Primer $primer
      */
     public function addPrimer(Primer $primer)
     {
@@ -351,8 +322,6 @@ class Plasmid
 
     /**
      * Remove primer.
-     *
-     * @param Primer $primer
      */
     public function removePrimer(Primer $primer)
     {
@@ -363,22 +332,16 @@ class Plasmid
 
     /**
      * Get primers.
-     *
-     * @return ArrayCollection
      */
-    public function getPrimers()
+    public function getPrimers(): ArrayCollection
     {
         return $this->primers;
     }
 
     /**
      * Add tube.
-     *
-     * @param Tube $tube
-     *
-     * @return Plasmid
      */
-    public function addTube(Tube $tube)
+    public function addTube(Tube $tube): self
     {
         if (!$this->tubes->contains($tube)) {
             $tube->setPlasmid($this);
@@ -391,7 +354,6 @@ class Plasmid
     /**
      * Remove tube.
      *
-     * @param Tube $tube
      *
      * @return $this
      */
@@ -416,52 +378,40 @@ class Plasmid
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
      * Get created by.
-     *
-     * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
 
     /**
      * Get updated by.
-     *
-     * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): User
     {
         return $this->updatedBy;
     }
