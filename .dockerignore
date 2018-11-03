@@ -15,7 +15,6 @@ changelog.md
 docker-compose.ci.yml
 docker-compose.override.yml
 docker-compose.override.yml.dist
-docker-compose.prod.yml
 docker-compose.yml
 Dockerfile
 Makefile

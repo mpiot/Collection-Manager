@@ -1,13 +1,11 @@
 # Collection-Manager
 
 ### Summary
-1. Install the development app
+1. Install the development app(#Install the development app)
 1.1. Install Docker and docker-compose
 1.2. Fork the app
 1.3. Configure the app
 1.4. Install
-1.5. Follow the best practice
-1.6. How to control your code syntax ?
 1.7. Docker images
 2. Install the production app
 
@@ -61,52 +59,135 @@ That's finish in a few time, now, just execute:
     
 And voilà !!! Your app is installed and ready to use.
 
-### 5. Follow the best practice
-There is a **beautiful** guide about the best practice :) You can find it on the [Symfony Documentation - Best Practice](http://symfony.com/doc/current/best_practices/index.html).
-
-### 6. How to control your code syntax ?
-For a better structure of the code, we use Coding standards: PSR-0, PSR-1, PSR-2 and PSR-4.
-You can found some informations on [the synfony documentation page](http://symfony.com/doc/current/contributing/code/standards.html).
-
-In the project you have a php-cs-fixer.phar file, [the program's documentation](http://cs.sensiolabs.org/).
-
-Some commands:
-   * List PHP files with mistakes
-
-    make php-cs
-
-   * Fix PHP files:
-
-    make php-cs-fix
-
-   * List config and twig files with mistakes
-   
-    make lint-symfony
-
 ### 7. Docker images
-The docker images are automatically created, when a commit is done on the develop branch, a dev images was created. When
-a tag is added on a commit on the master branch, the production images was created.
+The docker images are automatically created, when a PR is merged in the develop branch, a dev images is created. When
+a tag is added on a merge commit in the master branch, the production images was created.
 
 Images models:
-  * dev: the latest dev image
-  * dev-hash: dev image for a specific docker folder
-  * latest: the latest prod image
-  * x.y.z: specific prod image
+  * mapiot/collection-manager-dev:latest: the latest dev image
+  * mapiot/collection-manager-dev:hash: dev image for a specific docker folder
+  * mapiot/collection-manager:latest: the latest prod image
+  * mapiot/collection-manager-dev:x.y.z: specific prod image
+        * x: major version
+        * y: feature version
+        * z: hotfix/bugfix version
 
 ## 2. Production
 
-Available production images on: https://hub.docker.com/r/mapiot/collection-manager/
+Available production images are on: https://hub.docker.com/r/mapiot/collection-manager/
   * latest: the latest prod image
   * x.y.z: specific prod image
 
 ### 2.1 First install
 
-Copy required files from GitHub for example:
+In this documentation we will explain how to install Collection-Manager with docker compose. Then the first step is 
+the installation of docker and docker-compose (check the official doc of this tools).
 
-  * docker-compose.prod.yml to docker-compose.yml
-  * docker folder
+Then, you have to create a `docker-compose.yml` file, an example below:
 
-Configure the environments in docker-compose.yml file, and check the version in files is the last of CollectionManager.
+```yaml
+version: '3.4'
+
+services:
+    nginx:
+        build:
+            context: docker
+            dockerfile: NginxDockerfile
+        depends_on:
+            - app
+        networks:
+            - frontend
+        ports:
+            - 127.0.0.1:8080:80
+        volumes:
+            - app_source_code:/app
+            - app_data:/app/files
+
+    app:
+        image: mapiot/collection-manager:0.2.2
+        environment:
+            - MAILER_SENDER_ADDRESS=name@domain.tld
+            - MAILER_SENDER_NAME=Collection-Manager
+            - APP_SECRET=cc20ed8408adabbf1f8b2ff82940b5c7
+            - DATABASE_URL=mysql://collection-manager:collection-manager@db:3306/collection-manager
+            - ELASTICSEARCH_HOST=es1
+            - ELASTICSEARCH_PORT=9200
+            - MAILER_URL=null://localhost
+            - GOOGLE_RECAPTCHA_SITE_KEY=ReplaceWithYourOwnReCaptchaPublicKey
+            - GOOGLE_RECAPTCHA_SECRET=ReplaceWithYourOwnReCaptchaPrivateKey
+        depends_on:
+            - db
+            - es1
+        networks:
+            - frontend
+            - backend
+        volumes:
+            - app_source_code:/app
+            - app_data:/app/files
+            - app_sessions:/app/var/sessions
+
+    db:
+        image: mysql:5.7.21
+        environment:
+          - MYSQL_ROOT_PASSWORD=collection-manager
+          - MYSQL_USER=collection-manager
+          - MYSQL_PASSWORD=collection-manager
+          - MYSQL_DATABASE=collection-manager
+        volumes:
+            - db_data:/var/lib/mysql
+        networks:
+            - backend
+
+    es1:
+        build:
+            context: docker
+            dockerfile: ElasticsearchDockerfile
+        environment:
+            - cluster.name=collection-manager-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - es1_data:/usr/share/elasticsearch/data
+        networks:
+            - backend
+
+    es2:
+        build:
+            context: docker
+            dockerfile: ElasticsearchDockerfile
+        environment:
+            - cluster.name=collection-manager-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "discovery.zen.ping.unicast.hosts=es1"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - es2_data:/usr/share/elasticsearch/data
+        networks:
+            - backend
+
+volumes:
+    app_source_code:
+    app_data:
+    app_sessions:
+    db_data:
+    es1_data:
+    es2_data:
+
+networks:
+    frontend:
+    backend:
+
+```
+
+Configure the environments in `docker-compose.yml` file, and check the version in files is the last of Collection-Manager.
 
 Execute commands:
 
