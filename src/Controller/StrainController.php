@@ -24,7 +24,7 @@ use App\Form\Type\StrainGmoType;
 use App\Form\Type\StrainWildType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/strain")
  */
-class StrainController extends Controller
+class StrainController extends AbstractController
 {
     /**
      * @Route("/",  name="strain_index", methods={"GET"})

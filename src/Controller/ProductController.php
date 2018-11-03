@@ -23,7 +23,7 @@ use App\Entity\Product;
 use App\Form\Type\ProductEditType;
 use App\Form\Type\ProductType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +36,7 @@ use Vich\UploaderBundle\Storage\FileSystemStorage;
  *
  * @Route("/product")
  */
-class ProductController extends Controller
+class ProductController extends AbstractController
 {
     /**
      * @Route("/",  name="product_index", methods={"GET"})

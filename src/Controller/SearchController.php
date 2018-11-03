@@ -20,14 +20,14 @@ namespace App\Controller;
 
 use App\Form\Type\AdvancedSearchType;
 use App\SearchRepository\GlobalRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Search engine controller.
  */
-class SearchController extends Controller
+class SearchController extends AbstractController
 {
     const HITS_PER_PAGE = 50;
 

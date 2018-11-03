@@ -25,7 +25,7 @@ use App\Form\Type\PlasmidType;
 use App\Utils\PlasmidGenBank;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +38,7 @@ use Vich\UploaderBundle\Storage\FileSystemStorage;
  *
  * @Route("/plasmid")
  */
-class PlasmidController extends Controller
+class PlasmidController extends AbstractController
 {
     /**
      * @Route("/",  name="plasmid_index", methods={"GET"})

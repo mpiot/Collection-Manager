@@ -23,7 +23,7 @@ use App\Entity\ProductMovement;
 use App\Form\Type\ProductMovementType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +33,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/product-movement")
  */
-class ProductMovementController extends Controller
+class ProductMovementController extends AbstractController
 {
     /**
      * @Route("/add/{product_id}", name="product_movement_add", methods={"GET", "POST"})

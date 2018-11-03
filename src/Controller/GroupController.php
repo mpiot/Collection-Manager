@@ -22,7 +22,7 @@ use App\Entity\Group;
 use App\Form\Type\GroupType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("group")
  */
-class GroupController extends Controller
+class GroupController extends AbstractController
 {
     /**
      * @Route("/", name="group_index", methods={"GET"})

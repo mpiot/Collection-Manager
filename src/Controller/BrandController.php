@@ -21,7 +21,7 @@ namespace App\Controller;
 use App\Entity\Brand;
 use App\Form\Type\BrandType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/brand")
  */
-class BrandController extends Controller
+class BrandController extends AbstractController
 {
     /**
      * @Route("/",  name="brand_index", methods={"GET"})

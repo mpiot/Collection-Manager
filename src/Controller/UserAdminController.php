@@ -21,11 +21,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Type\RoleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UserAdminController extends Controller
+class UserAdminController extends AbstractController
 {
     /**
      * @Route("/users",  name="user_index", methods={"GET"})

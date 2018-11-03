@@ -21,11 +21,11 @@ namespace App\Controller;
 use App\Form\Type\ChangePasswordType;
 use App\Form\Type\ProfileType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProfileController extends Controller
+class ProfileController extends AbstractController
 {
     /**
      * @Route("/my-profile", name="user_profile", methods={"GET"})

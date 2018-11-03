@@ -25,7 +25,7 @@ use App\Form\Type\BoxImportType;
 use App\Form\Type\BoxType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -36,7 +36,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/box")
  */
-class BoxController extends Controller
+class BoxController extends AbstractController
 {
     /**
      * @Route("/",  name="box_index", methods={"GET"})

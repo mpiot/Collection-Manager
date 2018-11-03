@@ -23,7 +23,7 @@ use App\Entity\Primer;
 use App\Form\Type\PrimerEditType;
 use App\Form\Type\PrimerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +33,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/primer")
  */
-class PrimerController extends Controller
+class PrimerController extends AbstractController
 {
     /**
      * @Route("/",  name="primer_index", methods={"GET"})
