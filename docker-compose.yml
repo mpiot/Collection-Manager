@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.4'
 
 services:
     nginx:
@@ -14,8 +14,8 @@ services:
 
     app:
         build:
-            context: docker
-            dockerfile: AppDevDockerfile
+            context: .
+            target: app-dev
         depends_on:
             - db
             - es1
