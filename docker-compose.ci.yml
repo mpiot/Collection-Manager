@@ -1,12 +1,11 @@
-version: '3.4'
+version: '3.3'
 
 services:
     app:
+        image: ${APP_DEV_DOCKER_IMAGE_NAME}:${APP_DEV_DOCKER_IMAGE_TAG}
+        environment:
+            - SYMFONY_ENV=test
         build:
-            context: .
-            target: app-dev
             cache_from:
-                - ${APP_DEV_IMAGE_NAME}:${APP_DEV_IMAGE_TAG}
-                - ${APP_DEV_IMAGE_NAME}:latest
-        volumes:
-        - .:/app
+                - ${APP_DEV_DOCKER_IMAGE_NAME}:${APP_DEV_DOCKER_IMAGE_TAG}
+                - ${APP_DEV_DOCKER_IMAGE_NAME}:dev
