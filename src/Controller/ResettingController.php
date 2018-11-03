@@ -20,11 +20,11 @@ namespace App\Controller;
 
 use App\Form\Type\ResetPasswordType;
 use App\Form\Type\ResettingType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ResettingController extends Controller
+class ResettingController extends AbstractController
 {
     /**
      * @Route("/resetting/request", name="user_resetting_request", methods={"GET", "POST"})

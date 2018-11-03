@@ -22,7 +22,7 @@ use App\Entity\Seller;
 use App\Form\Type\SellerEditType;
 use App\Form\Type\SellerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,7 +36,7 @@ use Vich\UploaderBundle\Storage\FileSystemStorage;
  *
  * @Route("/seller")
  */
-class SellerController extends Controller
+class SellerController extends AbstractController
 {
     /**
      * @Route("/",  name="seller_index", methods={"GET"})
