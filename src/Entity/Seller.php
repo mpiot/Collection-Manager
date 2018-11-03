@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -124,10 +140,8 @@ class Seller
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -136,10 +150,8 @@ class Seller
      * Set name.
      *
      * @param string $name
-     *
-     * @return Seller
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -148,20 +160,16 @@ class Seller
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -170,10 +178,8 @@ class Seller
      * Set offer reference.
      *
      * @param string $offerReference
-     *
-     * @return Seller
      */
-    public function setOfferReference($offerReference)
+    public function setOfferReference($offerReference): self
     {
         $this->offerReference = $offerReference;
 
@@ -182,20 +188,13 @@ class Seller
 
     /**
      * Get offer reference.
-     *
-     * @return string
      */
-    public function getOfferReference()
+    public function getOfferReference(): string
     {
         return $this->offerReference;
     }
 
-    /**
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
-     *
-     * @return Seller
-     */
-    public function setOfferFile(File $offerFile = null)
+    public function setOfferFile(File $offerFile = null): self
     {
         $this->offerFile = $offerFile;
 
@@ -208,120 +207,90 @@ class Seller
         return $this;
     }
 
-    /**
-     * @return File|null
-     */
-    public function getOfferFile()
+    public function getOfferFile(): ?File
     {
         return $this->offerFile;
     }
 
     /**
      * @param string $offerName
-     *
-     * @return Seller
      */
-    public function setOfferName($offerName)
+    public function setOfferName($offerName): self
     {
         $this->offerName = $offerName;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getOfferName()
+    public function getOfferName(): ?string
     {
         return $this->offerName;
     }
 
     /**
      * @param int $offerSize
-     *
-     * @return Seller
      */
-    public function setOfferSize($offerSize)
+    public function setOfferSize($offerSize): self
     {
         $this->offerSize = $offerSize;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getOfferSize()
+    public function getOfferSize(): ?int
     {
         return $this->offerSize;
     }
 
-    /**
-     * @return \Datetime
-     */
-    public function getOfferUpdatedAt()
+    public function getOfferUpdatedAt(): \Datetime
     {
         return $this->offerUpdatedAt;
     }
 
     /**
      * Get products.
-     *
-     * @return ArrayCollection
      */
-    public function getProducts()
+    public function getProducts(): ArrayCollection
     {
         return $this->products;
     }
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
      * Get created by.
-     *
-     * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
 
     /**
      * Get updated by.
-     *
-     * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): User
     {
         return $this->updatedBy;
     }

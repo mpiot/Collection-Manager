@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -131,10 +147,8 @@ class Equipment
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -143,10 +157,8 @@ class Equipment
      * Set name.
      *
      * @param string $name
-     *
-     * @return Equipment
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -155,20 +167,16 @@ class Equipment
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -177,10 +185,8 @@ class Equipment
      * Set description.
      *
      * @param string $description
-     *
-     * @return Equipment
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -189,10 +195,8 @@ class Equipment
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -201,10 +205,8 @@ class Equipment
      * Set serialNumber.
      *
      * @param string $serialNumber
-     *
-     * @return Equipment
      */
-    public function setSerialNumber($serialNumber)
+    public function setSerialNumber($serialNumber): self
     {
         $this->serialNumber = $serialNumber;
 
@@ -213,10 +215,8 @@ class Equipment
 
     /**
      * Get serialNumber.
-     *
-     * @return string
      */
-    public function getSerialNumber()
+    public function getSerialNumber(): string
     {
         return $this->serialNumber;
     }
@@ -225,10 +225,8 @@ class Equipment
      * Set purchaseDate.
      *
      * @param \DateTime $purchaseDate
-     *
-     * @return Equipment
      */
-    public function setPurchaseDate($purchaseDate)
+    public function setPurchaseDate($purchaseDate): self
     {
         $this->purchaseDate = $purchaseDate;
 
@@ -237,22 +235,16 @@ class Equipment
 
     /**
      * Get purchaseDate.
-     *
-     * @return \DateTime
      */
-    public function getPurchaseDate()
+    public function getPurchaseDate(): \DateTime
     {
         return $this->purchaseDate;
     }
 
     /**
      * Set brand.
-     *
-     * @param Brand $brand
-     *
-     * @return Equipment
      */
-    public function setBrand(Brand $brand)
+    public function setBrand(Brand $brand): self
     {
         $this->brand = $brand;
 
@@ -261,10 +253,8 @@ class Equipment
 
     /**
      * Get brand.
-     *
-     * @return Brand
      */
-    public function getBrand()
+    public function getBrand(): Brand
     {
         return $this->brand;
     }
@@ -273,10 +263,8 @@ class Equipment
      * Set model.
      *
      * @param string $model
-     *
-     * @return Equipment
      */
-    public function setModel($model)
+    public function setModel($model): self
     {
         $this->model = $model;
 
@@ -285,22 +273,16 @@ class Equipment
 
     /**
      * Get model.
-     *
-     * @return string
      */
-    public function getModel()
+    public function getModel(): string
     {
         return $this->model;
     }
 
     /**
      * Set seller.
-     *
-     * @param Seller $seller
-     *
-     * @return Equipment
      */
-    public function setSeller(Seller $seller)
+    public function setSeller(Seller $seller): self
     {
         $this->seller = $seller;
 
@@ -309,10 +291,8 @@ class Equipment
 
     /**
      * Get seller.
-     *
-     * @return Seller
      */
-    public function getSeller()
+    public function getSeller(): Seller
     {
         return $this->seller;
     }
@@ -321,10 +301,8 @@ class Equipment
      * Set inventoryNumber.
      *
      * @param string $inventoryNumber
-     *
-     * @return Equipment
      */
-    public function setInventoryNumber($inventoryNumber)
+    public function setInventoryNumber($inventoryNumber): self
     {
         $this->inventoryNumber = $inventoryNumber;
 
@@ -333,22 +311,16 @@ class Equipment
 
     /**
      * Get inventoryNumber.
-     *
-     * @return string
      */
-    public function getInventoryNumber()
+    public function getInventoryNumber(): string
     {
         return $this->inventoryNumber;
     }
 
     /**
      * Set location.
-     *
-     * @param Location $location
-     *
-     * @return Equipment
      */
-    public function setLocation(Location $location)
+    public function setLocation(Location $location): self
     {
         $this->location = $location;
 
@@ -357,22 +329,16 @@ class Equipment
 
     /**
      * Get location.
-     *
-     * @return Location
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }
 
     /**
      * Set group.
-     *
-     * @param Group $group
-     *
-     * @return Equipment
      */
-    public function setGroup(Group $group)
+    public function setGroup(Group $group): self
     {
         $this->group = $group;
 
@@ -381,62 +347,48 @@ class Equipment
 
     /**
      * Get group.
-     *
-     * @return Group
      */
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->group;
     }
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
      * Get created by.
-     *
-     * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
 
     /**
      * Get updated by.
-     *
-     * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): User
     {
         return $this->updatedBy;
     }

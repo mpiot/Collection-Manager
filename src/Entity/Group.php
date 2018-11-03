@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -128,10 +144,8 @@ class Group
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -140,10 +154,8 @@ class Group
      * Set name.
      *
      * @param string $name
-     *
-     * @return Group
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -152,32 +164,24 @@ class Group
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
     /**
      * Add administrator.
-     *
-     * @param User $user
-     *
-     * @return Group
      */
-    public function addAdministrator(User $user)
+    public function addAdministrator(User $user): self
     {
         $user->addAdministeredGroup($this);
         $this->administrators->add($user);
@@ -190,8 +194,6 @@ class Group
 
     /**
      * Remove administrator.
-     *
-     * @param User $user
      */
     public function removeAdministrator(User $user)
     {
@@ -200,34 +202,24 @@ class Group
 
     /**
      * Get administrators.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAdministrators()
+    public function getAdministrators(): \Doctrine\Common\Collections\Collection
     {
         return $this->administrators;
     }
 
     /**
      * Is User administrator ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAdministrator(User $user)
+    public function isAdministrator(User $user): bool
     {
         return $this->administrators->contains($user);
     }
 
     /**
      * Add member.
-     *
-     * @param User $user
-     *
-     * @return Group
      */
-    public function addMember(User $user)
+    public function addMember(User $user): self
     {
         $user->addGroup($this);
         $this->members->add($user);
@@ -237,8 +229,6 @@ class Group
 
     /**
      * Remove member.
-     *
-     * @param User $user
      */
     public function removeMember(User $user)
     {
@@ -247,34 +237,24 @@ class Group
 
     /**
      * Get members.
-     *
-     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMembers()
+    public function getMembers(): \Doctrine\Common\Collections\Collection
     {
         return $this->members;
     }
 
     /**
      * Is User member ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isMember(User $user)
+    public function isMember(User $user): bool
     {
         return $this->members->contains($user);
     }
 
     /**
      * Add box.
-     *
-     * @param Box $box
-     *
-     * @return Group
      */
-    public function addBox(Box $box)
+    public function addBox(Box $box): self
     {
         $this->boxes->add($box);
 
@@ -283,12 +263,8 @@ class Group
 
     /**
      * Remove box.
-     *
-     * @param Box $box
-     *
-     * @return Group
      */
-    public function removeBox(Box $box)
+    public function removeBox(Box $box): self
     {
         $this->boxes->removeElement($box);
 
@@ -297,20 +273,16 @@ class Group
 
     /**
      * Get boxes.
-     *
-     * @return ArrayCollection
      */
-    public function getBoxes()
+    public function getBoxes(): ArrayCollection
     {
         return $this->boxes;
     }
 
     /**
      * Get strains.
-     *
-     * @return ArrayCollection
      */
-    public function getStrains()
+    public function getStrains(): ArrayCollection
     {
         return $this->strains;
     }
@@ -318,7 +290,6 @@ class Group
     /**
      * Set last strain number.
      *
-     * @param int $number
      *
      * @return $this
      */
@@ -331,20 +302,16 @@ class Group
 
     /**
      * Get last strain number.
-     *
-     * @return int
      */
-    public function getLastStrainNumber()
+    public function getLastStrainNumber(): int
     {
         return $this->lastStrainNumber;
     }
 
     /**
      * Get plasmids.
-     *
-     * @return ArrayCollection
      */
-    public function getPlasmids()
+    public function getPlasmids(): ArrayCollection
     {
         return $this->plasmids;
     }
@@ -352,7 +319,6 @@ class Group
     /**
      * Set last plasmid number.
      *
-     * @param int $number
      *
      * @return $this
      */
@@ -365,20 +331,16 @@ class Group
 
     /**
      * Get last plasmid number.
-     *
-     * @return int
      */
-    public function getLastPlasmidNumber()
+    public function getLastPlasmidNumber(): int
     {
         return $this->lastPlasmidNumber;
     }
 
     /**
      * Get primers.
-     *
-     * @return ArrayCollection
      */
-    public function getPrimers()
+    public function getPrimers(): ArrayCollection
     {
         return $this->primers;
     }
@@ -386,7 +348,6 @@ class Group
     /**
      * Set last primer number.
      *
-     * @param int $number
      *
      * @return $this
      */
@@ -399,30 +360,24 @@ class Group
 
     /**
      * Get last primer number.
-     *
-     * @return int
      */
-    public function getLastPrimerNumber()
+    public function getLastPrimerNumber(): int
     {
         return $this->lastPrimerNumber;
     }
 
     /**
      * Get products.
-     *
-     * @return ArrayCollection
      */
-    public function getProducts()
+    public function getProducts(): ArrayCollection
     {
         return $this->products;
     }
 
     /**
      * Get equipments.
-     *
-     * @return ArrayCollection
      */
-    public function getEquipments()
+    public function getEquipments(): ArrayCollection
     {
         return $this->equipments;
     }

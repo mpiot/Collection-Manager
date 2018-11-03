@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -140,10 +156,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get ID.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -164,20 +178,16 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get email.
-     *
-     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
      * Get username.
-     *
-     * @return string
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->email;
     }
@@ -194,8 +204,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get plain password.
-     *
-     * @return mixed
      */
     public function getPlainPassword()
     {
@@ -218,10 +226,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get password.
-     *
-     * @return string
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
@@ -288,10 +294,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get roles.
-     *
-     * @return array
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = static::ROLE_DEFAULT;
@@ -303,10 +307,8 @@ class User implements UserInterface, \Serializable
      * Set enabled.
      *
      * @param bool $enabled
-     *
-     * @return User
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled): self
     {
         $this->enabled = $enabled;
         $this->confirmationToken = null;
@@ -318,10 +320,8 @@ class User implements UserInterface, \Serializable
      * Set confirmation token.
      *
      * @param string $confirmationToken
-     *
-     * @return User
      */
-    public function setConfirmationToken($confirmationToken)
+    public function setConfirmationToken($confirmationToken): self
     {
         $this->confirmationToken = $confirmationToken;
 
@@ -330,10 +330,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get confirmation token.
-     *
-     * @return string
      */
-    public function getConfirmationToken()
+    public function getConfirmationToken(): string
     {
         return $this->confirmationToken;
     }
@@ -348,8 +346,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Is enabled ?
-     *
-     * @return mixed
      */
     public function isEnabled()
     {
@@ -358,10 +354,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * Serialize.
-     *
-     * @return string
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize([
             $this->id,
@@ -402,8 +396,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get firstName.
-     *
-     * @return mixed
      */
     public function getFirstName()
     {
@@ -413,7 +405,6 @@ class User implements UserInterface, \Serializable
     /**
      * Set lastName.
      *
-     * @param $firstName
      *
      * @return $this
      */
@@ -426,8 +417,6 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get lastName.
-     *
-     * @return mixed
      */
     public function getLastName()
     {
@@ -436,38 +425,29 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get fullName.
-     *
-     * @return string
      */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->firstName.' '.$this->lastName;
     }
 
     /**
      * Add administered group.
-     *
-     * @param Group $group
      */
     public function addAdministeredGroup(Group $group)
     {
         $this->administeredGroups->add($group);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getAdministeredGroups()
+    public function getAdministeredGroups(): ArrayCollection
     {
         return $this->administeredGroups;
     }
 
     /**
      * Get administered groups Ids.
-     *
-     * @return array
      */
-    public function getAdministeredGroupsId()
+    public function getAdministeredGroupsId(): array
     {
         $administeredGroupsId = [];
 
@@ -480,18 +460,14 @@ class User implements UserInterface, \Serializable
 
     /**
      * Is a group administrator ?
-     *
-     * @return bool
      */
-    public function isGroupAdministrator()
+    public function isGroupAdministrator(): bool
     {
         return !$this->administeredGroups->isEmpty();
     }
 
     /**
      * Add group.
-     *
-     * @param Group $group
      */
     public function addGroup(Group $group)
     {
@@ -500,20 +476,16 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get groups.
-     *
-     * @return ArrayCollection
      */
-    public function getGroups()
+    public function getGroups(): ArrayCollection
     {
         return $this->groups;
     }
 
     /**
      * Get groups Ids.
-     *
-     * @return array
      */
-    public function getGroupsId()
+    public function getGroupsId(): array
     {
         $groupsId = [];
 
@@ -526,22 +498,16 @@ class User implements UserInterface, \Serializable
 
     /**
      * Is in a group ?
-     *
-     * @return bool
      */
-    public function isInGroup()
+    public function isInGroup(): bool
     {
         return !$this->groups->isEmpty();
     }
 
     /**
      * Is in this groups ?
-     *
-     * @param Group $group
-     *
-     * @return bool
      */
-    public function hasGroup(Group $group)
+    public function hasGroup(Group $group): bool
     {
         return $this->groups->contains($group);
     }
@@ -549,7 +515,6 @@ class User implements UserInterface, \Serializable
     /**
      * Set favorite group.
      *
-     * @param Group $group
      *
      * @return $this
      */
@@ -562,10 +527,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * Get favorite group.
-     *
-     * @return Group
      */
-    public function getFavoriteGroup()
+    public function getFavoriteGroup(): Group
     {
         // If the user have no set a favorite Group, the first match group is the favorite
         if (null === $this->favoriteGroup) {
@@ -577,42 +540,32 @@ class User implements UserInterface, \Serializable
 
     /**
      * Is favorite group ?
-     *
-     * @param Group $group
-     *
-     * @return bool
      */
-    public function isFavoriteGroup(Group $group)
+    public function isFavoriteGroup(Group $group): bool
     {
         return $group === $this->getFavoriteGroup();
     }
 
     /**
      * Get strains.
-     *
-     * @return ArrayCollection
      */
-    public function getStrains()
+    public function getStrains(): ArrayCollection
     {
         return $this->strains;
     }
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }

@@ -1,5 +1,21 @@
 <?php
 
+/*
+ * Copyright 2016-2018 Mathieu Piot.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -274,20 +290,16 @@ class Strain
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * Get slug.
-     *
-     * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -295,7 +307,6 @@ class Strain
     /**
      * Set discriminator.
      *
-     * @param string $discriminator
      *
      * @return $this
      */
@@ -308,10 +319,8 @@ class Strain
 
     /**
      * Get discriminator.
-     *
-     * @return string
      */
-    public function getDiscriminator()
+    public function getDiscriminator(): string
     {
         return $this->discriminator;
     }
@@ -320,10 +329,8 @@ class Strain
      * Set autoName.
      *
      * @param string $autoName
-     *
-     * @return Strain
      */
-    public function setAutoName($autoName)
+    public function setAutoName($autoName): self
     {
         $this->autoName = $autoName;
 
@@ -332,10 +339,8 @@ class Strain
 
     /**
      * Get autoName.
-     *
-     * @return string
      */
-    public function getAutoName()
+    public function getAutoName(): string
     {
         return $this->autoName;
     }
@@ -344,10 +349,8 @@ class Strain
      * Set name.
      *
      * @param string $name
-     *
-     * @return Strain
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -356,10 +359,8 @@ class Strain
 
     /**
      * Get name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -380,20 +381,16 @@ class Strain
 
     /**
      * Get unique code.
-     *
-     * @return string
      */
-    public function getUniqueCode()
+    public function getUniqueCode(): string
     {
         return $this->uniqueCode;
     }
 
     /**
      * Get full name.
-     *
-     * @return string
      */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->autoName.' - '.$this->name;
     }
@@ -402,10 +399,8 @@ class Strain
      * Set comment.
      *
      * @param string $comment
-     *
-     * @return Strain
      */
-    public function setComment($comment)
+    public function setComment($comment): self
     {
         $this->comment = $comment;
 
@@ -414,10 +409,8 @@ class Strain
 
     /**
      * Get comment.
-     *
-     * @return string
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
@@ -426,10 +419,8 @@ class Strain
      * Set sequenced.
      *
      * @param bool $sequenced
-     *
-     * @return Strain
      */
-    public function setSequenced($sequenced)
+    public function setSequenced($sequenced): self
     {
         $this->sequenced = $sequenced;
 
@@ -438,10 +429,8 @@ class Strain
 
     /**
      * Get sequenced.
-     *
-     * @return bool
      */
-    public function getSequenced()
+    public function getSequenced(): bool
     {
         return $this->sequenced;
     }
@@ -449,7 +438,6 @@ class Strain
     /**
      * Set species.
      *
-     * @param Species $species
      *
      * @return $this
      */
@@ -462,10 +450,8 @@ class Strain
 
     /**
      * Get species.
-     *
-     * @return Species
      */
-    public function getSpecies()
+    public function getSpecies(): Species
     {
         return $this->species;
     }
@@ -474,10 +460,8 @@ class Strain
      * Set genotype.
      *
      * @param string $genotype
-     *
-     * @return Strain
      */
-    public function setGenotype($genotype)
+    public function setGenotype($genotype): self
     {
         $this->genotype = $genotype;
 
@@ -486,10 +470,8 @@ class Strain
 
     /**
      * Get genotype.
-     *
-     * @return string
      */
-    public function getGenotype()
+    public function getGenotype(): string
     {
         return $this->genotype;
     }
@@ -498,10 +480,8 @@ class Strain
      * Set description.
      *
      * @param string $description
-     *
-     * @return Strain
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -510,22 +490,16 @@ class Strain
 
     /**
      * Get description.
-     *
-     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
      * Add tube.
-     *
-     * @param Tube $tube
-     *
-     * @return Strain
      */
-    public function addTube(Tube $tube)
+    public function addTube(Tube $tube): self
     {
         if (!$this->tubes->contains($tube)) {
             $tube->setStrain($this);
@@ -538,7 +512,6 @@ class Strain
     /**
      * Remove tube.
      *
-     * @param Tube $tube
      *
      * @return $this
      */
@@ -563,10 +536,8 @@ class Strain
 
     /**
      * Get allowed users.
-     *
-     * @return array
      */
-    public function getAllowedUsers()
+    public function getAllowedUsers(): array
     {
         $users = $this->group->getMembers()->toArray();
 
@@ -575,12 +546,8 @@ class Strain
 
     /**
      * Is allowed user ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAllowedUser(User $user)
+    public function isAllowedUser(User $user): bool
     {
         return \in_array($user, $this->getAllowedUsers(), true);
     }
@@ -588,7 +555,6 @@ class Strain
     /**
      * Add strainPlasmid.
      *
-     * @param StrainPlasmid $strainPlasmid
      *
      * @return $this
      */
@@ -603,7 +569,6 @@ class Strain
     /**
      * Remove strainPlasmid.
      *
-     * @param StrainPlasmid $strainPlasmid
      *
      * @return $this
      */
@@ -628,10 +593,8 @@ class Strain
      * Add parent.
      *
      * @param Strain $strain
-     *
-     * @return Strain
      */
-    public function addParent(self $strain)
+    public function addParent(self $strain): self
     {
         $this->parents->add($strain);
 
@@ -642,10 +605,8 @@ class Strain
      * Remove parent.
      *
      * @param Strain $strain
-     *
-     * @return Strain
      */
-    public function removeParent(self $strain)
+    public function removeParent(self $strain): self
     {
         $this->parents->removeElement($strain);
 
@@ -676,10 +637,8 @@ class Strain
      * Set address.
      *
      * @param string $address
-     *
-     * @return Strain
      */
-    public function setAddress($address)
+    public function setAddress($address): self
     {
         $this->address = $address;
 
@@ -688,10 +647,8 @@ class Strain
 
     /**
      * Get address.
-     *
-     * @return string
      */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -700,10 +657,8 @@ class Strain
      * Set country.
      *
      * @param string $country
-     *
-     * @return Strain
      */
-    public function setCountry($country)
+    public function setCountry($country): self
     {
         $this->country = $country;
 
@@ -712,10 +667,8 @@ class Strain
 
     /**
      * Get country.
-     *
-     * @return string
      */
-    public function getCountry()
+    public function getCountry(): string
     {
         return $this->country;
     }
@@ -724,10 +677,8 @@ class Strain
      * Set biologicalOrigin.
      *
      * @param string $biologicalOrigin
-     *
-     * @return Strain
      */
-    public function setBiologicalOrigin($biologicalOrigin)
+    public function setBiologicalOrigin($biologicalOrigin): self
     {
         $this->biologicalOrigin = $biologicalOrigin;
 
@@ -736,10 +687,8 @@ class Strain
 
     /**
      * Get biologicalOrigin.
-     *
-     * @return string
      */
-    public function getBiologicalOrigin()
+    public function getBiologicalOrigin(): string
     {
         return $this->biologicalOrigin;
     }
@@ -748,10 +697,8 @@ class Strain
      * Set source.
      *
      * @param string $source
-     *
-     * @return Strain
      */
-    public function setSource($source)
+    public function setSource($source): self
     {
         $this->source = $source;
 
@@ -760,10 +707,8 @@ class Strain
 
     /**
      * Get source.
-     *
-     * @return string
      */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -784,10 +729,8 @@ class Strain
 
     /**
      * Get latitude.
-     *
-     * @return string
      */
-    public function getLatitude()
+    public function getLatitude(): string
     {
         return $this->latitude;
     }
@@ -808,10 +751,8 @@ class Strain
 
     /**
      * Get longitude.
-     *
-     * @return string
      */
-    public function getLongitude()
+    public function getLongitude(): string
     {
         return $this->longitude;
     }
@@ -819,7 +760,6 @@ class Strain
     /**
      * Set group.
      *
-     * @param Group $group
      *
      * @return $this
      */
@@ -832,62 +772,48 @@ class Strain
 
     /**
      * Get group.
-     *
-     * @return Group
      */
-    public function getGroup()
+    public function getGroup(): Group
     {
         return $this->group;
     }
 
     /**
      * Get created.
-     *
-     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
      * Get updated.
-     *
-     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
      * Get created by.
-     *
-     * @return User
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
      * Is author ?
-     *
-     * @param User $user
-     *
-     * @return bool
      */
-    public function isAuthor(User $user)
+    public function isAuthor(User $user): bool
     {
         return $user === $this->createdBy;
     }
 
     /**
      * Get updated by.
-     *
-     * @return User
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): User
     {
         return $this->updatedBy;
     }
