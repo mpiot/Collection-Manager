@@ -83,3 +83,8 @@ services:
     App\EventListener\UserSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
+
+# Sessions configuration
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+        - '%env(resolve:DATABASE_URL)%'
