@@ -124,7 +124,6 @@ services:
         volumes:
             - app_source_code:/app
             - app_data:/app/files
-            - app_sessions:/app/var/sessions
 
     db:
         image: mysql:5.7.21
@@ -176,7 +175,6 @@ services:
 volumes:
     app_source_code:
     app_data:
-    app_sessions:
     db_data:
     es1_data:
     es2_data:
